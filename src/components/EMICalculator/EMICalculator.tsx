@@ -65,7 +65,6 @@ const EMICalculator: React.FC = () => {
   const [prepaymentStrategy, setPrepaymentStrategy] = useState<'reduce-tenure' | 'reduce-emi'>('reduce-tenure');
 
   // Load from localStorage on mount
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const savedState = localStorage.getItem('emi-calculator-state');
     const savedHistory = localStorage.getItem('emi-calculator-history');
@@ -97,7 +96,7 @@ const EMICalculator: React.FC = () => {
         setHistory([]);
       }
     }
-  }, []);
+  }, [calculate]);
 
   // Save to localStorage whenever inputs change
   useEffect(() => {
