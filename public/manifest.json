@@ -1,6 +1,6 @@
 {
-  "short_name": "EMI Calculator",
-  "name": "EMI Calculator Pro - Home Loan, Car Loan & Personal Loan EMI Calculator India",
+  "short_name": "Toolist",
+  "name": "Toolist — High-Performance Daily Tools",
   "icons": [
     {
       "src": "favicon.ico",
@@ -12,7 +12,7 @@
   "display": "standalone",
   "theme_color": "#4f46e5",
   "background_color": "#f8fafc",
-  "description": "Free advanced EMI calculator with prepayment analysis. Compare Reduce EMI vs Reduce Tenure strategies. 8 interactive charts, impact analysis & Excel export.",
-  "categories": ["finance", "utilities"],
+  "description": "A set of high-performance, free daily-use tools — EMI calculator, JSON formatter, image compressor & more.",
+  "categories": ["finance", "utilities", "developer tools"],
   "lang": "en-IN"
 }

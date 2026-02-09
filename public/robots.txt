@@ -4,19 +4,15 @@ Allow: /
 Disallow:
 
 # Sitemap
-Sitemap: https://emicalculator.pro/sitemap.xml
+Sitemap: https://toolist.app/sitemap.xml
 
-# Crawl-delay (optional, be generous to crawlers)
+# Crawl-delay
 Crawl-delay: 1
 
-# Allow all major search engines
 User-agent: Googlebot
 Allow: /
 
 User-agent: Bingbot
-Allow: /
-
-User-agent: Slurp
 Allow: /
 
 User-agent: DuckDuckBot

@@ -1,36 +1,44 @@
-import React from 'react';
-import EMICalculator from './components/EMICalculator/EMICalculator';
-import AdSlot from './components/AdSlot/AdSlot';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import Home from './pages/Home';
+import EMICalculatorPage from './pages/EMICalculatorPage';
 import './index.css';
 
+// ── Google Analytics helpers (GA4: G-8ZXGEHK3C0) ───────────────────────────
+const GA_ID = 'G-8ZXGEHK3C0';
+
+/** Send a page_view event to GA4 */
+function trackPageView(path: string) {
+  if (typeof window !== 'undefined' && (window as any).gtag) {
+    (window as any).gtag('config', GA_ID, { page_path: path });
+  }
+}
+
+/** Hook that fires a page view on every route change */
+function useGoogleAnalytics() {
+  const location = useLocation();
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location]);
+}
+
+// ── Route tracker wrapper ───────────────────────────────────────────────────
+const RouteTracker: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  useGoogleAnalytics();
+  return <>{children}</>;
+};
+
+// ── App ─────────────────────────────────────────────────────────────────────
 function App() {
   return (
-    <div className="App">
-      {/* Top Banner Ad - visible on all screen sizes */}
-      <div className="w-full flex justify-center py-2 bg-white/50">
-        <AdSlot slotId="top-banner" format="horizontal" label="Top Banner Ad" />
-      </div>
-
-      {/* 3-Column Layout: Left Ad | Calculator | Right Ad */}
-      <div className="flex justify-center gap-4 px-2">
-        {/* Left Sidebar Ads - visible only on wide screens (1400px+) */}
-        <aside className="hidden 2xl:flex flex-col gap-4 sticky top-4 self-start pt-4" aria-label="Advertisements">
-          <AdSlot slotId="left-skyscraper-1" format="vertical" label="Left Ad 1" />
-          <AdSlot slotId="left-rectangle" format="rectangle" label="Left Ad 2" className="mt-4" />
-        </aside>
-
-        {/* Main Calculator Content */}
-        <main className="flex-1 max-w-7xl min-w-0">
-          <EMICalculator />
-        </main>
-
-        {/* Right Sidebar Ads - visible only on wide screens (1400px+) */}
-        <aside className="hidden 2xl:flex flex-col gap-4 sticky top-4 self-start pt-4" aria-label="Advertisements">
-          <AdSlot slotId="right-skyscraper-1" format="vertical" label="Right Ad 1" />
-          <AdSlot slotId="right-rectangle" format="rectangle" label="Right Ad 2" className="mt-4" />
-        </aside>
-      </div>
-    </div>
+    <Router>
+      <RouteTracker>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/emi-calculator" element={<EMICalculatorPage />} />
+        </Routes>
+      </RouteTracker>
+    </Router>
   );
 }
 
