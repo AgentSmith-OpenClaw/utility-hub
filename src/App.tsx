@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import EMICalculatorPage from './pages/EMICalculatorPage';
@@ -31,14 +32,16 @@ const RouteTracker: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 // ── App ─────────────────────────────────────────────────────────────────────
 function App() {
   return (
-    <Router>
-      <RouteTracker>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/emi-calculator" element={<EMICalculatorPage />} />
-        </Routes>
-      </RouteTracker>
-    </Router>
+    <HelmetProvider>
+      <Router>
+        <RouteTracker>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/emi-calculator" element={<EMICalculatorPage />} />
+          </Routes>
+        </RouteTracker>
+      </Router>
+    </HelmetProvider>
   );
 }
 

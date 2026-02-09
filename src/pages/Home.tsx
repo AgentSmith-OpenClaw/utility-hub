@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 
 interface Tool {
@@ -70,9 +71,35 @@ const tools: Tool[] = [
 
 const Home: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-      {/* Hero */}
-      <header className="relative overflow-hidden">
+    <>
+      <Helmet>
+        <title>Toolist — High-Performance Daily Tools</title>
+        <meta
+          name="description"
+          content="Toolist is a fast, private toolkit for daily tasks. Start with the EMI Calculator for home, car, and personal loans, then explore more utilities as they launch."
+        />
+        <meta
+          name="keywords"
+          content="toolist, online tools, emi calculator, loan calculator, home loan emi, car loan emi, personal loan emi, prepayment calculator, loan amortization, finance tools"
+        />
+        <link rel="canonical" href="https://toolist.app/" />
+        <meta property="og:title" content="Toolist — High-Performance Daily Tools" />
+        <meta
+          property="og:description"
+          content="Fast, private daily tools in one place. Try the advanced EMI Calculator with charts, prepayment analysis, and export."
+        />
+        <meta property="og:url" content="https://toolist.app/" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Toolist — High-Performance Daily Tools" />
+        <meta
+          name="twitter:description"
+          content="Fast, private daily tools in one place. Start with the EMI Calculator and explore more soon."
+        />
+      </Helmet>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+        {/* Hero */}
+        <header className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500" />
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-10 w-72 h-72 bg-white rounded-full blur-3xl" />
@@ -102,7 +129,7 @@ const Home: React.FC = () => {
             </a>
           </div>
         </div>
-      </header>
+        </header>
 
       {/* Developer Note */}
       <section className="max-w-4xl mx-auto px-4 -mt-8 relative z-10">
@@ -223,7 +250,8 @@ const Home: React.FC = () => {
           </div>
         </div>
       </footer>
-    </div>
+      </div>
+    </>
   );
 };
 
