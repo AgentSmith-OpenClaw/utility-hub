@@ -651,6 +651,11 @@ const EMICalculator: React.FC = () => {
                       const hasReduceEMI = summary.prepaymentImpacts.some(p => p.strategy === 'reduce-emi');
                       const hasReduceTenure = summary.prepaymentImpacts.some(p => p.strategy === 'reduce-tenure');
                       const allReduceEMI = summary.prepaymentImpacts.length > 0 && summary.prepaymentImpacts.every(p => p.strategy === 'reduce-emi');
+                      const reduceEmiImpacts = summary.prepaymentImpacts.filter(p => p.strategy === 'reduce-emi');
+                      const firstReduceEmi = reduceEmiImpacts[0];
+                      const lastReduceEmi = reduceEmiImpacts[reduceEmiImpacts.length - 1];
+                      const fromEmi = firstReduceEmi?.oldEMI ?? emi;
+                      const toEmi = lastReduceEmi?.newEMI ?? emi;
                       
                       return (
                         <>
@@ -676,7 +681,7 @@ const EMICalculator: React.FC = () => {
                             <>
                               {allReduceEMI ? (
                                 <>
-                                  💰 <strong>EMI Reduction Strategy:</strong> With this approach, your <span className="font-bold">monthly EMI burden is reduced from ₹{emi.toLocaleString('en-IN', { maximumFractionDigits: 0 })} to lower amounts</span> after each prepayment.
+                                  💰 <strong>EMI Reduction Strategy:</strong> With this approach, your <span className="font-bold">monthly EMI burden is reduced from ₹{fromEmi.toLocaleString('en-IN', { maximumFractionDigits: 0 })} to ₹{toEmi.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span> as you make prepayments.
                                   <br />
                                   The loan tenure remains at {parseInt(tenureYears)} years, but you enjoy <span className="font-bold">lower monthly payments</span> throughout, giving you more cash flow flexibility!
                                 </>
@@ -693,9 +698,9 @@ const EMICalculator: React.FC = () => {
 
                 {/* Individual Impact Table */}
                 <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 overflow-x-auto max-h-80 overflow-y-auto">
-                  <h4 className="text-base font-bold mb-3 sticky top-0">Individual Prepayment Impacts</h4>
+                  <h4 className="text-base font-bold mb-3">Individual Prepayment Impacts</h4>
                   <table className="min-w-full text-xs">
-                    <thead className="border-b border-white/20 sticky top-8 bg-white/5">
+                    <thead className="border-b border-white/20 sticky top-0 z-10 bg-slate-900/70 backdrop-blur">
                       <tr>
                         <th className="px-3 py-2 text-left text-white/90">#</th>
                         <th className="px-3 py-2 text-left text-white/90">Month</th>

@@ -1,0 +1,503 @@
+- generic [ref=e3]:
+  - complementary "Advertisement" [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]: 📢
+      - generic [ref=e8]: Top Banner Ad
+      - generic [ref=e9]: 728×90
+  - generic [ref=e10]:
+    - complementary "Advertisements" [ref=e11]:
+      - complementary "Advertisement" [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e14]: 📢
+          - generic [ref=e15]: Left Ad 1
+          - generic [ref=e16]: 160×600
+      - complementary "Advertisement" [ref=e17]:
+        - generic [ref=e18]:
+          - generic [ref=e19]: 📢
+          - generic [ref=e20]: Left Ad 2
+          - generic [ref=e21]: 300×250
+    - main [ref=e22]:
+      - article [ref=e24]:
+        - generic [ref=e25]:
+          - heading "EMI Calculator for Home Loan, Car Loan & Personal Loan" [level=1] [ref=e26]
+          - paragraph [ref=e27]: Free Advanced Loan EMI Calculator with Prepayment Impact Analysis — Reduce EMI vs Reduce Tenure Comparison
+        - generic [ref=e28]:
+          - generic [ref=e29]:
+            - heading "1 Loan Details" [level=2] [ref=e30]:
+              - generic [ref=e31]: "1"
+              - text: Loan Details
+            - generic [ref=e32]:
+              - generic [ref=e33]:
+                - generic [ref=e34]: Loan Amount (₹)
+                - spinbutton [ref=e35]: "5000000"
+                - paragraph [ref=e36]: ₹50,00,000
+              - generic [ref=e37]:
+                - generic [ref=e38]: Interest Rate (%)
+                - spinbutton [ref=e39]: "8.5"
+              - generic [ref=e40]:
+                - generic [ref=e41]: Tenure (Years)
+                - spinbutton [ref=e42]: "20"
+            - generic [ref=e43]:
+              - button "Calculate EMI" [active] [ref=e44] [cursor=pointer]
+              - button "↺ Reset" [ref=e45] [cursor=pointer]
+          - generic [ref=e46]:
+            - heading "2 Loan Prepayment Calculator" [level=2] [ref=e47]:
+              - generic [ref=e48]: "2"
+              - text: Loan Prepayment Calculator
+            - generic [ref=e49]:
+              - generic [ref=e50]: Frequency
+              - generic [ref=e51]:
+                - button "One-time" [ref=e52] [cursor=pointer]
+                - button "Monthly" [ref=e53] [cursor=pointer]
+                - button "Quarterly" [ref=e54] [cursor=pointer]
+                - button "Yearly" [ref=e55] [cursor=pointer]
+            - generic [ref=e56]:
+              - generic [ref=e57]: Strategy
+              - generic [ref=e58]:
+                - button "🎯 Reduce Tenure" [ref=e59] [cursor=pointer]
+                - button "💰 Reduce EMI" [ref=e60] [cursor=pointer]
+            - generic [ref=e61]:
+              - generic [ref=e62]:
+                - generic [ref=e63]: "Month #"
+                - spinbutton [ref=e64]
+              - generic [ref=e65]:
+                - generic [ref=e66]: Amount (₹)
+                - spinbutton [ref=e67]
+              - button "+ Add" [ref=e69] [cursor=pointer]
+            - generic [ref=e70]:
+              - paragraph [ref=e71]: "Scheduled (3):"
+              - generic [ref=e72]:
+                - generic [ref=e73]:
+                  - generic [ref=e74]:
+                    - generic [ref=e75]: "M12: ₹1,00,000"
+                    - text: 💰
+                  - button "×" [ref=e76] [cursor=pointer]
+                - generic [ref=e77]:
+                  - generic [ref=e78]:
+                    - generic [ref=e79]: "M12: ₹1,00,000"
+                    - text: 💰
+                  - button "×" [ref=e80] [cursor=pointer]
+                - generic [ref=e81]:
+                  - generic [ref=e82]:
+                    - generic [ref=e83]: "M12: ₹1,00,000"
+                    - text: 💰
+                  - button "×" [ref=e84] [cursor=pointer]
+        - generic [ref=e85]:
+          - generic [ref=e86]:
+            - paragraph [ref=e87]: Monthly EMI
+            - paragraph [ref=e88]: ₹43,391
+          - generic [ref=e89]:
+            - paragraph [ref=e90]: Total Interest
+            - paragraph [ref=e91]: ₹53,11,997
+          - generic [ref=e92]:
+            - paragraph [ref=e93]: Total Amount
+            - paragraph [ref=e94]: ₹1,03,11,997
+          - generic [ref=e95]:
+            - paragraph [ref=e96]: Interest Saved
+            - paragraph [ref=e97]: ₹1,01,882
+            - paragraph [ref=e98]: Loan done in 240 months (saved 0)
+        - generic [ref=e99]:
+          - heading "📊 Prepayment Impact Analysis" [level=3] [ref=e100]
+          - generic [ref=e101]:
+            - generic [ref=e102]:
+              - paragraph [ref=e103]: Total Prepayments
+              - paragraph [ref=e104]: "1"
+              - paragraph [ref=e105]: payments made
+            - generic [ref=e106]:
+              - paragraph [ref=e107]: Total Interest Saved
+              - paragraph [ref=e108]: ₹1,01,882
+              - paragraph [ref=e109]: exact savings
+            - generic [ref=e110]:
+              - paragraph [ref=e111]: Total Months Saved
+              - paragraph [ref=e112]: "0"
+              - paragraph [ref=e113]: 240 months actual vs 240 original
+          - generic [ref=e114]:
+            - paragraph [ref=e115]: "🎉 Awesome! Your loan will be completed in:"
+            - paragraph [ref=e116]: 20 years 0 months
+            - paragraph [ref=e117]:
+              - text: "Expected completion: February 2046"
+              - text: 💰
+              - strong [ref=e118]: "EMI Reduction Strategy:"
+              - text: With this approach, your
+              - generic [ref=e119]: monthly EMI burden is reduced from ₹43,391 to ₹42,506
+              - text: as you make prepayments.
+              - text: The loan tenure remains at 20 years, but you enjoy lower monthly payments throughout, giving you more cash flow flexibility!
+          - generic [ref=e120]:
+            - heading "Individual Prepayment Impacts" [level=4] [ref=e121]
+            - table [ref=e122]:
+              - rowgroup [ref=e123]:
+                - row "# Month Amount Strategy Old EMI New EMI Old Months New Months Interest Saved Cum. Saved" [ref=e124]:
+                  - columnheader "#" [ref=e125]
+                  - columnheader "Month" [ref=e126]
+                  - columnheader "Amount" [ref=e127]
+                  - columnheader "Strategy" [ref=e128]
+                  - columnheader "Old EMI" [ref=e129]
+                  - columnheader "New EMI" [ref=e130]
+                  - columnheader "Old Months" [ref=e131]
+                  - columnheader "New Months" [ref=e132]
+                  - columnheader "Interest Saved" [ref=e133]
+                  - columnheader "Cum. Saved" [ref=e134]
+              - rowgroup [ref=e135]:
+                - row "1 M12 ₹1,00,000 💰 EMI ₹43,391 ₹42,506 228 228 ₹1,01,882 ₹1,01,882" [ref=e136]:
+                  - cell "1" [ref=e137]
+                  - cell "M12" [ref=e138]
+                  - cell "₹1,00,000" [ref=e139]
+                  - cell "💰 EMI" [ref=e140]
+                  - cell "₹43,391" [ref=e141]
+                  - cell "₹42,506" [ref=e142]
+                  - cell "228" [ref=e143]
+                  - cell "228" [ref=e144]
+                  - cell "₹1,01,882" [ref=e145]
+                  - cell "₹1,01,882" [ref=e146]
+        - generic [ref=e147]:
+          - generic [ref=e148]:
+            - heading "Loan Breakdown" [level=3] [ref=e149]
+            - img [ref=e151]
+          - generic [ref=e152]:
+            - heading "Outstanding Balance" [level=3] [ref=e153]
+            - img [ref=e155]
+        - generic [ref=e156]:
+          - generic [ref=e157]:
+            - heading "Principal vs Interest" [level=3] [ref=e158]
+            - img [ref=e160]
+          - generic [ref=e161]:
+            - heading "Yearly Payment Breakdown" [level=3] [ref=e162]
+            - img [ref=e164]
+        - generic [ref=e165]:
+          - heading "Cumulative Payment Analysis" [level=3] [ref=e166]
+          - img [ref=e168]
+        - generic [ref=e169]:
+          - generic [ref=e170]:
+            - heading "Interest Paid Per Year" [level=3] [ref=e171]
+            - img [ref=e173]
+          - generic [ref=e174]:
+            - heading "Payment Composition Over Time" [level=3] [ref=e175]
+            - img [ref=e177]
+        - generic [ref=e178]:
+          - heading "Prepayment Timeline Impact" [level=3] [ref=e179]
+          - img [ref=e181]
+        - button "📊 Export Complete Schedule to Excel" [ref=e183] [cursor=pointer]
+        - generic [ref=e184]:
+          - heading "Payment Schedule (First 12 Months)" [level=2] [ref=e185]
+          - generic [ref=e186]:
+            - table [ref=e187]:
+              - rowgroup [ref=e188]:
+                - row "Month EMI Principal Interest Prepay Balance" [ref=e189]:
+                  - columnheader "Month" [ref=e190]
+                  - columnheader "EMI" [ref=e191]
+                  - columnheader "Principal" [ref=e192]
+                  - columnheader "Interest" [ref=e193]
+                  - columnheader "Prepay" [ref=e194]
+                  - columnheader "Balance" [ref=e195]
+              - rowgroup [ref=e196]:
+                - row "1 ₹43,391 ₹7,974 ₹35,417 - ₹49,92,026" [ref=e197]:
+                  - cell "1" [ref=e198]
+                  - cell "₹43,391" [ref=e199]
+                  - cell "₹7,974" [ref=e200]
+                  - cell "₹35,417" [ref=e201]
+                  - cell "-" [ref=e202]
+                  - cell "₹49,92,026" [ref=e203]
+                - row "2 ₹43,391 ₹8,031 ₹35,360 - ₹49,83,995" [ref=e204]:
+                  - cell "2" [ref=e205]
+                  - cell "₹43,391" [ref=e206]
+                  - cell "₹8,031" [ref=e207]
+                  - cell "₹35,360" [ref=e208]
+                  - cell "-" [ref=e209]
+                  - cell "₹49,83,995" [ref=e210]
+                - row "3 ₹43,391 ₹8,088 ₹35,303 - ₹49,75,907" [ref=e211]:
+                  - cell "3" [ref=e212]
+                  - cell "₹43,391" [ref=e213]
+                  - cell "₹8,088" [ref=e214]
+                  - cell "₹35,303" [ref=e215]
+                  - cell "-" [ref=e216]
+                  - cell "₹49,75,907" [ref=e217]
+                - row "4 ₹43,391 ₹8,145 ₹35,246 - ₹49,67,762" [ref=e218]:
+                  - cell "4" [ref=e219]
+                  - cell "₹43,391" [ref=e220]
+                  - cell "₹8,145" [ref=e221]
+                  - cell "₹35,246" [ref=e222]
+                  - cell "-" [ref=e223]
+                  - cell "₹49,67,762" [ref=e224]
+                - row "5 ₹43,391 ₹8,203 ₹35,188 - ₹49,59,559" [ref=e225]:
+                  - cell "5" [ref=e226]
+                  - cell "₹43,391" [ref=e227]
+                  - cell "₹8,203" [ref=e228]
+                  - cell "₹35,188" [ref=e229]
+                  - cell "-" [ref=e230]
+                  - cell "₹49,59,559" [ref=e231]
+                - row "6 ₹43,391 ₹8,261 ₹35,130 - ₹49,51,298" [ref=e232]:
+                  - cell "6" [ref=e233]
+                  - cell "₹43,391" [ref=e234]
+                  - cell "₹8,261" [ref=e235]
+                  - cell "₹35,130" [ref=e236]
+                  - cell "-" [ref=e237]
+                  - cell "₹49,51,298" [ref=e238]
+                - row "7 ₹43,391 ₹8,319 ₹35,072 - ₹49,42,978" [ref=e239]:
+                  - cell "7" [ref=e240]
+                  - cell "₹43,391" [ref=e241]
+                  - cell "₹8,319" [ref=e242]
+                  - cell "₹35,072" [ref=e243]
+                  - cell "-" [ref=e244]
+                  - cell "₹49,42,978" [ref=e245]
+                - row "8 ₹43,391 ₹8,378 ₹35,013 - ₹49,34,600" [ref=e246]:
+                  - cell "8" [ref=e247]
+                  - cell "₹43,391" [ref=e248]
+                  - cell "₹8,378" [ref=e249]
+                  - cell "₹35,013" [ref=e250]
+                  - cell "-" [ref=e251]
+                  - cell "₹49,34,600" [ref=e252]
+                - row "9 ₹43,391 ₹8,438 ₹34,953 - ₹49,26,162" [ref=e253]:
+                  - cell "9" [ref=e254]
+                  - cell "₹43,391" [ref=e255]
+                  - cell "₹8,438" [ref=e256]
+                  - cell "₹34,953" [ref=e257]
+                  - cell "-" [ref=e258]
+                  - cell "₹49,26,162" [ref=e259]
+                - row "10 ₹43,391 ₹8,498 ₹34,894 - ₹49,17,665" [ref=e260]:
+                  - cell "10" [ref=e261]
+                  - cell "₹43,391" [ref=e262]
+                  - cell "₹8,498" [ref=e263]
+                  - cell "₹34,894" [ref=e264]
+                  - cell "-" [ref=e265]
+                  - cell "₹49,17,665" [ref=e266]
+                - row "11 ₹43,391 ₹8,558 ₹34,833 - ₹49,09,107" [ref=e267]:
+                  - cell "11" [ref=e268]
+                  - cell "₹43,391" [ref=e269]
+                  - cell "₹8,558" [ref=e270]
+                  - cell "₹34,833" [ref=e271]
+                  - cell "-" [ref=e272]
+                  - cell "₹49,09,107" [ref=e273]
+                - row "12 ₹43,391 ₹8,618 ₹34,773 ₹1,00,000 ₹48,00,489" [ref=e274]:
+                  - cell "12" [ref=e275]
+                  - cell "₹43,391" [ref=e276]
+                  - cell "₹8,618" [ref=e277]
+                  - cell "₹34,773" [ref=e278]
+                  - cell "₹1,00,000" [ref=e279]
+                  - cell "₹48,00,489" [ref=e280]
+            - paragraph [ref=e282]: Showing first 12 months of 240 total months
+        - button "📊 History (3)" [ref=e283] [cursor=pointer]
+        - generic [ref=e284]:
+          - heading "What is EMI?" [level=2] [ref=e285]
+          - paragraph [ref=e286]:
+            - strong [ref=e287]: EMI (Equated Monthly Installment)
+            - text: is the fixed amount you pay every month to the bank or financial institution until the loan is fully repaid. It consists of two components — the
+            - strong [ref=e288]: principal repayment
+            - text: and the
+            - strong [ref=e289]: interest payment
+            - text: . During the initial months of your loan, a larger portion of your EMI goes towards paying interest. As time progresses, more of your EMI is applied towards the principal.
+          - heading "EMI Calculation Formula" [level=3] [ref=e290]
+          - generic [ref=e291]:
+            - paragraph [ref=e292]:
+              - strong [ref=e293]:
+                - text: EMI = P × r × (1 + r)
+                - superscript [ref=e294]: "n"
+                - text: / ((1 + r)
+                - superscript [ref=e295]: "n"
+                - text: "- 1)"
+            - list [ref=e296]:
+              - listitem [ref=e297]:
+                - text: •
+                - strong [ref=e298]: P
+                - text: = Principal Loan Amount (e.g., ₹50,00,000 for home loan)
+              - listitem [ref=e299]:
+                - text: •
+                - strong [ref=e300]: r
+                - text: = Monthly Interest Rate = Annual Rate / 12 / 100 (e.g., 8.5% → 0.00708)
+              - listitem [ref=e301]:
+                - text: •
+                - strong [ref=e302]: "n"
+                - text: = Loan Tenure in Months (e.g., 20 years = 240 months)
+          - paragraph [ref=e303]:
+            - text: For example, if you borrow
+            - strong [ref=e304]: ₹50,00,000
+            - text: at
+            - strong [ref=e305]: 8.5% annual interest
+            - text: for
+            - strong [ref=e306]: 20 years (240 months)
+            - text: ", your monthly EMI would be approximately"
+            - strong [ref=e307]: ₹43,391
+            - text: . The total amount payable over the loan lifetime would be ₹1,04,13,842, which includes ₹54,13,842 as interest.
+        - generic [ref=e308]:
+          - heading "Reduce EMI vs Reduce Tenure — Which Prepayment Strategy Should You Choose?" [level=2] [ref=e309]
+          - paragraph [ref=e310]:
+            - text: When you make a
+            - strong [ref=e311]: prepayment (part-payment)
+            - text: on your loan, banks typically offer two options for adjusting your loan. Understanding the difference is crucial as it can save you lakhs of rupees in interest.
+          - generic [ref=e312]:
+            - generic [ref=e313]:
+              - heading "🎯 Reduce Tenure Strategy" [level=3] [ref=e314]
+              - paragraph [ref=e315]:
+                - text: Your monthly EMI
+                - strong [ref=e316]: stays the same
+                - text: ", but the loan duration"
+                - strong [ref=e317]: decreases
+                - text: . This means you become debt-free faster.
+              - list [ref=e318]:
+                - listitem [ref=e319]:
+                  - generic [ref=e320]: ✅
+                  - generic [ref=e321]:
+                    - strong [ref=e322]: Maximum interest savings
+                    - text: over loan lifetime
+                - listitem [ref=e323]:
+                  - generic [ref=e324]: ✅
+                  - generic [ref=e325]:
+                    - text: Become
+                    - strong [ref=e326]: debt-free years earlier
+                - listitem [ref=e327]:
+                  - generic [ref=e328]: ✅
+                  - generic [ref=e329]:
+                    - text: Requires consistent
+                    - strong [ref=e330]: prepayment discipline
+                - listitem [ref=e331]:
+                  - generic [ref=e332]: ⚠️
+                  - generic [ref=e333]: Monthly outflow remains unchanged
+            - generic [ref=e334]:
+              - heading "💰 Reduce EMI Strategy" [level=3] [ref=e335]
+              - paragraph [ref=e336]:
+                - text: Your loan tenure
+                - strong [ref=e337]: stays the same
+                - text: ", but your monthly EMI"
+                - strong [ref=e338]: decreases
+                - text: after the prepayment.
+              - list [ref=e339]:
+                - listitem [ref=e340]:
+                  - generic [ref=e341]: ✅
+                  - strong [ref=e343]: Immediate cash flow relief
+                - listitem [ref=e344]:
+                  - generic [ref=e345]: ✅
+                  - generic [ref=e346]:
+                    - strong [ref=e347]: Lower monthly
+                    - text: financial burden
+                - listitem [ref=e348]:
+                  - generic [ref=e349]: ✅
+                  - generic [ref=e350]:
+                    - text: Good when expecting
+                    - strong [ref=e351]: future expenses
+                - listitem [ref=e352]:
+                  - generic [ref=e353]: ⚠️
+                  - generic [ref=e354]: Less total interest saved vs Reduce Tenure
+          - generic [ref=e355]:
+            - paragraph [ref=e356]:
+              - text: "💡 How to Choose: Your decision should be based on"
+              - strong [ref=e357]: your prepayment discipline and financial situation
+              - text: ", not a one-size-fits-all recommendation."
+            - paragraph [ref=e358]: "Here are practical points to consider before you pick a strategy:"
+            - list [ref=e359]:
+              - listitem [ref=e360]:
+                - strong [ref=e361]: "Consistency:"
+                - text: If you can commit to regular prepayments (monthly or quarterly),
+                - strong [ref=e362]: Reduce EMI
+                - text: delivers both immediate cash-flow relief and long-term principal reduction.
+              - listitem [ref=e363]:
+                - strong [ref=e364]: "Cashflow needs:"
+                - text: If you need breathing room today for other goals (emergency fund, education),
+                - strong [ref=e365]: Reduce EMI
+                - text: lowers your monthly burden right away.
+              - listitem [ref=e366]:
+                - strong [ref=e367]: "One-off surplus:"
+                - text: If you expect an occasional large lump sum (bonus, inheritance),
+                - strong [ref=e368]: Reduce Tenure
+                - text: gives the maximum interest saving for that single payment.
+              - listitem [ref=e369]:
+                - strong [ref=e370]: "Risk tolerance:"
+                - text: Prepaying reduces guaranteed interest costs; investing introduces market variability. Match the choice to your comfort with risk.
+              - listitem [ref=e371]:
+                - strong [ref=e372]: "Tax considerations:"
+                - text: Home loan tax benefits (Section 80C, 24b) affect net advantage — factor them into your plan.
+              - listitem [ref=e373]:
+                - strong [ref=e374]: "Loan terms:"
+                - text: Check lender rules for prepayment penalties, floating vs fixed rates, and any minimum prepayment amounts.
+            - generic [ref=e375]:
+              - generic [ref=e376]:
+                - heading "When Reduce EMI shines" [level=4] [ref=e377]
+                - paragraph [ref=e378]:
+                  - text: If you regularly prepay and want lower monthly payments now,
+                  - strong [ref=e379]: Reduce EMI
+                  - text: has a powerful two‑pronged effect — it immediately reduces your EMI for better cash flow, and regular prepayments help chip away at principal so your loan ends earlier.
+                - list [ref=e380]:
+                  - listitem [ref=e381]: "Dual benefit: lower EMI today + steadily shrinking principal"
+                  - listitem [ref=e382]: Better for disciplined savers who prefer improved monthly cashflow
+                  - listitem [ref=e383]: Works well with predictable surplus (salary increments, systematic savings)
+                - paragraph [ref=e384]: "Suggestion: Model monthly small prepayments to see how your EMI and tenure change together."
+              - generic [ref=e385]:
+                - heading "When Reduce Tenure is better" [level=4] [ref=e386]
+                - paragraph [ref=e387]:
+                  - text: If you cannot guarantee regular prepayments but occasionally have a lump sum to spare,
+                  - strong [ref=e388]: Reduce Tenure
+                  - text: often gives the largest interest saving for that one payment because it shortens the total number of EMIs.
+                - list [ref=e389]:
+                  - listitem [ref=e390]: Best for one-off windfalls (bonus, gift)
+                  - listitem [ref=e391]: Maximizes total interest saved for isolated prepayments
+                  - listitem [ref=e392]: Good fallback if you worry about sticking to a schedule
+                - paragraph [ref=e393]: "Suggestion: If unsure about discipline, model both strategies here and compare total interest and monthly impact."
+            - paragraph [ref=e394]: "Quick checklist: Are your surplus flows regular? Do you value lower monthly payments today? Do you expect a lump sum in the near future? Use this checklist to guide your choice."
+            - paragraph [ref=e395]: "Friendly tip: There's no permanent right answer — you can mix strategies over time. Start with the option that fits your behavior today, re-evaluate annually, and use this calculator to preview both outcomes before you act."
+        - generic [ref=e396]:
+          - heading "How to Use This EMI Calculator" [level=2] [ref=e397]
+          - generic [ref=e398]:
+            - generic [ref=e399]:
+              - generic [ref=e400]: "1"
+              - heading "Enter Loan Details" [level=3] [ref=e401]
+              - paragraph [ref=e402]: Input your loan amount, interest rate, and tenure. Works for home loan, car loan, personal loan, or any EMI-based loan.
+            - generic [ref=e403]:
+              - generic [ref=e404]: "2"
+              - heading "Add Prepayments (Optional)" [level=3] [ref=e405]
+              - paragraph [ref=e406]: Choose one-time, monthly, quarterly, or yearly prepayments. Select Reduce Tenure or Reduce EMI strategy for each.
+            - generic [ref=e407]:
+              - generic [ref=e408]: "3"
+              - heading "Analyze Results" [level=3] [ref=e409]
+              - paragraph [ref=e410]: View 8 interactive charts, prepayment impact analysis, interest savings breakdown, and download the full amortization schedule.
+        - generic [ref=e411]:
+          - heading "Frequently Asked Questions about EMI & Loan Prepayment" [level=2] [ref=e412]
+          - generic [ref=e413]:
+            - heading "I'm not sure I can prepay consistently — which strategy should I pick?" [level=3] [ref=e414]
+            - paragraph [ref=e416]: "This is the most important question, and many borrowers get it wrong. If you're undisciplined about prepayments, Reduce EMI is the better choice — not Reduce Tenure. With Reduce Tenure, if you can't maintain prepayments, you lose out on massive interest savings. With Reduce EMI, even if you stop prepaying, your lower EMI is locked in. Honestly assess: Do you consistently save? Can you handle prepayments alongside other goals? Choose the strategy that matches your actual behavior, not your aspirations."
+          - generic [ref=e417]:
+            - heading "What is EMI and how is it calculated?" [level=3] [ref=e418]
+            - paragraph [ref=e420]: "EMI stands for Equated Monthly Installment — the fixed amount you pay each month to repay a loan. It is calculated using the formula: EMI = P × r × (1 + r)^n / ((1 + r)^n - 1), where P is the loan amount, r is the monthly interest rate, and n is the number of months. Our calculator computes this instantly for home loans, car loans, and personal loans."
+          - generic [ref=e421]:
+            - heading "What is the difference between Reduce EMI and Reduce Tenure?" [level=3] [ref=e422]
+            - paragraph [ref=e424]: When you make a prepayment, Reduce Tenure keeps your EMI the same but shortens the loan duration — saving maximum interest, **but only if you maintain prepayment discipline**. Reduce EMI keeps the tenure same but lowers your monthly EMI — providing cash flow relief and is more practical if you cannot guarantee consistent prepayments. For a ₹50 lakh loan, Reduce Tenure *can* save ₹15-25 lakhs more, but this requires sticking to your prepayment plan.
+          - generic [ref=e425]:
+            - heading "How much can I save with home loan prepayments?" [level=3] [ref=e426]
+            - paragraph [ref=e428]: Savings depend on prepayment amount, timing, strategy, and most importantly, your ability to maintain the prepayment schedule. On a ₹50 lakh home loan at 8.5% for 20 years, quarterly prepayments of ₹1 lakh using Reduce Tenure can save over ₹20 lakhs in interest and reduce tenure by 8-10 years — but this requires consistent discipline. If you can't maintain prepayments, the actual savings will be much lower. Earlier prepayments save more as the outstanding principal is higher.
+          - generic [ref=e429]:
+            - heading "Should I do lump sum prepayment or regular small prepayments?" [level=3] [ref=e430]
+            - paragraph [ref=e432]: Both help, but regular prepayments (monthly or quarterly) are often more practical and provide consistent interest savings. A single large prepayment early in the loan has the highest impact. Use our calculator to compare different prepayment scenarios and find what works best for your budget.
+          - generic [ref=e433]:
+            - heading "How does this EMI calculator work for car loans and personal loans?" [level=3] [ref=e434]
+            - paragraph [ref=e436]: Our calculator works identically for all loan types — home loan, car loan, personal loan, education loan, or any fixed-rate EMI loan. Simply enter the loan amount, annual interest rate, and loan tenure. The EMI formula is the same regardless of loan type. Car loans typically have higher interest rates (8-12%) and shorter tenures (3-7 years) compared to home loans (7-9%, 15-30 years).
+          - generic [ref=e437]:
+            - heading "What are the current home loan interest rates in India?" [level=3] [ref=e438]
+            - paragraph [ref=e440]: As of early 2026, home loan interest rates in India range from 8.25% to 9.5%. SBI offers rates from 8.25%, HDFC from 8.35%, ICICI from 8.40%, and other banks vary. Rates depend on loan amount, borrower profile, and property type. Use our calculator to see how even a 0.5% rate difference impacts your total interest outgo.
+          - generic [ref=e441]:
+            - heading "Is it better to invest the money or prepay the home loan?" [level=3] [ref=e442]
+            - paragraph [ref=e444]: If your investment returns (after tax) exceed your loan interest rate, investing may be better. For example, if your home loan rate is 8.5% and equity investments give 12-15% returns, investing could be more profitable. However, loan prepayment gives guaranteed, risk-free returns equal to your interest rate — but only if you actually make the prepayments consistently. Many borrowers plan to prepay but never do, resulting in higher interest costs. Consider your prepayment discipline, risk appetite, tax benefits (Section 80C, 24b), and financial goals.
+          - generic [ref=e445]:
+            - heading "Can I make prepayments on a floating rate home loan?" [level=3] [ref=e446]
+            - paragraph [ref=e448]: Yes! RBI guidelines allow prepayment of floating rate home loans without any penalty. For fixed-rate loans, banks may charge a prepayment penalty of 2-3%. Floating rate borrowers should take advantage of this by making regular prepayments whenever they have surplus funds.
+        - generic [ref=e449]:
+          - paragraph [ref=e450]: EMI Calculator Pro — India's Most Advanced Free Loan Calculator
+          - paragraph [ref=e451]: Calculate EMI for Home Loan, Car Loan & Personal Loan • Compare Reduce EMI vs Reduce Tenure • Advanced Prepayment Analysis
+          - paragraph [ref=e452]: Results are estimates based on the inputs provided. Actual EMI may vary based on bank processing fees, insurance, and other charges. Consult a financial advisor before making loan decisions.
+          - navigation [ref=e453]:
+            - link "EMI Calculator" [ref=e454] [cursor=pointer]:
+              - /url: "#calculator"
+            - link "Prepayment Calculator" [ref=e455] [cursor=pointer]:
+              - /url: "#prepayment-calculator"
+            - link "Reduce EMI vs Tenure" [ref=e456] [cursor=pointer]:
+              - /url: "#reduce-emi-vs-reduce-tenure"
+            - link "FAQ" [ref=e457] [cursor=pointer]:
+              - /url: "#faq"
+          - paragraph [ref=e458]: © 2026 EMI Calculator Pro. All rights reserved.
+    - complementary "Advertisements" [ref=e459]:
+      - complementary "Advertisement" [ref=e460]:
+        - generic [ref=e461]:
+          - generic [ref=e462]: 📢
+          - generic [ref=e463]: Right Ad 1
+          - generic [ref=e464]: 160×600
+      - complementary "Advertisement" [ref=e465]:
+        - generic [ref=e466]:
+          - generic [ref=e467]: 📢
+          - generic [ref=e468]: Right Ad 2
+          - generic [ref=e469]: 300×250
