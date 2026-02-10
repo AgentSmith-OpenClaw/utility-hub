@@ -111,9 +111,12 @@ export default function Home() {
               Community-driven, sustainably developed
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
-              Toolisk
-            </h1>
+            <div className="flex flex-col items-center gap-4 mb-6">
+              <img src="/logo.svg" alt="Toolisk Logo" className="w-24 h-24 sm:w-32 sm:h-32 drop-shadow-2xl" />
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
+                Toolisk
+              </h1>
+            </div>
             <p className="mt-4 text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
               A collection of <span className="text-white font-semibold">high-performance</span> free
               online tools with advanced features you actually need — fast, private, and all in one place.
