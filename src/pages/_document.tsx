@@ -61,7 +61,7 @@ export default function Document() {
               url: 'https://toolisk.com/',
               logo: 'https://toolisk.com/logo.svg',
               description:
-                'Free, open-source collection of high-performance online tools and utilities.',
+                'Free collection of high-performance online tools and utilities.',
             }),
           }}
         />
