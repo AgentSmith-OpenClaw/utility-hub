@@ -22,39 +22,39 @@ const tools: Tool[] = [
     isNew: false,
   },
   {
-    name: 'JSON Formatter',
+    name: 'FIRE Number Calculator',
     description:
-      'Beautify, minify, and validate JSON data instantly. Tree view, syntax highlighting, and error detection.',
+      'Calculate your Financial Independence Retire Early number. Determine how much you need to save to retire early based on your expenses and withdrawal rate.',
     path: '#',
-    icon: '📋',
-    tags: ['Developer', 'Data', 'Formatting'],
+    icon: '🔥',
+    tags: ['Finance', 'Retirement', 'FIRE'],
     comingSoon: true,
   },
   {
-    name: 'Image Compressor',
+    name: 'SIP Calculator',
     description:
-      'Compress images without losing quality. Supports PNG, JPEG, WebP. Batch processing with drag-and-drop.',
+      'Calculate returns on Systematic Investment Plans. Analyze mutual fund SIP investments with step-up options and goal planning.',
     path: '#',
-    icon: '🖼️',
-    tags: ['Media', 'Optimization', 'Images'],
+    icon: '📈',
+    tags: ['Finance', 'Investment', 'SIP'],
     comingSoon: true,
   },
   {
-    name: 'Unit Converter',
+    name: 'Compound Interest Calculator',
     description:
-      'Convert between hundreds of units — length, weight, temperature, currency, data storage, and more.',
+      'Calculate compound interest with flexible compounding frequencies. Visualize growth over time with charts and see the power of compounding.',
     path: '#',
-    icon: '📐',
-    tags: ['Math', 'Conversion', 'Utility'],
+    icon: '💰',
+    tags: ['Finance', 'Investment', 'Interest'],
     comingSoon: true,
   },
   {
-    name: 'Color Picker & Palette',
+    name: 'Amortization Calculator',
     description:
-      'Pick colors, generate palettes, convert between HEX/RGB/HSL, and check contrast accessibility.',
+      'Generate detailed amortization schedules for any loan. Compare different loan terms and see principal vs interest breakdown over time.',
     path: '#',
-    icon: '🎨',
-    tags: ['Design', 'CSS', 'Accessibility'],
+    icon: '📊',
+    tags: ['Finance', 'Loan', 'Amortization'],
     comingSoon: true,
   },
   {
@@ -96,9 +96,9 @@ export default function Home() {
           content="High-performance online tools for daily use. Start with our advanced EMI calculator and explore more."
         />
       </Head>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
         {/* Hero */}
-        <header className="relative overflow-hidden">
+        <section className="relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500" />
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-10 left-10 w-72 h-72 bg-white rounded-full blur-3xl" />
@@ -108,7 +108,7 @@ export default function Home() {
           <div className="relative max-w-6xl mx-auto px-4 py-16 sm:py-24 text-center">
             <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm text-white text-sm font-medium px-4 py-1.5 rounded-full mb-6">
               <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              Community-driven, sustainably developed
+              Actively developed and continuously improving
             </div>
 
             <div className="flex flex-col items-center gap-4 mb-6">
@@ -131,7 +131,7 @@ export default function Home() {
               </a>
             </div>
           </div>
-        </header>
+        </section>
 
         {/* Developer Note */}
         <section className="max-w-4xl mx-auto px-4 -mt-8 relative z-10">
@@ -235,23 +235,6 @@ export default function Home() {
             })}
           </div>
         </section>
-
-        {/* Footer */}
-        <footer className="border-t border-gray-200 bg-white/60">
-          <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
-            <p>© {new Date().getFullYear()} Toolisk — Free online tools for everyone.</p>
-            <div className="flex items-center gap-4">
-              <a
-                href="https://github.com/AgentSmith-OpenClaw/utility-hub"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-indigo-600 transition-colors"
-              >
-                GitHub
-              </a>
-            </div>
-          </div>
-        </footer>
       </div>
     </>
   );
