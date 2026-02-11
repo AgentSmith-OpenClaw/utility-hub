@@ -7,6 +7,7 @@ export default function Document() {
         <meta name="theme-color" content="#4f46e5" />
         <meta name="format-detection" content="telephone=no" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="icon" type="image/svg+xml" href="/logo.svg" />
         <link rel="manifest" href="/manifest.json" />
 
         {/* Preconnect for performance */}
@@ -58,7 +59,7 @@ export default function Document() {
               '@type': 'Organization',
               name: 'Toolisk',
               url: 'https://toolisk.com/',
-              logo: 'https://toolisk.com/logo192.png',
+              logo: 'https://toolisk.com/logo.svg',
               description:
                 'Free, open-source collection of high-performance online tools and utilities.',
             }),
