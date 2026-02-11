@@ -5,6 +5,7 @@ const footerSections = [
     title: 'Tools',
     links: [
       { label: 'EMI Calculator', href: '/emi-calculator' },
+      { label: 'FIRE Calculator', href: '/fire-calculator' },
     ],
   },
   {

@@ -22,13 +22,13 @@ const tools: Tool[] = [
     isNew: false,
   },
   {
-    name: 'FIRE Number Calculator',
+    name: 'FIRE Calculator',
     description:
-      'Calculate your Financial Independence Retire Early number. Determine how much you need to save to retire early based on your expenses and withdrawal rate.',
-    path: '#',
+      'Calculate your Financial Independence Retire Early number. Compare Lean, Fat, Coast & Barista FIRE strategies with interactive charts, milestone tracking, and portfolio projections.',
+    path: '/fire-calculator',
     icon: '🔥',
-    tags: ['Finance', 'Retirement', 'FIRE'],
-    comingSoon: true,
+    tags: ['Finance', 'Retirement', 'FIRE', 'Independence'],
+    isNew: true,
   },
   {
     name: 'SIP Calculator',
