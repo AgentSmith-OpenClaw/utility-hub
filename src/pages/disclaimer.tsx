@@ -20,12 +20,12 @@ export default function Disclaimer() {
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-100 text-2xl mb-4">
               ⚠️
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">Disclaimer</h1>
-            <p className="mt-2 text-gray-500 text-sm">Last Updated: February 12, 2026</p>
+            <h1 className="text-3xl sm:text-4xl font-bold text-slate-900">Disclaimer</h1>
+            <p className="mt-2 text-slate-500 text-sm">Last Updated: February 12, 2026</p>
           </div>
 
           {/* Content Card */}
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 sm:p-10 prose prose-gray prose-headings:text-gray-900 prose-a:text-indigo-600 max-w-none">
+          <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 sm:p-10 prose prose-gray prose-headings:text-slate-900 prose-a:text-blue-600 max-w-none">
 
             <h2 className="text-2xl font-bold mt-0">1. General Disclaimer</h2>
             <p>
@@ -38,7 +38,7 @@ export default function Disclaimer() {
               Any reliance you place on the output of our tools is <strong>strictly at your own risk</strong>.
             </p>
 
-            <hr className="my-8 border-gray-200" />
+            <hr className="my-8 border-slate-200" />
 
             <h2 className="text-2xl font-bold">2. Financial Tools Disclaimer</h2>
             <div className="bg-red-50 border border-red-200 rounded-xl p-4 my-4">
@@ -71,7 +71,7 @@ export default function Disclaimer() {
               </li>
             </ul>
 
-            <hr className="my-8 border-gray-200" />
+            <hr className="my-8 border-slate-200" />
 
             <h2 className="text-2xl font-bold">3. Technical &amp; Developer Tools Disclaimer</h2>
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 my-4">
@@ -99,11 +99,11 @@ export default function Disclaimer() {
               </li>
             </ul>
 
-            <hr className="my-8 border-gray-200" />
+            <hr className="my-8 border-slate-200" />
 
             <h2 className="text-2xl font-bold">4. &ldquo;As-Is&rdquo; Clause</h2>
-            <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 my-4">
-              <p className="text-gray-700 text-sm mb-0">
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 my-4">
+              <p className="text-slate-700 text-sm mb-0">
                 All tools, content, and services on Toolisk are provided <strong>&ldquo;as is&rdquo;</strong> and
                 <strong> &ldquo;as available&rdquo;</strong> without warranties of any kind, either express or implied,
                 including but not limited to implied warranties of merchantability, fitness for a particular purpose,
@@ -117,7 +117,7 @@ export default function Disclaimer() {
               to use our tools and services, even if advised of the possibility of such damages.
             </p>
 
-            <hr className="my-8 border-gray-200" />
+            <hr className="my-8 border-slate-200" />
 
             <h2 className="text-2xl font-bold">5. External Links</h2>
             <p>
@@ -126,7 +126,7 @@ export default function Disclaimer() {
               of any link does not imply endorsement by Toolisk.
             </p>
 
-            <hr className="my-8 border-gray-200" />
+            <hr className="my-8 border-slate-200" />
 
             <h2 className="text-2xl font-bold">6. Changes to This Disclaimer</h2>
             <p>

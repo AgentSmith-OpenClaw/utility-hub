@@ -355,10 +355,10 @@ const EMICalculator: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-3 px-4">
       <article className="max-w-7xl mx-auto" itemScope itemType="https://schema.org/WebApplication">
         <header className="text-center mb-4" id="calculator">
-          <h1 className="text-3xl font-bold text-gray-900 mb-1" itemProp="name">
+          <h1 className="text-3xl font-bold text-slate-900 mb-1" itemProp="name">
             EMI Calculator for Home Loan, Car Loan & Personal Loan
           </h1>
-          <p className="text-sm text-gray-600" itemProp="description">
+          <p className="text-sm text-slate-600" itemProp="description">
             Free Advanced Loan EMI Calculator with Prepayment Impact Analysis — Reduce EMI vs Reduce Tenure Comparison
           </p>
           <meta itemProp="applicationCategory" content="FinanceApplication" />
@@ -369,7 +369,7 @@ const EMICalculator: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Loan Details - Compact */}
           <div className="bg-white rounded-xl shadow-lg p-6">
-            <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+            <h2 className="text-xl font-bold text-slate-800 mb-4 flex items-center">
               <span className="bg-blue-100 text-blue-600 rounded-full w-7 h-7 flex items-center justify-center mr-2 text-sm">1</span>
               Loan Details
             </h2>
@@ -387,23 +387,23 @@ const EMICalculator: React.FC = () => {
 
             <div className="grid grid-cols-3 gap-4 mb-4">
               <div>
-                <label className="block text-gray-700 font-semibold mb-1 text-sm">
+                <label className="block text-slate-700 font-semibold mb-1 text-sm">
                   Loan Amount (₹)
                 </label>
                 <input
                   type="number"
                   value={loanAmount}
                   onChange={(e) => setLoanAmount(e.target.value)}
-                  className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition text-sm"
+                  className="w-full px-3 py-2 border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition text-sm"
                   placeholder="5000000"
                 />
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-slate-500 mt-1">
                   ₹{parseFloat(loanAmount || '0').toLocaleString('en-IN')}
                 </p>
               </div>
 
               <div>
-                <label className="block text-gray-700 font-semibold mb-1 text-sm">
+                <label className="block text-slate-700 font-semibold mb-1 text-sm">
                   Interest Rate (%)
                 </label>
                 <input
@@ -411,20 +411,20 @@ const EMICalculator: React.FC = () => {
                   step="0.1"
                   value={annualRate}
                   onChange={(e) => setAnnualRate(e.target.value)}
-                  className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition text-sm"
+                  className="w-full px-3 py-2 border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition text-sm"
                   placeholder="8.5"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-700 font-semibold mb-1 text-sm">
+                <label className="block text-slate-700 font-semibold mb-1 text-sm">
                   Tenure (Years)
                 </label>
                 <input
                   type="number"
                   value={tenureYears}
                   onChange={(e) => setTenureYears(e.target.value)}
-                  className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition text-sm"
+                  className="w-full px-3 py-2 border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition text-sm"
                   placeholder="20"
                 />
               </div>
@@ -439,7 +439,7 @@ const EMICalculator: React.FC = () => {
               </button>
               <button
                 onClick={handleReset}
-                className="px-4 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2.5 rounded-lg transition duration-200 text-sm"
+                className="px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2.5 rounded-lg transition duration-200 text-sm"
               >
                 ↺ Reset
               </button>
@@ -448,13 +448,13 @@ const EMICalculator: React.FC = () => {
 
           {/* Prepayments - Compact */}
           <section className="bg-white rounded-xl shadow-lg p-6" id="prepayment-calculator">
-            <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+            <h2 className="text-xl font-bold text-slate-800 mb-4 flex items-center">
               <span className="bg-green-100 text-green-600 rounded-full w-7 h-7 flex items-center justify-center mr-2 text-sm">2</span>
               Loan Prepayment Calculator
             </h2>
 
             <div className="mb-3">
-              <label className="block text-gray-700 font-semibold mb-2 text-sm">Frequency</label>
+              <label className="block text-slate-700 font-semibold mb-2 text-sm">Frequency</label>
               <div className="grid grid-cols-4 gap-2">
                 {(['one-time', 'monthly', 'quarterly', 'yearly'] as const).map((freq) => (
                   <button
@@ -463,7 +463,7 @@ const EMICalculator: React.FC = () => {
                     className={`px-2 py-1.5 rounded-lg text-xs font-semibold transition ${
                       prepaymentFrequency === freq
                         ? 'bg-green-600 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                     }`}
                   >
                     {freq === 'one-time' ? 'One-time' : freq.charAt(0).toUpperCase() + freq.slice(1)}
@@ -473,14 +473,14 @@ const EMICalculator: React.FC = () => {
             </div>
 
             <div className="mb-3">
-              <label className="block text-gray-700 font-semibold mb-2 text-sm">Strategy</label>
+              <label className="block text-slate-700 font-semibold mb-2 text-sm">Strategy</label>
               <div className="grid grid-cols-2 gap-2">
                 <button
                   onClick={() => setPrepaymentStrategy('reduce-tenure')}
                   className={`px-3 py-2 rounded-lg text-xs font-semibold transition ${
                     prepaymentStrategy === 'reduce-tenure'
                       ? 'bg-indigo-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
                 >
                   🎯 Reduce Tenure
@@ -490,7 +490,7 @@ const EMICalculator: React.FC = () => {
                   className={`px-3 py-2 rounded-lg text-xs font-semibold transition ${
                     prepaymentStrategy === 'reduce-emi'
                       ? 'bg-indigo-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
                 >
                   💰 Reduce EMI
@@ -501,24 +501,24 @@ const EMICalculator: React.FC = () => {
             <div className="grid grid-cols-3 gap-3 mb-3">
               {prepaymentFrequency === 'one-time' ? (
                 <div>
-                  <label className="block text-gray-700 font-semibold mb-1 text-xs">Month #</label>
+                  <label className="block text-slate-700 font-semibold mb-1 text-xs">Month #</label>
                   <input
                     type="number"
                     value={newPrepaymentMonth}
                     onChange={(e) => setNewPrepaymentMonth(e.target.value)}
-                    className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition text-sm"
+                    className="w-full px-3 py-2 border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition text-sm"
                     placeholder="12"
                     min="1"
                   />
                 </div>
               ) : (
                 <div>
-                  <label className="block text-gray-700 font-semibold mb-1 text-xs">Start Month</label>
+                  <label className="block text-slate-700 font-semibold mb-1 text-xs">Start Month</label>
                   <input
                     type="number"
                     value={prepaymentStartMonth}
                     onChange={(e) => setPrepaymentStartMonth(e.target.value)}
-                    className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition text-sm"
+                    className="w-full px-3 py-2 border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition text-sm"
                     placeholder="12"
                     min="1"
                   />
@@ -526,12 +526,12 @@ const EMICalculator: React.FC = () => {
               )}
 
               <div>
-                <label className="block text-gray-700 font-semibold mb-1 text-xs">Amount (₹)</label>
+                <label className="block text-slate-700 font-semibold mb-1 text-xs">Amount (₹)</label>
                 <input
                   type="number"
                   value={newPrepaymentAmount}
                   onChange={(e) => setNewPrepaymentAmount(e.target.value)}
-                  className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition text-sm"
+                  className="w-full px-3 py-2 border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition text-sm"
                   placeholder="50000"
                   min="0"
                 />
@@ -549,15 +549,15 @@ const EMICalculator: React.FC = () => {
 
             {prepayments.length > 0 && (
               <div className="max-h-32 overflow-y-auto">
-                <p className="text-xs font-semibold text-gray-700 mb-2">Scheduled ({prepayments.length}):</p>
+                <p className="text-xs font-semibold text-slate-700 mb-2">Scheduled ({prepayments.length}):</p>
                 <div className="space-y-1">
                   {prepayments.slice(0, 3).map((prep) => (
                     <div key={prep.id} className="flex items-center justify-between bg-green-50 p-2 rounded-lg border border-green-200 text-xs">
                       <div className="flex-1">
-                        <span className="font-semibold text-gray-800">
+                        <span className="font-semibold text-slate-800">
                           M{prep.month}: ₹{prep.amount.toLocaleString('en-IN')}
                         </span>
-                        <span className="ml-2 text-gray-600 text-xs">
+                        <span className="ml-2 text-slate-600 text-xs">
                           {prep.strategy === 'reduce-tenure' ? '🎯' : '💰'}
                         </span>
                       </div>
@@ -570,7 +570,7 @@ const EMICalculator: React.FC = () => {
                     </div>
                   ))}
                   {prepayments.length > 3 && (
-                    <p className="text-xs text-gray-500 text-center">+{prepayments.length - 3} more</p>
+                    <p className="text-xs text-slate-500 text-center">+{prepayments.length - 3} more</p>
                   )}
                 </div>
               </div>
@@ -598,11 +598,11 @@ const EMICalculator: React.FC = () => {
                 <p className="text-3xl font-bold">₹{summary.totalAmount.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
               </div>
               
-              <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl shadow-lg p-4 text-white">
-                <p className="text-orange-100 mb-1 text-xs font-semibold">Interest Saved</p>
+              <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-lg p-4 text-white">
+                <p className="text-blue-100 mb-1 text-xs font-semibold">Interest Saved</p>
                 <p className="text-3xl font-bold">₹{summary.interestSaved.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
                 {summary.interestSaved > 0 && (
-                  <p className="text-orange-100 text-xs mt-1">
+                  <p className="text-blue-100 text-xs mt-1">
                     Loan done in {summary.actualTenure} months (saved {(parseInt(tenureYears) * 12) - summary.actualTenure})
                   </p>
                 )}
@@ -761,7 +761,7 @@ const EMICalculator: React.FC = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
                   {/* Pie Chart */}
                   <div className="bg-white rounded-xl shadow-lg p-4">
-                    <h3 className="text-lg font-bold text-gray-800 mb-3">Loan Breakdown</h3>
+                    <h3 className="text-lg font-bold text-slate-800 mb-3">Loan Breakdown</h3>
                     <div className="h-48">
                       <Doughnut 
                         data={chartData.pieChart}
@@ -790,7 +790,7 @@ const EMICalculator: React.FC = () => {
 
                   {/* Balance Chart */}
                   <div className="bg-white rounded-xl shadow-lg p-4 lg:col-span-2">
-                    <h3 className="text-lg font-bold text-gray-800 mb-3">Outstanding Balance</h3>
+                    <h3 className="text-lg font-bold text-slate-800 mb-3">Outstanding Balance</h3>
                     <div className="h-48">
                       <Line 
                         data={chartData.lineChart}
@@ -827,7 +827,7 @@ const EMICalculator: React.FC = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                   {/* Stacked Area Chart */}
                   <div className="bg-white rounded-xl shadow-lg p-4">
-                    <h3 className="text-lg font-bold text-gray-800 mb-3">Principal vs Interest</h3>
+                    <h3 className="text-lg font-bold text-slate-800 mb-3">Principal vs Interest</h3>
                     <div className="h-64">
                       <Line 
                         data={chartData.stackedLineChart}
@@ -865,7 +865,7 @@ const EMICalculator: React.FC = () => {
 
                   {/* Bar Chart */}
                   <div className="bg-white rounded-xl shadow-lg p-4">
-                    <h3 className="text-lg font-bold text-gray-800 mb-3">Yearly Payment Breakdown</h3>
+                    <h3 className="text-lg font-bold text-slate-800 mb-3">Yearly Payment Breakdown</h3>
                     <div className="h-64">
                       <Bar 
                         data={chartData.barChart}
@@ -904,7 +904,7 @@ const EMICalculator: React.FC = () => {
 
                 {/* Cumulative Chart */}
                 <div className="bg-white rounded-xl shadow-lg p-4 mb-6">
-                  <h3 className="text-lg font-bold text-gray-800 mb-3">Cumulative Payment Analysis</h3>
+                  <h3 className="text-lg font-bold text-slate-800 mb-3">Cumulative Payment Analysis</h3>
                   <div className="h-64">
                     <Line 
                       data={chartData.cumulativeChart}
@@ -942,7 +942,7 @@ const EMICalculator: React.FC = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                   {/* Year-wise Interest Breakdown */}
                   <div className="bg-white rounded-xl shadow-lg p-4">
-                    <h3 className="text-lg font-bold text-gray-800 mb-3">Interest Paid Per Year</h3>
+                    <h3 className="text-lg font-bold text-slate-800 mb-3">Interest Paid Per Year</h3>
                     <div className="h-64">
                       <Line 
                         data={(() => {
@@ -997,7 +997,7 @@ const EMICalculator: React.FC = () => {
 
                   {/* Monthly Payment Composition */}
                   <div className="bg-white rounded-xl shadow-lg p-4">
-                    <h3 className="text-lg font-bold text-gray-800 mb-3">Payment Composition Over Time</h3>
+                    <h3 className="text-lg font-bold text-slate-800 mb-3">Payment Composition Over Time</h3>
                     <div className="h-64">
                       <Line 
                         data={(() => {
@@ -1063,7 +1063,7 @@ const EMICalculator: React.FC = () => {
                 {/* Prepayment Impact Visualization */}
                 {prepayments.length > 0 && (
                   <div className="bg-white rounded-xl shadow-lg p-4 mb-6">
-                    <h3 className="text-lg font-bold text-gray-800 mb-3">Prepayment Timeline Impact</h3>
+                    <h3 className="text-lg font-bold text-slate-800 mb-3">Prepayment Timeline Impact</h3>
                     <div className="h-64">
                       <Bar 
                         data={{
@@ -1125,27 +1125,27 @@ const EMICalculator: React.FC = () => {
 
             {/* Compact Amortization Table */}
             <div className="bg-white rounded-xl shadow-lg p-4">
-              <h2 className="text-xl font-bold text-gray-800 mb-4">Payment Schedule (First 12 Months)</h2>
+              <h2 className="text-xl font-bold text-slate-800 mb-4">Payment Schedule (First 12 Months)</h2>
               <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200 text-sm">
+                <table className="min-w-full divide-y divide-slate-200 text-sm">
                   <thead className="bg-gradient-to-r from-gray-50 to-gray-100">
                     <tr>
-                      <th className="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase">Month</th>
-                      <th className="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase">EMI</th>
-                      <th className="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase">Principal</th>
-                      <th className="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase">Interest</th>
-                      <th className="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase">Prepay</th>
-                      <th className="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase">Balance</th>
+                      <th className="px-4 py-3 text-left text-xs font-bold text-slate-600 uppercase">Month</th>
+                      <th className="px-4 py-3 text-left text-xs font-bold text-slate-600 uppercase">EMI</th>
+                      <th className="px-4 py-3 text-left text-xs font-bold text-slate-600 uppercase">Principal</th>
+                      <th className="px-4 py-3 text-left text-xs font-bold text-slate-600 uppercase">Interest</th>
+                      <th className="px-4 py-3 text-left text-xs font-bold text-slate-600 uppercase">Prepay</th>
+                      <th className="px-4 py-3 text-left text-xs font-bold text-slate-600 uppercase">Balance</th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
+                  <tbody className="bg-white divide-y divide-slate-200">
                     {schedule.slice(0, 12).map((payment) => (
                       <tr 
                         key={payment.month} 
                         className={`hover:bg-blue-50 transition ${payment.prepaymentAmount ? 'bg-green-50' : ''}`}
                       >
-                        <td className="px-4 py-2 whitespace-nowrap font-semibold text-gray-900">{payment.month}</td>
-                        <td className="px-4 py-2 whitespace-nowrap text-gray-900">
+                        <td className="px-4 py-2 whitespace-nowrap font-semibold text-slate-900">{payment.month}</td>
+                        <td className="px-4 py-2 whitespace-nowrap text-slate-900">
                           ₹{(payment.principal + payment.interest).toLocaleString('en-IN', { maximumFractionDigits: 0 })}
                         </td>
                         <td className="px-4 py-2 whitespace-nowrap text-green-600 font-semibold">
@@ -1157,15 +1157,15 @@ const EMICalculator: React.FC = () => {
                         <td className="px-4 py-2 whitespace-nowrap font-bold text-green-700">
                           {payment.prepaymentAmount ? `₹${payment.prepaymentAmount.toLocaleString('en-IN', { maximumFractionDigits: 0 })}` : '-'}
                         </td>
-                        <td className="px-4 py-2 whitespace-nowrap text-gray-900 font-semibold">
+                        <td className="px-4 py-2 whitespace-nowrap text-slate-900 font-semibold">
                           ₹{payment.remainingBalance.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
-                <div className="text-center py-4 border-t border-gray-200">
-                  <p className="text-gray-600 text-sm">
+                <div className="text-center py-4 border-t border-slate-200">
+                  <p className="text-slate-600 text-sm">
                     Showing first 12 months of {schedule.length} total months
                   </p>
                 </div>
@@ -1199,7 +1199,7 @@ const EMICalculator: React.FC = () => {
               </div>
               <div className="p-6 overflow-y-auto max-h-[calc(80vh-100px)]">
                 {history.length === 0 ? (
-                  <div className="text-center py-12 text-gray-500">
+                  <div className="text-center py-12 text-slate-500">
                     <p className="text-lg">No calculation history yet</p>
                     <p className="text-sm mt-2">Your calculations will appear here</p>
                   </div>
@@ -1209,11 +1209,11 @@ const EMICalculator: React.FC = () => {
                       <div
                         key={item.id}
                         onClick={() => handleLoadHistory(item)}
-                        className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg p-4 border-2 border-gray-200 hover:border-indigo-400 cursor-pointer transition shadow-sm hover:shadow-md"
+                        className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg p-4 border-2 border-slate-200 hover:border-indigo-400 cursor-pointer transition shadow-sm hover:shadow-md"
                       >
                         <div className="flex justify-between items-start mb-3">
                           <div>
-                            <p className="text-xs text-gray-500 mb-1">
+                            <p className="text-xs text-slate-500 mb-1">
                               {new Date(item.timestamp).toLocaleString('en-US', {
                                 year: 'numeric',
                                 month: 'short',
@@ -1222,7 +1222,7 @@ const EMICalculator: React.FC = () => {
                                 minute: '2-digit'
                               })}
                             </p>
-                            <p className="text-lg font-bold text-gray-800">
+                            <p className="text-lg font-bold text-slate-800">
                               ₹{item.loanAmount.toLocaleString('en-IN')} @ {item.annualRate}% for {item.tenureYears} years
                             </p>
                           </div>
@@ -1232,19 +1232,19 @@ const EMICalculator: React.FC = () => {
                         </div>
                         <div className="grid grid-cols-4 gap-4 text-sm">
                           <div>
-                            <p className="text-gray-600 text-xs">Monthly EMI</p>
+                            <p className="text-slate-600 text-xs">Monthly EMI</p>
                             <p className="font-bold text-blue-600">₹{item.emi.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
                           </div>
                           <div>
-                            <p className="text-gray-600 text-xs">Total Interest</p>
+                            <p className="text-slate-600 text-xs">Total Interest</p>
                             <p className="font-bold text-orange-600">₹{item.totalInterest.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
                           </div>
                           <div>
-                            <p className="text-gray-600 text-xs">Interest Saved</p>
+                            <p className="text-slate-600 text-xs">Interest Saved</p>
                             <p className="font-bold text-green-600">₹{item.interestSaved.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
                           </div>
                           <div>
-                            <p className="text-gray-600 text-xs">Actual Tenure</p>
+                            <p className="text-slate-600 text-xs">Actual Tenure</p>
                             <p className="font-bold text-purple-600">{Math.floor(item.actualTenure / 12)}y {item.actualTenure % 12}m</p>
                           </div>
                         </div>
@@ -1274,25 +1274,25 @@ const EMICalculator: React.FC = () => {
 
         {/* SEO Content Section: What is EMI */}
         <section className="bg-white rounded-xl shadow-lg p-6 mb-6" id="what-is-emi">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">What is EMI?</h2>
-          <p className="text-gray-700 leading-relaxed mb-4">
+          <h2 className="text-2xl font-bold text-slate-800 mb-4">What is EMI?</h2>
+          <p className="text-slate-700 leading-relaxed mb-4">
             <strong>EMI (Equated Monthly Installment)</strong> is the fixed amount you pay every month to the bank or financial institution until the loan is fully repaid. 
             It consists of two components — the <strong>principal repayment</strong> and the <strong>interest payment</strong>. During the initial months of your loan, 
             a larger portion of your EMI goes towards paying interest. As time progresses, more of your EMI is applied towards the principal.
           </p>
           
-          <h3 className="text-lg font-bold text-gray-800 mb-3">EMI Calculation Formula</h3>
+          <h3 className="text-lg font-bold text-slate-800 mb-3">EMI Calculation Formula</h3>
           <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg mb-4">
-            <p className="text-gray-800 font-mono text-sm mb-2">
+            <p className="text-slate-800 font-mono text-sm mb-2">
               <strong>EMI = P × r × (1 + r)<sup>n</sup> / ((1 + r)<sup>n</sup> - 1)</strong>
             </p>
-            <ul className="text-gray-700 text-sm space-y-1 mt-3">
+            <ul className="text-slate-700 text-sm space-y-1 mt-3">
               <li>• <strong>P</strong> = Principal Loan Amount (e.g., ₹50,00,000 for home loan)</li>
               <li>• <strong>r</strong> = Monthly Interest Rate = Annual Rate / 12 / 100 (e.g., 8.5% → 0.00708)</li>
               <li>• <strong>n</strong> = Loan Tenure in Months (e.g., 20 years = 240 months)</li>
             </ul>
           </div>
-          <p className="text-gray-700 leading-relaxed">
+          <p className="text-slate-700 leading-relaxed">
             For example, if you borrow <strong>₹50,00,000</strong> at <strong>8.5% annual interest</strong> for <strong>20 years (240 months)</strong>, 
             your monthly EMI would be approximately <strong>₹43,391</strong>. The total amount payable over the loan lifetime would be ₹1,04,13,842, 
             which includes ₹54,13,842 as interest.
@@ -1301,8 +1301,8 @@ const EMICalculator: React.FC = () => {
 
         {/* SEO Content Section: Reduce EMI vs Reduce Tenure */}
         <section className="bg-white rounded-xl shadow-lg p-6 mb-6" id="reduce-emi-vs-reduce-tenure">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Reduce EMI vs Reduce Tenure — Which Prepayment Strategy Should You Choose?</h2>
-          <p className="text-gray-700 leading-relaxed mb-4">
+          <h2 className="text-2xl font-bold text-slate-800 mb-4">Reduce EMI vs Reduce Tenure — Which Prepayment Strategy Should You Choose?</h2>
+          <p className="text-slate-700 leading-relaxed mb-4">
             When you make a <strong>prepayment (part-payment)</strong> on your loan, banks typically offer two options for adjusting your loan. 
             Understanding the difference is crucial as it can save you lakhs of rupees in interest.
           </p>
@@ -1310,10 +1310,10 @@ const EMICalculator: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div className="bg-indigo-50 rounded-xl p-5 border-2 border-indigo-200">
               <h3 className="text-lg font-bold text-indigo-800 mb-3">🎯 Reduce Tenure Strategy</h3>
-              <p className="text-gray-700 text-sm leading-relaxed mb-3">
+              <p className="text-slate-700 text-sm leading-relaxed mb-3">
                 Your monthly EMI <strong>stays the same</strong>, but the loan duration <strong>decreases</strong>. This means you become debt-free faster.
               </p>
-              <ul className="text-sm text-gray-700 space-y-2">
+              <ul className="text-sm text-slate-700 space-y-2">
                 <li className="flex items-start"><span className="text-green-600 mr-2 flex-shrink-0">✅</span> <span><strong>Maximum interest savings</strong> over loan lifetime</span></li>
                 <li className="flex items-start"><span className="text-green-600 mr-2 flex-shrink-0">✅</span> <span>Become <strong>debt-free years earlier</strong></span></li>
                 <li className="flex items-start"><span className="text-green-600 mr-2 flex-shrink-0">✅</span> <span>Requires consistent <strong>prepayment discipline</strong></span></li>
@@ -1323,10 +1323,10 @@ const EMICalculator: React.FC = () => {
             
             <div className="bg-green-50 rounded-xl p-5 border-2 border-green-200">
               <h3 className="text-lg font-bold text-green-800 mb-3">💰 Reduce EMI Strategy</h3>
-              <p className="text-gray-700 text-sm leading-relaxed mb-3">
+              <p className="text-slate-700 text-sm leading-relaxed mb-3">
                 Your loan tenure <strong>stays the same</strong>, but your monthly EMI <strong>decreases</strong> after the prepayment.
               </p>
-              <ul className="text-sm text-gray-700 space-y-2">
+              <ul className="text-sm text-slate-700 space-y-2">
                 <li className="flex items-start"><span className="text-green-600 mr-2 flex-shrink-0">✅</span> <span><strong>Immediate cash flow relief</strong></span></li>
                 <li className="flex items-start"><span className="text-green-600 mr-2 flex-shrink-0">✅</span> <span><strong>Lower monthly</strong> financial burden</span></li>
                 <li className="flex items-start"><span className="text-green-600 mr-2 flex-shrink-0">✅</span> <span>Good when expecting <strong>future expenses</strong></span></li>
@@ -1336,13 +1336,13 @@ const EMICalculator: React.FC = () => {
           </div>
 
           <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
-            <p className="text-gray-800 text-sm font-semibold mb-2">
+            <p className="text-slate-800 text-sm font-semibold mb-2">
               💡 How to Choose: Your decision should be based on <strong>your prepayment discipline and financial situation</strong>, not a one-size-fits-all recommendation.
             </p>
 
-            <p className="text-gray-700 text-sm mb-3">Here are practical points to consider before you pick a strategy:</p>
+            <p className="text-slate-700 text-sm mb-3">Here are practical points to consider before you pick a strategy:</p>
 
-            <ul className="list-disc list-inside text-sm text-gray-700 space-y-2 mb-3">
+            <ul className="list-disc list-inside text-sm text-slate-700 space-y-2 mb-3">
               <li><strong>Consistency:</strong> If you can commit to regular prepayments (monthly or quarterly), <strong>Reduce EMI</strong> delivers both immediate cash-flow relief and long-term principal reduction.</li>
               <li><strong>Cashflow needs:</strong> If you need breathing room today for other goals (emergency fund, education), <strong>Reduce EMI</strong> lowers your monthly burden right away.</li>
               <li><strong>One-off surplus:</strong> If you expect an occasional large lump sum (bonus, inheritance), <strong>Reduce Tenure</strong> gives the maximum interest saving for that single payment.</li>
@@ -1353,31 +1353,31 @@ const EMICalculator: React.FC = () => {
 
             <div className="grid md:grid-cols-2 gap-4 mb-3">
               <div className="bg-white p-3 rounded border">
-                <h4 className="font-semibold text-gray-800 mb-2">When Reduce EMI shines</h4>
-                <p className="text-gray-700 text-sm mb-2">If you regularly prepay and want lower monthly payments now, <strong>Reduce EMI</strong> has a powerful two‑pronged effect — it immediately reduces your EMI for better cash flow, and regular prepayments help chip away at principal so your loan ends earlier.</p>
-                <ul className="text-sm text-gray-700 list-disc list-inside space-y-1">
+                <h4 className="font-semibold text-slate-800 mb-2">When Reduce EMI shines</h4>
+                <p className="text-slate-700 text-sm mb-2">If you regularly prepay and want lower monthly payments now, <strong>Reduce EMI</strong> has a powerful two‑pronged effect — it immediately reduces your EMI for better cash flow, and regular prepayments help chip away at principal so your loan ends earlier.</p>
+                <ul className="text-sm text-slate-700 list-disc list-inside space-y-1">
                   <li>Dual benefit: lower EMI today + steadily shrinking principal</li>
                   <li>Better for disciplined savers who prefer improved monthly cashflow</li>
                   <li>Works well with predictable surplus (salary increments, systematic savings)</li>
                 </ul>
-                <p className="text-sm text-gray-600 mt-2">Suggestion: Model monthly small prepayments to see how your EMI and tenure change together.</p>
+                <p className="text-sm text-slate-600 mt-2">Suggestion: Model monthly small prepayments to see how your EMI and tenure change together.</p>
               </div>
 
               <div className="bg-white p-3 rounded border">
-                <h4 className="font-semibold text-gray-800 mb-2">When Reduce Tenure is better</h4>
-                <p className="text-gray-700 text-sm mb-2">If you cannot guarantee regular prepayments but occasionally have a lump sum to spare, <strong>Reduce Tenure</strong> often gives the largest interest saving for that one payment because it shortens the total number of EMIs.</p>
-                <ul className="text-sm text-gray-700 list-disc list-inside space-y-1">
+                <h4 className="font-semibold text-slate-800 mb-2">When Reduce Tenure is better</h4>
+                <p className="text-slate-700 text-sm mb-2">If you cannot guarantee regular prepayments but occasionally have a lump sum to spare, <strong>Reduce Tenure</strong> often gives the largest interest saving for that one payment because it shortens the total number of EMIs.</p>
+                <ul className="text-sm text-slate-700 list-disc list-inside space-y-1">
                   <li>Best for one-off windfalls (bonus, gift)</li>
                   <li>Maximizes total interest saved for isolated prepayments</li>
                   <li>Good fallback if you worry about sticking to a schedule</li>
                 </ul>
-                <p className="text-sm text-gray-600 mt-2">Suggestion: If unsure about discipline, model both strategies here and compare total interest and monthly impact.</p>
+                <p className="text-sm text-slate-600 mt-2">Suggestion: If unsure about discipline, model both strategies here and compare total interest and monthly impact.</p>
               </div>
             </div>
 
-            <p className="text-gray-700 text-sm">Quick checklist: Are your surplus flows regular? Do you value lower monthly payments today? Do you expect a lump sum in the near future? Use this checklist to guide your choice.</p>
+            <p className="text-slate-700 text-sm">Quick checklist: Are your surplus flows regular? Do you value lower monthly payments today? Do you expect a lump sum in the near future? Use this checklist to guide your choice.</p>
 
-            <p className="text-sm text-gray-600 mt-3">Friendly tip: There's no permanent right answer — you can mix strategies over time. Start with the option that fits your behavior today, re-evaluate annually, and use this calculator to preview both outcomes before you act.</p>
+            <p className="text-sm text-slate-600 mt-3">Friendly tip: There's no permanent right answer — you can mix strategies over time. Start with the option that fits your behavior today, re-evaluate annually, and use this calculator to preview both outcomes before you act.</p>
           </div>
         </section>
 
@@ -1388,29 +1388,29 @@ const EMICalculator: React.FC = () => {
 
         {/* SEO Content: How to Use */}
         <section className="bg-white rounded-xl shadow-lg p-6 mb-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">How to Use This EMI Calculator</h2>
+          <h2 className="text-2xl font-bold text-slate-800 mb-4">How to Use This EMI Calculator</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
               <div className="bg-blue-100 text-blue-600 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 text-xl font-bold">1</div>
-              <h3 className="font-bold text-gray-800 mb-2">Enter Loan Details</h3>
-              <p className="text-gray-600 text-sm">Input your loan amount, interest rate, and tenure. Works for home loan, car loan, personal loan, or any EMI-based loan.</p>
+              <h3 className="font-bold text-slate-800 mb-2">Enter Loan Details</h3>
+              <p className="text-slate-600 text-sm">Input your loan amount, interest rate, and tenure. Works for home loan, car loan, personal loan, or any EMI-based loan.</p>
             </div>
             <div className="text-center">
               <div className="bg-green-100 text-green-600 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 text-xl font-bold">2</div>
-              <h3 className="font-bold text-gray-800 mb-2">Add Prepayments (Optional)</h3>
-              <p className="text-gray-600 text-sm">Choose one-time, monthly, quarterly, or yearly prepayments. Select Reduce Tenure or Reduce EMI strategy for each.</p>
+              <h3 className="font-bold text-slate-800 mb-2">Add Prepayments (Optional)</h3>
+              <p className="text-slate-600 text-sm">Choose one-time, monthly, quarterly, or yearly prepayments. Select Reduce Tenure or Reduce EMI strategy for each.</p>
             </div>
             <div className="text-center">
               <div className="bg-purple-100 text-purple-600 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 text-xl font-bold">3</div>
-              <h3 className="font-bold text-gray-800 mb-2">Analyze Results</h3>
-              <p className="text-gray-600 text-sm">View 8 interactive charts, prepayment impact analysis, interest savings breakdown, and download the full amortization schedule.</p>
+              <h3 className="font-bold text-slate-800 mb-2">Analyze Results</h3>
+              <p className="text-slate-600 text-sm">View 8 interactive charts, prepayment impact analysis, interest savings breakdown, and download the full amortization schedule.</p>
             </div>
           </div>
         </section>
 
         {/* FAQ Section - SEO Gold Mine */}
         <section className="bg-white rounded-xl shadow-lg p-6 mb-6" id="faq" itemScope itemType="https://schema.org/FAQPage">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Frequently Asked Questions about EMI & Loan Prepayment</h2>
+          <h2 className="text-2xl font-bold text-slate-800 mb-6">Frequently Asked Questions about EMI & Loan Prepayment</h2>
           
           {[
             {
@@ -1452,14 +1452,14 @@ const EMICalculator: React.FC = () => {
           ].map((faq, index) => (
             <div
               key={index}
-              className="border-b border-gray-200 last:border-0 py-4"
+              className="border-b border-slate-200 last:border-0 py-4"
               itemScope
               itemProp="mainEntity"
               itemType="https://schema.org/Question"
             >
-              <h3 className="text-lg font-semibold text-gray-800 mb-2" itemProp="name">{faq.q}</h3>
+              <h3 className="text-lg font-semibold text-slate-800 mb-2" itemProp="name">{faq.q}</h3>
               <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
-                <p className="text-gray-600 leading-relaxed text-sm" itemProp="text">{faq.a}</p>
+                <p className="text-slate-600 leading-relaxed text-sm" itemProp="text">{faq.a}</p>
               </div>
             </div>
           ))}
@@ -1470,10 +1470,10 @@ const EMICalculator: React.FC = () => {
           <AdSlot slotId="bottom-banner" format="horizontal" label="Bottom Banner Ad" />
         </div>
 
-        <footer className="text-center mt-8 mb-4 text-gray-500 text-sm">
+        <footer className="text-center mt-8 mb-4 text-slate-500 text-sm">
           <p className="font-semibold">EMI Calculator Pro — India's Most Advanced Free Loan Calculator</p>
           <p className="mt-1 text-xs">Calculate EMI for Home Loan, Car Loan & Personal Loan • Compare Reduce EMI vs Reduce Tenure • Advanced Prepayment Analysis</p>
-          <p className="mt-2 text-xs text-gray-400">
+          <p className="mt-2 text-xs text-slate-400">
             Results are estimates based on the inputs provided. Actual EMI may vary based on bank processing fees, insurance, and other charges. 
             Consult a financial advisor before making loan decisions.
           </p>
@@ -1483,7 +1483,7 @@ const EMICalculator: React.FC = () => {
             <a href="#reduce-emi-vs-reduce-tenure" className="text-blue-600 hover:underline">Reduce EMI vs Tenure</a>
             <a href="#faq" className="text-blue-600 hover:underline">FAQ</a>
           </nav>
-          <p className="mt-3 text-xs text-gray-400">© {new Date().getFullYear()} EMI Calculator Pro. All rights reserved.</p>
+          <p className="mt-3 text-xs text-slate-400">© {new Date().getFullYear()} EMI Calculator Pro. All rights reserved.</p>
         </footer>
       </article>
     </div>

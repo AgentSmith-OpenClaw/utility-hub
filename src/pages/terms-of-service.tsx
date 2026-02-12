@@ -20,12 +20,12 @@ export default function TermsOfService() {
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-100 text-2xl mb-4">
               📜
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">Terms of Service</h1>
-            <p className="mt-2 text-gray-500 text-sm">Effective Date: February 12, 2026 · Last Updated: February 12, 2026</p>
+            <h1 className="text-3xl sm:text-4xl font-bold text-slate-900">Terms of Service</h1>
+            <p className="mt-2 text-slate-500 text-sm">Effective Date: February 12, 2026 · Last Updated: February 12, 2026</p>
           </div>
 
           {/* Content Card */}
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 sm:p-10 prose prose-gray prose-headings:text-gray-900 prose-a:text-indigo-600 max-w-none">
+          <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 sm:p-10 prose prose-gray prose-headings:text-slate-900 prose-a:text-blue-600 max-w-none">
 
             <h2 className="text-2xl font-bold mt-0">1. Acceptance of Terms</h2>
             <p>
@@ -60,7 +60,7 @@ export default function TermsOfService() {
             </ul>
 
             <h2 className="text-2xl font-bold">4. Fair Use &amp; Anti-Scraping Policy</h2>
-            <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-4 my-4">
+            <div className="bg-blue-50 border border-indigo-200 rounded-xl p-4 my-4">
               <p className="text-indigo-800 font-medium mb-2">🤖 Automated Access Prohibited</p>
               <div className="text-indigo-700 text-sm">
                 <p>

@@ -4,7 +4,8 @@ const footerSections = [
   {
     title: 'Tools',
     links: [
-      { label: 'EMI Calculator', href: '/emi-calculator' },
+      { label: 'EMI Calculator', href: '/finance/emi-calculator' },
+      { label: 'FIRE Calculator', href: '/finance/fire-calculator' },
     ],
   },
   {
@@ -28,7 +29,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-gray-200 bg-white">
+    <footer className="border-t border-slate-200 bg-white">
       <div className="max-w-6xl mx-auto px-4 py-10">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-8">
           {/* Brand Column */}
@@ -41,9 +42,9 @@ export default function Footer() {
                 width={28}
                 height={28}
               />
-              <span className="text-lg font-bold text-gray-900">Toolisk</span>
+              <span className="text-lg font-bold text-slate-900">Toolisk</span>
             </Link>
-            <p className="text-sm text-gray-500 leading-relaxed">
+            <p className="text-sm text-slate-500 leading-relaxed">
               Free, high-performance online tools. Fast, private, and all in one place.
             </p>
           </div>
@@ -51,7 +52,7 @@ export default function Footer() {
           {/* Link Columns */}
           {footerSections.map((section) => (
             <div key={section.title}>
-              <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-3">
+              <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-3">
                 {section.title}
               </h3>
               <ul className="space-y-2">
@@ -59,7 +60,7 @@ export default function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-gray-500 hover:text-indigo-600 transition-colors"
+                      className="text-sm text-slate-500 hover:text-blue-600 transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -71,8 +72,8 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-100 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-gray-400">
+        <div className="border-t border-slate-100 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-slate-400">
             © {currentYear} Toolisk — Free online tools for everyone.
           </p>
         </div>

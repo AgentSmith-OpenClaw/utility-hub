@@ -1,8 +1,33 @@
-# EMI Calculator
+# Utility Hub — Premium Financial Calculators
 
-A professional, advanced EMI (Equated Monthly Installment) calculator with multiple prepayment support, interactive charts, and comprehensive amortization schedules.
+A collection of high-performance, free online financial calculators built with Next.js, React, TypeScript, and Tailwind CSS. Each tool includes interactive charts, real-time calculations, educational content, and full AdSense optimization.
 
-## ✨ Features
+**Current Tools:**
+- 🏦 **EMI Calculator** — Loan EMI, prepayment analysis, amortization schedules
+- 🔥 **FIRE Calculator** — Financial Independence Retire Early planning with 5 FIRE types (Lean, Regular, Fat, Coast, Barista)
+
+---
+
+## 📖 For Developers
+
+### Building New Tools?
+
+**Start here:** [TOOL_DEVELOPMENT_GUIDE.md](./TOOL_DEVELOPMENT_GUIDE.md)
+
+This comprehensive guide covers:
+- Architecture & tech stack (Next.js SSG, TypeScript, Tailwind, Framer Motion, Recharts)
+- Design system & visual consistency (colors, spacing, shadows, responsive)
+- File structure & component patterns (types.ts, utils.ts, hook.ts, component.tsx separation)
+- Charting & data visualization best practices
+- SEO & AdSense content requirements
+- 12-phase implementation checklist
+- Common patterns & examples you can copy
+
+**TL;DR:** Each tool gets its own accent color, follows the same section structure (inputs → results → charts → insights), uses localStorage for state, and includes 1500+ words of educational content for AdSense.
+
+---
+
+## 🏦 EMI Calculator Features
 
 ### Core Functionality
 - **Accurate EMI Calculation**: Calculate monthly installments based on loan amount, interest rate, and tenure

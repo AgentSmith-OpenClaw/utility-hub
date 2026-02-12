@@ -1,11 +1,13 @@
 import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Clarity from '@microsoft/clarity';
 import Header from '../components/Layout/Header';
 import Footer from '../components/Layout/Footer';
 import '../styles/globals.css';
 
 const GA_ID = 'G-8ZXGEHK3C0';
+const CLARITY_ID = 'vgegy4bksa';
 
 function trackPageView(path: string) {
   if (typeof window !== 'undefined' && (window as any).gtag) {
@@ -15,6 +17,13 @@ function trackPageView(path: string) {
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
+
+  // Initialize Microsoft Clarity
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      Clarity.init(CLARITY_ID);
+    }
+  }, []);
 
   useEffect(() => {
     trackPageView(router.asPath);
