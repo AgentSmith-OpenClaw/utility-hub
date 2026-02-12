@@ -6,16 +6,24 @@ const DEFAULT_INPUTS: FIREInputs = {
   currentAge: 28,
   lifeExpectancy: 85,
   monthlyIncome: 6667,
-  monthlyExpenses: 3333,
+
+  // Split expenses
+  monthlyFixedExpenses: 2000,      // rent, utilities, insurance, groceries
+  monthlyLifestyleExpenses: 1333,  // dining, movies, vacations, hobbies
+
   currentSavings: 50000,
-  monthlyContribution: 3000,
+  monthlyContribution: 2000,
   expectedReturn: 7,
   inflationRate: 3,
   withdrawalRate: 4,
-  stockAllocation:80,
+  stockAllocation: 80,
   fireType: 'regular',
   monthlyPartTimeIncome: 1667,
   currency: 'USD',
+
+  // Reverse mode
+  calculationMode: 'standard',
+  targetYearsToFIRE: 15,
 };
 
 const STORAGE_KEY = 'fire-calculator-state';

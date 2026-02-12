@@ -2,6 +2,8 @@ import {
   FIREInputs,
   FIREResult,
   FIRETypeInfo,
+  FIRETypeComparison,
+  PostFIREProjection,
   YearlyProjection,
   FIREMilestone,
   FIREType,
@@ -15,46 +17,61 @@ export const FIRE_TYPES: FIRETypeInfo[] = [
     type: 'lean',
     label: 'Lean FIRE',
     icon: '🌿',
-    description: 'Minimalist lifestyle, essential expenses only',
+    tagline: 'Minimalist & frugal',
+    description: 'Retire on essential expenses only — minimalist lifestyle, low-cost living',
     expenseMultiplier: 0.6,
-    color: 'emerald',
-    gradient: 'from-emerald-500 to-teal-600',
+    color: 'teal',
+    gradient: 'from-teal-500 to-emerald-600',
+    bgLight: 'bg-teal-50',
+    borderColor: 'border-teal-200',
   },
   {
     type: 'regular',
     label: 'Regular FIRE',
     icon: '🔥',
-    description: 'Maintain your current standard of living',
+    tagline: 'Current lifestyle',
+    description: 'Maintain your current standard of living without employment',
     expenseMultiplier: 1.0,
-    color: 'orange',
-    gradient: 'from-orange-500 to-red-600',
+    color: 'blue',
+    gradient: 'from-blue-500 to-indigo-600',
+    bgLight: 'bg-blue-50',
+    borderColor: 'border-blue-200',
   },
   {
     type: 'fat',
     label: 'Fat FIRE',
     icon: '👑',
-    description: 'Comfortable lifestyle with extra spending',
+    tagline: 'Comfortable & lavish',
+    description: 'Live abundantly — extra budget for luxury, travel, and comfort',
     expenseMultiplier: 1.5,
-    color: 'purple',
-    gradient: 'from-purple-500 to-indigo-600',
+    color: 'indigo',
+    gradient: 'from-indigo-500 to-purple-600',
+    bgLight: 'bg-indigo-50',
+    borderColor: 'border-indigo-200',
   },
   {
     type: 'coast',
     label: 'Coast FIRE',
     icon: '🏖️',
-    description: 'Save now, let compounding do the rest',
+    tagline: 'Save now, coast later',
+    description: 'Front-load savings so compound growth reaches your FIRE number by 65',
     expenseMultiplier: 1.0,
     color: 'cyan',
     gradient: 'from-cyan-500 to-blue-600',
+    bgLight: 'bg-cyan-50',
+    borderColor: 'border-cyan-200',
   },
   {
     type: 'barista',
     label: 'Barista FIRE',
     icon: '☕',
-    description: 'Part-time work covers some expenses',
+    tagline: 'Part-time + portfolio',
+    description: 'Supplement investments with part-time income to cover the gap',
     expenseMultiplier: 1.0,
     color: 'amber',
     gradient: 'from-amber-500 to-orange-600',
+    bgLight: 'bg-amber-50',
+    borderColor: 'border-amber-200',
   },
 ];
 
@@ -78,6 +95,13 @@ export function adjustForInflation(
   years: number
 ): number {
   return amount * Math.pow(1 + inflationRate / 100, years);
+}
+
+/**
+ * Total monthly expenses is fixed + lifestyle.
+ */
+export function getTotalMonthlyExpenses(inputs: FIREInputs): number {
+  return inputs.monthlyFixedExpenses + inputs.monthlyLifestyleExpenses;
 }
 
 export function formatCurrency(
@@ -108,6 +132,27 @@ export function formatCurrency(
   return `${symbol}${value.toLocaleString(locale, { maximumFractionDigits: 0 })}`;
 }
 
+// ── Reverse Mode: required monthly contribution ──────────────────
+
+function calculateRequiredContribution(
+  fireTarget: number,
+  currentSavings: number,
+  annualReturn: number,
+  years: number
+): number {
+  if (years <= 0) return 0;
+  const monthlyReturn = annualReturn / 100 / 12;
+  const months = years * 12;
+  if (monthlyReturn <= 0) {
+    const needed = fireTarget - currentSavings;
+    return Math.max(0, needed / months);
+  }
+  const futureSavings = currentSavings * Math.pow(1 + monthlyReturn, months);
+  const needed = fireTarget - futureSavings;
+  if (needed <= 0) return 0;
+  return (needed * monthlyReturn) / (Math.pow(1 + monthlyReturn, months) - 1);
+}
+
 // ── Core Calculation ──────────────────────────────────────────────
 
 export function calculateFIRE(inputs: FIREInputs): FIREResult {
@@ -115,7 +160,8 @@ export function calculateFIRE(inputs: FIREInputs): FIREResult {
     currentAge,
     lifeExpectancy,
     monthlyIncome,
-    monthlyExpenses,
+    monthlyFixedExpenses,
+    monthlyLifestyleExpenses,
     currentSavings,
     monthlyContribution,
     expectedReturn,
@@ -123,17 +169,18 @@ export function calculateFIRE(inputs: FIREInputs): FIREResult {
     withdrawalRate,
     fireType,
     monthlyPartTimeIncome,
+    calculationMode,
+    targetYearsToFIRE,
   } = inputs;
 
-  // Convert monthly to annual for calculations
+  const totalMonthlyExpenses = monthlyFixedExpenses + monthlyLifestyleExpenses;
   const annualIncome = monthlyIncome * 12;
-  const annualExpenses = monthlyExpenses * 12;
+  const annualExpenses = totalMonthlyExpenses * 12;
   const partTimeIncome = monthlyPartTimeIncome * 12;
 
   const fireTypeInfo = getFireTypeInfo(fireType);
   const baseExpenses = annualExpenses * fireTypeInfo.expenseMultiplier;
 
-  // For barista FIRE, portfolio only needs to cover the gap
   const portfolioExpenses =
     fireType === 'barista'
       ? Math.max(0, baseExpenses - partTimeIncome)
@@ -142,16 +189,38 @@ export function calculateFIRE(inputs: FIREInputs): FIREResult {
   // FIRE number in today's dollars
   const fireNumber = calculateFIRENumber(portfolioExpenses, withdrawalRate);
 
-  const annualContribution = monthlyContribution * 12;
+  // Misc = Income - Expenses - Contributions
+  const monthlyMisc = monthlyIncome - totalMonthlyExpenses - monthlyContribution;
+
+  // Effective monthly contribution (standard or reverse)
+  let effectiveMonthlyContribution = monthlyContribution;
+  let requiredMonthlyContribution = 0;
+
+  if (calculationMode === 'reverse') {
+    const inflatedFireNumber = adjustForInflation(fireNumber, inflationRate, targetYearsToFIRE);
+    requiredMonthlyContribution = Math.max(
+      0,
+      Math.round(calculateRequiredContribution(
+        inflatedFireNumber,
+        currentSavings,
+        expectedReturn,
+        targetYearsToFIRE
+      ))
+    );
+    effectiveMonthlyContribution = requiredMonthlyContribution;
+  }
+
+  const annualContribution = effectiveMonthlyContribution * 12;
   const annualSavings = annualIncome - annualExpenses;
   const savingsRate =
     annualIncome > 0 ? (annualSavings / annualIncome) * 100 : 0;
 
-  // Coast FIRE: amount needed now to grow to FIRE number by age 65
+  // Coast FIRE: amount needed now to grow to inflation-adjusted FIRE number by age 65
   const coastTargetAge = 65;
   const yearsToCoast = Math.max(coastTargetAge - currentAge, 1);
+  const inflatedFireAtCoastAge = adjustForInflation(fireNumber, inflationRate, yearsToCoast);
   const coastFIRENumber =
-    fireNumber / Math.pow(1 + expectedReturn / 100, yearsToCoast);
+    inflatedFireAtCoastAge / Math.pow(1 + expectedReturn / 100, yearsToCoast);
 
   // Year-by-year projections
   const maxYears = Math.max(lifeExpectancy - currentAge + 10, 70);
@@ -167,7 +236,6 @@ export function calculateFIRE(inputs: FIREInputs): FIREResult {
     const age = currentAge + year;
     const startBalance = balance;
 
-    // Inflate expenses each year
     const inflatedBase = adjustForInflation(baseExpenses, inflationRate, year);
     const inflatedPortfolioExpenses =
       fireType === 'barista'
@@ -187,7 +255,6 @@ export function calculateFIRE(inputs: FIREInputs): FIREResult {
     let growth = 0;
 
     if (!isFIREd) {
-      // ── Accumulation Phase ──
       if (fireType === 'coast') {
         if (balance >= coastFIRENumber && coastFIREAge === null) {
           coastFIREAge = age;
@@ -205,12 +272,23 @@ export function calculateFIRE(inputs: FIREInputs): FIREResult {
       totalContributed += contributions;
       totalGrowth += growth;
 
-      if (balance >= currentFireNumber && yearsToFIRE === -1) {
-        yearsToFIRE = year;
-        isFIREd = true;
+      // Coast FIRE milestone = reaching coast number (stop saving)
+      // Others = reaching inflation-adjusted full FIRE target
+      if (fireType === 'coast') {
+        if (balance >= coastFIRENumber && yearsToFIRE === -1) {
+          yearsToFIRE = year;
+        }
+        // Actual retirement (withdrawals begin) at full FIRE number
+        if (balance >= currentFireNumber && !isFIREd) {
+          isFIREd = true;
+        }
+      } else {
+        if (balance >= currentFireNumber && yearsToFIRE === -1) {
+          yearsToFIRE = year;
+          isFIREd = true;
+        }
       }
     } else {
-      // ── Withdrawal Phase ──
       withdrawal = startBalance * (withdrawalRate / 100);
       growth = startBalance * (expectedReturn / 100);
       balance = startBalance + growth - withdrawal;
@@ -218,7 +296,6 @@ export function calculateFIRE(inputs: FIREInputs): FIREResult {
       if (balance < 0) balance = 0;
     }
 
-    // Track coast FIRE age for non-coast types
     if (coastFIREAge === null && startBalance >= coastFIRENumber) {
       coastFIREAge = age;
     }
@@ -243,6 +320,9 @@ export function calculateFIRE(inputs: FIREInputs): FIREResult {
 
   if (yearsToFIRE === -1) yearsToFIRE = maxYears;
   const fireAge = currentAge + yearsToFIRE;
+  const currentYear = new Date().getFullYear();
+  const fireYear = currentYear + yearsToFIRE;
+  const monthsToFIRE = yearsToFIRE * 12; // simplified
 
   // How long does the money last after FIRE?
   let drawdownBalance = projections[yearsToFIRE]?.endBalance || 0;
@@ -265,11 +345,25 @@ export function calculateFIRE(inputs: FIREInputs): FIREResult {
   );
   const safeWithdrawalAmount =
     portfolioAtRetirement * (withdrawalRate / 100);
+  const safeMonthlyWithdrawal = safeWithdrawalAmount / 12;
+
+  // Today's withdrawal (if you retired today)
+  const todayWithdrawalAnnual = currentSavings * (withdrawalRate / 100);
+  const todayWithdrawalMonthly = todayWithdrawalAnnual / 12;
+
+  // For coast FIRE, the displayed "fireNumber" is the coast target, not the full FIRE number
+  const displayedFireNumber = fireType === 'coast' ? coastFIRENumber : fireNumber;
+
+  const fireNumberInflationAdjusted = adjustForInflation(
+    displayedFireNumber,
+    inflationRate,
+    yearsToFIRE
+  );
 
   const lifeExpProjection = projections.find((p) => p.age === lifeExpectancy);
   const portfolioAtLifeExpectancy = lifeExpProjection?.endBalance || 0;
 
-  // Monthly savings needed to reach FIRE (future value of annuity)
+  // Monthly savings needed to reach FIRE
   const monthlyReturn = expectedReturn / 100 / 12;
   const months = yearsToFIRE * 12;
   let monthlySavingsNeeded = 0;
@@ -287,10 +381,26 @@ export function calculateFIRE(inputs: FIREInputs): FIREResult {
 
   const milestones = generateMilestones(projections, fireNumber);
 
-  return {
-    fireNumber: Math.round(fireNumber),
-    yearsToFIRE,
+  // All FIRE type comparison
+  const allFireTypes = compareFIRETypes(inputs);
+
+  // Post-FIRE life projections
+  const postFIREProjections = generatePostFIREProjections(
+    portfolioAtRetirement,
+    withdrawalRate,
+    expectedReturn,
+    inflationRate,
     fireAge,
+    lifeExpectancy
+  );
+
+  return {
+    fireNumber: Math.round(displayedFireNumber),
+    fireNumberInflationAdjusted: Math.round(fireNumberInflationAdjusted),
+    yearsToFIRE,
+    monthsToFIRE,
+    fireAge,
+    fireYear,
     monthlySavingsNeeded: Math.round(Math.max(0, monthlySavingsNeeded)),
     annualSavings,
     savingsRate: Math.round(savingsRate * 10) / 10,
@@ -303,10 +413,20 @@ export function calculateFIRE(inputs: FIREInputs): FIREResult {
       inflationAdjustedExpensesAtFIRE
     ),
     safeWithdrawalAmount: Math.round(safeWithdrawalAmount),
+    safeMonthlyWithdrawal: Math.round(safeMonthlyWithdrawal),
+    todayWithdrawalAnnual: Math.round(todayWithdrawalAnnual),
+    todayWithdrawalMonthly: Math.round(todayWithdrawalMonthly),
     yearsMoneyLasts,
     portfolioAtLifeExpectancy: Math.round(portfolioAtLifeExpectancy),
     totalContributions: Math.round(totalContributed),
     totalGrowth: Math.round(totalGrowth),
+    monthlyExpenses: totalMonthlyExpenses,
+    monthlyMisc,
+    monthlyFixed: monthlyFixedExpenses,
+    monthlyLifestyle: monthlyLifestyleExpenses,
+    requiredMonthlyContribution,
+    allFireTypes,
+    postFIREProjections,
   };
 }
 
@@ -346,51 +466,142 @@ function generateMilestones(
 
 export function compareFIRETypes(
   inputs: FIREInputs
-): {
-  type: FIREType;
-  label: string;
-  icon: string;
-  fireNumber: number;
-  yearsToFIRE: number;
-  fireAge: number;
-}[] {
-  // Convert monthly to annual for calculations
-  const annualExpenses = inputs.monthlyExpenses * 12;
+): FIRETypeComparison[] {
+  const totalMonthlyExpenses = inputs.monthlyFixedExpenses + inputs.monthlyLifestyleExpenses;
+  const annualExpenses = totalMonthlyExpenses * 12;
   const partTimeIncome = inputs.monthlyPartTimeIncome * 12;
+  const currentYear = new Date().getFullYear();
 
   return FIRE_TYPES.map((ft) => {
-    const adj = annualExpenses * ft.expenseMultiplier;
-    const eff =
+    const baseExpenses = annualExpenses * ft.expenseMultiplier;
+    const basePortfolioExpenses =
       ft.type === 'barista'
-        ? Math.max(0, adj - partTimeIncome)
-        : adj;
+        ? Math.max(0, baseExpenses - partTimeIncome)
+        : baseExpenses;
 
-    let fireTarget: number;
-    if (ft.type === 'coast') {
-      const fullFIRE = calculateFIRENumber(adj, inputs.withdrawalRate);
-      const coastYears = Math.max(65 - inputs.currentAge, 1);
-      fireTarget =
-        fullFIRE / Math.pow(1 + inputs.expectedReturn / 100, coastYears);
-    } else {
-      fireTarget = calculateFIRENumber(eff, inputs.withdrawalRate);
-    }
+    // FIRE number in today's dollars
+    const fireNumberToday = calculateFIRENumber(basePortfolioExpenses, inputs.withdrawalRate);
 
+    // Coast FIRE: amount needed now so compound growth reaches inflation-adjusted FIRE by 65
+    const coastTargetAge = 65;
+    const yearsToCoast = Math.max(coastTargetAge - inputs.currentAge, 1);
+    const inflatedFireAtCoastAge = adjustForInflation(fireNumberToday, inputs.inflationRate, yearsToCoast);
+    const coastFIRENumber = inflatedFireAtCoastAge / Math.pow(1 + inputs.expectedReturn / 100, yearsToCoast);
+
+    // Year-by-year projection — matches calculateFIRE logic exactly
     let balance = inputs.currentSavings;
-    const annual = inputs.monthlyContribution * 12;
+    const annualContribution = inputs.monthlyContribution * 12;
     const r = inputs.expectedReturn / 100;
     let years = 0;
-    while (balance < fireTarget && years < 80) {
-      balance = balance * (1 + r) + annual;
-      years++;
+    let coastReached = false;
+    const isCoast = ft.type === 'coast';
+
+    for (let year = 0; year <= 80; year++) {
+      const startBalance = balance;
+
+      // Inflation-adjusted FIRE target for this year (same as main calc)
+      const inflatedBase = adjustForInflation(baseExpenses, inputs.inflationRate, year);
+      const inflatedPortfolioExpenses =
+        ft.type === 'barista'
+          ? Math.max(0, inflatedBase - adjustForInflation(partTimeIncome, inputs.inflationRate, year))
+          : adjustForInflation(basePortfolioExpenses, inputs.inflationRate, year);
+      const currentFireTarget = calculateFIRENumber(inflatedPortfolioExpenses, inputs.withdrawalRate);
+
+      // Coast FIRE: stop contributions once coast number is reached
+      let contributions = annualContribution;
+      if (isCoast) {
+        if (coastReached || startBalance >= coastFIRENumber) {
+          coastReached = true;
+          contributions = 0;
+        }
+      }
+
+      const growth = startBalance * r;
+      balance = startBalance + contributions + growth;
+
+      // Coast FIRE milestone = reaching coast number (stop saving)
+      // All others = reaching inflation-adjusted full FIRE target
+      if (isCoast) {
+        if (balance >= coastFIRENumber) {
+          years = year;
+          break;
+        }
+      } else {
+        if (balance >= currentFireTarget) {
+          years = year;
+          break;
+        }
+      }
+
+      if (year === 80) years = 80;
     }
+
+    // For coast, show the coast FIRE number; for others, show today's FIRE number
+    const displayFireNumber = isCoast ? Math.round(coastFIRENumber) : Math.round(fireNumberToday);
+    const fireNumberInflationAdjusted = adjustForInflation(displayFireNumber, inputs.inflationRate, years);
+    // Withdrawal based on actual portfolio at retirement (not static target)
+    const annualWithdrawal = balance * (inputs.withdrawalRate / 100);
+    const reqContrib = calculateRequiredContribution(
+      fireNumberInflationAdjusted,
+      inputs.currentSavings,
+      inputs.expectedReturn,
+      years
+    );
 
     return {
       type: ft.type,
       label: ft.label,
       icon: ft.icon,
-      fireNumber: Math.round(fireTarget),
+      tagline: ft.tagline,
+      description: ft.description,
+      fireNumber: displayFireNumber,
+      fireNumberInflationAdjusted: Math.round(fireNumberInflationAdjusted),
       yearsToFIRE: years,
       fireAge: inputs.currentAge + years,
+      fireYear: currentYear + years,
+      monthlyWithdrawal: Math.round(annualWithdrawal / 12),
+      annualWithdrawal: Math.round(annualWithdrawal),
+      requiredMonthlyContribution: Math.round(Math.max(0, reqContrib)),
+      portfolioAtRetirement: Math.round(balance),
     };
   });
+}
+
+// ── Post-FIRE Life Projections ────────────────────────────────────
+
+export function generatePostFIREProjections(
+  portfolioAtRetirement: number,
+  withdrawalRate: number,
+  expectedReturn: number,
+  inflationRate: number,
+  fireAge: number,
+  lifeExpectancy: number
+): PostFIREProjection[] {
+  const projections: PostFIREProjection[] = [];
+  let balance = portfolioAtRetirement;
+  const totalYears = Math.max(lifeExpectancy - fireAge + 10, 30);
+  let annualWithdrawal = portfolioAtRetirement * (withdrawalRate / 100);
+
+  for (let y = 0; y <= totalYears; y++) {
+    const age = fireAge + y;
+    const startBalance = balance;
+    const withdrawal = y === 0 ? 0 : annualWithdrawal;
+    const growth = startBalance * (expectedReturn / 100);
+    balance = startBalance + growth - withdrawal;
+    if (balance < 0) balance = 0;
+
+    projections.push({
+      year: y,
+      age,
+      startBalance: Math.round(startBalance),
+      withdrawal: Math.round(withdrawal),
+      growth: Math.round(growth),
+      endBalance: Math.round(Math.max(balance, 0)),
+    });
+
+    // Increase withdrawal by inflation each year
+    annualWithdrawal = annualWithdrawal * (1 + inflationRate / 100);
+    if (balance <= 0) break;
+  }
+  return projections;
 }

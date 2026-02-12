@@ -16,7 +16,7 @@ const tools: Tool[] = [
     name: 'EMI Calculator',
     description:
       'Advanced EMI calculator for home loan, car loan & personal loan. Compare Reduce EMI vs Reduce Tenure strategies, view 8 interactive charts, prepayment impact analysis, and export to Excel.',
-    path: '/emi-calculator',
+    path: '/finance/emi-calculator',
     icon: '🏦',
     tags: ['Finance', 'Loan', 'Home Loan', 'Prepayment'],
     isNew: false,
@@ -25,7 +25,7 @@ const tools: Tool[] = [
     name: 'FIRE Calculator',
     description:
       'Calculate your Financial Independence Retire Early number. Compare Lean, Fat, Coast & Barista FIRE strategies with interactive charts, milestone tracking, and portfolio projections.',
-    path: '/fire-calculator',
+    path: '/finance/fire-calculator',
     icon: '🔥',
     tags: ['Finance', 'Retirement', 'FIRE', 'Independence'],
     isNew: true,
@@ -135,14 +135,14 @@ export default function Home() {
 
         {/* Developer Note */}
         <section className="max-w-4xl mx-auto px-4 -mt-8 relative z-10">
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 sm:p-8">
+          <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 sm:p-8">
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center text-lg">
                 💡
               </div>
               <div>
-                <h2 className="text-lg font-bold text-gray-900 mb-1">Developer&apos;s Note</h2>
-                <p className="text-gray-600 leading-relaxed">
+                <h2 className="text-lg font-bold text-slate-900 mb-1">Developer&apos;s Note</h2>
+                <p className="text-slate-600 leading-relaxed">
                   There are many tools I use daily on the internet, but nothing was consolidated and
                   most tools missed many features I needed. This project aims to solve those problems
                   — creating a more complete set of daily tools. If these tools help me, hopefully
@@ -156,8 +156,8 @@ export default function Home() {
         {/* Tools Grid */}
         <section id="tools" className="max-w-6xl mx-auto px-4 py-16">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900">Tools</h2>
-            <p className="mt-2 text-gray-500">
+            <h2 className="text-3xl font-bold text-slate-900">Tools</h2>
+            <p className="mt-2 text-slate-500">
               Pick a tool to get started. More tools are on the way.
             </p>
           </div>
@@ -169,12 +169,12 @@ export default function Home() {
                   <div className="flex items-center gap-3 mb-3">
                     <span className="text-3xl">{tool.icon}</span>
                     <div>
-                      <h3 className="text-lg font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">
+                      <h3 className="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
                         {tool.name}
                       </h3>
                       <div className="flex items-center gap-2 mt-0.5">
                         {tool.isNew && (
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-green-700 bg-green-100 px-1.5 py-0.5 rounded-full">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded-full">
                             New
                           </span>
                         )}
@@ -186,14 +186,14 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
-                  <p className="text-sm text-gray-500 leading-relaxed mb-4">
+                  <p className="text-sm text-slate-500 leading-relaxed mb-4">
                     {tool.description}
                   </p>
                   <div className="flex flex-wrap gap-1.5 mt-auto">
                     {tool.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-[11px] font-medium text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full"
+                        className="text-[11px] font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full"
                       >
                         {tag}
                       </span>
@@ -206,7 +206,7 @@ export default function Home() {
                 return (
                   <div
                     key={tool.name}
-                    className="group relative bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col opacity-75 cursor-default"
+                    className="group relative bg-white rounded-2xl border border-slate-100 shadow-sm p-6 flex flex-col opacity-75 cursor-default"
                   >
                     {CardContent}
                   </div>
@@ -217,9 +217,9 @@ export default function Home() {
                 <Link
                   key={tool.name}
                   href={tool.path}
-                  className="group relative bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg hover:border-indigo-200 p-6 flex flex-col transition-all duration-200 hover:-translate-y-1"
+                  className="group relative bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg hover:border-blue-200 p-6 flex flex-col transition-all duration-200 hover:-translate-y-1"
                 >
-                  <div className="absolute top-4 right-4 text-gray-300 group-hover:text-indigo-400 transition-colors">
+                  <div className="absolute top-4 right-4 text-slate-300 group-hover:text-blue-400 transition-colors">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"

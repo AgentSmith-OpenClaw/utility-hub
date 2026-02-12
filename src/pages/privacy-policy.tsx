@@ -20,12 +20,12 @@ export default function PrivacyPolicy() {
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-100 text-2xl mb-4">
               🔒
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">Privacy Policy</h1>
-            <p className="mt-2 text-gray-500 text-sm">Effective Date: February 12, 2026 · Last Updated: February 12, 2026</p>
+            <h1 className="text-3xl sm:text-4xl font-bold text-slate-900">Privacy Policy</h1>
+            <p className="mt-2 text-slate-500 text-sm">Effective Date: February 12, 2026 · Last Updated: February 12, 2026</p>
           </div>
 
           {/* Content Card */}
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 sm:p-10 prose prose-gray prose-headings:text-gray-900 prose-a:text-indigo-600 max-w-none">
+          <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 sm:p-10 prose prose-gray prose-headings:text-slate-900 prose-a:text-blue-600 max-w-none">
 
             <h2 className="text-2xl font-bold mt-0">1. Introduction</h2>
             <p>
