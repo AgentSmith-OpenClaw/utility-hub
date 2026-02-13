@@ -2,10 +2,79 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
 /**
- * Export a DOM element to PDF with proper multi-page pagination.
- * Slices the rendered canvas into page-sized chunks so text and charts
- * remain readable without zooming.
+ * Mobile-safe PDF export.
+ *
+ * On mobile, Tailwind responsive breakpoints (min-width media queries)
+ * respond to the *viewport* width, not the element width. Simply setting
+ * the element wider causes a stretched mobile layout. To work around this
+ * we temporarily force desktop grid styles via inline overrides before
+ * html2canvas captures the element, then restore everything afterwards.
  */
+
+type GridOverride = [matchClass: string, cssValue: string];
+
+const GRID_OVERRIDES: GridOverride[] = [
+  ['lg:grid-cols-[420px_1fr]', '420px 1fr'],
+  ['xl:grid-cols-[320px_1fr]', '320px 1fr'],
+  ['xl:grid-cols-2', 'repeat(2, 1fr)'],
+  ['lg:grid-cols-2', 'repeat(2, 1fr)'],
+  ['lg:grid-cols-3', 'repeat(3, 1fr)'],
+  ['lg:grid-cols-4', 'repeat(4, 1fr)'],
+  ['md:grid-cols-2', 'repeat(2, 1fr)'],
+  ['md:grid-cols-3', 'repeat(3, 1fr)'],
+];
+
+function forceDesktopLayout(root: HTMLElement): Map<HTMLElement, string> {
+  const saved = new Map<HTMLElement, string>();
+
+  // Save and override the root element
+  saved.set(root, root.getAttribute('style') || '');
+  root.style.width = '1200px';
+  root.style.maxWidth = '1200px';
+  root.style.overflow = 'visible';
+
+  // Walk all children and force desktop grid/flex layouts
+  root.querySelectorAll('[class]').forEach((node) => {
+    const el = node as HTMLElement;
+    const cls = typeof el.className === 'string' ? el.className : '';
+    if (!cls) return;
+
+    const overrides: { prop: string; val: string }[] = [];
+
+    for (const [twClass, cssVal] of GRID_OVERRIDES) {
+      if (cls.includes(twClass)) {
+        overrides.push({ prop: 'grid-template-columns', val: cssVal });
+      }
+    }
+
+    // Disable sticky positioning (breaks in capture context)
+    if (cls.includes('lg:sticky') || cls.includes('xl:sticky')) {
+      overrides.push({ prop: 'position', val: 'static' });
+    }
+    // Force hidden elements visible at lg/xl
+    if (cls.includes('lg:block') || cls.includes('xl:block')) {
+      overrides.push({ prop: 'display', val: 'block' });
+    }
+    if (cls.includes('hidden') && (cls.includes('lg:grid') || cls.includes('xl:grid'))) {
+      overrides.push({ prop: 'display', val: 'grid' });
+    }
+
+    if (overrides.length > 0) {
+      saved.set(el, el.getAttribute('style') || '');
+      overrides.forEach(({ prop, val }) => el.style.setProperty(prop, val));
+    }
+  });
+
+  return saved;
+}
+
+function restoreStyles(saved: Map<HTMLElement, string>) {
+  saved.forEach((orig, el) => {
+    if (orig) el.setAttribute('style', orig);
+    else el.removeAttribute('style');
+  });
+}
+
 export const exportToPDF = async (
   elementId: string,
   filename: string = 'export.pdf',
@@ -22,24 +91,21 @@ export const exportToPDF = async (
     return;
   }
 
-  try {
-    // Temporarily narrow the element for readable PDF output.
-    // Without this, wide viewports produce pages where content is too small to read.
-    const captureWidth = 1100;
-    const origStyle = element.getAttribute('style') || '';
-    element.style.width = captureWidth + 'px';
-    element.style.maxWidth = captureWidth + 'px';
-    element.style.overflow = 'hidden';
+  const PDF_WIDTH = 1200;
+  const saved = forceDesktopLayout(element);
 
+  // Give the browser a full frame to reflow
+  await new Promise((r) => setTimeout(r, 250));
+
+  try {
     const canvas = await html2canvas(element, {
       useCORS: true,
       logging: false,
       allowTaint: true,
-    });
-
-    // Restore original styling immediately
-    if (origStyle) element.setAttribute('style', origStyle);
-    else element.removeAttribute('style');
+      scale: 2,
+      width: PDF_WIDTH,
+      windowWidth: PDF_WIDTH,
+    } as Parameters<typeof html2canvas>[1]);
 
     const orientation = options?.orientation || 'portrait';
     const format = options?.format || 'a4';
@@ -51,11 +117,8 @@ export const exportToPDF = async (
     const usableWidth = pageWidth - 2 * margin;
     const usableHeight = pageHeight - 2 * margin;
 
-    // Scale factor: source pixels per mm of PDF
     const pxPerMm = canvas.width / usableWidth;
-    // How many source pixels fit on one PDF page
     const sourcePageHeight = Math.floor(usableHeight * pxPerMm);
-
     const totalPages = Math.ceil(canvas.height / sourcePageHeight);
 
     for (let page = 0; page < totalPages; page++) {
@@ -64,7 +127,6 @@ export const exportToPDF = async (
       const sourceY = page * sourcePageHeight;
       const sliceHeight = Math.min(sourcePageHeight, canvas.height - sourceY);
 
-      // Create a temporary canvas for this page slice
       const pageCanvas = document.createElement('canvas');
       pageCanvas.width = canvas.width;
       pageCanvas.height = sliceHeight;
@@ -73,13 +135,7 @@ export const exportToPDF = async (
 
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
-      ctx.drawImage(
-        canvas,
-        0, sourceY,
-        canvas.width, sliceHeight,
-        0, 0,
-        canvas.width, sliceHeight
-      );
+      ctx.drawImage(canvas, 0, sourceY, canvas.width, sliceHeight, 0, 0, canvas.width, sliceHeight);
 
       const imgData = pageCanvas.toDataURL('image/jpeg', options?.quality || 0.92);
       const sliceHeightMm = sliceHeight / pxPerMm;
@@ -87,22 +143,20 @@ export const exportToPDF = async (
     }
 
     if (options?.title) {
-      pdf.setProperties({
-        title: options.title,
-        subject: options.title,
-        creator: 'Toolisk',
-      });
+      pdf.setProperties({ title: options.title, subject: options.title, creator: 'Toolisk' });
     }
 
     pdf.save(filename);
   } catch (error) {
     console.error('Error generating PDF:', error);
     throw error;
+  } finally {
+    restoreStyles(saved);
   }
 };
 
 /**
- * Export multiple DOM elements to a single PDF (each element on its own page set).
+ * Export multiple DOM elements to a single PDF (each on its own page set).
  */
 export const exportMultipleToPDF = async (
   elementIds: string[],
@@ -128,17 +182,20 @@ export const exportMultipleToPDF = async (
 
   for (const elementId of elementIds) {
     const element = document.getElementById(elementId);
-    if (!element) {
-      console.warn(`Element with ID "${elementId}" not found, skipping...`);
-      continue;
-    }
+    if (!element) continue;
+
+    const saved = forceDesktopLayout(element);
+    await new Promise((r) => setTimeout(r, 250));
 
     try {
       const canvas = await html2canvas(element, {
         useCORS: true,
         logging: false,
         allowTaint: true,
-      });
+        scale: 2,
+        width: 1200,
+        windowWidth: 1200,
+      } as Parameters<typeof html2canvas>[1]);
 
       const pxPerMm = canvas.width / usableWidth;
       const sourcePageHeight = Math.floor(usableHeight * pxPerMm);
@@ -161,21 +218,19 @@ export const exportMultipleToPDF = async (
         ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
         ctx.drawImage(canvas, 0, sourceY, canvas.width, sliceHeight, 0, 0, canvas.width, sliceHeight);
 
-        const imgData = pageCanvas.toDataURL('image/jpeg', options?.quality || 0.92);
+        const imgData = pageCanvas.toDataURL('image/jpeg', 0.92);
         const sliceHeightMm = sliceHeight / pxPerMm;
         pdf.addImage(imgData, 'JPEG', margin, margin, usableWidth, sliceHeightMm);
       }
     } catch (error) {
-      console.error(`Error generating PDF for element "${elementId}":`, error);
+      console.error(`Error generating PDF for "${elementId}":`, error);
+    } finally {
+      restoreStyles(saved);
     }
   }
 
   if (options?.title) {
-    pdf.setProperties({
-      title: options.title,
-      subject: options.title,
-      creator: 'Toolisk',
-    });
+    pdf.setProperties({ title: options.title, subject: options.title, creator: 'Toolisk' });
   }
 
   pdf.save(filename);

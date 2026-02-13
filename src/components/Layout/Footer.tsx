@@ -6,6 +6,7 @@ const footerSections = [
     links: [
       { label: 'EMI Calculator', href: '/finance/emi-calculator' },
       { label: 'FIRE Calculator', href: '/finance/fire-calculator' },
+      { label: 'SIP Calculator', href: '/finance/sip-calculator' },
     ],
   },
   {
