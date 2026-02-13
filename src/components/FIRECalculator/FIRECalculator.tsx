@@ -1114,6 +1114,39 @@ const FIRECalculator: React.FC = () => {
           </div>
         </section>
 
+        {/* Learn More Section */}
+        <section className="bg-white rounded-2xl shadow-lg p-6 border border-slate-200 mb-8">
+          <h3 className="text-2xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+            <span className="text-2xl">📚</span>
+            Learn More About FIRE & Financial Independence
+          </h3>
+          <p className="text-sm text-slate-600 mb-5">
+            Deep dive into FIRE concepts, strategies, and variations with our comprehensive guides:
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <a
+              href="/finance/learn/fire-movement-explained"
+              className="flex flex-col bg-gradient-to-br from-orange-50 to-red-50 rounded-xl px-5 py-4 hover:shadow-md transition-all group border border-orange-100"
+            >
+              <span className="text-sm font-bold text-slate-900 mb-1">The FIRE Movement Explained</span>
+              <span className="text-xs text-slate-600 mb-2">Complete beginner's guide to Financial Independence, Retire Early</span>
+              <span className="text-orange-600 text-sm font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                Read Guide <span>→</span>
+              </span>
+            </a>
+            <a
+              href="/finance/learn/coast-fire-strategy"
+              className="flex flex-col bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl px-5 py-4 hover:shadow-md transition-all group border border-blue-100"
+            >
+              <span className="text-sm font-bold text-slate-900 mb-1">Coast FIRE Strategy</span>
+              <span className="text-xs text-slate-600 mb-2">Achieve financial freedom in phases—retire early without the grind</span>
+              <span className="text-blue-600 text-sm font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                Read Guide <span>→</span>
+              </span>
+            </a>
+          </div>
+        </section>
+
         {/* CTA */}
         <section className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl text-white p-6 sm:p-8 mb-8 text-center">
           <h2 className="text-2xl font-bold mb-3">Ready to Start Your FIRE Journey?</h2>
