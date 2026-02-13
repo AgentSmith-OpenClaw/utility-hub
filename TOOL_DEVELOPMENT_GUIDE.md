@@ -10,14 +10,16 @@ This document provides comprehensive guidelines for developing new calculator to
 ## Table of Contents
 
 1. [Architecture & Technology Stack](#architecture--technology-stack)
-2. [Design System & Visual Consistency](#design-system--visual-consistency)
-3. [File Structure & Code Organization](#file-structure--code-organization)
-4. [Component Patterns & Best Practices](#component-patterns--best-practices)
-5. [Charting & Data Visualization](#charting--data-visualization)
-6. [Styling Approach](#styling-approach)
-7. [Content Requirements for AdSense & SEO](#content-requirements-for-adsense--seo)
-8. [Tool Implementation Checklist](#tool-implementation-checklist)
-9. [Common Patterns & Examples](#common-patterns--examples)
+2. [Site Structure & Routing Strategy](#site-structure--routing-strategy)
+3. [Blog Content Integration](#blog-content-integration)
+4. [Design System & Visual Consistency](#design-system--visual-consistency)
+5. [File Structure & Code Organization](#file-structure--code-organization)
+6. [Component Patterns & Best Practices](#component-patterns--best-practices)
+7. [Charting & Data Visualization](#charting--data-visualization)
+8. [Styling Approach](#styling-approach)
+9. [Content Requirements for AdSense & SEO](#content-requirements-for-adsense--seo)
+10. [Tool Implementation Checklist](#tool-implementation-checklist)
+11. [Common Patterns & Examples](#common-patterns--examples)
 
 ---
 
@@ -49,6 +51,372 @@ This document provides comprehensive guidelines for developing new calculator to
 
 - Each tool page size: **150–250 KB** (gzipped)
 - Total First Load JS shared: **~91 KB** (across all pages)
+
+---
+
+## Site Structure & Routing Strategy
+
+### Category-Based URL Architecture
+
+**Goal:** Build domain authority through organized content silos that demonstrate topical expertise to search engines.
+
+**Why Categories Matter for SEO:**
+- Google ranks sites higher when they show clear topical authority
+- Category-based URLs signal content organization and expertise
+- Related content in the same path shares ranking signals
+- Easier to build internal linking networks
+
+### URL Structure
+
+```
+/finance/
+  ├── emi-calculator          # Loan/EMI tool
+  ├── fire-calculator         # FIRE/retirement tool
+  └── learn/
+      ├── [blog-slug]         # Educational content
+      ├── understanding-emi-calculations
+      ├── prepayment-strategies-guide
+      ├── fire-movement-explained
+      └── coast-fire-strategy
+      
+/developer/                    # Future category
+  ├── json-compare             # Future tool
+  ├── regex-tester             # Future tool
+  └── learn/
+      └── [blog-slug]          # Developer tutorials
+
+/health/                       # Future category
+  └── ...
+```
+
+### Current Implementation
+
+**Finance Category Routes:**
+```
+✅ /finance/emi-calculator       → EMI Calculator tool
+✅ /finance/fire-calculator      → FIRE Calculator tool
+✅ /finance/learn/[slug]         → Blog post template
+```
+
+**Legacy Redirects:**
+```
+/emi-calculator  → 301 redirect → /finance/emi-calculator
+/fire-calculator → 301 redirect → /finance/fire-calculator
+```
+
+### Adding New Tools
+
+When creating a new tool, follow this pattern:
+
+1. **Determine Category:**
+   - Finance: loans, investments, retirement, budgeting
+   - Developer: code tools, APIs, testing, utilities
+   - Health: fitness, nutrition, medical calculators
+   - Business: pricing, ROI, forecasting
+
+2. **Create Tool Route:**
+   ```
+   /src/pages/[category]/[tool-name].tsx
+   ```
+
+3. **Create Redirect from Legacy URL (if applicable):**
+   ```tsx
+   // /src/pages/[old-tool-name].tsx
+   import { useEffect } from 'react';
+   import { useRouter } from 'next/router';
+   import Head from 'next/head';
+
+   export default function ToolRedirect() {
+     const router = useRouter();
+     useEffect(() => {
+       router.replace('/[category]/[tool-name]');
+     }, [router]);
+
+     return (
+       <>
+         <Head>
+           <meta httpEquiv="refresh" content="0; url=/[category]/[tool-name]" />
+           <link rel="canonical" href="https://toolisk.com/[category]/[tool-name]" />
+         </Head>
+         {/* Loading spinner */}
+       </>
+     );
+   }
+   ```
+
+4. **Update Sitemap:**
+   ```xml
+   <!-- /public/sitemap.xml -->
+   <url>
+     <loc>https://toolisk.com/[category]/[tool-name]</loc>
+     <lastmod>YYYY-MM-DD</lastmod>
+     <changefreq>weekly</changefreq>
+     <priority>0.9</priority>
+   </url>
+   ```
+
+5. **Update Homepage & Footer:**
+   - Add to tools array in `/src/pages/index.tsx`
+   - Add to footer links in `/src/components/Layout/Footer.tsx`
+
+### SEO Benefits of This Structure
+
+1. **Topical Authority:**
+   - `/finance/` category signals expertise in financial tools
+   - Multiple related tools + educational content = strong topical cluster
+
+2. **Internal Linking:**
+   - Blog posts link to calculators
+   - Calculators link to related blog posts
+   - Creates strong internal link graph
+
+3. **Breadcrumb Potential:**
+   ```
+   Home > Finance > EMI Calculator
+   Home > Finance > Learn > Understanding EMI Calculations
+   ```
+
+4. **Sitemap Organization:**
+   - Clear hierarchy for search engines
+   - Priority scoring by category depth
+
+---
+
+## Blog Content Integration
+
+### Purpose of Blog Content
+
+**SEO Strategy:**
+- Google favors sites that educate, not just tools that compute
+- Educational content increases time on site (engagement signal)
+- Blog posts target informational keywords (top-of-funnel traffic)
+- Cross-linking between blog and tools builds topical authority
+
+**User Benefits:**
+- Learn concepts before using calculator
+- Understand results better after calculation
+- Discover new tools through related content
+
+### Blog Post Requirements
+
+#### URL Pattern
+```
+/[category]/learn/[blog-slug]
+```
+
+Examples:
+```
+/finance/learn/understanding-emi-calculations
+/finance/learn/prepayment-strategies-guide
+/finance/learn/fire-movement-explained
+/finance/learn/coast-fire-vs-traditional-retirement
+```
+
+#### File Structure
+
+```
+/src/pages/[category]/learn/
+  └── [slug].tsx           # Dynamic blog template
+
+Blog content can be:
+1. Hardcoded in component (current approach)
+2. Loaded from markdown files (future)
+3. Fetched from CMS (future)
+```
+
+#### Minimum Blog Post Requirements
+
+**Word Count:** 800–1500 words  
+**Headings:** H1 (title) + 4-6 H2 sections  
+**Links:** 2-3 internal links to related calculators  
+**Images:** 1-2 relevant images (optional but recommended)  
+**Meta:** title (55-60 chars), description (150-160 chars)
+
+#### Blog Post Template
+
+```tsx
+// /src/pages/[category]/learn/[slug].tsx
+
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+
+// Article content could be imported from separate file or CMS
+const articles: Record<string, BlogArticle> = {
+  'understanding-emi-calculations': {
+    title: 'Understanding EMI Calculations: A Complete Guide',
+    description: 'Learn how EMI is calculated...',
+    content: `...`, // Full article HTML/JSX
+    relatedTools: [
+      { name: 'EMI Calculator', href: '/finance/emi-calculator' }
+    ],
+    publishedDate: '2026-02-13',
+    readTime: '8 min read',
+  },
+};
+
+export default function BlogPost() {
+  const router = useRouter();
+  const { slug } = router.query;
+  const article = slug ? articles[slug as string] : null;
+
+  if (!article) {
+    return <div>Article not found or coming soon...</div>;
+  }
+
+  return (
+    <>
+      <Head>
+        <title>{article.title} | Toolisk Finance</title>
+        <meta name="description" content={article.description} />
+        <link rel="canonical" href={`https://toolisk.com/finance/learn/${slug}`} />
+        <meta property="og:type" content="article" />
+        <meta property="article:published_time" content={article.publishedDate} />
+      </Head>
+
+      <article className="max-w-3xl mx-auto px-4 py-12">
+        {/* Breadcrumb */}
+        <nav className="text-sm text-gray-500 mb-6">
+          <Link href="/">Home</Link> → <Link href="/finance">Finance</Link> → Learn
+        </nav>
+
+        {/* Article Header */}
+        <header className="mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-3">
+            {article.title}
+          </h1>
+          <div className="flex items-center gap-4 text-sm text-gray-500">
+            <time>{new Date(article.publishedDate).toLocaleDateString()}</time>
+            <span>•</span>
+            <span>{article.readTime}</span>
+          </div>
+        </header>
+
+        {/* Article Content */}
+        <div className="prose prose-lg max-w-none">
+          {article.content}
+        </div>
+
+        {/* Related Tools CTA */}
+        <aside className="mt-12 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100">
+          <h3 className="text-lg font-bold text-gray-900 mb-3">
+            Try Our Calculators
+          </h3>
+          <div className="space-y-2">
+            {article.relatedTools.map((tool) => (
+              <Link
+                key={tool.href}
+                href={tool.href}
+                className="flex items-center justify-between bg-white rounded-lg px-4 py-3 hover:shadow-md transition-shadow"
+              >
+                <span className="font-semibold text-gray-900">{tool.name}</span>
+                <span className="text-blue-600">Calculate →</span>
+              </Link>
+            ))}
+          </div>
+        </aside>
+      </article>
+    </>
+  );
+}
+```
+
+### Linking Strategy
+
+#### From Tool to Blog
+
+Add a "Learn More" section at the bottom of calculator pages:
+
+```tsx
+// In calculator component, after results section
+
+<section className="mb-8">
+  <div className="bg-white rounded-xl shadow-lg p-6">
+    <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+      <span className="text-xl">📚</span>
+      Learn More
+    </h3>
+    <p className="text-sm text-gray-600 mb-4">
+      Understand the concepts behind the calculations with our guides:
+    </p>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <Link
+        href="/finance/learn/understanding-emi-calculations"
+        className="flex items-center justify-between bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg px-4 py-3 hover:shadow-md transition-all group"
+      >
+        <span className="text-sm font-semibold text-gray-900">
+          Understanding EMI Calculations
+        </span>
+        <span className="text-blue-600 group-hover:translate-x-1 transition-transform">
+          →
+        </span>
+      </Link>
+      {/* More links */}
+    </div>
+  </div>
+</section>
+```
+
+#### From Blog to Tool
+
+Include 2-3 call-to-actions within article content:
+
+```tsx
+// Inline CTA within article
+<div className="my-8 bg-blue-50 border-l-4 border-blue-600 rounded-lg p-5">
+  <p className="text-sm text-gray-700 mb-2">
+    <strong>Want to calculate your EMI?</strong> Try our free calculator:
+  </p>
+  <Link
+    href="/finance/emi-calculator"
+    className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+  >
+    Calculate EMI Now →
+  </Link>
+</div>
+```
+
+### Blog Post Topics by Tool
+
+**EMI Calculator:**
+1. "Understanding EMI Calculations: Formula, Factors & Examples"
+2. "Prepayment Strategies: Reduce EMI vs Reduce Tenure Explained"
+3. "How to Choose the Right Home Loan Tenure"
+4. "Impact of Interest Rates on Your Monthly EMI"
+
+**FIRE Calculator:**
+1. "The FIRE Movement Explained: Complete Beginner's Guide"
+2. "Coast FIRE vs Traditional Retirement: Which is Right for You?"
+3. "How to Calculate Your FIRE Number (Step-by-Step)"
+4. "The 4% Rule: Is It Still Valid in 2026?"
+
+### Content Guidelines for Blogs
+
+1. **Write for Beginners:**
+   - Define jargon on first use
+   - Use examples with real numbers
+   - Break complex topics into steps
+
+2. **Be Actionable:**
+   - "How to..." formats work best
+   - Include checklists or bullet points
+   - End each section with a takeaway
+
+3. **Link Contextually:**
+   - Don't force links
+   - Link when mentioning the calculator naturally
+   - Use descriptive anchor text ("try our FIRE calculator" not "click here")
+
+4. **SEO Best Practices:**
+   - Target one primary keyword per post
+   - Use keyword in: title, first paragraph, one H2, meta description
+   - Add internal links to other blog posts (create content cluster)
+   - Include FAQ section if possible
+
+5. **Keep Fresh:**
+   - Update dates annually
+   - Revise statistics/examples as needed
+   - Add new sections based on user questions
 
 ---
 

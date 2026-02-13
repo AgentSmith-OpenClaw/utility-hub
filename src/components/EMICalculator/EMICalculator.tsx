@@ -1465,6 +1465,39 @@ const EMICalculator: React.FC = () => {
           ))}
         </section>
 
+        {/* Learn More Section */}
+        <section className="bg-white rounded-2xl shadow-lg p-6 border border-slate-200 mb-8">
+          <h3 className="text-2xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+            <span className="text-2xl">📚</span>
+            Learn More About EMI & Loan Management
+          </h3>
+          <p className="text-sm text-slate-600 mb-5">
+            Understand the concepts behind EMI calculations and make smarter loan decisions with our in-depth guides:
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <a
+              href="/finance/learn/understanding-emi-calculations"
+              className="flex flex-col bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl px-5 py-4 hover:shadow-md transition-all group border border-blue-100"
+            >
+              <span className="text-sm font-bold text-slate-900 mb-1">Understanding EMI Calculations</span>
+              <span className="text-xs text-slate-600 mb-2">Learn the formula, factors, and math behind your monthly payments</span>
+              <span className="text-blue-600 text-sm font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                Read Guide <span>→</span>
+              </span>
+            </a>
+            <a
+              href="/finance/learn/prepayment-strategies-guide"
+              className="flex flex-col bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl px-5 py-4 hover:shadow-md transition-all group border border-green-100"
+            >
+              <span className="text-sm font-bold text-slate-900 mb-1">Prepayment Strategies Explained</span>
+              <span className="text-xs text-slate-600 mb-2">Reduce EMI vs Reduce Tenure—which saves you more money?</span>
+              <span className="text-green-600 text-sm font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                Read Guide <span>→</span>
+              </span>
+            </a>
+          </div>
+        </section>
+
         {/* Bottom Ad */}
         <div className="flex justify-center my-6 2xl:hidden">
           <AdSlot slotId="bottom-banner" format="horizontal" label="Bottom Banner Ad" />
