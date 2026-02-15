@@ -1187,6 +1187,126 @@ const FIRECalculator: React.FC = () => {
           </div>
         </section>
 
+        {/* --- Educational Content & SEO Section --- */}
+        <section className="mt-16 space-y-16">
+          {/* Introduction to FIRE */}
+          <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-100 shadow-sm relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full blur-3xl -mr-32 -mt-32 opacity-60" />
+            <div className="relative z-10 max-w-3xl">
+              <h2 className="text-3xl font-black text-slate-900 mb-6 tracking-tight">What is the FIRE Movement?</h2>
+              <p className="text-slate-600 text-lg leading-relaxed mb-6 font-medium">
+                FIRE stands for <span className="text-blue-600 font-bold">Financial Independence, Retire Early</span>. It's a lifestyle movement defined by frugality, extreme saving, and early investment with the goal of retiring decades earlier than the traditional age of 60 or 65.
+              </p>
+              <p className="text-slate-600 leading-relaxed mb-8">
+                The core philosophy is simple: by saving a large portion of your income (often 50-70%) and investing it wisely, you can build a "nest egg" (FIRE Number) large enough that you never have to work for money again. From that point on, your work becomes optional.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                  <h4 className="font-bold text-slate-800 mb-2 flex items-center gap-2">
+                    <span className="text-xl">🛠️</span> Financial Independence
+                  </h4>
+                  <p className="text-xs text-slate-500 leading-relaxed font-medium">When your passive income (from investments) covers all your living expenses for the rest of your life.</p>
+                </div>
+                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                  <h4 className="font-bold text-slate-800 mb-2 flex items-center gap-2">
+                    <span className="text-xl">🏃</span> Retire Early
+                  </h4>
+                  <p className="text-xs text-slate-500 leading-relaxed font-medium">Reclaiming your time to pursue passions, travel, or slow down, rather than being tied to a 9-to-5 desk job.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* FIRE Types Deep Dive */}
+          <div className="space-y-8">
+            <div className="text-center max-w-2xl mx-auto">
+              <h2 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">Understanding the 5 FIRE Strategies</h2>
+              <p className="text-slate-500 font-medium">Not everyone's retirement looks the same. Choose the path that matches your lifestyle goals.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                { title: "Lean FIRE", icon: "🌱", desc: "For the minimalists. Requires the smallest nest egg. Focuses on covering essential needs with almost zero luxury spending." },
+                { title: "Regular FIRE", icon: "🏠", desc: "Maintains your current middle-class lifestyle. The baseline goal for most individuals seeking independence." },
+                { title: "Fat FIRE", icon: "🛥️", desc: "For those who want a luxurious lifestyle in retirement—travel, multiple properties, and high discretionary spending." },
+                { title: "Coast FIRE", icon: "⛵", desc: "The ultimate strategy if you're young. Save enough early on so that with compounding, you'll have enough to retire at 60 without saving another penny." },
+                { title: "Barista FIRE", icon: "☕", desc: "You have enough to cover basics but work a low-stress part-time job for health insurance or extra 'fun' money." }
+              ].map((type, i) => (
+                <div key={i} className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:border-blue-200 transition-colors group">
+                  <div className="text-3xl mb-4 group-hover:scale-110 transition-transform inline-block">{type.icon}</div>
+                  <h4 className="font-bold text-slate-900 mb-2">{type.title}</h4>
+                  <p className="text-sm text-slate-500 leading-relaxed font-medium">{type.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* The 4% Rule */}
+          <div className="bg-slate-900 rounded-[40px] p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden">
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-600/20 rounded-full blur-[100px] -mr-48 -mb-48" />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+              <div className="space-y-6">
+                <h2 className="text-3xl font-black tracking-tight">The 4% Rule: The Math Behind FIRE</h2>
+                <p className="text-blue-100 leading-relaxed font-medium">
+                  The "4% rule" is a rule of thumb used to determine how much a retiree should withdraw from a retirement account each year. It suggests that if you withdraw 4% of your initial portfolio value (adjusted for inflation each year), your money should last for at least 30 years.
+                </p>
+                <div className="bg-white/10 rounded-2xl p-6 border border-white/10">
+                  <p className="text-sm font-bold mb-2">The Basic Calculation:</p>
+                  <code className="text-xl font-black text-blue-400 block mb-2">FIRE Number = Yearly Expenses x 25</code>
+                  <p className="text-[10px] text-blue-200 uppercase tracking-widest font-bold">This is the inverse of the 4% withdrawal rate.</p>
+                </div>
+              </div>
+              <div className="bg-white/5 rounded-3xl p-8 border border-white/10 backdrop-blur-sm">
+                <h4 className="font-bold mb-4">Is 4% still safe in 2026?</h4>
+                <ul className="space-y-4">
+                  {[
+                    "With early retirement (40-50 years), many experts suggest a 3.5% withdrawal rate for extra safety.",
+                    "Dynamic withdrawal strategies can significantly improve success rates during market downturns.",
+                    "Asset allocation (Stocks vs Bonds) still plays a massive role in maintaining longevity.",
+                    "Our calculator allows you to adjust the Safe Withdrawal Rate to see different safety margins."
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm text-blue-50 font-medium leading-relaxed">
+                      <span className="mt-1 w-1.5 h-1.5 bg-blue-400 rounded-full flex-shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* FAQ Section */}
+          <div className="space-y-6 pb-12">
+            <h2 className="text-3xl font-black text-slate-900 text-center mb-10 tracking-tight">FIRE Frequently Asked Questions</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {[
+                {
+                  q: "What is the best age to start working toward FIRE?",
+                  a: "The best age is today! Due to the power of compounding, every dollar saved in your 20s is worth significantly more than a dollar saved later. However, people start their FIRE journey at all ages."
+                },
+                {
+                  q: "How do I handle healthcare after retiring early?",
+                  a: "Health insurance is a key factor. Most FIRE plans include insurance premiums in monthly expenses. Barista FIRE is often used specifically for employer-subsidized healthcare."
+                },
+                {
+                  q: "Does FIRE mean I can never work again?",
+                  a: "No, it's about making work optional. Many FIRE individuals pursue creative work, part-time consultancy, or non-profit roles that they find meaningful."
+                },
+                {
+                  q: "How does inflation affect my FIRE number?",
+                  a: "Inflation erodes purchasing power. Our calculator accounts for this by adjusting your final FIRE number based on your expected inflation rate."
+                }
+              ].map((faq, i) => (
+                <div key={i} className="group">
+                  <h4 className="font-bold text-slate-800 mb-3 text-lg leading-snug group-hover:text-blue-600 transition-colors flex gap-2">
+                    <span className="text-blue-200">Q.</span> {faq.q}
+                  </h4>
+                  <p className="text-sm text-slate-500 leading-relaxed font-medium pl-6 border-l-2 border-slate-100 group-hover:border-blue-100 transition-colors">{faq.a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Learn More Section */}
         <section className="bg-white rounded-2xl shadow-lg p-6 border border-slate-200 mb-8">
           <h3 className="text-2xl font-bold text-slate-900 mb-3 flex items-center gap-2">

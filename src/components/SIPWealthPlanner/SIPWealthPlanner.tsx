@@ -958,89 +958,165 @@ const SIPWealthPlanner: React.FC = () => {
           </div>
         </section>
 
-        {/* SEO Content */}
-        <section className="mt-8 space-y-8">
-          <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
-            <h2 className="text-xl font-bold text-slate-900 mb-4">What is a Systematic Investment Plan (SIP)?</h2>
-            <div className="prose prose-sm prose-slate max-w-none text-slate-600 space-y-3">
-              <p>
-                A <strong>Systematic Investment Plan (SIP)</strong> is a disciplined approach to investing in mutual funds where you commit a fixed amount at regular intervals — typically monthly. Instead of timing the market with a lump sum, SIP spreads your investment over time, automatically buying more units when prices are low and fewer units when prices are high. This phenomenon is called <strong>Rupee Cost Averaging</strong> (or Dollar Cost Averaging for USD investors).
+        {/* --- Educational Content & SEO Section --- */}
+        <section className="mt-16 space-y-16">
+          {/* Introduction to SIP */}
+          <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-100 shadow-sm relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-teal-50 rounded-full blur-3xl -mr-32 -mt-32 opacity-60" />
+            <div className="relative z-10 max-w-3xl">
+              <h2 className="text-3xl font-black text-slate-900 mb-6 tracking-tight">The Power of Systematic Investing (SIP)</h2>
+              <p className="text-slate-600 text-lg leading-relaxed mb-6 font-medium">
+                A <span className="text-teal-600 font-bold">Systematic Investment Plan (SIP)</span> is more than just a monthly investment; it's a disciplined approach to wealth creation that leverages the power of compounding and <span className="italic uppercase text-xs font-bold tracking-widest text-slate-400">Rupee Cost Averaging</span>.
               </p>
-              <p>
-                SIPs are popular among both beginner and experienced investors because they require minimal effort after setup, enforce financial discipline, and remove the psychological burden of deciding when to invest. Most mutual fund houses in India allow SIPs starting from as low as ₹500 per month, making them accessible to virtually everyone.
+              <p className="text-slate-600 leading-relaxed mb-8">
+                By investing a fixed amount regularly, you buy more units when prices are low and fewer units when prices are high. Over time, this lowers your average cost per unit and significantly boosts returns compared to trying to "time the market." SIPs are accessible, starting from as low as ₹500, making them the ultimate wealth-building tool for everyone.
               </p>
-              <p>
-                The power of SIP lies in <strong>compounding</strong> — the process where returns earned on your investment generate their own returns over time. The earlier you start, the more time compounding has to work in your favour. Even modest monthly investments, if started early enough, can grow into substantial wealth over 15-30 years.
-              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                  <h4 className="font-bold text-slate-800 mb-2 flex items-center gap-2">
+                    <span className="text-xl">📈</span> Compounding Effect
+                  </h4>
+                  <p className="text-xs text-slate-500 leading-relaxed font-medium">Earnings on your earnings. The longer you stay invested, the more your wealth grows exponentially over time.</p>
+                </div>
+                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                  <h4 className="font-bold text-slate-800 mb-2 flex items-center gap-2">
+                    <span className="text-xl">🛡️</span> Discipline vs Timing
+                  </h4>
+                  <p className="text-xs text-slate-500 leading-relaxed font-medium">Automating your savings removes emotional bias and ensures you invest consistently through all market cycles.</p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
-            <h2 className="text-xl font-bold text-slate-900 mb-4">How Step-Up SIP Works &amp; Why It Matters</h2>
-            <div className="prose prose-sm prose-slate max-w-none text-slate-600 space-y-3">
-              <p>
-                A <strong>Step-Up SIP</strong> (also called a top-up SIP) automatically increases your monthly investment by a fixed amount or percentage every year. For example, if you start with ₹5,000/month and set a 10% annual step-up, your SIP becomes ₹5,500 in year 2, ₹6,050 in year 3, and so on.
-              </p>
-              <p>
-                Why does this matter so much? Consider two investors who both earn 12% annual returns over 20 years. Investor A invests a flat ₹5,000/month and ends up with roughly ₹50 lakhs. Investor B starts the same but adds a 10% annual step-up, ending up with ₹99+ lakhs — <strong>nearly double</strong> — because each annual increase gets its own compounding runway.
-              </p>
-              <p>
-                Most working professionals receive annual salary hikes of 8-15%. Allocating a portion of each hike to your SIP step-up is a painless way to dramatically accelerate wealth creation without impacting your current lifestyle.
-              </p>
+          {/* Step-up SIP Strategy */}
+          <div className="space-y-8">
+            <div className="text-center max-w-2xl mx-auto">
+              <h2 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">The "Step-up" Advantage</h2>
+              <p className="text-slate-500 font-medium">Why a simple 10% annual increase in your SIP can double your final wealth accumulation.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-teal-900 rounded-[40px] p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl -ml-32 -mt-32" />
+              <div className="space-y-6 relative z-10">
+                <h3 className="text-2xl font-bold">What is a Step-up SIP?</h3>
+                <p className="text-teal-100 leading-relaxed">
+                  Most people's income increases over time. A Step-up (or Top-up) SIP allows you to automatically increase your investment amount by a fixed percentage or amount every year.
+                </p>
+                <div className="bg-white/10 rounded-2xl p-6 border border-white/20 backdrop-blur-md">
+                  <p className="text-sm font-bold text-teal-300 mb-4 uppercase tracking-wider">The Math of Growth</p>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-end border-b border-white/10 pb-2">
+                      <span className="text-xs text-teal-200">Regular SIP (₹10k/mo, 20y)</span>
+                      <span className="font-bold">₹1.0 Cr*</span>
+                    </div>
+                    <div className="flex justify-between items-end border-b border-white/10 pb-2">
+                      <span className="text-xs text-teal-200">10% Step-up SIP (20y)</span>
+                      <span className="font-bold text-teal-400">₹2.1 Cr*</span>
+                    </div>
+                    <p className="text-[10px] text-teal-400 mt-2 font-medium leading-relaxed italic">
+                      *Assumed 12% annual return. Results show how a small 10% annual increase leads to over 100% higher wealth.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-6">
+                <h4 className="text-xl font-bold">Why call it the "Salary Hike" hack?</h4>
+                <ul className="space-y-4">
+                  {[
+                    "Matches your annual income growth (increments).",
+                    "Significantly counters the impact of inflation.",
+                    "Builds massive wealth without feeling the pinch today.",
+                    "Reaches your retirement goals 5-7 years earlier."
+                  ].map((benefit, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm text-teal-50 font-medium leading-relaxed">
+                      <div className="w-5 h-5 bg-teal-500 rounded-full flex items-center justify-center text-[10px] shrink-0 mt-0.5">✓</div>
+                      {benefit}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
-            <h2 className="text-xl font-bold text-slate-900 mb-4">Understanding Inflation-Adjusted Returns</h2>
-            <div className="prose prose-sm prose-slate max-w-none text-slate-600 space-y-3">
-              <p>
-                When planning investments over 10-30 years, <strong>inflation</strong> is the silent wealth eroder that many investors overlook. In India, average inflation runs at 5-7% per year. This means ₹1 crore 20 years from now will only buy what approximately ₹30-37 lakhs buys today.
+          {/* Inflation & Real Returns */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center px-4">
+            <div className="space-y-6">
+              <h2 className="text-3xl font-black text-slate-900 mb-6 tracking-tight">Inflation: The Silent Wealth Destroyer</h2>
+              <p className="text-slate-600 leading-relaxed font-medium">
+                In India, average inflation runs at 5-7% per year. This means <span className="text-red-600 font-bold">₹1 Crore</span> in 20 years will only buy what <span className="text-slate-900 font-bold">₹31 Lakhs</span> buys today.
               </p>
-              <p>
-                This planner shows both the <strong>nominal corpus</strong> (the headline number) and the <strong>real corpus</strong> (adjusted for inflation, i.e., the purchasing power in today&apos;s money). Always evaluate your investment goals using the real value to ensure you are actually meeting your financial needs, not just hitting a nominal number.
+              <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
+                <p className="text-sm text-slate-500 leading-relaxed">
+                  Our planner calculates your <strong>Real Corpus</strong> (inflation-adjusted value). Always plan your goals using "Purchasing Power" rather than just the total amount to ensure your future needs are truly met.
+                </p>
+              </div>
+              <div className="bg-slate-900 rounded-2xl p-6 text-white border border-slate-800 shadow-xl">
+                <h4 className="font-bold mb-4 text-teal-400">SIP Formula (Future Value)</h4>
+                <div className="font-mono text-xs overflow-x-auto space-y-4">
+                  <code className="text-white font-bold block">FV = P × [((1 + i)^n - 1) / i] × (1 + i)</code>
+                  <div className="grid grid-cols-2 gap-2 text-[10px] text-slate-400">
+                    <div>P: Monthly Amount</div>
+                    <div>i: Monthly Rate (r/12/100)</div>
+                    <div>n: Total Months</div>
+                    <div>FV: Final Value</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Cost of Delay */}
+            <div className="bg-white rounded-[40px] p-8 sm:p-10 border border-slate-100 shadow-xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-orange-100 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity" />
+              <h3 className="text-2xl font-black text-slate-900 mb-4 tracking-tight">The High Price of Delay</h3>
+              <p className="text-slate-500 leading-relaxed mb-8">
+                Wait just 5 years to start your SIP? For a ₹10,000 SIP at 12%, that 5-year delay could cost you nearly <span className="text-orange-600 font-bold">₹90 Lakhs</span> in lost compounding returns.
               </p>
+              <div className="space-y-4">
+                <div className="flex items-center gap-4 p-4 bg-teal-50 rounded-2xl border border-teal-100">
+                  <span className="text-2xl">⏳</span>
+                  <div>
+                    <h5 className="font-bold text-teal-900 text-sm">Start Today (Age 25)</h5>
+                    <p className="text-xs text-teal-700">Maximized compounding runway.</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4 p-4 bg-orange-50 rounded-2xl border border-orange-100 opacity-80">
+                  <span className="text-2xl">🚨</span>
+                  <div>
+                    <h5 className="font-bold text-orange-900 text-sm">Start Later (Age 30)</h5>
+                    <p className="text-xs text-orange-700">Lost the most valuable growth years.</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
-            <h2 className="text-xl font-bold text-slate-900 mb-4">The Hidden Cost of Delay</h2>
-            <div className="prose prose-sm prose-slate max-w-none text-slate-600 space-y-3">
-              <p>
-                One of the most powerful visualizations in this planner is the <strong>Cost of Delay</strong> chart. It shows the dramatic impact of postponing your SIP start date. Consider a ₹10,000/month SIP at 12% return over 25 years. If you delay starting by just 5 years (investing for 20 years instead of 25), you lose approximately ₹90 lakhs — even though you only missed investing ₹6 lakhs worth of SIP amounts. The remaining ₹84 lakhs is lost compounding.
-              </p>
-              <p>
-                This is why financial advisors consistently emphasize: <strong>the best time to start investing was yesterday, the second best time is today</strong>. Even small amounts, started early, significantly outperform larger amounts started later.
-              </p>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
-            <h2 className="text-xl font-bold text-slate-900 mb-4">Understanding XIRR vs CAGR</h2>
-            <div className="prose prose-sm prose-slate max-w-none text-slate-600 space-y-3">
-              <p>
-                This planner calculates the <strong>XIRR (Extended Internal Rate of Return)</strong>, which is the true annualized return on your SIP considering the exact timing of every monthly investment. Many calculators incorrectly show a simple CAGR formula that treats your total invested amount as a single lump sum invested at day one. This drastically underestimates your actual return for SIP investments.
-              </p>
-              <p>
-                Our XIRR uses the <strong>Newton-Raphson numerical method</strong> to solve for the monthly internal rate of return, then annualizes it. This is the same approach used by professional portfolio analytics tools and mutual fund factsheets.
-              </p>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm" itemScope itemType="https://schema.org/FAQPage">
-            <h2 className="text-xl font-bold text-slate-900 mb-4">Frequently Asked Questions</h2>
-            <div className="space-y-4">
+          {/* FAQ Section */}
+          <div className="space-y-6 pb-12" itemScope itemType="https://schema.org/FAQPage">
+            <h2 className="text-3xl font-black text-slate-900 text-center mb-10 tracking-tight">SIP & Mutual Fund FAQs</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {[
-                { q: 'What is a good expected rate of return for SIP?', a: 'Historically, diversified Indian equity mutual funds have delivered 12-15% annualized returns over 10+ year periods. For conservative planning, use 10-12%. For debt funds, 6-8%. Always check the specific fund category\'s historical performance.' },
-                { q: 'How much should I increase my SIP every year?', a: 'A 10% annual step-up is a practical benchmark for most salaried individuals. It roughly matches the average salary hike in India. Even a modest 5% step-up makes a significant difference over 15-20 years.' },
-                { q: 'Can I change my SIP amount mid-way?', a: 'Yes, most mutual fund houses allow you to modify your SIP amount, pause it, or stop it at any time without penalty.' },
-                { q: 'Is the inflation rate of 6% accurate?', a: 'India\'s CPI inflation has averaged 5-7% over the past two decades. 6% is a reasonable middle estimate for long-term planning.' },
-                { q: 'What does the Purchasing Power number mean?', a: 'Purchasing power shows what your future corpus is worth in today\'s money after accounting for inflation. If inflation is 6% and your corpus is ₹1 crore after 20 years, it will buy only about ₹31 lakhs worth of goods in today\'s prices.' },
-                { q: 'How accurate is the XIRR calculation?', a: 'Our XIRR uses the Newton-Raphson numerical method with 300 iterations, achieving precision to 0.01%. This is the industry-standard approach.' },
-              ].map(({ q, a }, i) => (
-                <div key={i} className="border-b border-slate-100 pb-3 last:border-0" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
-                  <h3 className="text-sm font-bold text-slate-800 mb-1" itemProp="name">{q}</h3>
+                {
+                  q: "What is a good expected rate of return for SIP?",
+                  a: "Historically, diversified Indian equity mutual funds have delivered 12-15% annualized returns over 10+ year periods. For conservative planning, use 10-12%."
+                },
+                {
+                  q: "What is XIRR vs CAGR?",
+                  a: "XIRR stands for Extended Internal Rate of Return. It is the true annualized return for periodic investments where cash flows happen at different times. CAGR is only for point-to-point lump sums."
+                },
+                {
+                  q: "Can I pause or stop my SIP any time?",
+                  a: "Yes, SIPs are flexible. You can pause, stop, or modify your investment amount without any penalty. All your previous investments continue to grow."
+                },
+                {
+                  q: "Is it better to invest in SIP or Lumpsum?",
+                  a: "SIP is generally safer for most investors as it averages out the cost of buying (Rupee Cost Averaging) and prevents the risk of 'timing the market' poorly."
+                }
+              ].map((faq, i) => (
+                <div key={i} className="group" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                  <h4 className="font-bold text-slate-800 mb-3 text-lg leading-snug group-hover:text-teal-600 transition-colors flex gap-2" itemProp="name">
+                    <span className="text-teal-200">Q.</span> {faq.q}
+                  </h4>
                   <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
-                    <p className="text-sm text-slate-600 leading-relaxed" itemProp="text">{a}</p>
+                    <p className="text-sm text-slate-500 leading-relaxed font-medium pl-6 border-l-2 border-slate-100 group-hover:border-teal-100 transition-colors" itemProp="text">{faq.a}</p>
                   </div>
                 </div>
               ))}

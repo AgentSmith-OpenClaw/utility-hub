@@ -1410,6 +1410,120 @@ const EMICalculator: React.FC = () => {
           </div>
         </section>
 
+        {/* --- Educational Content & SEO Section --- */}
+        <section className="mt-12 space-y-12">
+          {/* How to use */}
+          <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
+            <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+              <span className="p-1.5 bg-blue-100 text-blue-600 rounded-lg">📋</span>
+              How to Use the Advanced EMI Calculator
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="space-y-3">
+                <div className="text-3xl font-black text-slate-100 italic">01</div>
+                <h4 className="font-bold text-slate-800">Enter Loan Details</h4>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Start by inputting your principal loan amount, the annual interest rate offered by your bank, and the tenure in years. Our tool instantly calculates your monthly outflow.
+                </p>
+              </div>
+              <div className="space-y-3">
+                <div className="text-3xl font-black text-slate-100 italic">02</div>
+                <h4 className="font-bold text-slate-800">Add Prepayments</h4>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Have a bonus or extra savings? Add one-time or recurring prepayments to see how much interest you can save. You can choose to either Reduce Tenure or Reduce EMI.
+                </p>
+              </div>
+              <div className="space-y-3">
+                <div className="text-3xl font-black text-slate-100 italic">03</div>
+                <h4 className="font-bold text-slate-800">Analyze & Export</h4>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Review the 8+ interactive charts showing your balance over time and principal-interest ratio. Download your customized amortization schedule as PDF or Excel.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Deep Dive: Why Prepay? */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="bg-indigo-600 rounded-3xl p-8 text-white shadow-xl shadow-indigo-100 relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-110 transition-transform duration-700" />
+              <h2 className="text-2xl font-bold mb-6">Why Loan Prepayment is a Wealth Builder</h2>
+              <p className="text-indigo-100 mb-6 leading-relaxed">
+                Prepaying your loan in the early years is one of the most effective ways to build wealth. Because EMI interest is calculated on the reducing balance, a prepayment goes directly toward reducing your principal.
+              </p>
+              <ul className="space-y-4">
+                {[
+                  "Save lakhs in interest costs over the loan lifecycle",
+                  "Become debt-free years ahead of schedule",
+                  "Improve your credit score by reducing credit utilization",
+                  "Free up monthly cash flow sooner for other investments"
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm font-medium">
+                    <span className="mt-1 w-5 h-5 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0 text-[10px]">✓</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm flex flex-col justify-center">
+              <h2 className="text-2xl font-bold text-slate-900 mb-4">Understanding the EMI Formula</h2>
+              <p className="text-slate-600 text-sm mb-6 leading-relaxed">
+                Most banks use the standard formula for Equated Monthly Installments:
+              </p>
+              <div className="bg-slate-50 rounded-2xl p-6 text-center mb-6">
+                <code className="text-blue-600 font-bold block mb-2 text-lg">E = P x r x (1+r)^n / ((1+r)^n - 1)</code>
+                <div className="text-xs text-slate-500 font-medium space-y-1">
+                  <p><strong>P</strong> = Principal Loan Amount</p>
+                  <p><strong>r</strong> = Monthly Interest Rate (Annual Rate / 12 / 100)</p>
+                  <p><strong>n</strong> = Number of monthly installments</p>
+                </div>
+              </div>
+              <p className="text-xs text-slate-500 italic">
+                * Our calculator handles all these complex calculations for you, including the impact of prepayments on reducing the compounding interest.
+              </p>
+            </div>
+          </div>
+
+          {/* FAQ Section */}
+          <div id="faq" className="space-y-6">
+            <h2 className="text-2xl font-bold text-slate-900 text-center mb-8">Frequently Asked Questions</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                {
+                  q: "Which is better: Reduce Tenure or Reduce EMI?",
+                  a: "Reducing Tenure is mathematically superior as it saves significantly more interest by cutting down the number of compounding cycles. Reducing EMI is better only if you have immediate monthly cash flow constraints."
+                },
+                {
+                  q: "When is the best time to prepay a loan?",
+                  a: "The early years are best. Since interest is calculated on the outstanding balance, prepaying in the first 5 years of a 20-year loan typically saves 3-4 times more interest than prepaying in the last 5 years."
+                },
+                {
+                  q: "Can I use this for Personal or Car loans?",
+                  a: "Absolutely. This tool works for any reducing balance loan, including home loans, car loans, and personal loans. Simply adjust the tenure to match your specific loan type."
+                },
+                {
+                  q: "Are there any hidden charges for prepayment?",
+                  a: "Most floating-rate home loans in India have zero prepayment charges. However, fixed-rate loans or personal loans might carry a 2-5% penalty. Always check your loan agreement first."
+                },
+                {
+                  q: "How accurate is this EMI calculator?",
+                  a: "Our tool uses the standard bank-grade amortization logic. Minor differences of ₹1-5 might occur due to rounding or if your bank uses a daily reducing balance method instead of monthly."
+                },
+                {
+                  q: "Should I invest extra money or prepay my home loan?",
+                  a: "If your after-tax investment return (like in mutual funds) is higher than your loan interest rate, investing might be better. However, the 'peace of mind' of being debt-free is an emotional return that many prioritize."
+                }
+              ].map((faq, i) => (
+                <div key={i} className="bg-slate-50 rounded-2xl p-6 hover:bg-slate-100 transition-colors">
+                  <h4 className="font-extrabold text-slate-800 mb-2 leading-snug">{faq.q}</h4>
+                  <p className="text-sm text-slate-600 leading-relaxed font-medium">{faq.a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Bottom Ad */}
         <div className="flex justify-center my-6 2xl:hidden">
           <AdSlot slotId="bottom-banner" format="horizontal" label="Bottom Banner Ad" />
