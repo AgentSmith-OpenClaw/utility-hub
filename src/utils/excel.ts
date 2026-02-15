@@ -4,6 +4,7 @@ import { Payment } from '../components/EMICalculator/EMICalculator.types';
 import { YearlyProjection, FIRETypeComparison, PostFIREProjection } from '../components/FIRECalculator/FIRECalculator.types';
 import { SIPInputs, SIPResult } from '../components/SIPWealthPlanner/SIPWealthPlanner.types';
 import { CompoundInterestInputs, CompoundInterestResult } from '../components/CompoundInterestCalculator/CompoundInterestCalculator.types';
+import { IncomeTaxInputs, IncomeTaxResult } from '../components/IncomeTaxCalculator/IncomeTaxCalculator.types';
 
 export const exportToExcel = (schedule: Payment[], filename: string = 'emi_schedule.xlsx') => {
   const ws = XLSX.utils.json_to_sheet(schedule);
@@ -197,4 +198,64 @@ export const exportCompoundInterestToExcel = (
   const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
   const data = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
   saveAs(data, filename);
+};
+
+export const exportIncomeTaxToExcel = (
+  inputs: IncomeTaxInputs,
+  result: IncomeTaxResult,
+  filename: string = 'india_2026_tax_report.xlsx'
+) => {
+  const wb = XLSX.utils.book_new();
+
+  // Sheet 1: Regime Comparison
+  const comparisonData = [
+    { Metric: 'Gross Income', 'Old Regime': Math.round(result.oldRegime.grossIncome), 'New Regime': Math.round(result.newRegime.grossIncome) },
+    { Metric: 'Total Deductions', 'Old Regime': Math.round(result.oldRegime.totalDeductions), 'New Regime': Math.round(result.newRegime.totalDeductions) },
+    { Metric: 'Taxable Income', 'Old Regime': Math.round(result.oldRegime.taxableIncome), 'New Regime': Math.round(result.newRegime.taxableIncome) },
+    { Metric: 'Tax Before Cess', 'Old Regime': Math.round(result.oldRegime.taxBeforeCess), 'New Regime': Math.round(result.newRegime.taxBeforeCess) },
+    { Metric: '87A Rebate', 'Old Regime': Math.round(result.oldRegime.rebate87A), 'New Regime': Math.round(result.newRegime.rebate87A) },
+    { Metric: 'Surcharge', 'Old Regime': Math.round(result.oldRegime.surcharge), 'New Regime': Math.round(result.newRegime.surcharge) },
+    { Metric: '4% Cess', 'Old Regime': Math.round(result.oldRegime.cess), 'New Regime': Math.round(result.newRegime.cess) },
+    { Metric: 'Total Tax', 'Old Regime': Math.round(result.oldRegime.totalTax), 'New Regime': Math.round(result.newRegime.totalTax) },
+    { Metric: 'Take Home', 'Old Regime': Math.round(result.oldRegime.takeHomeIncome), 'New Regime': Math.round(result.newRegime.takeHomeIncome) },
+    { Metric: 'Effective Rate', 'Old Regime': `${result.oldRegime.effectiveRate.toFixed(1)}%`, 'New Regime': `${result.newRegime.effectiveRate.toFixed(1)}%` },
+    { Metric: 'Monthly Tax', 'Old Regime': result.oldRegime.monthlyTax, 'New Regime': result.newRegime.monthlyTax },
+    { Metric: 'Monthly Take Home', 'Old Regime': result.oldRegime.monthlyTakeHome, 'New Regime': result.newRegime.monthlyTakeHome },
+  ];
+  const ws1 = XLSX.utils.json_to_sheet(comparisonData);
+  XLSX.utils.book_append_sheet(wb, ws1, 'Regime Comparison');
+
+  // Sheet 2: Slab-wise Breakdown (Recommended)
+  const recommended = result.recommendedRegime === 'new' ? result.newRegime : result.oldRegime;
+  const slabData = recommended.slabBreakdown.map(s => ({
+    'Slab': s.range,
+    'Rate': `${s.rate}%`,
+    'Taxable Amount': Math.round(s.taxableAmount),
+    'Tax': Math.round(s.tax),
+  }));
+  const ws2t = XLSX.utils.json_to_sheet(slabData);
+  XLSX.utils.book_append_sheet(wb, ws2t, 'Slab Breakdown');
+
+  // Sheet 3: Income Inputs
+  const inputData = [
+    { Parameter: 'Annual Salary', Value: inputs.annualSalary },
+    { Parameter: 'Interest Income', Value: inputs.interestIncome },
+    { Parameter: 'Rental Income', Value: inputs.rentalIncome },
+    { Parameter: 'Other Income', Value: inputs.otherIncome },
+    { Parameter: 'Salaried', Value: inputs.isSalaried ? 'Yes' : 'No' },
+    { Parameter: 'Section 80C', Value: inputs.section80C },
+    { Parameter: 'Section 80D', Value: inputs.section80D },
+    { Parameter: 'NPS (80CCD 1B)', Value: inputs.nps80CCD1B },
+    { Parameter: 'HRA Exemption', Value: inputs.hraExemption },
+    { Parameter: 'Home Loan Interest', Value: inputs.homeLoanInterest24b },
+    { Parameter: 'Other Deductions', Value: inputs.otherDeductions },
+    { Parameter: 'Recommended Regime', Value: result.recommendedRegime === 'new' ? 'New Regime' : 'Old Regime' },
+    { Parameter: 'Tax Savings', Value: Math.round(result.savings) },
+  ];
+  const ws3t = XLSX.utils.json_to_sheet(inputData);
+  XLSX.utils.book_append_sheet(wb, ws3t, 'Inputs & Summary');
+
+  const excelBuffer2 = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  const data2 = new Blob([excelBuffer2], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+  saveAs(data2, filename);
 };

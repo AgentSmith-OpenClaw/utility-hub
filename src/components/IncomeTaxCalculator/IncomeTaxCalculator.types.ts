@@ -17,6 +17,13 @@ export interface IncomeTaxInputs {
   isSalaried: boolean;
 }
 
+export interface SlabDetail {
+  range: string;
+  rate: number;
+  taxableAmount: number;
+  tax: number;
+}
+
 export interface TaxBreakdown {
   regime: TaxRegime;
   grossIncome: number;
@@ -24,9 +31,15 @@ export interface TaxBreakdown {
   taxableIncome: number;
   taxBeforeCess: number;
   rebate87A: number;
+  surcharge: number;
   cess: number;
   totalTax: number;
   takeHomeIncome: number;
+  effectiveRate: number;
+  marginalRate: number;
+  monthlyTax: number;
+  monthlyTakeHome: number;
+  slabBreakdown: SlabDetail[];
 }
 
 export interface IncomeTaxResult {
@@ -34,6 +47,7 @@ export interface IncomeTaxResult {
   newRegime: TaxBreakdown;
   recommendedRegime: TaxRegime;
   savings: number;
+  incomeWiseTax: { income: number; oldTax: number; newTax: number }[];
 }
 
 export const DEFAULT_INPUTS: IncomeTaxInputs = {

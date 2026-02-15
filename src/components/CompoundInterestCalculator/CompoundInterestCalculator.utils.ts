@@ -70,6 +70,25 @@ export const calculateCompoundInterest = (inputs: CompoundInterestInputs): Compo
   };
 };
 
+// Calculate compound interest for a specific frequency (for comparison chart)
+export const calculateForFrequency = (
+  inputs: CompoundInterestInputs,
+  frequency: string
+): number => {
+  const r = inputs.annualRate / 100;
+  const monthlyRate = r / 12;
+  let balance = inputs.initialPrincipal;
+
+  for (let year = 1; year <= inputs.years; year++) {
+    for (let month = 1; month <= 12; month++) {
+      const interest = balance * monthlyRate;
+      balance += interest + inputs.monthlyContribution;
+    }
+  }
+
+  return balance;
+};
+
 export const formatCurrency = (value: number, compact = false): string => {
   return new Intl.NumberFormat('en-IN', {
     style: 'currency',

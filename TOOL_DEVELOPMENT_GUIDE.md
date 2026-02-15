@@ -887,18 +887,30 @@ This keeps charts responsive even with 1000+ projection years.
 
 ## Sharing & Export Features (Required for All Tools)
 
-Every tool **must** include the following sharing and export capabilities. Follow the SIP Wealth Planner as the canonical reference implementation.
+Every tool **MUST** include the following sharing and export capabilities as **MINIMUM REQUIRED FEATURES**. These are non-negotiable requirements for all tools. Follow the existing calculators (EMI, FIRE, SIP, Compound Interest, Income Tax) as reference implementations.
 
-### Required Features
+### ⚠️ CRITICAL: Minimum Required Features
+
+**All new tools must implement ALL of the following:**
+
+1. ✅ **Export to PDF** — Full report export
+2. ✅ **Export to Excel** — Data table export with multiple sheets
+3. ✅ **Copy URL** — Share via URL with query parameters
+4. ✅ **WhatsApp Share** — Pre-filled message with results + URL
+5. ✅ **Twitter/X Share** — Tweet composer with results + URL
+
+**If any of these features are missing, the tool is considered incomplete and must be updated before deployment.**
+
+### Implementation Reference
 
 | Feature | Library/API | Description |
 |---------|------------|-------------|
 | Export PDF | `exportToPDF` from `../../utils/pdf` | Full-page screenshot PDF via html2canvas + jsPDF |
-| Export Excel | `exportToExcel` / `exportSIPToExcel` / `exportFIREToExcel` from `../../utils/excel` | XLSX with data sheets |
+| Export Excel | `exportToExcel` / `exportSIPToExcel` / `exportFIREToExcel` / `exportCompoundInterestToExcel` / `exportIncomeTaxToExcel` from `../../utils/excel` | XLSX with data sheets (create tool-specific export function if needed) |
 | Copy URL | `navigator.clipboard` (with textarea fallback) | Copies current URL with query params |
 | WhatsApp | `wa.me/?text=` | Opens WhatsApp with pre-filled message + URL |
 | Twitter/X | `twitter.com/intent/tweet` | Opens tweet composer with text + URL |
-| URL Query Params | `URLSearchParams` + `window.history.replaceState` | Syncs key inputs to URL for shareable links |
+| URL Query Params | `URLSearchParams` + `window.history.replaceState` | Syncs key inputs to URL for shareable links (optional but recommended) |
 
 ### State Variables
 
@@ -930,33 +942,75 @@ useEffect(() => {
 }, [inputValue1, inputValue2]);
 ```
 
-### Sharing Bar UI (Copy Exactly)
+### Sharing Bar UI — Unified Theme Colors
+
+**Use these exact button colors for consistency across all tools:**
 
 ```tsx
-{/* Export + Share bar */}
-<div className="flex flex-wrap gap-2">
+{/* Export + Share bar — Desktop Layout Example */}
+<div className="hidden lg:block space-y-3">
+  {/* PDF + Excel Row */}
+  <div className="grid grid-cols-2 gap-2">
+    <button onClick={handleExportPDF} disabled={exporting !== null}
+      className="flex items-center justify-center gap-2 bg-white hover:bg-indigo-50 border border-slate-100 hover:border-indigo-100 text-slate-600 hover:text-indigo-600 text-[11px] font-bold py-3 rounded-2xl transition-all shadow-sm">
+      📄 {exporting === 'pdf' ? '...' : 'PDF'}
+    </button>
+    <button onClick={handleExportExcel} disabled={exporting !== null}
+      className="flex items-center justify-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-100 text-slate-600 hover:text-teal-600 text-[11px] font-bold py-3 rounded-2xl transition-all shadow-sm">
+      📊 {exporting === 'excel' ? '...' : 'Excel'}
+    </button>
+  </div>
+  
+  {/* Copy URL Row */}
+  <button onClick={handleCopyURL}
+    className="w-full flex items-center justify-center gap-2 bg-white hover:bg-indigo-50 border border-slate-100 hover:border-indigo-100 text-slate-600 hover:text-indigo-600 text-[11px] font-bold py-3 rounded-2xl transition-all shadow-sm">
+    🔗 {copied ? '✅ COPIED!' : 'COPY PLAN URL'}
+  </button>
+  
+  {/* Social Share Row */}
+  <div className="grid grid-cols-2 gap-2">
+    <button onClick={handleShareWhatsApp}
+      className="flex items-center justify-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-100 text-slate-600 hover:text-teal-600 text-[11px] font-bold py-3 rounded-2xl transition-all shadow-sm">
+      💬 WHATSAPP
+    </button>
+    <button onClick={handleShareTwitter}
+      className="flex items-center justify-center gap-2 bg-white hover:bg-sky-50 border border-slate-100 hover:border-sky-100 text-slate-600 hover:text-sky-600 text-[11px] font-bold py-3 rounded-2xl transition-all shadow-sm">
+      🐦 TWITTER
+    </button>
+  </div>
+</div>
+
+{/* Mobile Layout Example */}
+<div className="flex flex-wrap gap-2 lg:hidden">
   <button onClick={handleExportPDF} disabled={exporting !== null}
-    className="flex items-center gap-1.5 bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 text-xs font-semibold px-3 py-2 rounded-lg transition disabled:opacity-50">
-    {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
+    className="flex items-center gap-1.5 bg-white border border-slate-100 text-slate-600 text-[10px] font-bold px-3 py-2.5 rounded-xl shadow-sm">
+    {exporting === 'pdf' ? '⏳' : '📄 PDF'}
   </button>
   <button onClick={handleExportExcel} disabled={exporting !== null}
-    className="flex items-center gap-1.5 bg-green-50 hover:bg-green-100 border border-green-200 text-green-700 text-xs font-semibold px-3 py-2 rounded-lg transition disabled:opacity-50">
-    {exporting === 'excel' ? '⏳ Generating…' : '📊 Export Excel'}
+    className="flex items-center gap-1.5 bg-white border border-slate-100 text-slate-600 text-[10px] font-bold px-3 py-2.5 rounded-xl shadow-sm">
+    {exporting === 'excel' ? '⏳' : '📊 EXCEL'}
   </button>
   <button onClick={handleCopyURL}
-    className="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
-    {copied ? '✅ Copied!' : '🔗 Copy Plan URL'}
+    className="flex items-center gap-1.5 bg-white border border-slate-100 text-slate-600 text-[10px] font-bold px-3 py-2.5 rounded-xl shadow-sm">
+    {copied ? '✅' : '🔗 COPY'}
   </button>
   <button onClick={handleShareWhatsApp}
-    className="flex items-center gap-1.5 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
-    💬 WhatsApp
+    className="flex items-center gap-1.5 bg-white border border-slate-100 text-slate-600 text-[10px] font-bold px-3 py-2.5 rounded-xl shadow-sm">
+    💬 SHARE
   </button>
   <button onClick={handleShareTwitter}
-    className="flex items-center gap-1.5 bg-sky-50 hover:bg-sky-100 border border-sky-200 text-sky-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
-    🐦 Twitter
+    className="flex items-center gap-1.5 bg-white border border-slate-100 text-slate-600 text-[10px] font-bold px-3 py-2.5 rounded-xl shadow-sm">
+    🐦 TWEET
   </button>
 </div>
 ```
+
+**Button Color Rules:**
+- **PDF Export**: `indigo` (indigo-50/100/600) — matches primary brand color
+- **Excel Export**: `teal` (teal-50/100/600) — success/growth color
+- **Copy URL**: `indigo` (indigo-50/100/600) — primary action
+- **WhatsApp**: `teal` (teal-50/100/600) — matches WhatsApp brand
+- **Twitter/X**: `sky` (sky-50/100/600) — matches Twitter brand
 
 ### Handler Templates
 
@@ -971,12 +1025,23 @@ const handleExportPDF = useCallback(async () => {
   finally { setExporting(null); }
 }, []);
 
+const handleExportExcel = useCallback(async () => {
+  setExporting('excel');
+  try {
+    // Use tool-specific export function from utils/excel.ts
+    // exportToExcel, exportSIPToExcel, exportFIREToExcel, exportCompoundInterestToExcel, exportIncomeTaxToExcel
+    await exportYourToolToExcel(data, '[Tool]_Data.xlsx');
+  } catch (e) { console.error(e); }
+  finally { setExporting(null); }
+}, [data]);
+
 const handleCopyURL = useCallback(async () => {
   try {
     await navigator.clipboard.writeText(window.location.href);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   } catch {
+    // Fallback for older browsers
     const ta = document.createElement('textarea');
     ta.value = window.location.href;
     document.body.appendChild(ta); ta.select();
@@ -992,7 +1057,7 @@ const handleShareWhatsApp = useCallback(() => {
 }, [/* dependencies */]);
 
 const handleShareTwitter = useCallback(() => {
-  const text = `[Custom message]. Calculate yours:`;
+  const text = `[Custom message with result summary]. Calculate yours:`;
   window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`, '_blank');
 }, [/* dependencies */]);
 ```
