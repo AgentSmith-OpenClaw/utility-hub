@@ -1,37 +1,69 @@
-import React, { useState, useEffect } from 'react';
-import { Line, Doughnut, Bar } from 'react-chartjs-2';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-  Filler
-} from 'chart.js';
+  AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell,
+  XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip,
+  ResponsiveContainer, Legend,
+} from 'recharts';
 import { useEMI } from '../../hooks/useEMI';
 import { Prepayment } from './EMICalculator.types';
 import { validateLoanInputs } from '../../utils/validation';
 import { exportToExcel } from '../../utils/excel';
+import { exportToPDF } from '../../utils/pdf';
 import AdSlot from '../AdSlot/AdSlot';
 
-// Register ChartJS components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-  Filler
-);
+// Unified chart colors (based on home page hero: indigo→blue→cyan gradient)
+const CHART_COLORS = {
+  primary: '#6366f1',    // indigo-500 - PRIMARY (hero gradient start)
+  secondary: '#3b82f6',  // blue-500 - SECONDARY (hero middle)
+  accent: '#06b6d4',     // cyan-500 - ACCENT (hero end)
+  teal: '#14b8a6',       // teal-500 - growth/success
+  amber: '#f59e0b',      // amber-500 - warning/info
+  rose: '#f43f5e',       // rose-500 - danger (use sparingly)
+  grid: '#f1f5f9',       // slate-100
+  axis: '#94a3b8',       // slate-400
+};
+
+const PIE_COLORS = [CHART_COLORS.primary, CHART_COLORS.teal];
+
+// Custom tooltip matching FIRE/SIP pattern
+const ChartTooltip = ({ active, payload, label }: any) => {
+  if (!active || !payload?.length) return null;
+  return (
+    <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-slate-100 px-4 py-3">
+      <p className="text-sm font-bold text-slate-900 mb-1.5">{label}</p>
+      {payload.map((entry: any) => (
+        <div key={entry.name} className="flex items-center gap-2 text-xs">
+          <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: entry.color || entry.stroke || entry.fill }} />
+          <span className="text-slate-500">{entry.name}:</span>
+          <span className="font-semibold text-slate-800">₹{Number(entry.value).toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const PctTooltip = ({ active, payload, label }: any) => {
+  if (!active || !payload?.length) return null;
+  return (
+    <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-slate-100 px-4 py-3">
+      <p className="text-sm font-bold text-slate-900 mb-1.5">{label}</p>
+      {payload.map((entry: any) => (
+        <div key={entry.name} className="flex items-center gap-2 text-xs">
+          <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: entry.color || entry.stroke || entry.fill }} />
+          <span className="text-slate-500">{entry.name}:</span>
+          <span className="font-semibold text-slate-800">{Number(entry.value).toFixed(1)}%</span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const formatYAxis = (value: number): string => {
+  if (value >= 10_000_000) return `₹${(value / 10_000_000).toFixed(1)}Cr`;
+  if (value >= 100_000) return `₹${(value / 100_000).toFixed(1)}L`;
+  if (value >= 1_000) return `₹${(value / 1_000).toFixed(0)}K`;
+  return `₹${value}`;
+};
 
 interface CalculationHistory {
   id: string;
@@ -55,6 +87,8 @@ const EMICalculator: React.FC = () => {
   const [errors, setErrors] = useState<string[]>([]);
   const [history, setHistory] = useState<CalculationHistory[]>([]);
   const [showHistory, setShowHistory] = useState<boolean>(false);
+  const [copied, setCopied] = useState(false);
+  const [exporting, setExporting] = useState<'pdf' | 'excel' | null>(null);
   
   // New prepayment form
   const [newPrepaymentMonth, setNewPrepaymentMonth] = useState<string>('');
@@ -216,12 +250,6 @@ const EMICalculator: React.FC = () => {
     setPrepayments(prepayments.filter(p => p.id !== id));
   };
 
-  const handleExport = () => {
-    if (schedule.length > 0) {
-      exportToExcel(schedule, 'emi_amortization_schedule.xlsx');
-    }
-  };
-
   const handleReset = () => {
     setLoanAmount('5000000');
     setAnnualRate('8.5');
@@ -237,122 +265,159 @@ const EMICalculator: React.FC = () => {
     calculate(5000000, 8.5, 20, []);
   };
 
-  // Chart data preparation
-  const getChartData = () => {
+  // URL query-param sync
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const la = params.get('la');
+    const ar = params.get('ar');
+    const ty = params.get('ty');
+    if (la && ar && ty) {
+      setLoanAmount(la);
+      setAnnualRate(ar);
+      setTenureYears(ty);
+      calculate(parseFloat(la), parseFloat(ar), parseFloat(ty), prepayments);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams();
+    params.set('la', loanAmount);
+    params.set('ar', annualRate);
+    params.set('ty', tenureYears);
+    const url = `${window.location.pathname}?${params.toString()}`;
+    window.history.replaceState({}, '', url);
+  }, [loanAmount, annualRate, tenureYears]);
+
+  // Sharing & export handlers
+  const handleExportPDF = useCallback(async () => {
+    setExporting('pdf');
+    try {
+      await exportToPDF('emi-calculator-content', 'EMI_Amortization_Schedule.pdf', {
+        title: 'EMI Calculator Results',
+        quality: 0.92,
+      });
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setExporting(null);
+    }
+  }, []);
+
+  const handleExportExcel = useCallback(() => {
+    setExporting('excel');
+    try {
+      if (schedule.length > 0) {
+        exportToExcel(schedule, 'EMI_Amortization_Schedule.xlsx');
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setExporting(null);
+    }
+  }, [schedule]);
+
+  const handleCopyURL = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = window.location.href;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  }, []);
+
+  const handleShareWhatsApp = useCallback(() => {
+    const text = `Check out my EMI calculation: ₹${Number(loanAmount).toLocaleString('en-IN')} loan at ${annualRate}% for ${tenureYears} years = ₹${emi.toLocaleString('en-IN', { maximumFractionDigits: 0 })} EMI/month!\n\n${window.location.href}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+  }, [loanAmount, annualRate, tenureYears, emi]);
+
+  const handleShareTwitter = useCallback(() => {
+    const text = `My loan EMI: ₹${Number(loanAmount).toLocaleString('en-IN')} at ${annualRate}% for ${tenureYears} yrs = ₹${emi.toLocaleString('en-IN', { maximumFractionDigits: 0 })}/month. Calculate yours:`;
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`, '_blank');
+  }, [loanAmount, annualRate, tenureYears, emi]);
+
+  // Chart data preparation (Recharts format)
+  const chartData = useMemo(() => {
     if (schedule.length === 0) return null;
+    const skipFactor = Math.max(1, Math.ceil(schedule.length / 50));
 
-    const labels = schedule.map(p => `M${p.month}`);
-    const principalData = schedule.map(p => p.principal);
-    const interestData = schedule.map(p => p.interest);
-    const balanceData = schedule.map(p => p.remainingBalance);
+    // Balance over time
+    const balanceData = schedule
+      .filter((_, i) => i % skipFactor === 0 || i === schedule.length - 1)
+      .map(p => ({ month: `M${p.month}`, balance: Math.round(p.remainingBalance) }));
 
-    const skipFactor = Math.ceil(schedule.length / 24);
+    // Principal vs Interest per month
+    const piData = schedule
+      .filter((_, i) => i % skipFactor === 0 || i === schedule.length - 1)
+      .map(p => ({ month: `M${p.month}`, principal: Math.round(p.principal), interest: Math.round(p.interest) }));
 
-    return {
-      lineChart: {
-        labels: labels.filter((_, i) => i % skipFactor === 0),
-        datasets: [
-          {
-            label: 'Outstanding Balance',
-            data: balanceData.filter((_, i) => i % skipFactor === 0),
-            borderColor: 'rgb(59, 130, 246)',
-            backgroundColor: 'rgba(59, 130, 246, 0.1)',
-            fill: true,
-            tension: 0.4
-          }
-        ]
-      },
-      stackedLineChart: {
-        labels: labels.filter((_, i) => i % skipFactor === 0),
-        datasets: [
-          {
-            label: 'Principal',
-            data: principalData.filter((_, i) => i % skipFactor === 0),
-            borderColor: 'rgb(34, 197, 94)',
-            backgroundColor: 'rgba(34, 197, 94, 0.7)',
-            fill: true
-          },
-          {
-            label: 'Interest',
-            data: interestData.filter((_, i) => i % skipFactor === 0),
-            borderColor: 'rgb(249, 115, 22)',
-            backgroundColor: 'rgba(249, 115, 22, 0.7)',
-            fill: true
-          }
-        ]
-      },
-      pieChart: {
-        labels: ['Principal', 'Interest'],
-        datasets: [
-          {
-            data: [
-              parseFloat(loanAmount),
-              summary?.totalInterest || 0
-            ],
-            backgroundColor: [
-              'rgba(34, 197, 94, 0.8)',
-              'rgba(249, 115, 22, 0.8)'
-            ],
-            borderColor: [
-              'rgba(34, 197, 94, 1)',
-              'rgba(249, 115, 22, 1)'
-            ],
-            borderWidth: 2
-          }
-        ]
-      },
-      barChart: (() => {
-        const numYears = Math.ceil(schedule.length / 12);
-        const yearlyP: number[] = [];
-        const yearlyI: number[] = [];
-        const yLabels: string[] = [];
-        for (let y = 0; y < numYears; y++) {
-          const yearPayments = schedule.slice(y * 12, (y + 1) * 12);
-          yearlyP.push(yearPayments.reduce((s, p) => s + p.principal, 0));
-          yearlyI.push(yearPayments.reduce((s, p) => s + p.interest, 0));
-          yLabels.push(`Y${y + 1}`);
-        }
+    // Doughnut data
+    const pieData = [
+      { name: 'Principal', value: parseFloat(loanAmount) || 0 },
+      { name: 'Interest', value: summary?.totalInterest || 0 },
+    ];
+
+    // Yearly breakdown
+    const numYears = Math.ceil(schedule.length / 12);
+    const yearlyData = Array.from({ length: numYears }, (_, y) => {
+      const yr = schedule.slice(y * 12, (y + 1) * 12);
+      return {
+        year: `Y${y + 1}`,
+        principal: Math.round(yr.reduce((s, p) => s + p.principal, 0)),
+        interest: Math.round(yr.reduce((s, p) => s + p.interest, 0)),
+      };
+    });
+
+    // Cumulative
+    let cumP = 0, cumI = 0;
+    const cumulativeData = schedule
+      .filter((_, i) => i % skipFactor === 0 || i === schedule.length - 1)
+      .map(p => {
+        // Approximate: sum up to this point
+        const idx = schedule.indexOf(p);
+        cumP = schedule.slice(0, idx + 1).reduce((s, x) => s + x.principal, 0);
+        cumI = schedule.slice(0, idx + 1).reduce((s, x) => s + x.interest, 0);
+        return { month: `M${p.month}`, cumPrincipal: Math.round(cumP), cumInterest: Math.round(cumI) };
+      });
+
+    // Interest per year
+    const interestPerYear = Array.from({ length: numYears }, (_, y) => {
+      const yr = schedule.slice(y * 12, (y + 1) * 12);
+      return { year: `Year ${y + 1}`, interest: Math.round(yr.reduce((s, p) => s + p.interest, 0)) };
+    });
+
+    // Payment composition %
+    const compositionData = schedule
+      .filter((_, i) => i % skipFactor === 0 || i === schedule.length - 1)
+      .map(p => {
+        const total = p.principal + p.interest;
         return {
-          labels: yLabels,
-          datasets: [
-            { label: 'Principal', data: yearlyP, backgroundColor: 'rgba(34, 197, 94, 0.8)' },
-            { label: 'Interest', data: yearlyI, backgroundColor: 'rgba(249, 115, 22, 0.8)' }
-          ]
+          month: `M${p.month}`,
+          principalPct: total > 0 ? Math.round((p.principal / total) * 1000) / 10 : 0,
+          interestPct: total > 0 ? Math.round((p.interest / total) * 1000) / 10 : 0,
         };
-      })(),
-      cumulativeChart: (() => {
-        let cumP = 0, cumI = 0;
-        const cumPrincipal = principalData.map(v => { cumP += v; return cumP; });
-        const cumInterest = interestData.map(v => { cumI += v; return cumI; });
-        return {
-          labels: labels.filter((_, i) => i % skipFactor === 0),
-          datasets: [
-            {
-              label: 'Cumulative Principal',
-              data: cumPrincipal.filter((_, i) => i % skipFactor === 0),
-              borderColor: 'rgb(34, 197, 94)',
-              backgroundColor: 'rgba(34, 197, 94, 0.1)',
-              fill: true,
-              tension: 0.4
-            },
-            {
-              label: 'Cumulative Interest',
-              data: cumInterest.filter((_, i) => i % skipFactor === 0),
-              borderColor: 'rgb(249, 115, 22)',
-              backgroundColor: 'rgba(249, 115, 22, 0.1)',
-              fill: true,
-              tension: 0.4
-            }
-          ]
-        };
-      })()
-    };
-  };
+      });
 
-  const chartData = getChartData();
+    // Prepayment timeline
+    const prepaymentData = prepayments.slice(0, 20).map(p => ({
+      month: `M${p.month}`,
+      amount: p.amount,
+    }));
+
+    return { balanceData, piData, pieData, yearlyData, cumulativeData, interestPerYear, compositionData, prepaymentData };
+  }, [schedule, loanAmount, summary, prepayments]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-3 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 py-3 px-4" id="emi-calculator-content">
       <article className="max-w-7xl mx-auto" itemScope itemType="https://schema.org/WebApplication">
         <header className="text-center mb-4" id="calculator">
           <h1 className="text-3xl font-bold text-slate-900 mb-1" itemProp="name">
@@ -368,9 +433,9 @@ const EMICalculator: React.FC = () => {
         {/* Compact Input Sections in Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Loan Details - Compact */}
-          <div className="bg-white rounded-xl shadow-lg p-6">
+          <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-6">
             <h2 className="text-xl font-bold text-slate-800 mb-4 flex items-center">
-              <span className="bg-blue-100 text-blue-600 rounded-full w-7 h-7 flex items-center justify-center mr-2 text-sm">1</span>
+              <span className="bg-blue-50 text-blue-600 border border-blue-100 rounded-full w-7 h-7 flex items-center justify-center mr-2 text-sm">1</span>
               Loan Details
             </h2>
             
@@ -447,9 +512,9 @@ const EMICalculator: React.FC = () => {
           </div>
 
           {/* Prepayments - Compact */}
-          <section className="bg-white rounded-xl shadow-lg p-6" id="prepayment-calculator">
+          <section className="bg-white rounded-2xl shadow-md border border-slate-100 p-6" id="prepayment-calculator">
             <h2 className="text-xl font-bold text-slate-800 mb-4 flex items-center">
-              <span className="bg-green-100 text-green-600 rounded-full w-7 h-7 flex items-center justify-center mr-2 text-sm">2</span>
+              <span className="bg-cyan-50 text-cyan-600 border border-cyan-100 rounded-full w-7 h-7 flex items-center justify-center mr-2 text-sm">2</span>
               Loan Prepayment Calculator
             </h2>
 
@@ -462,7 +527,7 @@ const EMICalculator: React.FC = () => {
                     onClick={() => setPrepaymentFrequency(freq)}
                     className={`px-2 py-1.5 rounded-lg text-xs font-semibold transition ${
                       prepaymentFrequency === freq
-                        ? 'bg-green-600 text-white'
+                        ? 'bg-indigo-600 text-white'
                         : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                     }`}
                   >
@@ -540,7 +605,7 @@ const EMICalculator: React.FC = () => {
               <div className="flex items-end">
                 <button
                   onClick={handleAddPrepayment}
-                  className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-lg transition duration-200 shadow-md text-sm"
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-lg transition duration-200 shadow-md text-sm"
                 >
                   + Add
                 </button>
@@ -552,7 +617,7 @@ const EMICalculator: React.FC = () => {
                 <p className="text-xs font-semibold text-slate-700 mb-2">Scheduled ({prepayments.length}):</p>
                 <div className="space-y-1">
                   {prepayments.slice(0, 3).map((prep) => (
-                    <div key={prep.id} className="flex items-center justify-between bg-green-50 p-2 rounded-lg border border-green-200 text-xs">
+                    <div key={prep.id} className="flex items-center justify-between bg-teal-50 p-2 rounded-lg border border-teal-200 text-xs">
                       <div className="flex-1">
                         <span className="font-semibold text-slate-800">
                           M{prep.month}: ₹{prep.amount.toLocaleString('en-IN')}
@@ -583,26 +648,26 @@ const EMICalculator: React.FC = () => {
           <>
             {/* Summary Cards - Compact */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-4 text-white">
+              <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl shadow-md p-4 text-white">
                 <p className="text-blue-100 mb-1 text-xs font-semibold">Monthly EMI</p>
                 <p className="text-3xl font-bold">₹{emi.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
               </div>
               
-              <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-4 text-white">
-                <p className="text-green-100 mb-1 text-xs font-semibold">Total Interest</p>
+              <div className="bg-gradient-to-br from-teal-500 to-teal-600 rounded-2xl shadow-md p-4 text-white">
+                <p className="text-teal-100 mb-1 text-xs font-semibold">Total Interest</p>
                 <p className="text-3xl font-bold">₹{summary.totalInterest.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
               </div>
               
-              <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-4 text-white">
-                <p className="text-purple-100 mb-1 text-xs font-semibold">Total Amount</p>
+              <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl shadow-md p-4 text-white">
+                <p className="text-indigo-100 mb-1 text-xs font-semibold">Total Amount</p>
                 <p className="text-3xl font-bold">₹{summary.totalAmount.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
               </div>
               
-              <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-lg p-4 text-white">
-                <p className="text-blue-100 mb-1 text-xs font-semibold">Interest Saved</p>
+              <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl shadow-md p-4 text-white">
+                <p className="text-teal-100 mb-1 text-xs font-semibold">Interest Saved</p>
                 <p className="text-3xl font-bold">₹{summary.interestSaved.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
                 {summary.interestSaved > 0 && (
-                  <p className="text-blue-100 text-xs mt-1">
+                  <p className="text-teal-100 text-xs mt-1">
                     Loan done in {summary.actualTenure} months (saved {(parseInt(tenureYears) * 12) - summary.actualTenure})
                   </p>
                 )}
@@ -611,7 +676,7 @@ const EMICalculator: React.FC = () => {
 
             {/* Prepayment Impact Analysis */}
             {summary.prepaymentImpacts && summary.prepaymentImpacts.length > 0 && (
-              <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl shadow-xl p-5 mb-6 text-white">
+              <div className="bg-gradient-to-r from-indigo-600 to-blue-600 rounded-2xl shadow-md p-5 mb-6 text-white">
                 <h3 className="text-xl font-bold mb-4">📊 Prepayment Impact Analysis</h3>
                 
                 {/* Cumulative Impact Summary */}
@@ -724,7 +789,7 @@ const EMICalculator: React.FC = () => {
                             <span className={`px-2 py-0.5 rounded text-xs font-semibold ${
                               impact.strategy === 'reduce-tenure' 
                                 ? 'bg-blue-500/30 text-blue-100' 
-                                : 'bg-green-500/30 text-green-100'
+                                : 'bg-teal-500/30 text-teal-100'
                             }`}>
                               {impact.strategy === 'reduce-tenure' ? '🎯 Tenure' : '💰 EMI'}
                             </span>
@@ -741,7 +806,7 @@ const EMICalculator: React.FC = () => {
                           <td className="px-3 py-2 font-semibold">
                             {impact.newRemainingMonths === 0 ? '✅ Done' : impact.newRemainingMonths}
                           </td>
-                          <td className="px-3 py-2 text-green-200 font-semibold">
+                          <td className="px-3 py-2 text-teal-200 font-semibold">
                             ₹{impact.interestSaved.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
                           </td>
                           <td className="px-3 py-2 font-bold text-yellow-200">
@@ -759,376 +824,223 @@ const EMICalculator: React.FC = () => {
             {chartData && (
               <>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-                  {/* Pie Chart */}
-                  <div className="bg-white rounded-xl shadow-lg p-4">
+                  {/* Donut Chart */}
+                  <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-4">
                     <h3 className="text-lg font-bold text-slate-800 mb-3">Loan Breakdown</h3>
                     <div className="h-48">
-                      <Doughnut 
-                        data={chartData.pieChart}
-                        options={{
-                          responsive: true,
-                          maintainAspectRatio: false,
-                          plugins: {
-                            legend: {
-                              position: 'bottom',
-                              labels: { font: { size: 11 } }
-                            },
-                            tooltip: {
-                              callbacks: {
-                                label: function(context) {
-                                  const label = context.label || '';
-                                  const value = context.parsed;
-                                  return `${label}: ₹${value.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
-                                }
-                              }
-                            }
-                          }
-                        }}
-                      />
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie data={chartData.pieData} cx="50%" cy="50%" innerRadius={45} outerRadius={70} dataKey="value" paddingAngle={2}>
+                            {chartData.pieData.map((_, idx) => (
+                              <Cell key={idx} fill={PIE_COLORS[idx]} stroke={PIE_COLORS[idx]} />
+                            ))}
+                          </Pie>
+                          <RechartsTooltip content={<ChartTooltip />} />
+                          <Legend formatter={(value: string) => <span className="text-xs text-slate-600">{value}</span>} />
+                        </PieChart>
+                      </ResponsiveContainer>
                     </div>
                   </div>
 
-                  {/* Balance Chart */}
-                  <div className="bg-white rounded-xl shadow-lg p-4 lg:col-span-2">
+                  {/* Balance Area Chart */}
+                  <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-4 lg:col-span-2">
                     <h3 className="text-lg font-bold text-slate-800 mb-3">Outstanding Balance</h3>
                     <div className="h-48">
-                      <Line 
-                        data={chartData.lineChart}
-                        options={{
-                          responsive: true,
-                          maintainAspectRatio: false,
-                          plugins: {
-                            legend: { display: false },
-                            tooltip: {
-                              callbacks: {
-                                label: function(context) {
-                                  const value = context.parsed.y ?? 0;
-                                  return `Balance: ₹${value.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
-                                }
-                              }
-                            }
-                          },
-                          scales: {
-                            y: {
-                              beginAtZero: true,
-                              ticks: {
-                                callback: function(value) {
-                                  return '₹' + (value as number).toLocaleString('en-IN', { maximumFractionDigits: 0 });
-                                }
-                              }
-                            }
-                          }
-                        }}
-                      />
+                      <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart data={chartData.balanceData}>
+                          <defs>
+                            <linearGradient id="balGrad" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor={CHART_COLORS.primary} stopOpacity={0.3} />
+                              <stop offset="95%" stopColor={CHART_COLORS.primary} stopOpacity={0.02} />
+                            </linearGradient>
+                          </defs>
+                          <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
+                          <XAxis dataKey="month" stroke={CHART_COLORS.axis} fontSize={11} tickLine={false} />
+                          <YAxis tickFormatter={formatYAxis} stroke={CHART_COLORS.axis} fontSize={11} tickLine={false} />
+                          <RechartsTooltip content={<ChartTooltip />} />
+                          <Area type="monotone" dataKey="balance" name="Balance" stroke={CHART_COLORS.primary} fill="url(#balGrad)" strokeWidth={2} />
+                        </AreaChart>
+                      </ResponsiveContainer>
                     </div>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                  {/* Stacked Area Chart */}
-                  <div className="bg-white rounded-xl shadow-lg p-4">
+                  {/* Principal vs Interest Stacked Area */}
+                  <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-4">
                     <h3 className="text-lg font-bold text-slate-800 mb-3">Principal vs Interest</h3>
                     <div className="h-64">
-                      <Line 
-                        data={chartData.stackedLineChart}
-                        options={{
-                          responsive: true,
-                          maintainAspectRatio: false,
-                          plugins: {
-                            legend: { position: 'top', labels: { font: { size: 11 } } },
-                            tooltip: {
-                              callbacks: {
-                                label: function(context) {
-                                  const label = context.dataset.label || '';
-                                  const value = context.parsed.y ?? 0;
-                                  return `${label}: ₹${value.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
-                                }
-                              }
-                            }
-                          },
-                          scales: {
-                            y: {
-                              stacked: true,
-                              beginAtZero: true,
-                              ticks: {
-                                callback: function(value) {
-                                  return '₹' + (value as number).toLocaleString('en-IN', { maximumFractionDigits: 0 });
-                                }
-                              }
-                            },
-                            x: { stacked: true }
-                          }
-                        }}
-                      />
+                      <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart data={chartData.piData}>
+                          <defs>
+                            <linearGradient id="piPrinGrad" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor={CHART_COLORS.primary} stopOpacity={0.4} />
+                              <stop offset="95%" stopColor={CHART_COLORS.primary} stopOpacity={0.05} />
+                            </linearGradient>
+                            <linearGradient id="piIntGrad" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor={CHART_COLORS.accent} stopOpacity={0.4} />
+                              <stop offset="95%" stopColor={CHART_COLORS.accent} stopOpacity={0.05} />
+                            </linearGradient>
+                          </defs>
+                          <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
+                          <XAxis dataKey="month" stroke={CHART_COLORS.axis} fontSize={11} tickLine={false} />
+                          <YAxis tickFormatter={formatYAxis} stroke={CHART_COLORS.axis} fontSize={11} tickLine={false} />
+                          <RechartsTooltip content={<ChartTooltip />} />
+                          <Legend formatter={(value: string) => <span className="text-xs text-slate-600">{value}</span>} />
+                          <Area type="monotone" dataKey="principal" name="Principal" stackId="1" stroke={CHART_COLORS.primary} fill="url(#piPrinGrad)" strokeWidth={2} />
+                          <Area type="monotone" dataKey="interest" name="Interest" stackId="1" stroke={CHART_COLORS.accent} fill="url(#piIntGrad)" strokeWidth={2} />
+                        </AreaChart>
+                      </ResponsiveContainer>
                     </div>
                   </div>
 
-                  {/* Bar Chart */}
-                  <div className="bg-white rounded-xl shadow-lg p-4">
+                  {/* Yearly Payment Bar Chart */}
+                  <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-4">
                     <h3 className="text-lg font-bold text-slate-800 mb-3">Yearly Payment Breakdown</h3>
                     <div className="h-64">
-                      <Bar 
-                        data={chartData.barChart}
-                        options={{
-                          responsive: true,
-                          maintainAspectRatio: false,
-                          plugins: {
-                            legend: { position: 'top', labels: { font: { size: 11 } } },
-                            tooltip: {
-                              callbacks: {
-                                label: function(context) {
-                                  const label = context.dataset.label || '';
-                                  const value = context.parsed.y ?? 0;
-                                  return `${label}: ₹${value.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
-                                }
-                              }
-                            }
-                          },
-                          scales: {
-                            x: { stacked: true },
-                            y: {
-                              stacked: true,
-                              beginAtZero: true,
-                              ticks: {
-                                callback: function(value) {
-                                  return '₹' + (value as number).toLocaleString('en-IN', { maximumFractionDigits: 0 });
-                                }
-                              }
-                            }
-                          }
-                        }}
-                      />
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={chartData.yearlyData}>
+                          <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
+                          <XAxis dataKey="year" stroke={CHART_COLORS.axis} fontSize={11} tickLine={false} />
+                          <YAxis tickFormatter={formatYAxis} stroke={CHART_COLORS.axis} fontSize={11} tickLine={false} />
+                          <RechartsTooltip content={<ChartTooltip />} />
+                          <Legend formatter={(value: string) => <span className="text-xs text-slate-600">{value}</span>} />
+                          <Bar dataKey="principal" name="Principal" stackId="a" fill={CHART_COLORS.primary} radius={[0, 0, 0, 0]} />
+                          <Bar dataKey="interest" name="Interest" stackId="a" fill={CHART_COLORS.accent} radius={[4, 4, 0, 0]} />
+                        </BarChart>
+                      </ResponsiveContainer>
                     </div>
                   </div>
                 </div>
 
                 {/* Cumulative Chart */}
-                <div className="bg-white rounded-xl shadow-lg p-4 mb-6">
+                <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-4 mb-6">
                   <h3 className="text-lg font-bold text-slate-800 mb-3">Cumulative Payment Analysis</h3>
                   <div className="h-64">
-                    <Line 
-                      data={chartData.cumulativeChart}
-                      options={{
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                          legend: { position: 'top' },
-                          tooltip: {
-                            callbacks: {
-                              label: function(context) {
-                                const label = context.dataset.label || '';
-                                const value = context.parsed.y ?? 0;
-                                return `${label}: ₹${value.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
-                              }
-                            }
-                          }
-                        },
-                        scales: {
-                          y: {
-                            beginAtZero: true,
-                            ticks: {
-                              callback: function(value) {
-                                return '₹' + (value as number).toLocaleString('en-IN', { maximumFractionDigits: 0 });
-                              }
-                            }
-                          }
-                        }
-                      }}
-                    />
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={chartData.cumulativeData}>
+                        <defs>
+                          <linearGradient id="cumPGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor={CHART_COLORS.primary} stopOpacity={0.3} />
+                            <stop offset="95%" stopColor={CHART_COLORS.primary} stopOpacity={0.02} />
+                          </linearGradient>
+                          <linearGradient id="cumIGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor={CHART_COLORS.accent} stopOpacity={0.3} />
+                            <stop offset="95%" stopColor={CHART_COLORS.accent} stopOpacity={0.02} />
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
+                        <XAxis dataKey="month" stroke={CHART_COLORS.axis} fontSize={11} tickLine={false} />
+                        <YAxis tickFormatter={formatYAxis} stroke={CHART_COLORS.axis} fontSize={11} tickLine={false} />
+                        <RechartsTooltip content={<ChartTooltip />} />
+                        <Legend formatter={(value: string) => <span className="text-xs text-slate-600">{value}</span>} />
+                        <Area type="monotone" dataKey="cumPrincipal" name="Cumulative Principal" stroke={CHART_COLORS.primary} fill="url(#cumPGrad)" strokeWidth={2} />
+                        <Area type="monotone" dataKey="cumInterest" name="Cumulative Interest" stroke={CHART_COLORS.accent} fill="url(#cumIGrad)" strokeWidth={2} />
+                      </AreaChart>
+                    </ResponsiveContainer>
                   </div>
                 </div>
 
-                {/* Advanced Analytics - Year-wise Breakdown */}
+                {/* Advanced Analytics */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                  {/* Year-wise Interest Breakdown */}
-                  <div className="bg-white rounded-xl shadow-lg p-4">
+                  {/* Interest Per Year */}
+                  <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-4">
                     <h3 className="text-lg font-bold text-slate-800 mb-3">Interest Paid Per Year</h3>
                     <div className="h-64">
-                      <Line 
-                        data={(() => {
-                          const numYears = Math.ceil(schedule.length / 12);
-                          const yearlyInterest: number[] = [];
-                          const yLabels: string[] = [];
-                          for (let y = 0; y < numYears; y++) {
-                            const yearPayments = schedule.slice(y * 12, (y + 1) * 12);
-                            yearlyInterest.push(yearPayments.reduce((s, p) => s + p.interest, 0));
-                            yLabels.push(`Year ${y + 1}`);
-                          }
-                          return {
-                            labels: yLabels,
-                            datasets: [{
-                              label: 'Interest Paid',
-                              data: yearlyInterest,
-                              borderColor: 'rgb(239, 68, 68)',
-                              backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                              fill: true,
-                              tension: 0.4
-                            }]
-                          };
-                        })()}
-                        options={{
-                          responsive: true,
-                          maintainAspectRatio: false,
-                          plugins: {
-                            legend: { display: false },
-                            tooltip: {
-                              callbacks: {
-                                label: function(context) {
-                                  const value = context.parsed.y ?? 0;
-                                  return `Interest: ₹${value.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
-                                }
-                              }
-                            }
-                          },
-                          scales: {
-                            y: {
-                              beginAtZero: true,
-                              ticks: {
-                                callback: function(value) {
-                                  return '₹' + (value as number).toLocaleString('en-IN', { maximumFractionDigits: 0 });
-                                }
-                              }
-                            }
-                          }
-                        }}
-                      />
+                      <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart data={chartData.interestPerYear}>
+                          <defs>
+                            <linearGradient id="intYrGrad" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor={CHART_COLORS.rose} stopOpacity={0.3} />
+                              <stop offset="95%" stopColor={CHART_COLORS.rose} stopOpacity={0.02} />
+                            </linearGradient>
+                          </defs>
+                          <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
+                          <XAxis dataKey="year" stroke={CHART_COLORS.axis} fontSize={11} tickLine={false} />
+                          <YAxis tickFormatter={formatYAxis} stroke={CHART_COLORS.axis} fontSize={11} tickLine={false} />
+                          <RechartsTooltip content={<ChartTooltip />} />
+                          <Area type="monotone" dataKey="interest" name="Interest Paid" stroke={CHART_COLORS.rose} fill="url(#intYrGrad)" strokeWidth={2} />
+                        </AreaChart>
+                      </ResponsiveContainer>
                     </div>
                   </div>
 
-                  {/* Monthly Payment Composition */}
-                  <div className="bg-white rounded-xl shadow-lg p-4">
+                  {/* Payment Composition % */}
+                  <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-4">
                     <h3 className="text-lg font-bold text-slate-800 mb-3">Payment Composition Over Time</h3>
                     <div className="h-64">
-                      <Line 
-                        data={(() => {
-                          const skipFactor = Math.ceil(schedule.length / 24);
-                          const labels = schedule.map(p => `M${p.month}`).filter((_, i) => i % skipFactor === 0);
-                          const principalPct = schedule.filter((_, i) => i % skipFactor === 0).map(p => {
-                            const total = p.principal + p.interest;
-                            return total > 0 ? (p.principal / total) * 100 : 0;
-                          });
-                          const interestPct = principalPct.map(p => 100 - p);
-                          return {
-                            labels,
-                            datasets: [
-                              {
-                                label: 'Principal %',
-                                data: principalPct,
-                                borderColor: 'rgb(34, 197, 94)',
-                                backgroundColor: 'rgba(34, 197, 94, 0.3)',
-                                fill: true,
-                                tension: 0.4
-                              },
-                              {
-                                label: 'Interest %',
-                                data: interestPct,
-                                borderColor: 'rgb(249, 115, 22)',
-                                backgroundColor: 'rgba(249, 115, 22, 0.3)',
-                                fill: true,
-                                tension: 0.4
-                              }
-                            ]
-                          };
-                        })()}
-                        options={{
-                          responsive: true,
-                          maintainAspectRatio: false,
-                          plugins: {
-                            legend: { position: 'top', labels: { font: { size: 11 } } },
-                            tooltip: {
-                              callbacks: {
-                                label: function(context) {
-                                  return `${context.dataset.label}: ${(context.parsed.y ?? 0).toFixed(1)}%`;
-                                }
-                              }
-                            }
-                          },
-                          scales: {
-                            y: {
-                              beginAtZero: true,
-                              max: 100,
-                              ticks: {
-                                callback: function(value) {
-                                  return value + '%';
-                                }
-                              }
-                            }
-                          }
-                        }}
-                      />
+                      <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart data={chartData.compositionData}>
+                          <defs>
+                            <linearGradient id="pctPGrad" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor={CHART_COLORS.primary} stopOpacity={0.4} />
+                              <stop offset="95%" stopColor={CHART_COLORS.primary} stopOpacity={0.05} />
+                            </linearGradient>
+                            <linearGradient id="pctIGrad" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor={CHART_COLORS.accent} stopOpacity={0.4} />
+                              <stop offset="95%" stopColor={CHART_COLORS.accent} stopOpacity={0.05} />
+                            </linearGradient>
+                          </defs>
+                          <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
+                          <XAxis dataKey="month" stroke={CHART_COLORS.axis} fontSize={11} tickLine={false} />
+                          <YAxis domain={[0, 100]} tickFormatter={(v: number) => `${v}%`} stroke={CHART_COLORS.axis} fontSize={11} tickLine={false} />
+                          <RechartsTooltip content={<PctTooltip />} />
+                          <Legend formatter={(value: string) => <span className="text-xs text-slate-600">{value}</span>} />
+                          <Area type="monotone" dataKey="principalPct" name="Principal %" stackId="1" stroke={CHART_COLORS.primary} fill="url(#pctPGrad)" strokeWidth={2} />
+                          <Area type="monotone" dataKey="interestPct" name="Interest %" stackId="1" stroke={CHART_COLORS.accent} fill="url(#pctIGrad)" strokeWidth={2} />
+                        </AreaChart>
+                      </ResponsiveContainer>
                     </div>
                   </div>
                 </div>
 
-                {/* Prepayment Impact Visualization */}
-                {prepayments.length > 0 && (
-                  <div className="bg-white rounded-xl shadow-lg p-4 mb-6">
+                {/* Prepayment Timeline */}
+                {prepayments.length > 0 && chartData.prepaymentData.length > 0 && (
+                  <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-4 mb-6">
                     <h3 className="text-lg font-bold text-slate-800 mb-3">Prepayment Timeline Impact</h3>
                     <div className="h-64">
-                      <Bar 
-                        data={{
-                          labels: prepayments.slice(0, 20).map(p => `M${p.month}`),
-                          datasets: [
-                            {
-                              label: 'Prepayment Amount',
-                              data: prepayments.slice(0, 20).map(p => p.amount),
-                              backgroundColor: 'rgba(99, 102, 241, 0.8)',
-                              yAxisID: 'y'
-                            }
-                          ]
-                        }}
-                        options={{
-                          responsive: true,
-                          maintainAspectRatio: false,
-                          plugins: {
-                            legend: { position: 'top', labels: { font: { size: 11 } } },
-                            tooltip: {
-                              callbacks: {
-                                label: function(context) {
-                                  return `Amount: ₹${(context.parsed.y ?? 0).toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
-                                }
-                              }
-                            }
-                          },
-                          scales: {
-                            y: {
-                              type: 'linear',
-                              display: true,
-                              position: 'left',
-                              beginAtZero: true,
-                              ticks: {
-                                callback: function(value) {
-                                  return '₹' + (value as number).toLocaleString('en-IN', { maximumFractionDigits: 0 });
-                                }
-                              }
-                            }
-                          }
-                        }}
-                      />
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={chartData.prepaymentData}>
+                          <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
+                          <XAxis dataKey="month" stroke={CHART_COLORS.axis} fontSize={11} tickLine={false} />
+                          <YAxis tickFormatter={formatYAxis} stroke={CHART_COLORS.axis} fontSize={11} tickLine={false} />
+                          <RechartsTooltip content={<ChartTooltip />} />
+                          <Bar dataKey="amount" name="Prepayment" fill={CHART_COLORS.secondary} radius={[4, 4, 0, 0]} />
+                        </BarChart>
+                      </ResponsiveContainer>
                     </div>
                   </div>
                 )}
               </>
             )}
 
-            {/* Export Button */}
+            {/* Export + Share bar */}
             {schedule.length > 0 && (
-              <div className="flex justify-center mb-6">
-                <button
-                  onClick={handleExport}
-                  className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-3 px-8 rounded-xl transition duration-200 shadow-lg"
-                >
-                  📊 Export Complete Schedule to Excel
+              <div className="flex flex-wrap gap-2 justify-center mb-6">
+                <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-1.5 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 text-xs font-semibold px-3 py-2 rounded-lg transition disabled:opacity-50">
+                  {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
+                </button>
+                <button onClick={handleExportExcel} disabled={exporting !== null} className="flex items-center gap-1.5 bg-teal-50 hover:bg-teal-100 border border-teal-200 text-teal-700 text-xs font-semibold px-3 py-2 rounded-lg transition disabled:opacity-50">
+                  {exporting === 'excel' ? '⏳ Generating…' : '📊 Export Excel'}
+                </button>
+                <button onClick={handleCopyURL} className="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
+                  {copied ? '✅ Copied!' : '🔗 Copy Plan URL'}
+                </button>
+                <button onClick={handleShareWhatsApp} className="flex items-center gap-1.5 bg-teal-50 hover:bg-teal-100 border border-teal-200 text-teal-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
+                  💬 WhatsApp
+                </button>
+                <button onClick={handleShareTwitter} className="flex items-center gap-1.5 bg-sky-50 hover:bg-sky-100 border border-sky-200 text-sky-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
+                  🐦 Twitter
                 </button>
               </div>
             )}
 
             {/* Compact Amortization Table */}
-            <div className="bg-white rounded-xl shadow-lg p-4">
+            <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-4">
               <h2 className="text-xl font-bold text-slate-800 mb-4">Payment Schedule (First 12 Months)</h2>
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-slate-200 text-sm">
-                  <thead className="bg-gradient-to-r from-gray-50 to-gray-100">
+                  <thead className="bg-gradient-to-r from-slate-50 to-slate-100">
                     <tr>
                       <th className="px-4 py-3 text-left text-xs font-bold text-slate-600 uppercase">Month</th>
                       <th className="px-4 py-3 text-left text-xs font-bold text-slate-600 uppercase">EMI</th>
@@ -1142,19 +1054,19 @@ const EMICalculator: React.FC = () => {
                     {schedule.slice(0, 12).map((payment) => (
                       <tr 
                         key={payment.month} 
-                        className={`hover:bg-blue-50 transition ${payment.prepaymentAmount ? 'bg-green-50' : ''}`}
+                        className={`hover:bg-blue-50 transition ${payment.prepaymentAmount ? 'bg-teal-50' : ''}`}
                       >
                         <td className="px-4 py-2 whitespace-nowrap font-semibold text-slate-900">{payment.month}</td>
                         <td className="px-4 py-2 whitespace-nowrap text-slate-900">
                           ₹{(payment.principal + payment.interest).toLocaleString('en-IN', { maximumFractionDigits: 0 })}
                         </td>
-                        <td className="px-4 py-2 whitespace-nowrap text-green-600 font-semibold">
+                        <td className="px-4 py-2 whitespace-nowrap text-teal-600 font-semibold">
                           ₹{payment.principal.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
                         </td>
                         <td className="px-4 py-2 whitespace-nowrap text-orange-600">
                           ₹{payment.interest.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
                         </td>
-                        <td className="px-4 py-2 whitespace-nowrap font-bold text-green-700">
+                        <td className="px-4 py-2 whitespace-nowrap font-bold text-teal-700">
                           {payment.prepaymentAmount ? `₹${payment.prepaymentAmount.toLocaleString('en-IN', { maximumFractionDigits: 0 })}` : '-'}
                         </td>
                         <td className="px-4 py-2 whitespace-nowrap text-slate-900 font-semibold">
@@ -1178,7 +1090,7 @@ const EMICalculator: React.FC = () => {
         {showHistory && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowHistory(false)}>
             <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[80vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
-              <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-6 flex justify-between items-center">
+              <div className="bg-gradient-to-r from-indigo-600 to-blue-600 text-white p-6 flex justify-between items-center">
                 <h2 className="text-2xl font-bold">📊 Calculation History</h2>
                 <div className="flex gap-2">
                   {history.length > 0 && (
@@ -1209,7 +1121,7 @@ const EMICalculator: React.FC = () => {
                       <div
                         key={item.id}
                         onClick={() => handleLoadHistory(item)}
-                        className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg p-4 border-2 border-slate-200 hover:border-indigo-400 cursor-pointer transition shadow-sm hover:shadow-md"
+                        className="bg-gradient-to-r from-slate-50 to-blue-50 rounded-lg p-4 border-2 border-slate-200 hover:border-indigo-400 cursor-pointer transition shadow-sm hover:shadow-md"
                       >
                         <div className="flex justify-between items-start mb-3">
                           <div>
@@ -1237,15 +1149,15 @@ const EMICalculator: React.FC = () => {
                           </div>
                           <div>
                             <p className="text-slate-600 text-xs">Total Interest</p>
-                            <p className="font-bold text-orange-600">₹{item.totalInterest.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
+                            <p className="font-bold text-teal-600">₹{item.totalInterest.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
                           </div>
                           <div>
                             <p className="text-slate-600 text-xs">Interest Saved</p>
-                            <p className="font-bold text-green-600">₹{item.interestSaved.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
+                            <p className="font-bold text-teal-600">₹{item.interestSaved.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
                           </div>
                           <div>
                             <p className="text-slate-600 text-xs">Actual Tenure</p>
-                            <p className="font-bold text-purple-600">{Math.floor(item.actualTenure / 12)}y {item.actualTenure % 12}m</p>
+                            <p className="font-bold text-indigo-600">{Math.floor(item.actualTenure / 12)}y {item.actualTenure % 12}m</p>
                           </div>
                         </div>
                       </div>
@@ -1261,7 +1173,7 @@ const EMICalculator: React.FC = () => {
         {history.length > 0 && (
           <button
             onClick={() => setShowHistory(true)}
-            className="fixed bottom-6 right-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-full shadow-2xl transition duration-200 flex items-center gap-2 z-40"
+            className="fixed bottom-6 right-6 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-2xl transition duration-200 flex items-center gap-2 z-40"
           >
             📊 History ({history.length})
           </button>
@@ -1273,7 +1185,7 @@ const EMICalculator: React.FC = () => {
         </div>
 
         {/* SEO Content Section: What is EMI */}
-        <section className="bg-white rounded-xl shadow-lg p-6 mb-6" id="what-is-emi">
+        <section className="bg-white rounded-2xl shadow-md border border-slate-100 p-6 mb-6" id="what-is-emi">
           <h2 className="text-2xl font-bold text-slate-800 mb-4">What is EMI?</h2>
           <p className="text-slate-700 leading-relaxed mb-4">
             <strong>EMI (Equated Monthly Installment)</strong> is the fixed amount you pay every month to the bank or financial institution until the loan is fully repaid. 
@@ -1300,7 +1212,7 @@ const EMICalculator: React.FC = () => {
         </section>
 
         {/* SEO Content Section: Reduce EMI vs Reduce Tenure */}
-        <section className="bg-white rounded-xl shadow-lg p-6 mb-6" id="reduce-emi-vs-reduce-tenure">
+        <section className="bg-white rounded-2xl shadow-md border border-slate-100 p-6 mb-6" id="reduce-emi-vs-reduce-tenure">
           <h2 className="text-2xl font-bold text-slate-800 mb-4">Reduce EMI vs Reduce Tenure — Which Prepayment Strategy Should You Choose?</h2>
           <p className="text-slate-700 leading-relaxed mb-4">
             When you make a <strong>prepayment (part-payment)</strong> on your loan, banks typically offer two options for adjusting your loan. 
@@ -1314,22 +1226,22 @@ const EMICalculator: React.FC = () => {
                 Your monthly EMI <strong>stays the same</strong>, but the loan duration <strong>decreases</strong>. This means you become debt-free faster.
               </p>
               <ul className="text-sm text-slate-700 space-y-2">
-                <li className="flex items-start"><span className="text-green-600 mr-2 flex-shrink-0">✅</span> <span><strong>Maximum interest savings</strong> over loan lifetime</span></li>
-                <li className="flex items-start"><span className="text-green-600 mr-2 flex-shrink-0">✅</span> <span>Become <strong>debt-free years earlier</strong></span></li>
-                <li className="flex items-start"><span className="text-green-600 mr-2 flex-shrink-0">✅</span> <span>Requires consistent <strong>prepayment discipline</strong></span></li>
+                <li className="flex items-start"><span className="text-teal-600 mr-2 flex-shrink-0">✅</span> <span><strong>Maximum interest savings</strong> over loan lifetime</span></li>
+                <li className="flex items-start"><span className="text-teal-600 mr-2 flex-shrink-0">✅</span> <span>Become <strong>debt-free years earlier</strong></span></li>
+                <li className="flex items-start"><span className="text-teal-600 mr-2 flex-shrink-0">✅</span> <span>Requires consistent <strong>prepayment discipline</strong></span></li>
                 <li className="flex items-start"><span className="text-orange-500 mr-2 flex-shrink-0">⚠️</span> <span>Monthly outflow remains unchanged</span></li>
               </ul>
             </div>
             
-            <div className="bg-green-50 rounded-xl p-5 border-2 border-green-200">
-              <h3 className="text-lg font-bold text-green-800 mb-3">💰 Reduce EMI Strategy</h3>
+            <div className="bg-teal-50 rounded-xl p-5 border-2 border-teal-200">
+              <h3 className="text-lg font-bold text-teal-800 mb-3">💰 Reduce EMI Strategy</h3>
               <p className="text-slate-700 text-sm leading-relaxed mb-3">
                 Your loan tenure <strong>stays the same</strong>, but your monthly EMI <strong>decreases</strong> after the prepayment.
               </p>
               <ul className="text-sm text-slate-700 space-y-2">
-                <li className="flex items-start"><span className="text-green-600 mr-2 flex-shrink-0">✅</span> <span><strong>Immediate cash flow relief</strong></span></li>
-                <li className="flex items-start"><span className="text-green-600 mr-2 flex-shrink-0">✅</span> <span><strong>Lower monthly</strong> financial burden</span></li>
-                <li className="flex items-start"><span className="text-green-600 mr-2 flex-shrink-0">✅</span> <span>Good when expecting <strong>future expenses</strong></span></li>
+                <li className="flex items-start"><span className="text-teal-600 mr-2 flex-shrink-0">✅</span> <span><strong>Immediate cash flow relief</strong></span></li>
+                <li className="flex items-start"><span className="text-teal-600 mr-2 flex-shrink-0">✅</span> <span><strong>Lower monthly</strong> financial burden</span></li>
+                <li className="flex items-start"><span className="text-teal-600 mr-2 flex-shrink-0">✅</span> <span>Good when expecting <strong>future expenses</strong></span></li>
                 <li className="flex items-start"><span className="text-orange-500 mr-2 flex-shrink-0">⚠️</span> <span>Less total interest saved vs Reduce Tenure</span></li>
               </ul>
             </div>
@@ -1387,21 +1299,21 @@ const EMICalculator: React.FC = () => {
         </div>
 
         {/* SEO Content: How to Use */}
-        <section className="bg-white rounded-xl shadow-lg p-6 mb-6">
+        <section className="bg-white rounded-2xl shadow-md border border-slate-100 p-6 mb-6">
           <h2 className="text-2xl font-bold text-slate-800 mb-4">How to Use This EMI Calculator</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
-              <div className="bg-blue-100 text-blue-600 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 text-xl font-bold">1</div>
+              <div className="bg-blue-50 text-blue-600 border border-blue-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 text-xl font-bold">1</div>
               <h3 className="font-bold text-slate-800 mb-2">Enter Loan Details</h3>
               <p className="text-slate-600 text-sm">Input your loan amount, interest rate, and tenure. Works for home loan, car loan, personal loan, or any EMI-based loan.</p>
             </div>
             <div className="text-center">
-              <div className="bg-green-100 text-green-600 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 text-xl font-bold">2</div>
+              <div className="bg-cyan-50 text-cyan-600 border border-cyan-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 text-xl font-bold">2</div>
               <h3 className="font-bold text-slate-800 mb-2">Add Prepayments (Optional)</h3>
               <p className="text-slate-600 text-sm">Choose one-time, monthly, quarterly, or yearly prepayments. Select Reduce Tenure or Reduce EMI strategy for each.</p>
             </div>
             <div className="text-center">
-              <div className="bg-purple-100 text-purple-600 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 text-xl font-bold">3</div>
+              <div className="bg-indigo-50 text-indigo-600 border border-indigo-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 text-xl font-bold">3</div>
               <h3 className="font-bold text-slate-800 mb-2">Analyze Results</h3>
               <p className="text-slate-600 text-sm">View 8 interactive charts, prepayment impact analysis, interest savings breakdown, and download the full amortization schedule.</p>
             </div>
@@ -1409,7 +1321,7 @@ const EMICalculator: React.FC = () => {
         </section>
 
         {/* FAQ Section - SEO Gold Mine */}
-        <section className="bg-white rounded-xl shadow-lg p-6 mb-6" id="faq" itemScope itemType="https://schema.org/FAQPage">
+        <section className="bg-white rounded-2xl shadow-md border border-slate-100 p-6 mb-6" id="faq" itemScope itemType="https://schema.org/FAQPage">
           <h2 className="text-2xl font-bold text-slate-800 mb-6">Frequently Asked Questions about EMI & Loan Prepayment</h2>
           
           {[
@@ -1491,7 +1403,7 @@ const EMICalculator: React.FC = () => {
             >
               <span className="text-sm font-bold text-slate-900 mb-1">Prepayment Strategies Explained</span>
               <span className="text-xs text-slate-600 mb-2">Reduce EMI vs Reduce Tenure—which saves you more money?</span>
-              <span className="text-green-600 text-sm font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+              <span className="text-teal-600 text-sm font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
                 Read Guide <span>→</span>
               </span>
             </a>

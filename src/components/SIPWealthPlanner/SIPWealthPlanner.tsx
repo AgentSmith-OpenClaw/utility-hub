@@ -22,15 +22,23 @@ import { SIPInputs } from './SIPWealthPlanner.types';
 import { exportToPDF } from '../../utils/pdf';
 import { exportSIPToExcel } from '../../utils/excel';
 
+// Unified chart colors (based on home page hero: indigo→blue→cyan gradient)
 const CHART_COLORS = {
-  invested: '#3b82f6',
-  gained: '#14b8a6',
-  realValue: '#f59e0b',
-  flat: '#6366f1',
-  grid: '#f1f5f9',
-  axis: '#94a3b8',
-  delay: '#ef4444',
-  interest: '#8b5cf6',
+  primary: '#6366f1',    // indigo-500 - PRIMARY
+  secondary: '#3b82f6',  // blue-500 - SECONDARY  
+  accent: '#06b6d4',     // cyan-500 - ACCENT
+  teal: '#14b8a6',       // teal-500 - growth/success
+  amber: '#f59e0b',      // amber-500 - warning/info
+  rose: '#f43f5e',       // rose-500 - danger
+  grid: '#f1f5f9',       // slate-100
+  axis: '#94a3b8',       // slate-400
+  // Semantic aliases for SIP
+  invested: '#3b82f6',   // blue
+  gained: '#14b8a6',     // teal
+  realValue: '#f59e0b',  // amber
+  flat: '#6366f1',       // indigo
+  delay: '#f43f5e',      // rose
+  interest: '#06b6d4',   // cyan
 };
 
 type SliderFieldProps = {
@@ -257,6 +265,11 @@ const SIPWealthPlanner: React.FC = () => {
     })),
     [result.delayCostData]
   );
+
+  const realReturnAfterInflation = useMemo(() => {
+    if (!inputs.inflationEnabled) return inputs.annualReturn;
+    return (((1 + inputs.annualReturn / 100) / (1 + inputs.inflationRate / 100)) - 1) * 100;
+  }, [inputs.inflationEnabled, inputs.annualReturn, inputs.inflationRate]);
 
   const milestonesData = useMemo(() => {
     const target = inputs.mode === 'goal' ? inputs.targetCorpus : result.estimatedCorpus;
@@ -519,26 +532,26 @@ const SIPWealthPlanner: React.FC = () => {
               </div>
               <div className="bg-white rounded-xl border border-slate-100 p-4 shadow-sm">
                 <p className="text-xs text-slate-500">Wealth Gained</p>
-                <p className="text-lg font-bold text-emerald-600">{formatCurrency(result.wealthGained, inputs.currency)}</p>
+                <p className="text-lg font-bold text-teal-600">{formatCurrency(result.wealthGained, inputs.currency)}</p>
               </div>
               <div className="bg-white rounded-xl border border-slate-100 p-4 shadow-sm">
-                <p className="text-xs text-slate-500">Purchasing Power</p>
+                <p className="text-xs text-slate-500">Purchasing Power (Today&apos;s Value)</p>
                 <p className="text-lg font-bold text-amber-600">{formatCurrency(result.purchasingPower, inputs.currency)}</p>
               </div>
             </div>
 
             {/* Export + Share bar */}
             <div className="flex flex-wrap gap-2">
-              <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-1.5 bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 text-xs font-semibold px-3 py-2 rounded-lg transition disabled:opacity-50">
+              <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-1.5 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 text-xs font-semibold px-3 py-2 rounded-lg transition disabled:opacity-50">
                 {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
               </button>
-              <button onClick={handleExportExcel} disabled={exporting !== null} className="flex items-center gap-1.5 bg-green-50 hover:bg-green-100 border border-green-200 text-green-700 text-xs font-semibold px-3 py-2 rounded-lg transition disabled:opacity-50">
+              <button onClick={handleExportExcel} disabled={exporting !== null} className="flex items-center gap-1.5 bg-teal-50 hover:bg-teal-100 border border-teal-200 text-teal-700 text-xs font-semibold px-3 py-2 rounded-lg transition disabled:opacity-50">
                 {exporting === 'excel' ? '⏳ Generating…' : '📊 Export Excel'}
               </button>
               <button onClick={handleCopyURL} className="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
                 {copied ? '✅ Copied!' : '🔗 Copy Plan URL'}
               </button>
-              <button onClick={handleShareWhatsApp} className="flex items-center gap-1.5 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
+              <button onClick={handleShareWhatsApp} className="flex items-center gap-1.5 bg-teal-50 hover:bg-teal-100 border border-teal-200 text-teal-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
                 💬 WhatsApp
               </button>
               <button onClick={handleShareTwitter} className="flex items-center gap-1.5 bg-sky-50 hover:bg-sky-100 border border-sky-200 text-sky-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
@@ -583,11 +596,11 @@ const SIPWealthPlanner: React.FC = () => {
                     <div>
                       <div className="flex items-center justify-between mb-1">
                         <span className="text-xs font-semibold text-slate-700">Wealth Gained</span>
-                        <span className="text-xs font-bold text-emerald-600">{formatCurrency(result.wealthGained, inputs.currency, true)}</span>
+                        <span className="text-xs font-bold text-teal-600">{formatCurrency(result.wealthGained, inputs.currency, true)}</span>
                       </div>
                       <div className="h-8 bg-slate-100 rounded-full overflow-hidden">
                         <div 
-                          className="h-full bg-emerald-500 flex items-center justify-end pr-2"
+                          className="h-full bg-teal-500 flex items-center justify-end pr-2"
                           style={{ width: `${(result.wealthGained / result.estimatedCorpus) * 100}%` }}
                         >
                           <span className="text-xs font-semibold text-white">
@@ -606,7 +619,7 @@ const SIPWealthPlanner: React.FC = () => {
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-xs text-slate-600">Total Growth</span>
-                      <span className="text-sm font-bold text-emerald-600">
+                      <span className="text-sm font-bold text-teal-600">
                         {((result.wealthGained / result.totalInvested) * 100).toFixed(1)}%
                       </span>
                     </div>
@@ -661,8 +674,12 @@ const SIPWealthPlanner: React.FC = () => {
                     <p className="text-xl font-semibold text-slate-700">{inputs.annualReturn}%</p>
                   </div>
                   <div>
+                    <p className="text-xs text-slate-500">Real Return (After Inflation)</p>
+                    <p className="text-xl font-semibold text-amber-600">{realReturnAfterInflation.toFixed(2)}%</p>
+                  </div>
+                  <div>
                     <p className="text-xs text-slate-500">Absolute Returns</p>
-                    <p className="text-xl font-semibold text-emerald-600">{result.absoluteReturn}%</p>
+                    <p className="text-xl font-semibold text-teal-600">{result.absoluteReturn}%</p>
                   </div>
                 </div>
               </div>
@@ -699,7 +716,7 @@ const SIPWealthPlanner: React.FC = () => {
                   </div>
                   <div>
                     <p className="text-xs text-slate-500">Interest Earned Last Year</p>
-                    <p className="text-lg font-semibold text-emerald-600">
+                    <p className="text-lg font-semibold text-teal-600">
                       {formatCurrency(lastYear?.yearlyInterestEarned ?? 0, inputs.currency, true)}
                     </p>
                   </div>
@@ -831,7 +848,7 @@ const SIPWealthPlanner: React.FC = () => {
               <div className="bg-white rounded-xl border border-slate-100 p-4 shadow-sm">
                 <h3 className="text-sm font-bold text-slate-700 mb-2">Step-up vs Flat SIP</h3>
                 <p className="text-sm text-slate-600">
-                  Flat SIP corpus: <span className="font-semibold text-slate-900">{formatCurrency(result.flatCorpus, inputs.currency)}</span> · Step-up advantage: <span className="font-semibold text-emerald-600">{formatCurrency(result.estimatedCorpus - result.flatCorpus, inputs.currency)}</span>
+                  Flat SIP corpus: <span className="font-semibold text-slate-900">{formatCurrency(result.flatCorpus, inputs.currency)}</span> · Step-up advantage: <span className="font-semibold text-teal-600">{formatCurrency(result.estimatedCorpus - result.flatCorpus, inputs.currency)}</span>
                 </p>
               </div>
             )}
@@ -867,8 +884,8 @@ const SIPWealthPlanner: React.FC = () => {
                           <td className="p-2 text-right text-slate-700">{formatCurrency(row.monthlySip, inputs.currency)}</td>
                           <td className="p-2 text-right text-slate-700">{formatCurrency(row.yearlyInvestment, inputs.currency)}</td>
                           <td className="p-2 text-right text-slate-700">{formatCurrency(row.totalInvested, inputs.currency)}</td>
-                          <td className="p-2 text-right text-purple-600">{formatCurrency(row.yearlyInterestEarned, inputs.currency)}</td>
-                          <td className="p-2 text-right text-emerald-600">{formatCurrency(row.interestEarned, inputs.currency)}</td>
+                          <td className="p-2 text-right text-cyan-600">{formatCurrency(row.yearlyInterestEarned, inputs.currency)}</td>
+                          <td className="p-2 text-right text-teal-600">{formatCurrency(row.interestEarned, inputs.currency)}</td>
                           <td className="p-2 text-right font-semibold text-slate-900">{formatCurrency(row.totalCorpus, inputs.currency)}</td>
                           <td className="p-2 text-right text-amber-600">{formatCurrency(row.realCorpus, inputs.currency)}</td>
                         </tr>

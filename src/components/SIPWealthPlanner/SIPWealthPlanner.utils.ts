@@ -44,7 +44,8 @@ function buildProjection(
 
     if (month % 12 === 0 || month === months) {
       const year = Math.ceil(month / 12);
-      const inflationDivisor = inflationEnabled ? Math.pow(1 + inflationRate / 100, year) : 1;
+      const elapsedYears = month / 12;
+      const inflationDivisor = inflationEnabled ? Math.pow(1 + inflationRate / 100, elapsedYears) : 1;
       yearlyBreakdown.push({
         year,
         yearlyInvestment: Math.round(yearlyInvestment),
@@ -186,7 +187,19 @@ export function calculateSIP(inputs: SIPInputs): SIPResult {
     inputs.inflationRate, inputs.inflationEnabled
   );
 
-  const purchasingPower = projection.yearlyBreakdown[projection.yearlyBreakdown.length - 1]?.realCorpus ?? projection.estimatedCorpus;
+  // Calculate purchasing power using REAL return rate (return minus inflation)
+  // This shows what your wealth would be if invested at inflation-adjusted returns
+  const realReturnRate = inputs.inflationEnabled
+    ? (((1 + inputs.annualReturn / 100) / (1 + inputs.inflationRate / 100)) - 1) * 100
+    : inputs.annualReturn;
+  
+  const realProjection = buildProjection(
+    effectiveMonthlyInvestment, inputs.tenureYears, realReturnRate,
+    inputs.lumpsumAmount, inputs.stepUpMode, inputs.stepUpValue,
+    0, false  // No inflation adjustment needed since we're using real rate
+  );
+  
+  const purchasingPower = realProjection.estimatedCorpus;
   const wealthGained = Math.max(0, projection.estimatedCorpus - projection.totalInvested);
   const flatWealthGained = Math.max(0, flatProjection.estimatedCorpus - flatProjection.totalInvested);
 

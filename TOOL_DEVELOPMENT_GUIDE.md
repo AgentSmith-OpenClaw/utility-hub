@@ -3,7 +3,7 @@
 This document provides comprehensive guidelines for developing new calculator tools for Utility Hub. All new tools must follow these standards to ensure consistency, quality, and AdSense eligibility.
 
 **Last Updated:** February 2026  
-**Reference Tools:** EMI Calculator, FIRE Calculator
+**Reference Tools:** EMI Calculator, FIRE Calculator, SIP Wealth Planner
 
 ---
 
@@ -16,10 +16,11 @@ This document provides comprehensive guidelines for developing new calculator to
 5. [File Structure & Code Organization](#file-structure--code-organization)
 6. [Component Patterns & Best Practices](#component-patterns--best-practices)
 7. [Charting & Data Visualization](#charting--data-visualization)
-8. [Styling Approach](#styling-approach)
-9. [Content Requirements for AdSense & SEO](#content-requirements-for-adsense--seo)
-10. [Tool Implementation Checklist](#tool-implementation-checklist)
-11. [Common Patterns & Examples](#common-patterns--examples)
+8. [Sharing & Export Features](#sharing--export-features-required-for-all-tools)
+9. [Styling Approach](#styling-approach)
+10. [Content Requirements for AdSense & SEO](#content-requirements-for-adsense--seo)
+11. [Tool Implementation Checklist](#tool-implementation-checklist)
+12. [Common Patterns & Examples](#common-patterns--examples)
 
 ---
 
@@ -32,7 +33,7 @@ This document provides comprehensive guidelines for developing new calculator to
 - **Styling:** Tailwind CSS + CSS Modules (globals only, no scoped CSS per-component)
 - **State Management:** React hooks (useState, useCallback, useMemo)
 - **Animations:** Framer Motion (for engaging micro-interactions)
-- **Charting:** Recharts (primary) or Chart.js (for comparison charts only—**NOT** both in same tool)
+- **Charting:** Recharts (only — Chart.js has been removed from the project)
 - **Data Persistence:** localStorage (for SSG stateless design)
 
 ### Why SSG, Not SSR?
@@ -429,14 +430,32 @@ Include 2-3 call-to-actions within article content:
 |-------|-----|-------|---|
 | Indigo (Primary) | `#4f46e5` | Brand, primary buttons, active states | `from-indigo-600 to-blue-600` |
 | Blue (Secondary) | `#2563eb` | Links, secondary actions | `text-blue-600` |
-| Gray | `#1f2937` → `#f3f4f6` | Text hierarchy, backgrounds | `gray-900` to `gray-50` |
+| Slate | `#0f172a` → `#f8fafc` | Text hierarchy, backgrounds | `slate-900` to `slate-50` |
+
+**IMPORTANT:** Use `slate-*` throughout, NOT `gray-*`. All text, borders, and backgrounds must use the slate palette for consistency.
+
+#### Unified Chart Color Palette
+All tools use identical chart colors (copy this constant into every new tool):
+```typescript
+const CHART_COLORS = {
+  primary: '#3b82f6',    // blue-500
+  accent: '#14b8a6',     // teal-500
+  secondary: '#6366f1',  // indigo-500
+  warning: '#f59e0b',    // amber-500
+  danger: '#f43f5e',     // rose-500
+  success: '#10b981',    // emerald-500
+  grid: '#f1f5f9',       // slate-100
+  axis: '#94a3b8',       // slate-400
+};
+```
 
 #### Tool-Specific Accent Colors (One Per Tool)
 | Tool | Accent | Gradient | Usage |
 |------|--------|----------|-------|
-| EMI | Blue | `from-blue-500 to-indigo-600` | Cards, sliders, badges |
-| FIRE | Orange | `from-orange-500 to-red-600` | Cards, sliders, badges |
-| **Next Tool** | *Define one* | `from-[color]-500 to-[shade]-600` | Sections, progress indicators |
+| EMI | Blue-Indigo | `from-blue-500 to-indigo-600` | Cards, sliders, badges |
+| FIRE | Blue-Indigo | `from-blue-600 to-indigo-600` | Cards, sliders, badges |
+| SIP | Blue-Indigo | `from-blue-500 to-indigo-600` | Cards, sliders, badges |
+| **Next Tool** | *Stay in blue-indigo family* | `from-[color]-500 to-[shade]-600` | Sections, progress indicators |
 
 **Rule:** One accent color per tool—consistent throughout. Use that color for:
 - Section header badges (numbered circles)
@@ -473,23 +492,34 @@ Small: text-xs text-gray-500
 ### Shadows & Borders
 
 ```css
+/* Unified Card Style (REQUIRED for all cards) */
+rounded-2xl shadow-md border border-slate-100
+
 /* Card Shadows */
 shadow-sm:  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);  /* subtle, desktop backgrounds */
-shadow-lg:  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);  /* main input/output cards */
+shadow-md:  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);  /* ALL cards (primary) */
+shadow-lg:  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);  /* modals, dropdowns */
 shadow-xl:  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);  /* hero, emphasis */
 
 /* Borders */
-border-gray-100:    for light dividers
-border-gray-200:    for card outlines
+border-slate-100:    for all card outlines (unified)
+border-slate-200:    for dividers and table borders
 border-[tool-color]-200:  for tool-specific emphasis
-0 or 0.5px:         use Tailwind defaults (border, border-2)
 
 /* Rounded Corners */
-rounded-lg:   8px   (input fields, modals)
-rounded-xl:   12px  (cards, major sections)
-rounded-2xl:  16px  (hero section, featured cards)
+rounded-lg:   8px   (input fields, buttons, sharing bar items)
+rounded-xl:   12px  (tooltips, modals)
+rounded-2xl:  16px  (ALL cards — this is the standard)
 rounded-full: 9999px (badges, progress circles)
 ```
+
+### Page Background
+
+All tool pages use this unified background:
+```
+bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20
+```
+Never use `from-slate-50 via-blue-50 to-indigo-50` (too saturated).
 
 ### Responsive Breakpoints
 
@@ -760,20 +790,20 @@ const AnimatedNumber: React.FC<{
 
 ### Chart Library Strategy
 
-**Primary:** Recharts  
-**Secondary:** Chart.js (if using complex stacked/mixed charts requiring special rendering)  
-**Don't:** Mix both in the same tool (creates bundle bloat)
+**Only Library:** Recharts  
+**Removed:** Chart.js (react-chartjs-2) — fully removed from the project. Never add it back.  
 
 ### Recommended Charts by Use Case
 
-| Use Case | Library | Component | Example |
-|---|---|---|---|
-| Wealth/balance over time | Recharts | `<AreaChart>` | FIRE portfolio growth |
-| Stacked contributions | Recharts | `<AreaChart>` with `stackId` | FIRE contributions vs growth |
-| Loan schedule breakdown | Chart.js | `Chart.register()` + `<Line>` | EMI principal vs interest |
-| Comparison bars | Recharts | `<BarChart>` | FIRE types side-by-side |
-| Pie/donut breakdown | Chart.js | `<Doughnut>` | EMI principal:interest ratio |
-| Historical cycles | N/A | Or use Recharts with historical data | Future: backtesting features |
+| Use Case | Component | Example |
+|---|---|---|
+| Wealth/balance over time | `<AreaChart>` with gradient fill | FIRE portfolio growth, EMI balance |
+| Stacked contributions | `<AreaChart>` with `stackId` | FIRE contributions vs growth |
+| Loan schedule breakdown | `<AreaChart>` or `<BarChart>` | EMI principal vs interest |
+| Comparison bars | `<BarChart>` | FIRE types side-by-side |
+| Pie/donut breakdown | `<PieChart>` with `<Pie>` | EMI principal:interest ratio |
+| Mixed (bar + line) | `<ComposedChart>` | Complex overlays |
+| Historical cycles | `<AreaChart>` | Future: backtesting features |
 
 ### Chart Best Practices
 
@@ -783,16 +813,16 @@ const AnimatedNumber: React.FC<{
 const ChartTooltip = ({ active, payload, label }: any) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-gray-100 px-4 py-3">
-      <p className="text-sm font-bold text-gray-900 mb-1.5">Label: {label}</p>
+    <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-slate-100 px-4 py-3">
+      <p className="text-sm font-bold text-slate-900 mb-1.5">{label}</p>
       {payload.map((entry: any) => (
         <div key={entry.name} className="flex items-center gap-2 text-xs">
           <span
             className="w-2.5 h-2.5 rounded-full"
-            style={{ backgroundColor: entry.color || entry.stroke }}
+            style={{ backgroundColor: entry.color || entry.stroke || entry.fill }}
           />
-          <span className="text-gray-500">{entry.name}:</span>
-          <span className="font-semibold">{formatCurrency(entry.value)}</span>
+          <span className="text-slate-500">{entry.name}:</span>
+          <span className="font-semibold text-slate-800">{formatCurrency(entry.value)}</span>
         </div>
       ))}
     </div>
@@ -852,6 +882,125 @@ const chartData = useMemo(() => {
 ```
 
 This keeps charts responsive even with 1000+ projection years.
+
+---
+
+## Sharing & Export Features (Required for All Tools)
+
+Every tool **must** include the following sharing and export capabilities. Follow the SIP Wealth Planner as the canonical reference implementation.
+
+### Required Features
+
+| Feature | Library/API | Description |
+|---------|------------|-------------|
+| Export PDF | `exportToPDF` from `../../utils/pdf` | Full-page screenshot PDF via html2canvas + jsPDF |
+| Export Excel | `exportToExcel` / `exportSIPToExcel` / `exportFIREToExcel` from `../../utils/excel` | XLSX with data sheets |
+| Copy URL | `navigator.clipboard` (with textarea fallback) | Copies current URL with query params |
+| WhatsApp | `wa.me/?text=` | Opens WhatsApp with pre-filled message + URL |
+| Twitter/X | `twitter.com/intent/tweet` | Opens tweet composer with text + URL |
+| URL Query Params | `URLSearchParams` + `window.history.replaceState` | Syncs key inputs to URL for shareable links |
+
+### State Variables
+
+```typescript
+const [copied, setCopied] = useState(false);
+const [exporting, setExporting] = useState<'pdf' | 'excel' | null>(null);
+```
+
+### URL Query-Param Sync Pattern
+
+```typescript
+// Load from URL on mount
+useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  const val1 = params.get('param1');
+  const val2 = params.get('param2');
+  if (val1 && val2) {
+    // Set state from URL params
+  }
+}, []);
+
+// Write to URL on input change
+useEffect(() => {
+  if (typeof window === 'undefined') return;
+  const params = new URLSearchParams();
+  params.set('param1', inputValue1);
+  params.set('param2', inputValue2);
+  window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
+}, [inputValue1, inputValue2]);
+```
+
+### Sharing Bar UI (Copy Exactly)
+
+```tsx
+{/* Export + Share bar */}
+<div className="flex flex-wrap gap-2">
+  <button onClick={handleExportPDF} disabled={exporting !== null}
+    className="flex items-center gap-1.5 bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 text-xs font-semibold px-3 py-2 rounded-lg transition disabled:opacity-50">
+    {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
+  </button>
+  <button onClick={handleExportExcel} disabled={exporting !== null}
+    className="flex items-center gap-1.5 bg-green-50 hover:bg-green-100 border border-green-200 text-green-700 text-xs font-semibold px-3 py-2 rounded-lg transition disabled:opacity-50">
+    {exporting === 'excel' ? '⏳ Generating…' : '📊 Export Excel'}
+  </button>
+  <button onClick={handleCopyURL}
+    className="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
+    {copied ? '✅ Copied!' : '🔗 Copy Plan URL'}
+  </button>
+  <button onClick={handleShareWhatsApp}
+    className="flex items-center gap-1.5 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
+    💬 WhatsApp
+  </button>
+  <button onClick={handleShareTwitter}
+    className="flex items-center gap-1.5 bg-sky-50 hover:bg-sky-100 border border-sky-200 text-sky-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
+    🐦 Twitter
+  </button>
+</div>
+```
+
+### Handler Templates
+
+```typescript
+const handleExportPDF = useCallback(async () => {
+  setExporting('pdf');
+  try {
+    await exportToPDF('[tool-content-id]', '[Tool]_Report.pdf', {
+      title: '[Tool] Report', quality: 0.92,
+    });
+  } catch (e) { console.error(e); }
+  finally { setExporting(null); }
+}, []);
+
+const handleCopyURL = useCallback(async () => {
+  try {
+    await navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  } catch {
+    const ta = document.createElement('textarea');
+    ta.value = window.location.href;
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+}, []);
+
+const handleShareWhatsApp = useCallback(() => {
+  const text = `[Custom message with result summary]\n\n${window.location.href}`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+}, [/* dependencies */]);
+
+const handleShareTwitter = useCallback(() => {
+  const text = `[Custom message]. Calculate yours:`;
+  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`, '_blank');
+}, [/* dependencies */]);
+```
+
+**Important:**
+- The main container div **must** have an `id` attribute (e.g., `id="emi-calculator-content"`) for PDF export to work
+- URL param keys should be short abbreviations (e.g., `la` for loanAmount, `ar` for annualRate)
+- Sharing messages should include key result numbers for social proof
 
 ---
 
@@ -1414,10 +1563,15 @@ If something is unclear or a tool has special requirements:
 
 ✓ Use Next.js SSG (pre-rendered HTML)  
 ✓ Separate: types.ts, utils.ts, hook.ts, component.tsx, page.tsx  
-✓ One accent color throughout (card headers, sliders, badges)  
-✓ Charts via Recharts OR Chart.js (not both)  
+✓ Unified blue-indigo palette with `slate-*` text (NOT `gray-*`)  
+✓ Unified card style: `rounded-2xl shadow-md border border-slate-100`  
+✓ Page background: `bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20`  
+✓ Charts via Recharts ONLY (Chart.js removed from project)  
+✓ Use the unified `CHART_COLORS` constant in every tool  
 ✓ Tailwind CSS only (no scoped styles)  
 ✓ localStorage for state persistence  
+✓ URL query-param sync for shareable links  
+✓ Full sharing bar: PDF, Excel, Copy URL, WhatsApp, Twitter  
 ✓ 1500+ words content (inputs, results, insights)  
 ✓ Educational tooltips on all inputs  
 ✓ Animated numbers & smooth transitions  
