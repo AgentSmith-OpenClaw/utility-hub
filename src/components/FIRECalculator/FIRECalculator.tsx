@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   AreaChart,
@@ -26,23 +26,24 @@ import { exportFIREToExcel } from '../../utils/excel';
 import { exportToPDF } from '../../utils/pdf';
 
 // ── Chart color constants using CSS variable values ───────────────
+// Unified chart colors (based on home page hero: indigo→blue→cyan gradient)
 const CHART_COLORS = {
-  primary: '#3b82f6',
-  accent: '#14b8a6',
-  secondary: '#6366f1',
-  warning: '#f59e0b',
-  danger: '#f43f5e',
-  success: '#10b981',
-  grid: '#f1f5f9',
-  axis: '#94a3b8',
+  primary: '#6366f1',    // indigo-500 - PRIMARY (hero gradient start)
+  secondary: '#3b82f6',  // blue-500 - SECONDARY (hero middle)
+  accent: '#06b6d4',     // cyan-500 - ACCENT (hero end)
+  teal: '#14b8a6',       // teal-500 - growth/success
+  amber: '#f59e0b',      // amber-500 - warning/info
+  rose: '#f43f5e',       // rose-500 - danger (use sparingly)
+  grid: '#f1f5f9',       // slate-100
+  axis: '#94a3b8',       // slate-400
 };
 
 const FIRE_BAR_COLORS = [
-  CHART_COLORS.accent,
+  CHART_COLORS.teal,
   CHART_COLORS.primary,
   CHART_COLORS.secondary,
-  '#06b6d4',
-  CHART_COLORS.warning,
+  CHART_COLORS.accent,
+  CHART_COLORS.amber,
 ];
 
 // ── Number Input ──────────────────────────────────────────────────
@@ -231,6 +232,8 @@ const FIRECalculator: React.FC = () => {
   const { inputs, result, updateInputs, reset } = useFIRE();
   const [activeChart, setActiveChart] = useState<ChartTab>('projection');
   const [mounted, setMounted] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [exporting, setExporting] = useState<'pdf' | 'excel' | null>(null);
 
   useEffect(() => setMounted(true), []);
 
@@ -276,8 +279,8 @@ const FIRECalculator: React.FC = () => {
   const incomeBreakdown = useMemo(() => [
     { name: 'Fixed Expenses', value: inputs.monthlyFixedExpenses, fill: CHART_COLORS.primary },
     { name: 'Lifestyle Expenses', value: inputs.monthlyLifestyleExpenses, fill: CHART_COLORS.accent },
-    { name: 'Investments', value: inputs.monthlyContribution, fill: CHART_COLORS.success },
-    { name: 'Misc / Remaining', value: Math.max(0, result.monthlyMisc), fill: CHART_COLORS.warning },
+    { name: 'Investments', value: inputs.monthlyContribution, fill: CHART_COLORS.teal },
+    { name: 'Misc / Remaining', value: Math.max(0, result.monthlyMisc), fill: CHART_COLORS.amber },
   ], [inputs.monthlyFixedExpenses, inputs.monthlyLifestyleExpenses, inputs.monthlyContribution, result.monthlyMisc]);
 
   const currentFireTypeInfo = FIRE_TYPES.find(f => f.type === inputs.fireType) || FIRE_TYPES[1];
@@ -286,25 +289,96 @@ const FIRECalculator: React.FC = () => {
     { value: 'INR' as const, label: 'INR (₹)', icon: '₹' },
   ];
 
-  const handleExportToExcel = () => {
-    exportFIREToExcel(
-      result.projections,
-      result.allFireTypes,
-      result.postFIREProjections,
-      'fire_analysis.xlsx'
-    );
-  };
+  const handleExportToExcel = useCallback(() => {
+    setExporting('excel');
+    try {
+      exportFIREToExcel(
+        result.projections,
+        result.allFireTypes,
+        result.postFIREProjections,
+        'FIRE_Analysis.xlsx'
+      );
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setExporting(null);
+    }
+  }, [result]);
 
-  const handleExportToPDF = async () => {
-    await exportToPDF(
-      'fire-calculator-content',
-      'fire_analysis.pdf',
-      {
-        title: 'FIRE Calculator Analysis',
-        orientation: 'portrait',
-      }
-    );
-  };
+  const handleExportToPDF = useCallback(async () => {
+    setExporting('pdf');
+    try {
+      await exportToPDF(
+        'fire-calculator-content',
+        'FIRE_Analysis.pdf',
+        {
+          title: 'FIRE Calculator Analysis',
+          orientation: 'portrait',
+          quality: 0.92,
+        }
+      );
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setExporting(null);
+    }
+  }, []);
+
+  const handleCopyURL = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = window.location.href;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  }, []);
+
+  const handleShareWhatsApp = useCallback(() => {
+    const text = `Check out my FIRE plan: I can reach financial independence in ${result.yearsToFIRE} years with a FIRE number of ${formatCurrency(result.fireNumber, inputs.currency)}!\n\n${window.location.href}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+  }, [result.yearsToFIRE, result.fireNumber, inputs.currency]);
+
+  const handleShareTwitter = useCallback(() => {
+    const text = `My FIRE plan: Financial independence in ${result.yearsToFIRE} years! FIRE number: ${formatCurrency(result.fireNumber, inputs.currency)}. Plan yours:`;
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`, '_blank');
+  }, [result.yearsToFIRE, result.fireNumber, inputs.currency]);
+
+  // URL query-param sync
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const cs = params.get('cs');
+    const mc = params.get('mc');
+    const me = params.get('me');
+    const roi = params.get('roi');
+    if (cs && mc && me && roi) {
+      updateInputs({
+        currentSavings: parseFloat(cs),
+        monthlyContribution: parseFloat(mc),
+        monthlyFixedExpenses: parseFloat(me),
+        expectedReturn: parseFloat(roi),
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams();
+    params.set('cs', inputs.currentSavings.toString());
+    params.set('mc', inputs.monthlyContribution.toString());
+    params.set('me', inputs.monthlyFixedExpenses.toString());
+    params.set('roi', inputs.expectedReturn.toString());
+    const url = `${window.location.pathname}?${params.toString()}`;
+    window.history.replaceState({}, '', url);
+  }, [inputs.currentSavings, inputs.monthlyContribution, inputs.monthlyFixedExpenses, inputs.expectedReturn]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 py-4 px-4" id="fire-calculator-content">
@@ -333,8 +407,8 @@ const FIRECalculator: React.FC = () => {
             animate={{ opacity: 1, scale: 1 }}
             className="bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl p-5 text-center mb-6"
           >
-            <p className="text-xl font-bold text-emerald-700">🎉 You&apos;ve already reached FIRE!</p>
-            <p className="text-sm text-emerald-600 mt-1">Your current savings exceed your FIRE number. Congratulations!</p>
+            <p className="text-xl font-bold text-teal-700">🎉 You&apos;ve already reached FIRE!</p>
+            <p className="text-sm text-teal-600 mt-1">Your current savings exceed your FIRE number. Congratulations!</p>
           </motion.div>
         )}
 
@@ -533,10 +607,10 @@ const FIRECalculator: React.FC = () => {
             </div>
             <div>
               <label className="text-xs font-semibold text-slate-600 mb-1 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: CHART_COLORS.success }} />
+                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: CHART_COLORS.teal }} />
                 Monthly Investment <span className="text-slate-400 font-normal">(401k, Stocks, MFs)</span>
               </label>
-              <div className="flex items-center bg-emerald-50 rounded-xl border-2 border-emerald-200 px-3 py-2">
+              <div className="flex items-center bg-teal-50 rounded-xl border-2 border-teal-200 px-3 py-2">
                 <input
                   type="text"
                   value={inputs.monthlyContribution.toLocaleString()}
@@ -544,7 +618,7 @@ const FIRECalculator: React.FC = () => {
                     const v = parseInt(e.target.value.replace(/[^0-9]/g, '')) || 0;
                     updateInputs({ monthlyContribution: v });
                   }}
-                  className="w-full text-lg font-bold text-emerald-700 bg-transparent outline-none"
+                  className="w-full text-lg font-bold text-teal-700 bg-transparent outline-none"
                   placeholder="How much can you invest?"
                 />
               </div>
@@ -578,16 +652,16 @@ const FIRECalculator: React.FC = () => {
               </div>
               <div className="text-center">
                 <div className="flex items-center justify-center gap-1">
-                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: CHART_COLORS.success }} />
+                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: CHART_COLORS.teal }} />
                   <span className="text-xs text-slate-500">Investing</span>
                 </div>
-                <div className="text-base font-bold text-emerald-600">
+                <div className="text-base font-bold text-teal-600">
                   {formatCurrency(inputs.calculationMode === 'reverse' ? result.requiredMonthlyContribution : inputs.monthlyContribution, inputs.currency)}
                 </div>
               </div>
               <div className="text-center">
                 <div className="flex items-center justify-center gap-1">
-                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: CHART_COLORS.warning }} />
+                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: CHART_COLORS.amber }} />
                   <span className="text-xs text-slate-500">Remaining</span>
                 </div>
                 <div className={`text-base font-bold ${result.monthlyMisc < 0 ? 'text-rose-600' : 'text-slate-800'}`}>
@@ -689,9 +763,9 @@ const FIRECalculator: React.FC = () => {
                 <p className="text-xl font-bold text-teal-700">{formatCurrency(result.safeMonthlyWithdrawal, inputs.currency)}</p>
                 <p className="text-[10px] text-teal-600">per month</p>
               </div>
-              <div className="bg-emerald-50 rounded-xl p-3 text-center border border-emerald-100">
-                <p className="text-xl font-bold text-emerald-700">{formatCurrency(result.safeWithdrawalAmount, inputs.currency)}</p>
-                <p className="text-[10px] text-emerald-600">per year</p>
+              <div className="bg-teal-50 rounded-xl p-3 text-center border border-teal-100">
+                <p className="text-xl font-bold text-teal-700">{formatCurrency(result.safeWithdrawalAmount, inputs.currency)}</p>
+                <p className="text-[10px] text-teal-600">per year</p>
               </div>
             </div>
             <p className="text-[10px] text-slate-400 mt-2 text-center">
@@ -744,27 +818,26 @@ const FIRECalculator: React.FC = () => {
           )}
         </AnimatePresence>
 
-        {/* ── Export Buttons ───────────────────────────────────── */}
+        {/* ── Export + Share bar ─────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex flex-wrap justify-center gap-4 mb-6"
+          className="flex flex-wrap justify-center gap-2 mb-6"
         >
-          <button
-            onClick={handleExportToExcel}
-            className="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
-          >
-            <span className="text-xl">📊</span>
-            Export to Excel
-            <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full">3 sheets</span>
+          <button onClick={handleExportToPDF} disabled={exporting !== null} className="flex items-center gap-1.5 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 text-xs font-semibold px-3 py-2 rounded-lg transition disabled:opacity-50">
+            {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
           </button>
-          <button
-            onClick={handleExportToPDF}
-            className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
-          >
-            <span className="text-xl">📄</span>
-            Export to PDF
-            <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full">Full page</span>
+          <button onClick={handleExportToExcel} disabled={exporting !== null} className="flex items-center gap-1.5 bg-teal-50 hover:bg-teal-100 border border-teal-200 text-teal-700 text-xs font-semibold px-3 py-2 rounded-lg transition disabled:opacity-50">
+            {exporting === 'excel' ? '⏳ Generating…' : '📊 Export Excel'}
+          </button>
+          <button onClick={handleCopyURL} className="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
+            {copied ? '✅ Copied!' : '🔗 Copy Plan URL'}
+          </button>
+          <button onClick={handleShareWhatsApp} className="flex items-center gap-1.5 bg-teal-50 hover:bg-teal-100 border border-teal-200 text-teal-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
+            💬 WhatsApp
+          </button>
+          <button onClick={handleShareTwitter} className="flex items-center gap-1.5 bg-sky-50 hover:bg-sky-100 border border-sky-200 text-sky-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
+            🐦 Twitter
           </button>
         </motion.div>
 
@@ -791,9 +864,9 @@ const FIRECalculator: React.FC = () => {
                     <YAxis tickFormatter={formatYAxis} stroke={CHART_COLORS.axis} fontSize={12} tickLine={false} axisLine={false} />
                     <Tooltip content={<ChartTooltip />} />
                     <Area type="monotone" dataKey="endBalance" fill="url(#portfolioGradNew)" stroke={CHART_COLORS.primary} strokeWidth={2.5} name="Portfolio" animationDuration={800} />
-                    <Line type="monotone" dataKey="fireNumber" stroke={CHART_COLORS.danger} strokeWidth={2} strokeDasharray="8 4" dot={false} name="FIRE Target" animationDuration={800} />
+                    <Line type="monotone" dataKey="fireNumber" stroke={CHART_COLORS.rose} strokeWidth={2} strokeDasharray="8 4" dot={false} name="FIRE Target" animationDuration={800} />
                     {result.yearsToFIRE < 70 && (
-                      <ReferenceLine x={result.fireAge} stroke={CHART_COLORS.success} strokeWidth={2} strokeDasharray="4 4"
+                      <ReferenceLine x={result.fireAge} stroke={CHART_COLORS.teal} strokeWidth={2} strokeDasharray="4 4"
                         label={{ value: '🔥 FIRE!', position: 'top', fontSize: 12, fontWeight: 'bold', fill: '#059669' }}
                       />
                     )}
@@ -815,8 +888,8 @@ const FIRECalculator: React.FC = () => {
                         <stop offset="100%" stopColor={CHART_COLORS.primary} stopOpacity={0.02} />
                       </linearGradient>
                       <linearGradient id="growthGradNew" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor={CHART_COLORS.success} stopOpacity={0.4} />
-                        <stop offset="100%" stopColor={CHART_COLORS.success} stopOpacity={0.02} />
+                        <stop offset="0%" stopColor={CHART_COLORS.teal} stopOpacity={0.4} />
+                        <stop offset="100%" stopColor={CHART_COLORS.teal} stopOpacity={0.02} />
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
@@ -824,7 +897,7 @@ const FIRECalculator: React.FC = () => {
                     <YAxis tickFormatter={formatYAxis} stroke={CHART_COLORS.axis} fontSize={12} tickLine={false} axisLine={false} />
                     <Tooltip content={<ChartTooltip />} />
                     <Area type="monotone" dataKey="totalContributed" stackId="1" fill="url(#contribGradNew)" stroke={CHART_COLORS.primary} strokeWidth={2} name="Your Contributions" animationDuration={800} />
-                    <Area type="monotone" dataKey="totalGrowth" stackId="1" fill="url(#growthGradNew)" stroke={CHART_COLORS.success} strokeWidth={2} name="Investment Growth" animationDuration={800} />
+                    <Area type="monotone" dataKey="totalGrowth" stackId="1" fill="url(#growthGradNew)" stroke={CHART_COLORS.teal} strokeWidth={2} name="Investment Growth" animationDuration={800} />
                   </AreaChart>
                 </ResponsiveContainer>
               </motion.div>
@@ -936,8 +1009,8 @@ const FIRECalculator: React.FC = () => {
                       );
                     }} />
                     <Area type="monotone" dataKey="endBalance" fill="url(#postfireGrad)" stroke={CHART_COLORS.accent} strokeWidth={2.5} name="Portfolio Balance" animationDuration={800} />
-                    <Line type="monotone" dataKey="withdrawal" stroke={CHART_COLORS.danger} strokeWidth={2} dot={false} name="Annual Withdrawal" animationDuration={800} />
-                    <Line type="monotone" dataKey="growth" stroke={CHART_COLORS.success} strokeWidth={1.5} strokeDasharray="5 3" dot={false} name="Investment Growth" animationDuration={800} />
+                    <Line type="monotone" dataKey="withdrawal" stroke={CHART_COLORS.rose} strokeWidth={2} dot={false} name="Annual Withdrawal" animationDuration={800} />
+                    <Line type="monotone" dataKey="growth" stroke={CHART_COLORS.teal} strokeWidth={1.5} strokeDasharray="5 3" dot={false} name="Investment Growth" animationDuration={800} />
                   </ComposedChart>
                 </ResponsiveContainer>
                 <div className="flex flex-wrap gap-4 justify-center mt-3">
@@ -945,10 +1018,10 @@ const FIRECalculator: React.FC = () => {
                     <span className="w-3 h-3 rounded-full" style={{ backgroundColor: CHART_COLORS.accent }} /> Portfolio Balance
                   </div>
                   <div className="flex items-center gap-1.5 text-xs text-slate-500">
-                    <span className="w-3 h-0.5 rounded-full" style={{ backgroundColor: CHART_COLORS.danger, display: 'inline-block', width: 12 }} /> Withdrawals
+                    <span className="w-3 h-0.5 rounded-full" style={{ backgroundColor: CHART_COLORS.rose, display: 'inline-block', width: 12 }} /> Withdrawals
                   </div>
                   <div className="flex items-center gap-1.5 text-xs text-slate-500">
-                    <span className="w-3 h-0.5 rounded-full" style={{ backgroundColor: CHART_COLORS.success, display: 'inline-block', width: 12, borderTop: '1px dashed' }} /> Growth
+                    <span className="w-3 h-0.5 rounded-full" style={{ backgroundColor: CHART_COLORS.teal, display: 'inline-block', width: 12, borderTop: '1px dashed' }} /> Growth
                   </div>
                 </div>
               </motion.div>

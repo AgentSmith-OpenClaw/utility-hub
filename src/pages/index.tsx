@@ -34,10 +34,10 @@ const tools: Tool[] = [
     name: 'SIP Calculator',
     description:
       'Calculate returns on Systematic Investment Plans. Analyze mutual fund SIP investments with step-up options and goal planning.',
-    path: '#',
+    path: '/finance/sip-calculator',
     icon: '📈',
     tags: ['Finance', 'Investment', 'SIP'],
-    comingSoon: true,
+    isNew: true,
   },
   {
     name: 'Compound Interest Calculator',

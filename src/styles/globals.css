@@ -31,25 +31,25 @@
   --color-secondary-800: #3730a3;
   --color-secondary-900: #312e81;
 
-  /* ── Accent (Teal/Cyan) ── Freshness, growth */
-  --color-accent-50:  #f0fdfa;
-  --color-accent-100: #ccfbf1;
-  --color-accent-200: #99f6e4;
-  --color-accent-300: #5eead4;
-  --color-accent-400: #2dd4bf;
-  --color-accent-500: #14b8a6;
-  --color-accent-600: #0d9488;
-  --color-accent-700: #0f766e;
-  --color-accent-800: #115e59;
-  --color-accent-900: #134e4a;
+  /* ── Accent (Cyan) ── Freshness, growth - matches home hero gradient */
+  --color-accent-50:  #ecfeff;
+  --color-accent-100: #cffafe;
+  --color-accent-200: #a5f3fc;
+  --color-accent-300: #67e8f9;
+  --color-accent-400: #22d3ee;
+  --color-accent-500: #06b6d4;
+  --color-accent-600: #0891b2;
+  --color-accent-700: #0e7490;
+  --color-accent-800: #155e75;
+  --color-accent-900: #164e63;
 
-  /* ── Success (Emerald) */
-  --color-success-50:  #ecfdf5;
-  --color-success-100: #d1fae5;
-  --color-success-400: #34d399;
-  --color-success-500: #10b981;
-  --color-success-600: #059669;
-  --color-success-700: #047857;
+  /* ── Success (Teal/Emerald) ── Use sparingly for positive outcomes */
+  --color-success-50:  #f0fdfa;
+  --color-success-100: #ccfbf1;
+  --color-success-400: #2dd4bf;
+  --color-success-500: #14b8a6;
+  --color-success-600: #0d9488;
+  --color-success-700: #0f766e;
 
   /* ── Warning (Amber) */
   --color-warning-50:  #fffbeb;
@@ -77,15 +77,15 @@
   --color-neutral-800: #1e293b;
   --color-neutral-900: #0f172a;
 
-  /* ── Chart Palette (harmonized) */
-  --chart-1: #3b82f6; /* primary blue */
-  --chart-2: #14b8a6; /* teal accent */
-  --chart-3: #6366f1; /* indigo secondary */
-  --chart-4: #f59e0b; /* amber warning */
-  --chart-5: #f43f5e; /* rose danger */
-  --chart-6: #10b981; /* emerald success */
-  --chart-grid: #f1f5f9;
-  --chart-axis: #94a3b8;
+  /* ── Chart Palette (Based on home page hero: indigo→blue→cyan gradient) */
+  --chart-primary: #6366f1;   /* indigo-500 - primary data */
+  --chart-secondary: #3b82f6; /* blue-500 - secondary data */
+  --chart-accent: #06b6d4;    /* cyan-500 - accent/highlight */
+  --chart-teal: #14b8a6;      /* teal-500 - growth/success */
+  --chart-amber: #f59e0b;     /* amber-500 - warning/info */
+  --chart-rose: #f43f5e;      /* rose-500 - danger/negative (use sparingly) */
+  --chart-grid: #f1f5f9;      /* slate-100 */
+  --chart-axis: #94a3b8;      /* slate-400 */
 
   /* ── Semantic tokens */
   --bg-page: linear-gradient(135deg, var(--color-neutral-50), var(--color-primary-50), var(--color-secondary-50));
