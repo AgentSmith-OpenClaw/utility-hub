@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   AreaChart,
@@ -15,6 +15,8 @@ import {
 } from 'recharts';
 import { useBuyVsRent } from '../../hooks/useBuyVsRent';
 import { formatCurrency, formatPercent } from './BuyVsRent.utils';
+import { exportToExcel } from '../../utils/excel';
+import { exportToPDF } from '../../utils/pdf';
 
 const CHART_COLORS = {
   buying: '#3b82f6',
@@ -27,6 +29,8 @@ export const BuyVsRentRedesigned: React.FC = () => {
   const { inputs, result, updateInputs, reset } = useBuyVsRent();
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [activeTab, setActiveTab] = useState<'networth' | 'breakdown'>('networth');
+  const [exporting, setExporting] = useState<'pdf' | 'excel' | null>(null);
+  const [copied, setCopied] = useState(false);
 
   // Sample data for charts (every 12 months)
   const yearlyData = result.monthlyData.filter((d) => d.month % 12 === 0 || d.month === result.monthlyData.length);
@@ -34,6 +38,68 @@ export const BuyVsRentRedesigned: React.FC = () => {
   const handleCalculate = () => {
     // Force recalculation (already happens automatically via hook)
   };
+
+  const handleExportPDF = useCallback(async () => {
+    setExporting('pdf');
+    try {
+      await exportToPDF('buy-vs-rent-content', 'Buy_vs_Rent_Analysis.pdf', {
+        title: 'Buy vs Rent Analysis',
+        orientation: 'portrait',
+        quality: 0.92,
+      });
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setExporting(null);
+    }
+  }, []);
+
+  const handleExportExcel = useCallback(() => {
+    setExporting('excel');
+    try {
+      const data = result.monthlyData.map((d, i) => ({
+        Month: i + 1,
+        Year: Math.floor(i / 12) + 1,
+        'Buying Net Worth': Math.round(d.buyingNetWorth),
+        'Renting Net Worth': Math.round(d.rentingNetWorth),
+        'Buying Cumulative Cost': Math.round(d.cumulativeMortgagePayments + d.cumulativePropertyTax + d.cumulativeInsurance + d.cumulativeHOA + d.cumulativeMaintenance),
+        'Renting Cumulative Cost': Math.round(d.cumulativeRent + d.cumulativeRentersInsurance),
+      }));
+      // Generic Excel export - cast to any to avoid type issues
+      exportToExcel(data as any, 'Buy_vs_Rent_Comparison.xlsx');
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setExporting(null);
+    }
+  }, [result.monthlyData]);
+
+  const handleCopyURL = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = window.location.href;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  }, []);
+
+  const handleShareWhatsApp = useCallback(() => {
+    const text = `Check out my Buy vs Rent analysis: ${result.recommendation === 'buy' ? 'Buying' : 'Renting'} is better for me with a ${formatCurrency(Math.abs(result.netWorthDifference))} advantage over ${inputs.yearsToAnalyze} years!\n\n${window.location.href}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+  }, [result.recommendation, result.netWorthDifference, inputs.yearsToAnalyze]);
+
+  const handleShareTwitter = useCallback(() => {
+    const text = `${result.recommendation === 'buy' ? '🏠 Buying' : '🏢 Renting'} is the smarter choice for me! Net worth difference: ${formatCurrency(Math.abs(result.netWorthDifference))} over ${inputs.yearsToAnalyze} years. Analyze your decision:`;
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`, '_blank');
+  }, [result.recommendation, result.netWorthDifference, inputs.yearsToAnalyze]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 py-3 px-4">
@@ -47,6 +113,27 @@ export const BuyVsRentRedesigned: React.FC = () => {
           </p>
           <meta itemProp="applicationCategory" content="FinanceApplication" />
         </header>
+
+        {/* Export + Share bar */}
+        <div className="flex flex-wrap gap-2 justify-center mb-6">
+          <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-indigo-50 border border-slate-100 hover:border-indigo-200 text-slate-600 hover:text-indigo-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
+            {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
+          </button>
+          <button onClick={handleExportExcel} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-200 text-slate-600 hover:text-teal-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
+            {exporting === 'excel' ? '⏳ Generating…' : '📊 Export Excel'}
+          </button>
+          <button onClick={handleCopyURL} className="flex items-center gap-2 bg-white hover:bg-slate-50 border border-slate-100 hover:border-slate-200 text-slate-600 hover:text-slate-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
+            {copied ? '✅ Copied!' : '🔗 Copy Plan URL'}
+          </button>
+          <button onClick={handleShareWhatsApp} className="flex items-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-200 text-slate-600 hover:text-teal-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
+            💬 WhatsApp
+          </button>
+          <button onClick={handleShareTwitter} className="flex items-center gap-2 bg-white hover:bg-sky-50 border border-slate-100 hover:border-sky-200 text-slate-600 hover:text-sky-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
+            🐦 Twitter
+          </button>
+        </div>
+
+        <div id="buy-vs-rent-content">
 
         {/* Quick Compare - Essential Inputs */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
@@ -251,6 +338,10 @@ export const BuyVsRentRedesigned: React.FC = () => {
             </motion.div>
           )}
         </AnimatePresence>
+
+
+
+        {/* imatePresence>
 
         {/* Results Section - Prominent Display */}
         <section className="mb-6">
@@ -537,8 +628,35 @@ export const BuyVsRentRedesigned: React.FC = () => {
               is usually better due to transaction costs. Do you have stable income? Homeownership requires emergency
               funds for unexpected repairs. Consider consulting with a financial advisor for personalized guidance.
             </p>
+            <h3 className="text-lg font-bold text-slate-900 mt-6">A Practical Framework for Better Decisions</h3>
+            <p>
+              The best buy-versus-rent decision is rarely emotional when numbers are compared honestly. Start with time horizon.
+              If your expected stay is short, buying costs such as registration, brokerage, loan setup, and resale friction can wipe out expected appreciation.
+              If your horizon is longer, principal repayment and property value growth can create a meaningful net-worth advantage.
+            </p>
+            <p>
+              Next, compare opportunity cost. A down payment invested in diversified assets can compound significantly over a decade.
+              That means the true cost of buying is not just the EMI, but also the foregone growth of that capital.
+              This calculator includes that perspective so you can evaluate both paths on a comparable net-worth basis instead of monthly payment alone.
+            </p>
+            <p>
+              Risk management matters as much as returns. Homeowners face concentration risk in a single asset and location.
+              Renters face rent escalation and less control over tenancy terms. Your choice should align with income stability,
+              mobility needs, family plans, and your ability to maintain an emergency buffer after upfront payments.
+            </p>
+            <p>
+              Use scenario testing before deciding. Increase interest rates, lower appreciation assumptions, and test higher maintenance.
+              If buying still wins under conservative assumptions, confidence in that decision is higher.
+              If outcomes flip easily, renting while investing the difference may be the safer route until conditions improve.
+            </p>
+            <p>
+              Finally, remember that financial optimum and lifestyle optimum are not always identical.
+              Some households value stability, customization, and long-term roots enough to accept a modest financial trade-off.
+              Others prioritize flexibility and career mobility. A strong decision is one that fits both your balance sheet and your life stage.
+            </p>
           </div>
         </section>
+        </div>
       </article>
     </div>
   );

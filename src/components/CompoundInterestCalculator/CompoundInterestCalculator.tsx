@@ -237,6 +237,25 @@ const CompoundInterestCalculator: React.FC = () => {
           </p>
         </header>
 
+        {/* Export + Share bar */}
+        <div className="flex flex-wrap gap-2 justify-center mb-6">
+          <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-indigo-50 border border-slate-100 hover:border-indigo-200 text-slate-600 hover:text-indigo-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
+            {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
+          </button>
+          <button onClick={handleExportExcel} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-200 text-slate-600 hover:text-teal-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
+            {exporting === 'excel' ? '⏳ Generating…' : '📊 Export Excel'}
+          </button>
+          <button onClick={handleCopyURL} className="flex items-center gap-2 bg-white hover:bg-slate-50 border border-slate-100 hover:border-slate-200 text-slate-600 hover:text-slate-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
+            {copied ? '✅ Copied!' : '🔗 Copy Plan URL'}
+          </button>
+          <button onClick={handleShareWhatsApp} className="flex items-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-200 text-slate-600 hover:text-teal-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
+            💬 WhatsApp
+          </button>
+          <button onClick={handleShareTwitter} className="flex items-center gap-2 bg-white hover:bg-sky-50 border border-slate-100 hover:border-sky-200 text-slate-600 hover:text-sky-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
+            🐦 Twitter
+          </button>
+        </div>
+
         <div id="compound-calculator-content">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
             
@@ -311,61 +330,13 @@ const CompoundInterestCalculator: React.FC = () => {
                 </button>
               </motion.section>
 
-              {/* Share/Export */}
-              <div className="hidden lg:block space-y-3">
-                <div className="grid grid-cols-2 gap-2">
-                  <button onClick={handleExportPDF} disabled={exporting !== null}
-                    className="flex items-center justify-center gap-2 bg-white hover:bg-indigo-50 border border-slate-100 hover:border-indigo-100 text-slate-600 hover:text-indigo-600 text-[11px] font-bold py-3 rounded-2xl transition-all shadow-sm">
-                    📄 {exporting === 'pdf' ? '...' : 'PDF'}
-                  </button>
-                  <button onClick={handleExportExcel} disabled={exporting !== null}
-                    className="flex items-center justify-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-100 text-slate-600 hover:text-teal-600 text-[11px] font-bold py-3 rounded-2xl transition-all shadow-sm">
-                    📊 {exporting === 'excel' ? '...' : 'Excel'}
-                  </button>
-                </div>
-                <button onClick={handleCopyURL}
-                  className="w-full flex items-center justify-center gap-2 bg-white hover:bg-indigo-50 border border-slate-100 hover:border-indigo-100 text-slate-600 hover:text-indigo-600 text-[11px] font-bold py-3 rounded-2xl transition-all shadow-sm">
-                  🔗 {copied ? '✅ COPIED!' : 'COPY PLAN URL'}
-                </button>
-                <div className="grid grid-cols-2 gap-2">
-                  <button onClick={handleShareWhatsApp}
-                    className="flex items-center justify-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-100 text-slate-600 hover:text-teal-600 text-[11px] font-bold py-3 rounded-2xl transition-all shadow-sm">
-                    💬 WHATSAPP
-                  </button>
-                  <button onClick={handleShareTwitter}
-                    className="flex items-center justify-center gap-2 bg-white hover:bg-sky-50 border border-slate-100 hover:border-sky-100 text-slate-600 hover:text-sky-600 text-[11px] font-bold py-3 rounded-2xl transition-all shadow-sm">
-                    🐦 TWITTER
-                  </button>
-                </div>
-              </div>
+
             </div>
 
             {/* Results & Charts Column */}
             <div className="lg:col-span-8 space-y-6">
               
-              {/* Mobile sharing */}
-              <div className="flex flex-wrap gap-2 lg:hidden">
-                <button onClick={handleExportPDF} disabled={exporting !== null}
-                  className="flex items-center gap-1.5 bg-white border border-slate-100 text-slate-600 text-[10px] font-bold px-3 py-2.5 rounded-xl shadow-sm">
-                  {exporting === 'pdf' ? '⏳' : '📄 PDF'}
-                </button>
-                <button onClick={handleExportExcel} disabled={exporting !== null}
-                  className="flex items-center gap-1.5 bg-white border border-slate-100 text-slate-600 text-[10px] font-bold px-3 py-2.5 rounded-xl shadow-sm">
-                  {exporting === 'excel' ? '⏳' : '📊 EXCEL'}
-                </button>
-                <button onClick={handleCopyURL}
-                  className="flex items-center gap-1.5 bg-white border border-slate-100 text-slate-600 text-[10px] font-bold px-3 py-2.5 rounded-xl shadow-sm">
-                  {copied ? '✅' : '🔗 COPY'}
-                </button>
-                <button onClick={handleShareWhatsApp}
-                  className="flex items-center gap-1.5 bg-white border border-slate-100 text-slate-600 text-[10px] font-bold px-3 py-2.5 rounded-xl shadow-sm">
-                  💬 SHARE
-                </button>
-                <button onClick={handleShareTwitter}
-                  className="flex items-center gap-1.5 bg-white border border-slate-100 text-slate-600 text-[10px] font-bold px-3 py-2.5 rounded-xl shadow-sm">
-                  🐦 TWEET
-                </button>
-              </div>
+
 
               {/* Summary Metrics */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -768,6 +739,35 @@ const CompoundInterestCalculator: React.FC = () => {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+
+          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-8 sm:p-10">
+            <h2 className="text-3xl font-black text-slate-900 mb-5 tracking-tight">Practical Compounding Strategy for Real Investors</h2>
+            <div className="space-y-4 text-sm text-slate-600 leading-relaxed font-medium">
+              <p>
+                Compounding works best when three conditions are present for a long period: positive returns, uninterrupted time, and regular contribution behavior.
+                Missing even one of these can significantly reduce outcomes. That is why investors who automate investments often outperform those who rely only on market timing.
+              </p>
+              <p>
+                Your first milestone should be building contribution consistency. Small monthly additions are powerful because each installment starts its own compounding journey.
+                Over long horizons, contribution habit often explains more of your final corpus than trying to optimize every basis point of annual return.
+              </p>
+              <p>
+                Fees and taxes are the hidden enemies of compounding. A seemingly small annual fee difference can erode a meaningful portion of your future wealth over 20+ years.
+                Whenever possible, prefer low-cost products aligned with your risk profile and tax-efficient holding periods.
+                Protecting the base return is usually more valuable than chasing speculative outperformance.
+              </p>
+              <p>
+                Inflation-adjusted thinking is essential. If your portfolio grows at 10% while inflation is 6%, your real growth is closer to 4%.
+                Goals should therefore be modeled in future value and tested in today’s purchasing power.
+                This calculator’s real-value outputs help you avoid false confidence created by nominal numbers alone.
+              </p>
+              <p>
+                Finally, compounding rewards patience during volatility. Temporary drawdowns are normal in growth assets.
+                Investors who continue disciplined contributions through those periods often benefit the most when markets recover.
+                The best compounding plans are boring, repeatable, and resilient across good and bad market years.
+              </p>
             </div>
           </div>
         </section>

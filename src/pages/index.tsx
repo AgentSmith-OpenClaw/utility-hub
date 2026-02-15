@@ -151,7 +151,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Developer Note */}
+        {/* About */}
         <section className="max-w-4xl mx-auto px-4 -mt-8 relative z-10">
           <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 sm:p-8">
             <div className="flex items-start gap-4">
@@ -159,12 +159,13 @@ export default function Home() {
                 💡
               </div>
               <div>
-                <h2 className="text-lg font-bold text-slate-900 mb-1">Developer&apos;s Note</h2>
+                <h2 className="text-lg font-bold text-slate-900 mb-1">About this site</h2>
                 <p className="text-slate-600 leading-relaxed">
-                  There are many tools I use daily on the internet, but nothing was consolidated and
-                  most tools missed many features I needed. This project aims to solve those problems
-                  — creating a more complete set of daily tools. If these tools help me, hopefully
-                  they help you as well.
+                  Toolisk is a curated collection of practical web utilities designed to help you
+                  solve everyday tasks quickly and privately. Each tool focuses on clarity,
+                  performance, and usefulness—so you can get reliable results without distractions.
+                  Explore calculators, planners, and developer helpers built to be straightforward
+                  and easy to use.
                 </p>
               </div>
             </div>

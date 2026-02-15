@@ -400,6 +400,25 @@ const FIRECalculator: React.FC = () => {
           <meta itemProp="operatingSystem" content="Any" />
         </header>
 
+        {/* Export + Share bar */}
+        <div className="flex flex-wrap gap-2 justify-center mb-6">
+          <button onClick={handleExportToPDF} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-indigo-50 border border-slate-100 hover:border-indigo-200 text-slate-600 hover:text-indigo-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
+            {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
+          </button>
+          <button onClick={handleExportToExcel} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-200 text-slate-600 hover:text-teal-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
+            {exporting === 'excel' ? '⏳ Generating…' : '📊 Export Excel'}
+          </button>
+          <button onClick={handleCopyURL} className="flex items-center gap-2 bg-white hover:bg-slate-50 border border-slate-100 hover:border-slate-200 text-slate-600 hover:text-slate-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
+            {copied ? '✅ Copied!' : '🔗 Copy Plan URL'}
+          </button>
+          <button onClick={handleShareWhatsApp} className="flex items-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-200 text-slate-600 hover:text-teal-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
+            💬 WhatsApp
+          </button>
+          <button onClick={handleShareTwitter} className="flex items-center gap-2 bg-white hover:bg-sky-50 border border-slate-100 hover:border-sky-200 text-slate-600 hover:text-sky-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
+            🐦 Twitter
+          </button>
+        </div>
+
         {/* ── Already FIRE'd Banner ───────────────────────────── */}
         {result.yearsToFIRE === 0 && (
           <motion.div
@@ -818,28 +837,7 @@ const FIRECalculator: React.FC = () => {
           )}
         </AnimatePresence>
 
-        {/* ── Export + Share bar ─────────────────────────────── */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex flex-wrap justify-center gap-2 mb-6"
-        >
-          <button onClick={handleExportToPDF} disabled={exporting !== null} className="flex items-center gap-1.5 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 text-xs font-semibold px-3 py-2 rounded-lg transition disabled:opacity-50">
-            {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
-          </button>
-          <button onClick={handleExportToExcel} disabled={exporting !== null} className="flex items-center gap-1.5 bg-teal-50 hover:bg-teal-100 border border-teal-200 text-teal-700 text-xs font-semibold px-3 py-2 rounded-lg transition disabled:opacity-50">
-            {exporting === 'excel' ? '⏳ Generating…' : '📊 Export Excel'}
-          </button>
-          <button onClick={handleCopyURL} className="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
-            {copied ? '✅ Copied!' : '🔗 Copy Plan URL'}
-          </button>
-          <button onClick={handleShareWhatsApp} className="flex items-center gap-1.5 bg-teal-50 hover:bg-teal-100 border border-teal-200 text-teal-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
-            💬 WhatsApp
-          </button>
-          <button onClick={handleShareTwitter} className="flex items-center gap-1.5 bg-sky-50 hover:bg-sky-100 border border-sky-200 text-sky-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
-            🐦 Twitter
-          </button>
-        </motion.div>
+
 
         {/* ── Charts Section — All Stacked Vertically ─────────── */}
         <section className="space-y-6 mb-8">
@@ -1303,6 +1301,32 @@ const FIRECalculator: React.FC = () => {
                   <p className="text-sm text-slate-500 leading-relaxed font-medium pl-6 border-l-2 border-slate-100 group-hover:border-blue-100 transition-colors">{faq.a}</p>
                 </div>
               ))}
+            </div>
+          </div>
+
+          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-8 sm:p-10">
+            <h2 className="text-3xl font-black text-slate-900 mb-5 tracking-tight">Building a FIRE Plan That Survives Real Life</h2>
+            <div className="space-y-4 text-sm text-slate-600 leading-relaxed font-medium">
+              <p>
+                Reaching financial independence is not just a math target; it is a risk-management exercise across decades. The classic FIRE calculation gives you a destination number,
+                but your plan becomes robust only when you account for uncertain returns, inflation shocks, job transitions, family responsibilities, and healthcare costs.
+              </p>
+              <p>
+                Start with a realistic expense baseline. Use current annual spending, then separate core needs from lifestyle upgrades.
+                This gives you two numbers: a bare-minimum corpus and a comfort corpus. Planning with both numbers helps you avoid all-or-nothing thinking and gives flexibility during market volatility.
+              </p>
+              <p>
+                Your withdrawal rate should reflect timeline length and risk profile. If you plan to retire in your 40s, your portfolio may need to support 45+ years,
+                so a conservative initial withdrawal rate can materially improve success probability. Many FIRE followers blend growth assets with a safety bucket so they can avoid selling equities in deep drawdowns.
+              </p>
+              <p>
+                The most effective lever is savings rate. Increasing income helps, but controlling lifestyle inflation is often more reliable.
+                A simple approach: whenever income rises, pre-commit 50% of the increment to investments. This gradually compounds your corpus without feeling overly restrictive.
+              </p>
+              <p>
+                Revisit your assumptions annually. Update expected returns, inflation, tax treatment, and major life events.
+                FIRE is not a one-time calculation; it is a living strategy. If your target timeline slips by one or two years, that is still progress toward long-term optionality and freedom.
+              </p>
             </div>
           </div>
         </section>

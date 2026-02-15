@@ -19,6 +19,14 @@ const footerSections = [
     ],
   },
   {
+    title: 'Learn',
+    links: [
+      { label: 'Finance Blog Index', href: '/finance/learn' },
+      { label: 'EMI & Loans', href: '/finance/learn/understanding-emi-calculations' },
+      { label: 'FIRE & Retirement', href: '/finance/learn/fire-movement-explained' },
+    ],
+  },
+  {
     title: 'Legal',
     links: [
       { label: 'Privacy Policy', href: '/privacy-policy' },
@@ -34,7 +42,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-slate-200 bg-white">
       <div className="max-w-6xl mx-auto px-4 py-10">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-8 mb-8">
           {/* Brand Column */}
           <div className="col-span-2 sm:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-3">

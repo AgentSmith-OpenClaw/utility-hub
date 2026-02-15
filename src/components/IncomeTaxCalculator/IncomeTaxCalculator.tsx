@@ -246,6 +246,25 @@ const IncomeTaxCalculator: React.FC = () => {
           </p>
         </header>
 
+        {/* Export + Share bar */}
+        <div className="flex flex-wrap gap-2 justify-center mb-6">
+          <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-indigo-50 border border-slate-100 hover:border-indigo-200 text-slate-600 hover:text-indigo-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
+            {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
+          </button>
+          <button onClick={handleExportExcel} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-200 text-slate-600 hover:text-teal-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
+            {exporting === 'excel' ? '⏳ Generating…' : '📊 Export Excel'}
+          </button>
+          <button onClick={handleCopyURL} className="flex items-center gap-2 bg-white hover:bg-slate-50 border border-slate-100 hover:border-slate-200 text-slate-600 hover:text-slate-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
+            {copied ? '✅ Copied!' : '🔗 Copy Plan URL'}
+          </button>
+          <button onClick={handleShareWhatsApp} className="flex items-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-200 text-slate-600 hover:text-teal-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
+            💬 WhatsApp
+          </button>
+          <button onClick={handleShareTwitter} className="flex items-center gap-2 bg-white hover:bg-sky-50 border border-slate-100 hover:border-sky-200 text-slate-600 hover:text-sky-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
+            🐦 Twitter
+          </button>
+        </div>
+
         <div id="tax-calculator-content">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
             
@@ -362,61 +381,13 @@ const IncomeTaxCalculator: React.FC = () => {
                 </button>
               </motion.section>
 
-              {/* Share/Export Bar (Desktop) */}
-              <div className="hidden lg:block space-y-3">
-                <div className="grid grid-cols-2 gap-2">
-                  <button onClick={handleExportPDF} disabled={exporting !== null}
-                    className="flex items-center justify-center gap-2 bg-white hover:bg-indigo-50 border border-slate-100 hover:border-indigo-100 text-slate-600 hover:text-indigo-600 text-[11px] font-bold py-3 rounded-2xl transition-all shadow-sm">
-                    📄 {exporting === 'pdf' ? '...' : 'PDF'}
-                  </button>
-                  <button onClick={handleExportExcel} disabled={exporting !== null}
-                    className="flex items-center justify-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-100 text-slate-600 hover:text-teal-600 text-[11px] font-bold py-3 rounded-2xl transition-all shadow-sm">
-                    📊 {exporting === 'excel' ? '...' : 'Excel'}
-                  </button>
-                </div>
-                <button onClick={handleCopyURL}
-                  className="w-full flex items-center justify-center gap-2 bg-white hover:bg-indigo-50 border border-slate-100 hover:border-indigo-100 text-slate-600 hover:text-indigo-600 text-[11px] font-bold py-3 rounded-2xl transition-all shadow-sm">
-                  🔗 {copied ? '✅ COPIED!' : 'COPY PLAN URL'}
-                </button>
-                <div className="grid grid-cols-2 gap-2">
-                  <button onClick={handleShareWhatsApp}
-                    className="flex items-center justify-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-100 text-slate-600 hover:text-teal-600 text-[11px] font-bold py-3 rounded-2xl transition-all shadow-sm">
-                    💬 WHATSAPP
-                  </button>
-                  <button onClick={handleShareTwitter}
-                    className="flex items-center justify-center gap-2 bg-white hover:bg-sky-50 border border-slate-100 hover:border-sky-100 text-slate-600 hover:text-sky-600 text-[11px] font-bold py-3 rounded-2xl transition-all shadow-sm">
-                    🐦 TWITTER
-                  </button>
-                </div>
-              </div>
+
             </div>
 
             {/* Results Section */}
             <div className="lg:col-span-8 space-y-6">
               
-              {/* Mobile sharing */}
-              <div className="flex flex-wrap gap-2 lg:hidden">
-                <button onClick={handleExportPDF} disabled={exporting !== null}
-                  className="flex items-center gap-1.5 bg-white border border-slate-100 text-slate-600 text-[10px] font-bold px-3 py-2.5 rounded-xl shadow-sm">
-                  {exporting === 'pdf' ? '⏳' : '📄 PDF'}
-                </button>
-                <button onClick={handleExportExcel} disabled={exporting !== null}
-                  className="flex items-center gap-1.5 bg-white border border-slate-100 text-slate-600 text-[10px] font-bold px-3 py-2.5 rounded-xl shadow-sm">
-                  {exporting === 'excel' ? '⏳' : '📊 EXCEL'}
-                </button>
-                <button onClick={handleCopyURL}
-                  className="flex items-center gap-1.5 bg-white border border-slate-100 text-slate-600 text-[10px] font-bold px-3 py-2.5 rounded-xl shadow-sm">
-                  {copied ? '✅' : '🔗 COPY'}
-                </button>
-                <button onClick={handleShareWhatsApp}
-                  className="flex items-center gap-1.5 bg-white border border-slate-100 text-slate-600 text-[10px] font-bold px-3 py-2.5 rounded-xl shadow-sm">
-                  💬 SHARE
-                </button>
-                <button onClick={handleShareTwitter}
-                  className="flex items-center gap-1.5 bg-white border border-slate-100 text-slate-600 text-[10px] font-bold px-3 py-2.5 rounded-xl shadow-sm">
-                  🐦 TWEET
-                </button>
-              </div>
+
 
               {/* Summary Cards */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -763,6 +734,36 @@ const IncomeTaxCalculator: React.FC = () => {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+
+          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-8 sm:p-10">
+            <h2 className="text-3xl font-black text-slate-900 mb-5 tracking-tight">Tax Planning Framework Beyond Regime Selection</h2>
+            <div className="space-y-4 text-sm text-slate-600 leading-relaxed font-medium">
+              <p>
+                Choosing Old versus New Regime is only the first layer of tax planning. The stronger approach is to optimize cash flow, compliance, and long-term wealth simultaneously.
+                In many cases, people over-focus on deduction hunting and under-focus on avoidable penalties, timing of declarations, and documentation quality.
+              </p>
+              <p>
+                Begin with your gross income map: salary components, variable pay, interest income, capital gains, and side income.
+                Then classify each stream by tax treatment and filing requirements. This prevents year-end surprises and helps you estimate advance tax needs accurately,
+                especially if you have freelance income or significant non-salary earnings.
+              </p>
+              <p>
+                Under the Old Regime, deduction planning should align with real financial goals rather than tax-saving products alone.
+                For example, 80C can include EPF, ELSS, and principal repayment—but your allocation should match liquidity needs and risk appetite.
+                Tax benefit is valuable, but poor product fit can hurt long-term outcomes.
+              </p>
+              <p>
+                Under the New Regime, simplicity is the key advantage. Lower slab rates and standard deduction reduce complexity, making it easier to plan monthly cash flow.
+                This can be especially useful for younger earners and professionals who prefer flexible investing over locked-in instruments.
+                However, you should still evaluate annual break-even points if your deduction profile changes.
+              </p>
+              <p>
+                Finally, keep robust records: rent receipts, insurance proofs, donation receipts, and investment statements.
+                Good documentation reduces filing errors and supports you during notices or verification requests.
+                Use this calculator as your scenario engine, then review with a qualified tax professional if you have business income, capital gains, or cross-border tax exposure.
+              </p>
             </div>
           </div>
         </section>
