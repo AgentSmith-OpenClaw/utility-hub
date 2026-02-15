@@ -355,6 +355,25 @@ const SIPWealthPlanner: React.FC = () => {
           <meta itemProp="operatingSystem" content="Any" />
         </header>
 
+        {/* Export + Share bar */}
+        <div className="flex flex-wrap gap-2 justify-center mb-6">
+          <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-indigo-50 border border-slate-100 hover:border-indigo-200 text-slate-600 hover:text-indigo-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
+            {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
+          </button>
+          <button onClick={handleExportExcel} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-200 text-slate-600 hover:text-teal-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
+            {exporting === 'excel' ? '⏳ Generating…' : '📊 Export Excel'}
+          </button>
+          <button onClick={handleCopyURL} className="flex items-center gap-2 bg-white hover:bg-slate-50 border border-slate-100 hover:border-slate-200 text-slate-600 hover:text-slate-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
+            {copied ? '✅ Copied!' : '🔗 Copy Plan URL'}
+          </button>
+          <button onClick={handleShareWhatsApp} className="flex items-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-200 text-slate-600 hover:text-teal-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
+            💬 WhatsApp
+          </button>
+          <button onClick={handleShareTwitter} className="flex items-center gap-2 bg-white hover:bg-sky-50 border border-slate-100 hover:border-sky-200 text-slate-600 hover:text-sky-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
+            🐦 Twitter
+          </button>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-6 items-start">
           <section className="bg-white rounded-2xl border border-slate-100 shadow-md p-5">
             <h2 className="text-lg font-bold text-slate-800 mb-4">Control Center</h2>
@@ -540,24 +559,7 @@ const SIPWealthPlanner: React.FC = () => {
               </div>
             </div>
 
-            {/* Export + Share bar */}
-            <div className="flex flex-wrap gap-2">
-              <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-1.5 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 text-xs font-semibold px-3 py-2 rounded-lg transition disabled:opacity-50">
-                {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
-              </button>
-              <button onClick={handleExportExcel} disabled={exporting !== null} className="flex items-center gap-1.5 bg-teal-50 hover:bg-teal-100 border border-teal-200 text-teal-700 text-xs font-semibold px-3 py-2 rounded-lg transition disabled:opacity-50">
-                {exporting === 'excel' ? '⏳ Generating…' : '📊 Export Excel'}
-              </button>
-              <button onClick={handleCopyURL} className="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
-                {copied ? '✅ Copied!' : '🔗 Copy Plan URL'}
-              </button>
-              <button onClick={handleShareWhatsApp} className="flex items-center gap-1.5 bg-teal-50 hover:bg-teal-100 border border-teal-200 text-teal-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
-                💬 WhatsApp
-              </button>
-              <button onClick={handleShareTwitter} className="flex items-center gap-1.5 bg-sky-50 hover:bg-sky-100 border border-sky-200 text-sky-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
-                🐦 Twitter
-              </button>
-            </div>
+
 
             {inputs.mode === 'goal' && (
               <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="bg-gradient-to-r from-indigo-50 to-blue-50 border border-indigo-200 rounded-xl p-4">
@@ -1120,6 +1122,37 @@ const SIPWealthPlanner: React.FC = () => {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+
+          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-8 sm:p-10">
+            <h2 className="text-3xl font-black text-slate-900 mb-5 tracking-tight">How to Build a Sustainable SIP Strategy</h2>
+            <div className="space-y-4 text-sm text-slate-600 leading-relaxed font-medium">
+              <p>
+                SIP success is less about finding the perfect fund and more about consistency through market cycles.
+                Most investors overestimate short-term returns and underestimate the effect of disciplined investing over 10–20 years.
+                A reliable SIP framework should include contribution discipline, periodic step-up, diversification, and goal-based timelines.
+              </p>
+              <p>
+                Start with target-based planning instead of return-chasing. Define each goal with amount, timeline, and required monthly contribution.
+                Then allocate funds by horizon: equity-heavy for long goals, hybrid or debt-oriented for medium goals,
+                and low-volatility options for short goals. Matching volatility to timeline reduces panic decisions in downturns.
+              </p>
+              <p>
+                Step-up SIP is one of the strongest wealth multipliers for salaried investors.
+                Even a 5–10% annual increase can create a large gap in final corpus versus flat SIP, especially beyond year 12.
+                If salary increments are variable, link your step-up to a fixed rule such as one month of incremented salary distributed across your SIPs.
+              </p>
+              <p>
+                Rebalancing is equally important. When one asset class outperforms heavily, portfolio risk drifts up.
+                Annual rebalancing back to target allocation helps lock gains and maintain a risk profile that matches your objective.
+                Combine this with an emergency fund so you never need to stop SIPs due to temporary cash flow stress.
+              </p>
+              <p>
+                Finally, judge progress on rolling 5-year windows rather than month-to-month NAV changes.
+                Long-term investing rewards process, not prediction. If your plan is aligned with goals, inflation, and contribution capacity,
+                staying invested usually matters more than trying to time entries and exits.
+              </p>
             </div>
           </div>
         </section>

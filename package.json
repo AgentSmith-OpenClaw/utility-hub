@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/generate-sitemap.js && next build",
     "start": "npx serve build -l 3000",
     "serve": "npx serve build -l 3000",
-    "preview": "npm run build && npm run serve"
+    "preview": "npm run build && npm run serve",
+    "sitemap": "node scripts/generate-sitemap.js"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",

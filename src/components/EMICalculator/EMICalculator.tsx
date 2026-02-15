@@ -430,6 +430,25 @@ const EMICalculator: React.FC = () => {
           <meta itemProp="operatingSystem" content="Any" />
         </header>
 
+        {/* Export + Share bar */}
+        <div className="flex flex-wrap gap-2 justify-center mb-6">
+          <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-indigo-50 border border-slate-100 hover:border-indigo-200 text-slate-600 hover:text-indigo-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
+            {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
+          </button>
+          <button onClick={handleExportExcel} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-200 text-slate-600 hover:text-teal-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
+            {exporting === 'excel' ? '⏳ Generating…' : '📊 Export Excel'}
+          </button>
+          <button onClick={handleCopyURL} className="flex items-center gap-2 bg-white hover:bg-slate-50 border border-slate-100 hover:border-slate-200 text-slate-600 hover:text-slate-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
+            {copied ? '✅ Copied!' : '🔗 Copy Plan URL'}
+          </button>
+          <button onClick={handleShareWhatsApp} className="flex items-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-200 text-slate-600 hover:text-teal-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
+            💬 WhatsApp
+          </button>
+          <button onClick={handleShareTwitter} className="flex items-center gap-2 bg-white hover:bg-sky-50 border border-slate-100 hover:border-sky-200 text-slate-600 hover:text-sky-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
+            🐦 Twitter
+          </button>
+        </div>
+
         {/* Compact Input Sections in Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Loan Details - Compact */}
@@ -673,6 +692,8 @@ const EMICalculator: React.FC = () => {
                 )}
               </div>
             </div>
+
+
 
             {/* Prepayment Impact Analysis */}
             {summary.prepaymentImpacts && summary.prepaymentImpacts.length > 0 && (
@@ -1012,27 +1033,6 @@ const EMICalculator: React.FC = () => {
                   </div>
                 )}
               </>
-            )}
-
-            {/* Export + Share bar */}
-            {schedule.length > 0 && (
-              <div className="flex flex-wrap gap-2 justify-center mb-6">
-                <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-1.5 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 text-xs font-semibold px-3 py-2 rounded-lg transition disabled:opacity-50">
-                  {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
-                </button>
-                <button onClick={handleExportExcel} disabled={exporting !== null} className="flex items-center gap-1.5 bg-teal-50 hover:bg-teal-100 border border-teal-200 text-teal-700 text-xs font-semibold px-3 py-2 rounded-lg transition disabled:opacity-50">
-                  {exporting === 'excel' ? '⏳ Generating…' : '📊 Export Excel'}
-                </button>
-                <button onClick={handleCopyURL} className="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
-                  {copied ? '✅ Copied!' : '🔗 Copy Plan URL'}
-                </button>
-                <button onClick={handleShareWhatsApp} className="flex items-center gap-1.5 bg-teal-50 hover:bg-teal-100 border border-teal-200 text-teal-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
-                  💬 WhatsApp
-                </button>
-                <button onClick={handleShareTwitter} className="flex items-center gap-1.5 bg-sky-50 hover:bg-sky-100 border border-sky-200 text-sky-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
-                  🐦 Twitter
-                </button>
-              </div>
             )}
 
             {/* Compact Amortization Table */}
@@ -1520,6 +1520,34 @@ const EMICalculator: React.FC = () => {
                   <p className="text-sm text-slate-600 leading-relaxed font-medium">{faq.a}</p>
                 </div>
               ))}
+            </div>
+          </div>
+
+          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-8 md:p-10">
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">How to Evaluate a Loan Offer Like a Pro</h2>
+            <div className="space-y-4 text-sm text-slate-600 leading-relaxed font-medium">
+              <p>
+                Most people compare loans only by EMI. That is a common and expensive mistake. A lower EMI can actually hide a much higher lifetime cost because the tenure is longer and interest compounds for more months.
+                Always compare three things together: EMI affordability, total interest outgo, and total years to become debt-free.
+              </p>
+              <p>
+                A practical rule is to keep your total EMIs under 35–40% of monthly take-home pay and still maintain emergency savings.
+                If one rate increase can break your monthly budget, your loan size is too aggressive. Stress-test your scenario by increasing interest rate by 1% in this calculator.
+                If you are still comfortable, the structure is usually safer.
+              </p>
+              <p>
+                Prepayment strategy is where most savings happen. One annual lump-sum prepayment, even equal to 1–2 EMIs, can shave years off tenure and save substantial interest.
+                The biggest impact happens in early years because your outstanding principal is highest then. If you receive bonuses, incentives, or variable cash inflows, direct a fixed share of that amount to prepayment.
+              </p>
+              <p>
+                Also compare fixed and floating rates carefully. Floating rates may start lower, but they can reset with market cycles. Fixed rates provide certainty but can be priced higher.
+                Your choice should depend on income stability and risk tolerance, not only on the headline number offered by the lender.
+              </p>
+              <p>
+                Finally, include all charges in your real borrowing cost: processing fee, insurance bundling, legal valuation fees, and pre-closure conditions.
+                A loan with slightly higher interest but lower total fees can still be the better deal.
+                Use the outputs on this page as decision support, then validate the final offer sheet before signing.
+              </p>
             </div>
           </div>
         </section>
