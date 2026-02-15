@@ -38,13 +38,9 @@ export default function CompoundInterestPage() {
         </script>
       </Head>
 
-      <Header />
-      
       <main>
         <CompoundInterestCalculator />
       </main>
-
-      <Footer />
     </>
   );
 }

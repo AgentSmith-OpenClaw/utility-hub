@@ -4,6 +4,7 @@ const footerSections = [
   {
     title: 'Tools',
     links: [
+      { label: 'Income Tax Calculator', href: '/finance/income-tax-calculator' },
       { label: 'EMI Calculator', href: '/finance/emi-calculator' },
       { label: 'FIRE Calculator', href: '/finance/fire-calculator' },
       { label: 'SIP Calculator', href: '/finance/sip-calculator' },

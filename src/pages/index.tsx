@@ -13,6 +13,15 @@ interface Tool {
 
 const tools: Tool[] = [
   {
+    name: 'Income Tax Calculator',
+    description:
+      'Compare Old vs New Tax Regimes for FY 2025-26 with latest budget updates. Calculate tax liability, rebates, and standard deductions for salaried and business professionals.',
+    path: '/finance/income-tax-calculator',
+    icon: '🧾',
+    tags: ['Finance', 'Tax', 'India', 'Budget 2025'],
+    isNew: true,
+  },
+  {
     name: 'EMI Calculator',
     description:
       'Advanced EMI calculator for home loan, car loan & personal loan. Compare Reduce EMI vs Reduce Tenure strategies, view 8 interactive charts, prepayment impact analysis, and export to Excel.',

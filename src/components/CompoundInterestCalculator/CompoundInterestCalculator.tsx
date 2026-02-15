@@ -387,29 +387,11 @@ const CompoundInterestCalculator: React.FC = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className={`bg-gradient-to-br ${stat.color} p-5 rounded-3xl shadow-xl text-white relative overflow-hidden group`}
+                    className={`bg-gradient-to-br ${stat.color} p-5 rounded-2xl shadow-xl text-white relative overflow-hidden group`}
                   >
                     <div className="absolute top-0 right-0 w-20 h-20 bg-white/5 rounded-full -mr-10 -mt-10 group-hover:scale-150 transition-transform duration-500" />
                     <p className="text-[10px] uppercase font-black tracking-widest opacity-70 mb-1">{stat.label}</p>
                     <AnimatedNumber value={stat.value} prefix={stat.prefix} className="text-xl sm:text-2xl font-black block leading-tight" />
-                  </motion.div>
-                ))}
-              </div>
-                {[
-                  { label: 'Final Balance', value: result.finalBalance, prefix: '$', color: 'from-blue-600 to-indigo-700' },
-                  { label: 'Total Principal', value: result.totalPrincipal, prefix: '$', color: 'from-emerald-500 to-teal-600' },
-                  { label: 'Total Interest', value: result.totalInterest, prefix: '$', color: 'from-amber-500 to-orange-600' },
-                  { label: 'Buying Power', value: result.realValue, prefix: '$', color: 'from-indigo-500 to-purple-600' },
-                ].map((stat, i) => (
-                  <motion.div
-                    key={stat.label}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    className={`bg-gradient-to-br ${stat.color} p-4 rounded-2xl shadow-lg text-white`}
-                  >
-                    <p className="text-[10px] uppercase font-bold opacity-80 mb-1">{stat.label}</p>
-                    <AnimatedNumber value={stat.value} prefix={stat.prefix} className="text-xl sm:text-2xl font-black block" />
                   </motion.div>
                 ))}
               </div>
@@ -592,24 +574,37 @@ const CompoundInterestCalculator: React.FC = () => {
           </div>
 
           {/* FAQ Section */}
-          <section className="bg-slate-900 rounded-3xl p-8 text-white">
-            <h2 className="text-2xl font-bold mb-8">Frequently Asked Questions</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <section className="bg-white rounded-[40px] p-10 border border-slate-100 shadow-xl relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-64 h-64 bg-indigo-50/50 rounded-full blur-[100px] -ml-32 -mt-32" />
+            <h2 className="text-3xl font-black mb-10 tracking-tight text-slate-900 relative z-10">Frequently Asked Questions</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 relative z-10">
               <div>
-                <h4 className="font-bold text-indigo-400 mb-2">What is the "Rule of 72"?</h4>
-                <p className="text-sm text-slate-400">It's a quick way to estimate how long it takes to double your money. Divide 72 by your annual interest rate. For example, at 8% interest, your money doubles every 9 years.</p>
+                <h4 className="font-bold text-indigo-600 mb-2.5 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-indigo-600 rounded-full" />
+                  What is the "Rule of 72"?
+                </h4>
+                <p className="text-sm text-slate-500 leading-relaxed font-medium">It's a quick way to estimate how long it takes to double your money. Divide 72 by your annual interest rate. For example, at 8% interest, your money doubles every 9 years.</p>
               </div>
               <div>
-                <h4 className="font-bold text-indigo-400 mb-2">How does inflation affect my savings?</h4>
-                <p className="text-sm text-slate-400">Inflation reduces purchasing power. If you have $1 million in 30 years, but inflation was 3%, that million might only buy what $411,000 buys today.</p>
+                <h4 className="font-bold text-indigo-600 mb-2.5 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-indigo-600 rounded-full" />
+                  How does inflation affect my savings?
+                </h4>
+                <p className="text-sm text-slate-500 leading-relaxed font-medium">Inflation reduces purchasing power. If you have ₹1 Crore in 30 years, but inflation was 6%, that amount might only buy what ₹17.4 Lakh buys today.</p>
               </div>
               <div>
-                <h4 className="font-bold text-indigo-400 mb-2">Should I compound daily or monthly?</h4>
-                <p className="text-sm text-slate-400">Daily compounding is slightly better for the investor, but the difference between daily and monthly compounding on a typical savings account is usually very small.</p>
+                <h4 className="font-bold text-indigo-600 mb-2.5 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-indigo-600 rounded-full" />
+                  Should I compound daily or monthly?
+                </h4>
+                <p className="text-sm text-slate-500 leading-relaxed font-medium">Daily compounding is technically better for the investor, but the difference between daily and monthly compounding on a typical savings account is usually very small.</p>
               </div>
               <div>
-                <h4 className="font-bold text-indigo-400 mb-2">Is the interest rate guaranteed?</h4>
-                <p className="text-sm text-slate-400">In a savings account or CD, yes. In the stock market, interest rates (returns) fluctuate year to year. This calculator uses a fixed average rate for simplicity.</p>
+                <h4 className="font-bold text-indigo-600 mb-2.5 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-indigo-600 rounded-full" />
+                  Is the interest rate guaranteed?
+                </h4>
+                <p className="text-sm text-slate-500 leading-relaxed font-medium">In a fixed deposit or post office scheme, yes. In the stock market (mutual funds), returns fluctuate year to year. This calculator uses a fixed average rate for long-term projection.</p>
               </div>
             </div>
           </section>
