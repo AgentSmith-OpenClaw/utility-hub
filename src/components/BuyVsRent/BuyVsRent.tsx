@@ -477,7 +477,7 @@ export const BuyVsRent: React.FC = () => {
                     label={{ value: 'Net Worth', angle: -90, position: 'insideLeft' }}
                   />
                   <Tooltip
-                    formatter={(value: number) => formatCurrency(value)}
+                    formatter={(value) => formatCurrency(value as number)}
                     contentStyle={{
                       backgroundColor: 'white',
                       border: '1px solid #e2e8f0',
@@ -518,7 +518,7 @@ export const BuyVsRent: React.FC = () => {
                     label={{ value: 'Cumulative Cost', angle: -90, position: 'insideLeft' }}
                   />
                   <Tooltip
-                    formatter={(value: number) => formatCurrency(value)}
+                    formatter={(value) => formatCurrency(value as number)}
                     contentStyle={{
                       backgroundColor: 'white',
                       border: '1px solid #e2e8f0',
@@ -576,7 +576,7 @@ export const BuyVsRent: React.FC = () => {
                           )
                         )}
                       </Pie>
-                      <Tooltip formatter={(value: number) => formatCurrency(value)} />
+                      <Tooltip formatter={(value) => formatCurrency(value as number)} />
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
@@ -603,7 +603,7 @@ export const BuyVsRent: React.FC = () => {
                           <Cell key={`cell-${index}`} fill={color} />
                         ))}
                       </Pie>
-                      <Tooltip formatter={(value: number) => formatCurrency(value)} />
+                      <Tooltip formatter={(value) => formatCurrency(value as number)} />
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
