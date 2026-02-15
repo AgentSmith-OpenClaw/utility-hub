@@ -607,103 +607,167 @@ const CompoundInterestCalculator: React.FC = () => {
           </div>
         </div>
 
-        {/* Educational Content Section (SEO) */}
-        <section className="mt-12 space-y-12">
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-              <div className="text-3xl mb-4">🌱</div>
-              <h3 className="font-bold text-slate-900 mb-2">Start Early</h3>
-              <p className="text-sm text-slate-500">The biggest factor in compound interest isn&apos;t the amount you invest, but the time you give it to grow. Even small amounts matter over decades.</p>
-            </div>
-            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-              <div className="text-3xl mb-4">🔄</div>
-              <h3 className="font-bold text-slate-900 mb-2">Frequency Matters</h3>
-              <p className="text-sm text-slate-500">The more often interest is compounded (daily vs. annually), the faster your balance grows, as you earn interest on interest more frequently.</p>
-            </div>
-            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-              <div className="text-3xl mb-4">📈</div>
-              <h3 className="font-bold text-slate-900 mb-2">The Snowball Effect</h3>
-              <p className="text-sm text-slate-500">In the early years, growth feels slow. In the later years, the interest earned each year can exceed your total original principal.</p>
+        {/* --- Educational Content & SEO Section --- */}
+        <section className="mt-16 space-y-16">
+          {/* Introduction to Compound Interest */}
+          <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-100 shadow-sm relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-50 rounded-full blur-3xl -mr-32 -mt-32 opacity-60" />
+            <div className="relative z-10 max-w-3xl">
+              <h2 className="text-3xl font-black text-slate-900 mb-6 tracking-tight">The 8th Wonder of the World: Compound Interest</h2>
+              <p className="text-slate-600 text-lg leading-relaxed mb-6 font-medium">
+                Albert Einstein famously called <span className="text-indigo-600 font-bold">Compound Interest</span> the "eighth wonder of the world." Those who understand it, earn it; those who don't, pay it.
+              </p>
+              <p className="text-slate-600 leading-relaxed mb-8">
+                Unlike simple interest, which is calculated only on the initial principal, compound interest is calculated on the principal <span className="italic">plus</span> the accumulated interest of previous periods. This creates a "snowball effect" where your wealth grows at an accelerating rate over time.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
+                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                  <h4 className="font-bold text-slate-800 mb-2 flex items-center gap-2">
+                    <span className="text-xl">⏳</span> Time is Your Ally
+                  </h4>
+                  <p className="text-xs text-slate-500 leading-relaxed font-medium">The longer your money stays invested, the more powerful the compounding effect becomes. Starting 5 years earlier can double your final results.</p>
+                </div>
+                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                  <h4 className="font-bold text-slate-800 mb-2 flex items-center gap-2">
+                    <span className="text-xl">🔄</span> Compounding Frequency
+                  </h4>
+                  <p className="text-xs text-slate-500 leading-relaxed font-medium">The more often interest is added back (daily vs. monthly vs. annually), the faster your principal balance grows.</p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-6">How Compound Interest Works</h2>
-            <div className="prose prose-slate max-w-none text-slate-600 space-y-4">
-              <p>
-                Compound interest is often called the &quot;eighth wonder of the world.&quot; Unlike simple interest, which is calculated only on the principal amount, compound interest is calculated on the principal plus any interest that has already been earned.
+          {/* Rule of 72 Deep Dive */}
+          <div className="space-y-8">
+            <div className="text-center max-w-2xl mx-auto">
+              <h2 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">The Rule of 72: Doubling Your Money</h2>
+              <p className="text-slate-500 font-medium">A mental shortcut used by investors to determine how long it takes to double an investment.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-indigo-900 rounded-[40px] p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -ml-32 -mt-32" />
+              <div className="space-y-6 relative z-10">
+                <h3 className="text-2xl font-bold">How to calculate it instantly?</h3>
+                <p className="text-indigo-100 leading-relaxed">
+                  Simply divide 72 by your annual interest rate. The result is total years it takes for your initial investment to double.
+                </p>
+                <div className="bg-white/10 rounded-2xl p-6 border border-white/20 backdrop-blur-md">
+                  <p className="text-sm font-bold text-indigo-300 mb-4 uppercase tracking-wider">Example Scenarios</p>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-end border-b border-white/10 pb-2">
+                      <span className="text-xs text-indigo-200">6% Annual Return</span>
+                      <span className="font-bold">12 Years</span>
+                    </div>
+                    <div className="flex justify-between items-end border-b border-white/10 pb-2">
+                      <span className="text-xs text-indigo-200">10% Annual Return</span>
+                      <span className="font-bold text-indigo-400">7.2 Years</span>
+                    </div>
+                    <div className="flex justify-between items-end border-b border-white/10 pb-2">
+                      <span className="text-xs text-indigo-200">12% Annual Return</span>
+                      <span className="font-bold text-teal-400">6 Years</span>
+                    </div>
+                    <p className="text-[10px] text-indigo-400 mt-2 font-medium leading-relaxed italic">
+                      Note: This is an estimation. Our calculator provides the exact values including tax and inflation impacts.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-6">
+                <h4 className="text-xl font-bold">Why it matters for retirement?</h4>
+                <ul className="space-y-4">
+                  {[
+                    "Helps you set realistic expectations for wealth growth.",
+                    "Quickly compare different investment options (Debt vs Equity).",
+                    "Understand the danger of low-interest savings accounts.",
+                    "Aligns your investment horizon with doubling cycles."
+                  ].map((benefit, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm text-indigo-50 font-medium leading-relaxed">
+                      <div className="w-5 h-5 bg-indigo-500 rounded-full flex items-center justify-center text-[10px] shrink-0 mt-0.5">✓</div>
+                      {benefit}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Formula & Breakdown */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center px-4">
+            <div className="space-y-6">
+              <h2 className="text-3xl font-black text-slate-900 mb-6 tracking-tight">Understanding the Math</h2>
+              <p className="text-slate-600 leading-relaxed font-medium">
+                The standard compound interest formula is used to determine the total value of an investment after a specific period of time.
               </p>
-              <p>
-                The formula for compound interest is: <strong>A = P(1 + r/n)<sup>nt</sup></strong>
+              <div className="bg-slate-900 rounded-2xl p-6 text-white border border-slate-800 shadow-xl">
+                <h4 className="font-bold mb-4 text-indigo-400">The Core Formula</h4>
+                <div className="font-mono text-xs overflow-x-auto space-y-4">
+                  <code className="text-white font-bold block text-lg">A = P(1 + r/n)^(nt)</code>
+                  <div className="grid grid-cols-2 gap-2 text-[10px] text-slate-400">
+                    <div>A: Future Balance</div>
+                    <div>P: Principal Initial</div>
+                    <div>r: Annual Interest Rate</div>
+                    <div>n: Compounding Periods/Year</div>
+                    <div>t: Total Years</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-[40px] p-8 sm:p-10 border border-slate-100 shadow-xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-100 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity" />
+              <h3 className="text-2xl font-black text-slate-900 mb-4 tracking-tight">Compounding Frequencies</h3>
+              <p className="text-slate-500 leading-relaxed mb-8">
+                The more frequently interest is added back, the more effective your return rate becomes. This is why credit cards (daily) are so expensive, and why high-frequency savings (daily/monthly) grow faster.
               </p>
-              <ul className="list-disc pl-6 space-y-2">
-                <li><strong>A</strong> = the future value of the investment, including interest</li>
-                <li><strong>P</strong> = the principal investment amount (initial deposit)</li>
-                <li><strong>r</strong> = the annual interest rate (decimal)</li>
-                <li><strong>n</strong> = the number of times interest is compounded per year</li>
-                <li><strong>t</strong> = the number of years the money is invested</li>
-              </ul>
-              <h3 className="text-xl font-bold text-slate-900 mt-8">The Impact of Regular Contributions</h3>
-              <p>
-                Adding a monthly contribution significantly accelerates the compounding process. Every dollar added becomes a new seed that generates its own interest, which then generates more interest in a virtuous cycle of wealth creation.
-              </p>
+              <div className="space-y-4">
+                <div className="flex items-center gap-4 p-4 bg-indigo-50 rounded-2xl border border-indigo-100">
+                  <span className="text-2xl">⏳</span>
+                  <div>
+                    <h5 className="font-bold text-indigo-900 text-sm">Monthly vs Annual</h5>
+                    <p className="text-xs text-indigo-700">Monthly compounding results in a slightly higher APY than annual.</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4 p-4 bg-teal-50 rounded-2xl border border-teal-100">
+                  <span className="text-2xl">📈</span>
+                  <div>
+                    <h5 className="font-bold text-teal-900 text-sm">Daily Compounding</h5>
+                    <p className="text-xs text-teal-700">The gold standard for maximizing growth on liquid funds.</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* FAQ Section */}
-          <section className="bg-white rounded-[40px] p-10 border border-slate-100 shadow-xl relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-64 h-64 bg-indigo-50/50 rounded-full blur-[100px] -ml-32 -mt-32" />
-            <h2 className="text-3xl font-black mb-10 tracking-tight text-slate-900 relative z-10">Frequently Asked Questions</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 relative z-10">
+          <div className="space-y-6 pb-12" itemScope itemType="https://schema.org/FAQPage">
+            <h2 className="text-3xl font-black text-slate-900 text-center mb-10 tracking-tight">Compound Interest FAQs</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {[
-                { q: 'What is the "Rule of 72"?', a: "It's a quick way to estimate how long it takes to double your money. Divide 72 by your annual interest rate. For example, at 8% interest, your money doubles every 9 years." },
-                { q: 'How does inflation affect my savings?', a: 'Inflation reduces purchasing power. If you have ₹1 Crore in 30 years, but inflation was 6%, that amount might only buy what ₹17.4 Lakh buys today.' },
-                { q: 'Should I compound daily or monthly?', a: 'Daily compounding is technically better for the investor, but the difference between daily and monthly compounding on a typical savings account is usually very small.' },
-                { q: 'Is the interest rate guaranteed?', a: 'In a fixed deposit or post office scheme, yes. In the stock market (mutual funds), returns fluctuate year to year. This calculator uses a fixed average rate for long-term projection.' },
-              ].map(({ q, a }) => (
-                <div key={q}>
-                  <h4 className="font-bold text-indigo-600 mb-2.5 flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-indigo-600 rounded-full" />
-                    {q}
+                {
+                  q: "What is the difference between simple and compound interest?",
+                  a: "Simple interest is calculated only on the principal. Compound interest is calculated on the principal plus all interest earned previously. Over time, compound interest grows much faster."
+                },
+                {
+                  q: "How does inflation affect my compounded savings?",
+                  a: "Inflation erodes the purchasing power of your money. While your balance 'looks' larger, the items you can buy with it cost more. Our calculator shows 'Real Value' to account for this."
+                },
+                {
+                  q: "Is compound interest guaranteed?",
+                  a: "It depends on the investment. In fixed deposits (FD) or bonds, the rate is often fixed. In stocks or mutual funds, the rate fluctuates, so we use an 'average expected rate' for projections."
+                },
+                {
+                  q: "What is APY vs APR?",
+                  a: "APR is the nominal rate per year. APY (Annual Percentage Yield) is the effective rate that includes the effect of compounding within the year. APY is always higher than APR if compounding is more than once a year."
+                }
+              ].map((faq, i) => (
+                <div key={i} className="group" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                  <h4 className="font-bold text-slate-800 mb-3 text-lg leading-snug group-hover:text-indigo-600 transition-colors flex gap-2" itemProp="name">
+                    <span className="text-indigo-200">Q.</span> {faq.q}
                   </h4>
-                  <p className="text-sm text-slate-500 leading-relaxed font-medium">{a}</p>
+                  <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+                    <p className="text-sm text-slate-500 leading-relaxed font-medium pl-6 border-l-2 border-slate-100 group-hover:border-indigo-100 transition-colors" itemProp="text">{faq.a}</p>
+                  </div>
                 </div>
               ))}
-            </div>
-          </section>
-
-          {/* Learn More Internal Links */}
-          <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-100">
-            <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <span className="text-xl">📚</span>
-              Learn More
-            </h3>
-            <p className="text-sm text-slate-600 mb-6">
-              Deepen your financial knowledge with our expert guides:
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              <Link
-                href="/finance/learn/understanding-compound-interest"
-                className="flex items-center justify-between bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl px-5 py-4 hover:shadow-md transition-all group border border-blue-100"
-              >
-                <span className="text-sm font-bold text-slate-900">Understanding Compound Interest</span>
-                <span className="text-indigo-600 group-hover:translate-x-1 transition-transform">→</span>
-              </Link>
-              <Link
-                href="/finance/fire-calculator"
-                className="flex items-center justify-between bg-gradient-to-br from-teal-50 to-cyan-50 rounded-xl px-5 py-4 hover:shadow-md transition-all group border border-teal-100"
-              >
-                <span className="text-sm font-bold text-slate-900">FIRE Calculator</span>
-                <span className="text-teal-600 group-hover:translate-x-1 transition-transform">→</span>
-              </Link>
-              <Link
-                href="/finance/sip-calculator"
-                className="flex items-center justify-between bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl px-5 py-4 hover:shadow-md transition-all group border border-amber-100"
-              >
-                <span className="text-sm font-bold text-slate-900">SIP Wealth Planner</span>
-                <span className="text-amber-600 group-hover:translate-x-1 transition-transform">→</span>
-              </Link>
             </div>
           </div>
         </section>
