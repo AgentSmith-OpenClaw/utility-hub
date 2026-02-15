@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import BuyVsRent from '../../components/BuyVsRent/BuyVsRent';
+import BuyVsRentRedesigned from '../../components/BuyVsRent/BuyVsRentRedesigned';
 
 const BuyVsRentCalculatorPage: NextPage = () => {
   return (
@@ -31,7 +31,7 @@ const BuyVsRentCalculatorPage: NextPage = () => {
           content="Compare the financial outcomes of buying versus renting a home"
         />
         <meta itemProp="applicationCategory" content="FinanceApplication" />
-        <BuyVsRent />
+        <BuyVsRentRedesigned />
       </div>
     </>
   );

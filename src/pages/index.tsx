@@ -40,6 +40,15 @@ const tools: Tool[] = [
     isNew: true,
   },
   {
+    name: 'Buy vs Rent Calculator',
+    description:
+      'Make smarter housing decisions. Compare buying vs renting with net worth analysis, opportunity cost calculations, and personalized recommendations.',
+    path: '/finance/buy-vs-rent-calculator',
+    icon: '🏠',
+    tags: ['Finance', 'Real Estate', 'Home'],
+    isNew: true,
+  },
+  {
     name: 'Compound Interest Calculator',
     description:
       'Calculate compound interest with flexible compounding frequencies. Visualize growth over time with charts and see the power of compounding.',
