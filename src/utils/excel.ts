@@ -3,6 +3,7 @@ import { saveAs } from 'file-saver';
 import { Payment } from '../components/EMICalculator/EMICalculator.types';
 import { YearlyProjection, FIRETypeComparison, PostFIREProjection } from '../components/FIRECalculator/FIRECalculator.types';
 import { SIPInputs, SIPResult } from '../components/SIPWealthPlanner/SIPWealthPlanner.types';
+import { CompoundInterestInputs, CompoundInterestResult } from '../components/CompoundInterestCalculator/CompoundInterestCalculator.types';
 
 export const exportToExcel = (schedule: Payment[], filename: string = 'emi_schedule.xlsx') => {
   const ws = XLSX.utils.json_to_sheet(schedule);
@@ -146,6 +147,52 @@ export const exportSIPToExcel = (
     const ws4 = XLSX.utils.json_to_sheet(delayCostFormatted);
     XLSX.utils.book_append_sheet(wb, ws4, 'Delay Cost Analysis');
   }
+
+  const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  const data = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+  saveAs(data, filename);
+};
+
+export const exportCompoundInterestToExcel = (
+  inputs: CompoundInterestInputs,
+  result: CompoundInterestResult,
+  filename: string = 'compound_interest_projection.xlsx'
+) => {
+  const wb = XLSX.utils.book_new();
+
+  // Sheet 1: Year-wise Projection
+  const projectionData = result.yearlyData.map((row) => ({
+    'Year': row.year,
+    'Balance': Math.round(row.balance),
+    'Total Principal': Math.round(row.totalPrincipal),
+    'Total Interest': Math.round(row.totalInterest),
+    'Interest Earned This Year': Math.round(row.annualInterest),
+    'Real Value (Inflation Adj.)': Math.round(row.realValue),
+  }));
+  const ws1 = XLSX.utils.json_to_sheet(projectionData);
+  XLSX.utils.book_append_sheet(wb, ws1, 'Projection');
+
+  // Sheet 2: Inputs
+  const inputData = [
+    { Parameter: 'Initial Principal', Value: inputs.initialPrincipal },
+    { Parameter: 'Monthly Contribution', Value: inputs.monthlyContribution },
+    { Parameter: 'Annual Interest Rate', Value: `${inputs.annualRate}%` },
+    { Parameter: 'Tenure (Years)', Value: inputs.years },
+    { Parameter: 'Compounding Frequency', Value: inputs.compoundingFrequency },
+    { Parameter: 'Inflation Rate', Value: `${inputs.inflationRate}%` },
+  ];
+  const ws2 = XLSX.utils.json_to_sheet(inputData);
+  XLSX.utils.book_append_sheet(wb, ws2, 'Inputs');
+
+  // Sheet 3: Summary
+  const summaryData = [
+    { Metric: 'Final Balance', Value: Math.round(result.finalBalance) },
+    { Metric: 'Total Principal Invested', Value: Math.round(result.totalPrincipal) },
+    { Metric: 'Total Interest Earned', Value: Math.round(result.totalInterest) },
+    { Metric: 'Inflation Adjusted Value', Value: Math.round(result.realValue) },
+  ];
+  const ws3 = XLSX.utils.json_to_sheet(summaryData);
+  XLSX.utils.book_append_sheet(wb, ws3, 'Summary');
 
   const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
   const data = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });

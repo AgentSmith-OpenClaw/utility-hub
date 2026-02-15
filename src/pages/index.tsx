@@ -42,11 +42,11 @@ const tools: Tool[] = [
   {
     name: 'Compound Interest Calculator',
     description:
-      'Calculate compound interest with flexible compounding frequencies. Visualize growth over time with charts and see the power of compounding.',
-    path: '#',
+      'Calculate compound interest with flexible compounding frequencies. Visualize growth over time with interactive charts, account for inflation, and see the power of compounding.',
+    path: '/finance/compound-interest-calculator',
     icon: '💰',
     tags: ['Finance', 'Investment', 'Interest'],
-    comingSoon: true,
+    isNew: true,
   },
   {
     name: 'Amortization Calculator',

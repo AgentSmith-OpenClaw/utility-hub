@@ -7,6 +7,7 @@ const footerSections = [
       { label: 'EMI Calculator', href: '/finance/emi-calculator' },
       { label: 'FIRE Calculator', href: '/finance/fire-calculator' },
       { label: 'SIP Calculator', href: '/finance/sip-calculator' },
+      { label: 'Compound Interest', href: '/finance/compound-interest-calculator' },
     ],
   },
   {
