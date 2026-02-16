@@ -85,6 +85,15 @@ const tools: Tool[] = [
     isNew: true,
   },
   {
+    name: 'Mortgage Payoff vs Investment',
+    description:
+      'Should you pay off your mortgage early or invest in the stock market? Compare both strategies with net worth projections, breakeven ROI, and opportunity cost analysis.',
+    path: '/finance/mortgage-payoff-calculator',
+    icon: '⚖️',
+    tags: ['Finance', 'Mortgage', 'Investment', 'Opportunity Cost'],
+    isNew: true,
+  },
+  {
     name: 'Regex Tester',
     description:
       'Build, test, and debug regular expressions in real time with match highlighting and cheat sheet.',
