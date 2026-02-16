@@ -148,7 +148,7 @@ const MortgageCalculator: React.FC = () => {
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
-                      <RechartsTooltip formatter={(val: number) => formatCurrency(val)} />
+                      <RechartsTooltip formatter={(val: any) => formatCurrency(Number(val ?? 0))} />
                       <Legend />
                     </PieChart>
                   </ResponsiveContainer>
