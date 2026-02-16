@@ -85,13 +85,13 @@ const tools: Tool[] = [
     isNew: true,
   },
   {
-    name: 'Regex Tester',
+    name: 'Real Hourly Wage Calculator',
     description:
-      'Build, test, and debug regular expressions in real time with match highlighting and cheat sheet.',
-    path: '#',
-    icon: '🔍',
-    tags: ['Developer', 'Testing', 'Text'],
-    comingSoon: true,
+      'Discover your true hourly rate after shadow work, commute time, and hidden employment costs. See how much of your wage is eroded by unpaid labor.',
+    path: '/finance/real-hourly-wage-calculator',
+    icon: '⏱️',
+    tags: ['Finance', 'Salary', 'Work-Life', 'Shadow Work'],
+    isNew: true,
   },
 ];
 
