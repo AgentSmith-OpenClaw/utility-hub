@@ -70,10 +70,19 @@ const tools: Tool[] = [
     name: 'Amortization Calculator',
     description:
       'Generate detailed amortization schedules for any loan. Compare different loan terms and see principal vs interest breakdown over time.',
-    path: '#',
+    path: '/finance/amortization-calculator',
     icon: '📊',
     tags: ['Finance', 'Loan', 'Amortization'],
-    comingSoon: true,
+    isNew: false,
+  },
+  {
+    name: 'Mortgage Calculator',
+    description:
+      'Estimate your monthly house payment including principal, interest, property taxes, home insurance, and PMI. Perfect for budgeting your next home purchase.',
+    path: '/finance/mortgage-calculator',
+    icon: '🏠',
+    tags: ['Finance', 'Real Estate', 'Mortgage', 'Global'],
+    isNew: true,
   },
   {
     name: 'Regex Tester',

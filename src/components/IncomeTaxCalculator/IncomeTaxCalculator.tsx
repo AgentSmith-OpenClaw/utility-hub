@@ -714,7 +714,7 @@ const IncomeTaxCalculator: React.FC = () => {
                 },
                 {
                   q: "What is Surcharge and how is it calculated?",
-                  a: "Surcharge is an additional tax on the 'tax amount' for high earners. It starts at 10% for income above ₹50L and goes up to 25% (under New Regime) or 37% (under Old Regime)."
+                  a: "Surcharge is an additional tax on the 'tax amount' for high earners. It starts at 10% for income above ₹50L and goes up to 25% (under New Regime) or 37% (under Old Regime). Our calculator accurately accounts for 'Marginal Relief' so you don't pay more tax than your extra income above the threshold."
                 },
                 {
                   q: "Is there any tax on zero income after rebate?",

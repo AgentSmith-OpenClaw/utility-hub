@@ -20,6 +20,9 @@ const GRID_OVERRIDES: GridOverride[] = [
   ['lg:grid-cols-2', 'repeat(2, 1fr)'],
   ['lg:grid-cols-3', 'repeat(3, 1fr)'],
   ['lg:grid-cols-4', 'repeat(4, 1fr)'],
+  ['grid-cols-2', 'repeat(2, 1fr)'],
+  ['grid-cols-3', 'repeat(3, 1fr)'],
+  ['grid-cols-4', 'repeat(4, 1fr)'],
   ['md:grid-cols-2', 'repeat(2, 1fr)'],
   ['md:grid-cols-3', 'repeat(3, 1fr)'],
 ];
