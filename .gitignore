@@ -51,7 +51,7 @@ Thumbs.db
 
 # Playwright
 test-results/
-playwright-report/.playwright-mcp/
+playwright-report/
 
 # Screenshots & temp files
 *.png

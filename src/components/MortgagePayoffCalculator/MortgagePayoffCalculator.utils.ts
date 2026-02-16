@@ -41,7 +41,9 @@ const simulateScenarioA = (
 ): { scenario: ScenarioAPrepay; snapshots: Omit<MonthlySnapshot, 'investBalance' | 'investEquity' | 'investPortfolio' | 'investNetWorth'>[] } => {
   const monthlyRate = inputs.interestRate / 100 / 12;
   const monthlyMarketReturn = inputs.expectedMarketReturn / 100 / 12;
-  const homeValue = inputs.currentBalance; // equity = homeValue - remaining balance
+  // For net worth comparison, equity = principal paid down (balance reduction).
+  // We use currentBalance as the baseline so equity = currentBalance - remaining.
+  const homeValue = inputs.currentBalance;
 
   let remaining = inputs.currentBalance;
   let totalInterestPaid = 0;
@@ -123,6 +125,8 @@ const simulateScenarioB = (
 ): { scenario: ScenarioBInvest; snapshots: Omit<MonthlySnapshot, 'prepayBalance' | 'prepayEquity' | 'prepayPortfolio' | 'prepayNetWorth'>[] } => {
   const monthlyRate = inputs.interestRate / 100 / 12;
   const monthlyMarketReturn = inputs.expectedMarketReturn / 100 / 12;
+  // For net worth comparison, equity = principal paid down (balance reduction).
+  // We use currentBalance as the baseline so equity = currentBalance - remaining.
   const homeValue = inputs.currentBalance;
 
   let remaining = inputs.currentBalance;
