@@ -490,10 +490,10 @@ export const exportRealHourlyWageToExcel = (
     { Category: 'Annual Misc. Costs', Value: inputs.misc_monthly_costs * 12 },
     { Category: 'Total Work Costs', Value: result.detailed_breakdown.total_annual_work_costs },
   ];
-  const ws3r = XLSX.utils.json_to_sheet(costData);
-  XLSX.utils.book_append_sheet(wb, ws3r, 'Cost Breakdown');
+  const ws3 = XLSX.utils.json_to_sheet(costData);
+  XLSX.utils.book_append_sheet(wb, ws3, 'Cost Breakdown');
 
-  const excelBufferR = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-  const blobR = new Blob([excelBufferR], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
-  saveAs(blobR, filename);
+  const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+  saveAs(blob, filename);
 };

@@ -25,10 +25,7 @@ test.describe('Real Hourly Wage Calculator', () => {
     await salaryInput.fill('120000');
     await salaryInput.press('Enter');
 
-    await page.waitForTimeout(1000);
-
-    const realWageAfter = await page.locator('text=Real Wage').locator('..').locator('p').nth(1).textContent();
-    expect(realWageAfter).not.toBe(realWageBefore);
+    await expect(page.locator('text=Real Wage').locator('..').locator('p').nth(1)).not.toHaveText(realWageBefore || '');
   });
 
   test('should toggle remote mode', async ({ page }) => {
@@ -36,7 +33,6 @@ test.describe('Real Hourly Wage Calculator', () => {
     await expect(remoteToggle).toBeVisible();
 
     await remoteToggle.click();
-    await page.waitForTimeout(500);
 
     // Verify remote mode is active
     await expect(remoteToggle).toHaveAttribute('aria-checked', 'true');
@@ -70,7 +66,6 @@ test.describe('Real Hourly Wage Calculator', () => {
     await salaryInput.press('Enter');
 
     await page.click('text=Reset Defaults');
-    await page.waitForTimeout(500);
 
     await expect(salaryInput).toHaveValue('75,000');
   });
