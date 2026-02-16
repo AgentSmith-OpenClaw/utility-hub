@@ -19,14 +19,7 @@ import {
 } from 'recharts';
 import { useBuyVsRent } from '../../hooks/useBuyVsRent';
 import { formatCurrency, formatPercent } from './BuyVsRent.utils';
-
-const CHART_COLORS = {
-  buying: '#3b82f6',
-  renting: '#10b981',
-  netWorth: '#8b5cf6',
-  home: '#f59e0b',
-  equity: '#06b6d4',
-};
+import { CHART_COLORS as BASE_COLORS } from '../../utils/chartColors';
 
 export const BuyVsRent: React.FC = () => {
   const { inputs, result, updateInputs, reset } = useBuyVsRent();
@@ -42,7 +35,7 @@ export const BuyVsRent: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-600 bg-clip-text text-transparent">
                 Buy vs Rent Calculator
               </h1>
               <p className="text-slate-600 mt-1">
@@ -70,7 +63,7 @@ export const BuyVsRent: React.FC = () => {
               className="bg-white rounded-2xl shadow-md border border-slate-100 p-6"
             >
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">
+                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
                   1
                 </div>
                 <h2 className="text-xl font-bold text-slate-800">Property Details</h2>
@@ -131,7 +124,7 @@ export const BuyVsRent: React.FC = () => {
               className="bg-white rounded-2xl shadow-md border border-slate-100 p-6"
             >
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">
+                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
                   2
                 </div>
                 <h2 className="text-xl font-bold text-slate-800">Buying Costs</h2>
@@ -216,7 +209,7 @@ export const BuyVsRent: React.FC = () => {
               className="bg-white rounded-2xl shadow-md border border-slate-100 p-6"
             >
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">
+                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
                   3
                 </div>
                 <h2 className="text-xl font-bold text-slate-800">Renting Costs</h2>
@@ -267,7 +260,7 @@ export const BuyVsRent: React.FC = () => {
               className="bg-white rounded-2xl shadow-md border border-slate-100 p-6"
             >
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">
+                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
                   4
                 </div>
                 <h2 className="text-xl font-bold text-slate-800">Investment & Analysis</h2>
@@ -322,7 +315,7 @@ export const BuyVsRent: React.FC = () => {
                 <MetricCard
                   label="Total Upfront"
                   value={formatCurrency(result.downPayment + result.closingCosts)}
-                  color="text-indigo-600"
+                  color="text-blue-600"
                   highlight
                 />
               </div>
@@ -354,26 +347,26 @@ export const BuyVsRent: React.FC = () => {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-gradient-to-br from-indigo-600 to-blue-600 rounded-2xl shadow-lg border border-indigo-400 p-6 text-white"
+              className="bg-gradient-to-br from-blue-600 to-blue-600 rounded-2xl shadow-lg border border-blue-400 p-6 text-white"
             >
               <h3 className="text-lg font-bold mb-4">
                 Net Worth After {inputs.yearsToAnalyze} Years
               </h3>
               <div className="space-y-4">
                 <div>
-                  <p className="text-indigo-100 text-sm mb-1">Buying</p>
+                  <p className="text-blue-100 text-sm mb-1">Buying</p>
                   <p className="text-2xl font-bold">
                     {formatCurrency(result.finalBuyingNetWorth)}
                   </p>
                 </div>
                 <div>
-                  <p className="text-indigo-100 text-sm mb-1">Renting</p>
+                  <p className="text-blue-100 text-sm mb-1">Renting</p>
                   <p className="text-2xl font-bold">
                     {formatCurrency(result.finalRentingNetWorth)}
                   </p>
                 </div>
-                <div className="pt-4 border-t border-indigo-400">
-                  <p className="text-indigo-100 text-sm mb-1">Difference</p>
+                <div className="pt-4 border-t border-blue-400">
+                  <p className="text-blue-100 text-sm mb-1">Difference</p>
                   <p className="text-3xl font-bold">
                     {result.netWorthDifference >= 0 ? '+' : ''}
                     {formatCurrency(result.netWorthDifference)}
@@ -434,7 +427,7 @@ export const BuyVsRent: React.FC = () => {
                 onClick={() => setActiveTab('networth')}
                 className={`px-4 py-2 font-medium transition-colors ${
                   activeTab === 'networth'
-                    ? 'text-indigo-600 border-b-2 border-indigo-600'
+                    ? 'text-blue-600 border-b-2 border-blue-600'
                     : 'text-slate-600 hover:text-slate-800'
                 }`}
               >
@@ -444,7 +437,7 @@ export const BuyVsRent: React.FC = () => {
                 onClick={() => setActiveTab('costs')}
                 className={`px-4 py-2 font-medium transition-colors ${
                   activeTab === 'costs'
-                    ? 'text-indigo-600 border-b-2 border-indigo-600'
+                    ? 'text-blue-600 border-b-2 border-blue-600'
                     : 'text-slate-600 hover:text-slate-800'
                 }`}
               >
@@ -454,7 +447,7 @@ export const BuyVsRent: React.FC = () => {
                 onClick={() => setActiveTab('breakdown')}
                 className={`px-4 py-2 font-medium transition-colors ${
                   activeTab === 'breakdown'
-                    ? 'text-indigo-600 border-b-2 border-indigo-600'
+                    ? 'text-blue-600 border-b-2 border-blue-600'
                     : 'text-slate-600 hover:text-slate-800'
                 }`}
               >
@@ -467,20 +460,22 @@ export const BuyVsRent: React.FC = () => {
             {activeTab === 'networth' && (
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={yearlyData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                  <CartesianGrid strokeDasharray="3 3" stroke={BASE_COLORS.grid} />
                   <XAxis
                     dataKey="year"
                     label={{ value: 'Year', position: 'insideBottom', offset: -5 }}
+                    stroke={BASE_COLORS.axis} axisLine={false} tickLine={false}
                   />
                   <YAxis
                     tickFormatter={(value) => formatCurrency(value)}
                     label={{ value: 'Net Worth', angle: -90, position: 'insideLeft' }}
+                    stroke={BASE_COLORS.axis} axisLine={false} tickLine={false}
                   />
                   <Tooltip
                     formatter={(value) => formatCurrency(value as number)}
                     contentStyle={{
                       backgroundColor: 'white',
-                      border: '1px solid #e2e8f0',
+                      border: `1px solid ${BASE_COLORS.grid}`,
                       borderRadius: '8px',
                     }}
                   />
@@ -489,16 +484,16 @@ export const BuyVsRent: React.FC = () => {
                     type="monotone"
                     dataKey="buyingNetWorth"
                     name="Buying Net Worth"
-                    stroke={CHART_COLORS.buying}
-                    fill={CHART_COLORS.buying}
+                    stroke={BASE_COLORS.primary}
+                    fill={BASE_COLORS.primary}
                     fillOpacity={0.3}
                   />
                   <Area
                     type="monotone"
                     dataKey="rentingNetWorth"
                     name="Renting Net Worth"
-                    stroke={CHART_COLORS.renting}
-                    fill={CHART_COLORS.renting}
+                    stroke={BASE_COLORS.secondary}
+                    fill={BASE_COLORS.secondary}
                     fillOpacity={0.3}
                   />
                 </AreaChart>
@@ -508,20 +503,22 @@ export const BuyVsRent: React.FC = () => {
             {activeTab === 'costs' && (
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={yearlyData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                  <CartesianGrid strokeDasharray="3 3" stroke={BASE_COLORS.grid} />
                   <XAxis
                     dataKey="year"
                     label={{ value: 'Year', position: 'insideBottom', offset: -5 }}
+                    stroke={BASE_COLORS.axis} axisLine={false} tickLine={false}
                   />
                   <YAxis
                     tickFormatter={(value) => formatCurrency(value)}
                     label={{ value: 'Cumulative Cost', angle: -90, position: 'insideLeft' }}
+                    stroke={BASE_COLORS.axis} axisLine={false} tickLine={false}
                   />
                   <Tooltip
                     formatter={(value) => formatCurrency(value as number)}
                     contentStyle={{
                       backgroundColor: 'white',
-                      border: '1px solid #e2e8f0',
+                      border: `1px solid ${BASE_COLORS.grid}`,
                       borderRadius: '8px',
                     }}
                   />
@@ -530,16 +527,16 @@ export const BuyVsRent: React.FC = () => {
                     type="monotone"
                     dataKey="totalBuyingCost"
                     name="Total Buying Cost"
-                    stroke={CHART_COLORS.buying}
-                    fill={CHART_COLORS.buying}
+                    stroke={BASE_COLORS.primary}
+                    fill={BASE_COLORS.primary}
                     fillOpacity={0.3}
                   />
                   <Area
                     type="monotone"
                     dataKey="totalRentingCost"
                     name="Total Renting Cost"
-                    stroke={CHART_COLORS.renting}
-                    fill={CHART_COLORS.renting}
+                    stroke={BASE_COLORS.secondary}
+                    fill={BASE_COLORS.secondary}
                     fillOpacity={0.3}
                   />
                 </AreaChart>
@@ -567,10 +564,10 @@ export const BuyVsRent: React.FC = () => {
                         labelLine={false}
                         label={(entry) => `${entry.name}: ${((entry.value / result.totalBuyingCost) * 100).toFixed(0)}%`}
                         outerRadius={80}
-                        fill="#8884d8"
+                        fill={BASE_COLORS.primary}
                         dataKey="value"
                       >
-                        {[CHART_COLORS.buying, CHART_COLORS.home, CHART_COLORS.netWorth, CHART_COLORS.equity, '#f97316'].map(
+                        {[BASE_COLORS.primary, BASE_COLORS.secondary, BASE_COLORS.accent, BASE_COLORS.teal, BASE_COLORS.purple].map(
                           (color, index) => (
                             <Cell key={`cell-${index}`} fill={color} />
                           )
@@ -596,10 +593,10 @@ export const BuyVsRent: React.FC = () => {
                         labelLine={false}
                         label={(entry) => `${entry.name}: ${((entry.value / result.totalRentingCost) * 100).toFixed(0)}%`}
                         outerRadius={80}
-                        fill="#8884d8"
+                        fill={BASE_COLORS.primary}
                         dataKey="value"
                       >
-                        {[CHART_COLORS.renting, CHART_COLORS.equity].map((color, index) => (
+                        {[BASE_COLORS.primary, BASE_COLORS.secondary].map((color, index) => (
                           <Cell key={`cell-${index}`} fill={color} />
                         ))}
                       </Pie>

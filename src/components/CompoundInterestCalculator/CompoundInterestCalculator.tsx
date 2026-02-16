@@ -81,7 +81,7 @@ const InputField: React.FC<{
           {tooltip && <HelpTooltip text={tooltip} />}
         </label>
         <div className={`flex items-center bg-white rounded-xl border-2 px-3 py-1.5 transition-all ${
-          focused ? 'border-indigo-400 shadow-md ring-2 ring-indigo-50' : 'border-slate-100 hover:border-slate-200'
+          focused ? 'border-blue-400 shadow-md ring-2 ring-blue-50' : 'border-slate-100 hover:border-slate-200'
         }`}>
           {prefix && <span className="text-sm font-bold text-slate-400 mr-1.5">{prefix}</span>}
           <input
@@ -108,9 +108,9 @@ const InputField: React.FC<{
         step={step}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+        className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600"
         style={{
-          background: `linear-gradient(to right, ${accentColor} ${pct}%, #f1f5f9 ${pct}%)`
+          background: `linear-gradient(to right, ${accentColor} ${pct}%, ${CHART_COLORS.grid} ${pct}%)`
         }}
       />
     </div>
@@ -292,7 +292,7 @@ const CompoundInterestCalculator: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 py-6 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-blue-50/20 py-6 px-4">
       <article className="max-w-7xl mx-auto" itemScope itemType="https://schema.org/WebApplication">
         
         {/* Header */}
@@ -308,7 +308,7 @@ const CompoundInterestCalculator: React.FC = () => {
 
         {/* Export + Share bar */}
         <div className="flex flex-wrap gap-2 justify-center mb-6">
-          <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-indigo-50 border border-slate-100 hover:border-indigo-200 text-slate-600 hover:text-indigo-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
+          <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-blue-50 border border-slate-100 hover:border-blue-200 text-slate-600 hover:text-blue-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
             {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
           </button>
           <button onClick={handleExportExcel} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-200 text-slate-600 hover:text-teal-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
@@ -336,7 +336,7 @@ const CompoundInterestCalculator: React.FC = () => {
                 className="bg-white rounded-2xl shadow-md border border-slate-100 p-6"
               >
                 <h2 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-                  <span className="bg-indigo-100 text-indigo-600 rounded-full w-7 h-7 flex items-center justify-center text-xs font-bold">1</span>
+                  <span className="bg-blue-100 text-blue-600 rounded-full w-7 h-7 flex items-center justify-center text-xs font-bold">1</span>
                   Investment Details
                 </h2>
 
@@ -375,7 +375,7 @@ const CompoundInterestCalculator: React.FC = () => {
                   <select
                     value={inputs.compoundingFrequency}
                     onChange={(e) => updateInputs({ compoundingFrequency: e.target.value as CompoundingFrequency })}
-                    className="w-full bg-white border-2 border-slate-100 rounded-xl px-3 py-2.5 text-sm font-semibold focus:ring-2 focus:ring-indigo-500 outline-none hover:border-slate-200 transition-all cursor-pointer"
+                    className="w-full bg-white border-2 border-slate-100 rounded-xl px-3 py-2.5 text-sm font-semibold focus:ring-2 focus:ring-blue-500 outline-none hover:border-slate-200 transition-all cursor-pointer"
                   >
                     <option value="daily">Daily</option>
                     <option value="monthly">Monthly</option>
@@ -410,8 +410,8 @@ const CompoundInterestCalculator: React.FC = () => {
               {/* Summary Metrics */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
-                  { label: 'Final Balance', value: result.finalBalance, prefix: '₹', color: 'from-indigo-600 to-blue-700' },
-                  { label: 'Total Principal', value: result.totalPrincipal, prefix: '₹', color: 'from-blue-500 to-indigo-600' },
+                  { label: 'Final Balance', value: result.finalBalance, prefix: '₹', color: 'from-blue-600 to-blue-700' },
+                  { label: 'Total Principal', value: result.totalPrincipal, prefix: '₹', color: 'from-blue-500 to-blue-600' },
                   { label: 'Total Interest', value: result.totalInterest, prefix: '₹', color: 'from-cyan-500 to-teal-600' },
                   { label: 'Real Value', value: result.realValue, prefix: '₹', color: 'from-amber-500 to-orange-600' },
                 ].map((stat, i) => (
@@ -457,7 +457,7 @@ const CompoundInterestCalculator: React.FC = () => {
                       onClick={() => setActiveTab(tab.id)}
                       className={`flex-shrink-0 flex-1 py-4 text-[11px] font-bold flex items-center justify-center gap-1.5 transition-all ${
                         activeTab === tab.id 
-                          ? 'bg-slate-50 text-indigo-600 border-b-2 border-indigo-600' 
+                          ? 'bg-slate-50 text-blue-600 border-b-2 border-blue-600' 
                           : 'text-slate-400 hover:text-slate-600'
                       }`}
                     >
@@ -484,19 +484,19 @@ const CompoundInterestCalculator: React.FC = () => {
                         <Tooltip content={<ChartTooltip />} />
                         <Legend verticalAlign="top" height={36} />
                         <Area type="monotone" dataKey="balance" name="Total Balance" stroke={CHART_COLORS.primary} strokeWidth={3} fillOpacity={1} fill="url(#colorBalance)" />
-                        <Area type="monotone" dataKey="totalPrincipal" name="Principal Invested" stroke={CHART_COLORS.teal} fill="transparent" strokeWidth={2} strokeDasharray="5 5" />
+                        <Area type="monotone" dataKey="totalPrincipal" name="Principal Invested" stroke={CHART_COLORS.secondary} fill="transparent" strokeWidth={2} strokeDasharray="5 5" />
                       </AreaChart>
                     ) : activeTab === 'stacked' ? (
                       /* Tab 2: Stacked Area — Principal vs Interest */
                       <AreaChart data={result.yearlyData.slice(1)}>
                         <defs>
                           <linearGradient id="gradPrincipal" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor={CHART_COLORS.secondary} stopOpacity={0.4} />
-                            <stop offset="95%" stopColor={CHART_COLORS.secondary} stopOpacity={0.05} />
+                            <stop offset="5%" stopColor={CHART_COLORS.primary} stopOpacity={0.4} />
+                            <stop offset="95%" stopColor={CHART_COLORS.primary} stopOpacity={0.05} />
                           </linearGradient>
                           <linearGradient id="gradInterest" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor={CHART_COLORS.accent} stopOpacity={0.4} />
-                            <stop offset="95%" stopColor={CHART_COLORS.accent} stopOpacity={0.05} />
+                            <stop offset="5%" stopColor={CHART_COLORS.secondary} stopOpacity={0.4} />
+                            <stop offset="95%" stopColor={CHART_COLORS.secondary} stopOpacity={0.05} />
                           </linearGradient>
                         </defs>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={CHART_COLORS.grid} />
@@ -504,8 +504,8 @@ const CompoundInterestCalculator: React.FC = () => {
                         <YAxis stroke={CHART_COLORS.axis} fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v) => formatCurrency(v, true)} />
                         <Tooltip content={<ChartTooltip />} />
                         <Legend verticalAlign="top" height={36} />
-                        <Area type="monotone" dataKey="totalPrincipal" name="Total Principal" stackId="1" stroke={CHART_COLORS.secondary} fill="url(#gradPrincipal)" strokeWidth={2} />
-                        <Area type="monotone" dataKey="totalInterest" name="Total Interest" stackId="1" stroke={CHART_COLORS.accent} fill="url(#gradInterest)" strokeWidth={2} />
+                        <Area type="monotone" dataKey="totalPrincipal" name="Total Principal" stackId="1" stroke={CHART_COLORS.primary} fill="url(#gradPrincipal)" strokeWidth={2} />
+                        <Area type="monotone" dataKey="totalInterest" name="Total Interest" stackId="1" stroke={CHART_COLORS.secondary} fill="url(#gradInterest)" strokeWidth={2} />
                       </AreaChart>
                     ) : activeTab === 'annual-interest' ? (
                       /* Tab 3: Annual Interest Earned - Bar chart */
@@ -515,7 +515,7 @@ const CompoundInterestCalculator: React.FC = () => {
                         <YAxis stroke={CHART_COLORS.axis} fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v) => formatCurrency(v, true)} />
                         <Tooltip content={<ChartTooltip />} />
                         <Legend verticalAlign="top" height={36} />
-                        <Bar dataKey="annualInterest" name="Interest Earned This Year" fill={CHART_COLORS.amber} radius={[4, 4, 0, 0]} />
+                        <Bar dataKey="annualInterest" name="Interest Earned This Year" fill={CHART_COLORS.primary} radius={[4, 4, 0, 0]} />
                       </BarChart>
                     ) : activeTab === 'real-vs-nominal' ? (
                       /* Tab 4: Real vs Nominal Value */
@@ -526,8 +526,8 @@ const CompoundInterestCalculator: React.FC = () => {
                             <stop offset="95%" stopColor={CHART_COLORS.primary} stopOpacity={0} />
                           </linearGradient>
                           <linearGradient id="gradReal" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor={CHART_COLORS.teal} stopOpacity={0.15} />
-                            <stop offset="95%" stopColor={CHART_COLORS.teal} stopOpacity={0} />
+                            <stop offset="5%" stopColor={CHART_COLORS.secondary} stopOpacity={0.15} />
+                            <stop offset="95%" stopColor={CHART_COLORS.secondary} stopOpacity={0} />
                           </linearGradient>
                         </defs>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={CHART_COLORS.grid} />
@@ -536,7 +536,7 @@ const CompoundInterestCalculator: React.FC = () => {
                         <Tooltip content={<ChartTooltip />} />
                         <Legend verticalAlign="top" height={36} />
                         <Area type="monotone" dataKey="nominal" name="Nominal Value" stroke={CHART_COLORS.primary} fill="url(#gradNominal)" strokeWidth={2} />
-                        <Area type="monotone" dataKey="real" name="Real Value (after inflation)" stroke={CHART_COLORS.teal} fill="url(#gradReal)" strokeWidth={2} />
+                        <Area type="monotone" dataKey="real" name="Real Value (after inflation)" stroke={CHART_COLORS.secondary} fill="url(#gradReal)" strokeWidth={2} />
                       </AreaChart>
                     ) : activeTab === 'interest-pct' ? (
                       /* Tab 5: Interest % vs Principal % over time */
@@ -546,8 +546,8 @@ const CompoundInterestCalculator: React.FC = () => {
                         <YAxis stroke={CHART_COLORS.axis} fontSize={12} tickLine={false} axisLine={false} domain={[0, 100]} tickFormatter={(v) => `${v}%`} />
                         <Tooltip formatter={(v: any) => `${v}%`} />
                         <Legend verticalAlign="top" height={36} />
-                        <Area type="monotone" dataKey="principalPct" name="Principal %" stackId="1" stroke={CHART_COLORS.secondary} fill={CHART_COLORS.secondary} fillOpacity={0.3} strokeWidth={2} />
-                        <Area type="monotone" dataKey="interestPct" name="Interest %" stackId="1" stroke={CHART_COLORS.accent} fill={CHART_COLORS.accent} fillOpacity={0.3} strokeWidth={2} />
+                        <Area type="monotone" dataKey="principalPct" name="Principal %" stackId="1" stroke={CHART_COLORS.primary} fill={CHART_COLORS.primary} fillOpacity={0.3} strokeWidth={2} />
+                        <Area type="monotone" dataKey="interestPct" name="Interest %" stackId="1" stroke={CHART_COLORS.secondary} fill={CHART_COLORS.secondary} fillOpacity={0.3} strokeWidth={2} />
                       </AreaChart>
                     ) : activeTab === 'breakdown' ? (
                       /* Tab 6: Cumulative principal + interest bars */
@@ -557,8 +557,8 @@ const CompoundInterestCalculator: React.FC = () => {
                         <YAxis stroke={CHART_COLORS.axis} fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v) => formatCurrency(v, true)} />
                         <Tooltip content={<ChartTooltip />} />
                         <Legend verticalAlign="top" height={36} />
-                        <Bar dataKey="totalPrincipal" name="Total Principal" stackId="stack" fill={CHART_COLORS.secondary} radius={[0, 0, 0, 0]} />
-                        <Bar dataKey="totalInterest" name="Total Interest" stackId="stack" fill={CHART_COLORS.accent} radius={[4, 4, 0, 0]} />
+                        <Bar dataKey="totalPrincipal" name="Total Principal" stackId="stack" fill={CHART_COLORS.primary} radius={[0, 0, 0, 0]} />
+                        <Bar dataKey="totalInterest" name="Total Interest" stackId="stack" fill={CHART_COLORS.secondary} radius={[4, 4, 0, 0]} />
                       </BarChart>
                     ) : (
                       /* Tab 7: Pie chart */
@@ -575,8 +575,8 @@ const CompoundInterestCalculator: React.FC = () => {
                           dataKey="value"
                         >
                           <Cell fill={CHART_COLORS.primary} />
-                          <Cell fill={CHART_COLORS.teal} />
-                          <Cell fill={CHART_COLORS.amber} />
+                          <Cell fill={CHART_COLORS.secondary} />
+                          <Cell fill={CHART_COLORS.accent} />
                         </Pie>
                         <Tooltip formatter={(v: any) => formatCurrency(v)} />
                         <Legend verticalAlign="bottom" height={36} />
@@ -589,7 +589,7 @@ const CompoundInterestCalculator: React.FC = () => {
               {/* Year-by-Year Table */}
               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 overflow-hidden">
                 <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-4 flex items-center gap-2">
-                  <span className="bg-indigo-100 text-indigo-600 rounded-lg w-6 h-6 flex items-center justify-center text-[10px] font-black">📋</span>
+                  <span className="bg-blue-100 text-blue-600 rounded-lg w-6 h-6 flex items-center justify-center text-[10px] font-black">📋</span>
                   Year-by-Year Projection
                 </h3>
                 <div className="overflow-x-auto max-h-[300px] overflow-y-auto">
@@ -608,7 +608,7 @@ const CompoundInterestCalculator: React.FC = () => {
                       {result.yearlyData.slice(1).map((d) => (
                         <tr key={d.year} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
                           <td className="py-2 font-bold text-slate-700">{d.year}</td>
-                          <td className="py-2 text-right font-black text-indigo-600">{formatCurrency(d.balance)}</td>
+                          <td className="py-2 text-right font-black text-blue-600">{formatCurrency(d.balance)}</td>
                           <td className="py-2 text-right font-bold text-slate-600">{formatCurrency(d.totalPrincipal)}</td>
                           <td className="py-2 text-right font-bold text-cyan-600">{formatCurrency(d.totalInterest)}</td>
                           <td className="py-2 text-right font-bold text-amber-600">{formatCurrency(d.annualInterest)}</td>
@@ -651,11 +651,11 @@ const CompoundInterestCalculator: React.FC = () => {
         <section className="mt-16 space-y-16">
           {/* Introduction to Compound Interest */}
           <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-100 shadow-sm relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-50 rounded-full blur-3xl -mr-32 -mt-32 opacity-60" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full blur-3xl -mr-32 -mt-32 opacity-60" />
             <div className="relative z-10 max-w-3xl">
               <h2 className="text-3xl font-black text-slate-900 mb-6 tracking-tight">The 8th Wonder of the World: Compound Interest</h2>
               <p className="text-slate-600 text-lg leading-relaxed mb-6 font-medium">
-                Albert Einstein famously called <span className="text-indigo-600 font-bold">Compound Interest</span> the "eighth wonder of the world." Those who understand it, earn it; those who don't, pay it.
+                Albert Einstein famously called <span className="text-blue-600 font-bold">Compound Interest</span> the "eighth wonder of the world." Those who understand it, earn it; those who don't, pay it.
               </p>
               <p className="text-slate-600 leading-relaxed mb-8">
                 Unlike simple interest, which is calculated only on the initial principal, compound interest is calculated on the principal <span className="italic">plus</span> the accumulated interest of previous periods. This creates a "snowball effect" where your wealth grows at an accelerating rate over time.
@@ -683,29 +683,29 @@ const CompoundInterestCalculator: React.FC = () => {
               <h2 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">The Rule of 72: Doubling Your Money</h2>
               <p className="text-slate-500 font-medium">A mental shortcut used by investors to determine how long it takes to double an investment.</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-indigo-900 rounded-[40px] p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -ml-32 -mt-32" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-blue-900 rounded-[40px] p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -ml-32 -mt-32" />
               <div className="space-y-6 relative z-10">
                 <h3 className="text-2xl font-bold">How to calculate it instantly?</h3>
-                <p className="text-indigo-100 leading-relaxed">
+                <p className="text-blue-100 leading-relaxed">
                   Simply divide 72 by your annual interest rate. The result is total years it takes for your initial investment to double.
                 </p>
                 <div className="bg-white/10 rounded-2xl p-6 border border-white/20 backdrop-blur-md">
-                  <p className="text-sm font-bold text-indigo-300 mb-4 uppercase tracking-wider">Example Scenarios</p>
+                  <p className="text-sm font-bold text-blue-300 mb-4 uppercase tracking-wider">Example Scenarios</p>
                   <div className="space-y-4">
                     <div className="flex justify-between items-end border-b border-white/10 pb-2">
-                      <span className="text-xs text-indigo-200">6% Annual Return</span>
+                      <span className="text-xs text-blue-200">6% Annual Return</span>
                       <span className="font-bold">12 Years</span>
                     </div>
                     <div className="flex justify-between items-end border-b border-white/10 pb-2">
-                      <span className="text-xs text-indigo-200">10% Annual Return</span>
-                      <span className="font-bold text-indigo-400">7.2 Years</span>
+                      <span className="text-xs text-blue-200">10% Annual Return</span>
+                      <span className="font-bold text-blue-400">7.2 Years</span>
                     </div>
                     <div className="flex justify-between items-end border-b border-white/10 pb-2">
-                      <span className="text-xs text-indigo-200">12% Annual Return</span>
+                      <span className="text-xs text-blue-200">12% Annual Return</span>
                       <span className="font-bold text-teal-400">6 Years</span>
                     </div>
-                    <p className="text-[10px] text-indigo-400 mt-2 font-medium leading-relaxed italic">
+                    <p className="text-[10px] text-blue-400 mt-2 font-medium leading-relaxed italic">
                       Note: This is an estimation. Our calculator provides the exact values including tax and inflation impacts.
                     </p>
                   </div>
@@ -720,8 +720,8 @@ const CompoundInterestCalculator: React.FC = () => {
                     "Understand the danger of low-interest savings accounts.",
                     "Aligns your investment horizon with doubling cycles."
                   ].map((benefit, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-indigo-50 font-medium leading-relaxed">
-                      <div className="w-5 h-5 bg-indigo-500 rounded-full flex items-center justify-center text-[10px] shrink-0 mt-0.5">✓</div>
+                    <li key={i} className="flex items-start gap-3 text-sm text-blue-50 font-medium leading-relaxed">
+                      <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center text-[10px] shrink-0 mt-0.5">✓</div>
                       {benefit}
                     </li>
                   ))}
@@ -738,7 +738,7 @@ const CompoundInterestCalculator: React.FC = () => {
                 The standard compound interest formula is used to determine the total value of an investment after a specific period of time.
               </p>
               <div className="bg-slate-900 rounded-2xl p-6 text-white border border-slate-800 shadow-xl">
-                <h4 className="font-bold mb-4 text-indigo-400">The Core Formula</h4>
+                <h4 className="font-bold mb-4 text-blue-400">The Core Formula</h4>
                 <div className="font-mono text-xs overflow-x-auto space-y-4">
                   <code className="text-white font-bold block text-lg">A = P(1 + r/n)^(nt)</code>
                   <div className="grid grid-cols-2 gap-2 text-[10px] text-slate-400">
@@ -753,17 +753,17 @@ const CompoundInterestCalculator: React.FC = () => {
             </div>
 
             <div className="bg-white rounded-[40px] p-8 sm:p-10 border border-slate-100 shadow-xl relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-100 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity" />
               <h3 className="text-2xl font-black text-slate-900 mb-4 tracking-tight">Compounding Frequencies</h3>
               <p className="text-slate-500 leading-relaxed mb-8">
                 The more frequently interest is added back, the more effective your return rate becomes. This is why credit cards (daily) are so expensive, and why high-frequency savings (daily/monthly) grow faster.
               </p>
               <div className="space-y-4">
-                <div className="flex items-center gap-4 p-4 bg-indigo-50 rounded-2xl border border-indigo-100">
+                <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-2xl border border-blue-100">
                   <span className="text-2xl">⏳</span>
                   <div>
-                    <h5 className="font-bold text-indigo-900 text-sm">Monthly vs Annual</h5>
-                    <p className="text-xs text-indigo-700">Monthly compounding results in a slightly higher APY than annual.</p>
+                    <h5 className="font-bold text-blue-900 text-sm">Monthly vs Annual</h5>
+                    <p className="text-xs text-blue-700">Monthly compounding results in a slightly higher APY than annual.</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4 p-4 bg-teal-50 rounded-2xl border border-teal-100">
@@ -800,11 +800,11 @@ const CompoundInterestCalculator: React.FC = () => {
                 }
               ].map((faq, i) => (
                 <div key={i} className="group" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
-                  <h4 className="font-bold text-slate-800 mb-3 text-lg leading-snug group-hover:text-indigo-600 transition-colors flex gap-2" itemProp="name">
-                    <span className="text-indigo-200">Q.</span> {faq.q}
+                  <h4 className="font-bold text-slate-800 mb-3 text-lg leading-snug group-hover:text-blue-600 transition-colors flex gap-2" itemProp="name">
+                    <span className="text-blue-200">Q.</span> {faq.q}
                   </h4>
                   <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
-                    <p className="text-sm text-slate-500 leading-relaxed font-medium pl-6 border-l-2 border-slate-100 group-hover:border-indigo-100 transition-colors" itemProp="text">{faq.a}</p>
+                    <p className="text-sm text-slate-500 leading-relaxed font-medium pl-6 border-l-2 border-slate-100 group-hover:border-blue-100 transition-colors" itemProp="text">{faq.a}</p>
                   </div>
                 </div>
               ))}

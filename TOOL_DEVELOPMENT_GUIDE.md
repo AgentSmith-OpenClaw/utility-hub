@@ -3,7 +3,90 @@
 This document provides comprehensive guidelines for developing new calculator tools for Utility Hub. All new tools must follow these standards to ensure consistency, quality, and AdSense eligibility.
 
 **Last Updated:** February 2026  
-**Reference Tools:** EMI Calculator, FIRE Calculator, SIP Wealth Planner
+**Reference Tools:** EMI Calculator, FIRE Calculator, SIP Wealth Planner, CompoundInterest Calculator
+
+---
+
+## ⚠️ CRITICAL: MANDATORY REQUIREMENTS FOR ALL TOOLS
+
+**These are NON-NEGOTIABLE REQUIREMENTS. Any tool missing these is considered incomplete:**
+
+### 1. 📊 Export & Share Bar (MANDATORY AT TOP OF PAGE)
+- ✅ **PDF Export** button → Full report with charts using `utils/pdf.ts`
+- ✅ **Excel Export** button → Data tables using `utils/excel.ts`
+- ✅ **Copy Plan URL** button → Shareable link with query params
+- ✅ **WhatsApp Share** button → Pre-filled message with results
+- ✅ **Twitter/X Share** button → Tweet composer with results
+- ⚠️ **MUST be placed at the top**, right after the header, before calculator inputs
+- ⚠️ **Follow exact color scheme**: PDF/Copy=indigo, Excel/WhatsApp=teal, Twitter=sky
+
+### 2. 📈 Multiple Charts (MINIMUM 3-4 VISUALIZATIONS)
+- ✅ **Primary Chart**: Main data visualization (Area/Line chart showing growth/balance over time)
+- ✅ **Breakdown Chart**: Component breakdown (Stacked Area or Pie chart)
+- ✅ **Comparison Chart**: Bar chart comparing scenarios or periods
+- ✅ **Additional Chart**: Year-over-year growth, cumulative totals, or other insights
+- ⚠️ Use **Recharts ONLY** (Chart.js is removed from project)
+- ⚠️ Use **unified CHART_COLORS constant** in every tool
+- ⚠️ All charts must have **custom tooltips** with proper formatting
+
+### 3. 📌 Sticky Calculator (IF SIDE-BY-SIDE LAYOUT)
+- ✅ If calculator is on the **left** in a side-by-side design, it MUST be `sticky`
+- ✅ Use: `className="lg:sticky lg:top-6 lg:self-start"`
+- ✅ Prevents calculator from scrolling away when viewing charts/results
+- ⚠️ Only apply on desktop (`lg:` breakpoint), not on mobile
+
+### 4. 📝 SEO Content (MINIMUM 800 WORDS)
+- ✅ **Educational Section**: Explain what the tool calculates (200-300 words)
+- ✅ **How It Works**: Step-by-step explanation of methodology (200-300 words)
+- ✅ **Use Cases**: Real-world scenarios and examples (200-300 words)
+- ✅ **FAQs or Tips**: Common questions and best practices (200+ words)
+- ⚠️ Content must be **below the calculator**, in prose format
+- ⚠️ Use `<article className="prose prose-slate max-w-none">` for readability
+- ⚠️ Content CANNOT be just bullet points; needs full paragraphs
+
+### 5. 🎨 Design Consistency
+- ✅ **Card Style**: `rounded-2xl shadow-md border border-slate-100` (ALL cards)
+- ✅ **Page Background**: `bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20`
+- ✅ **Color Palette**: Use `slate-*` (NOT `gray-*`) for all text, borders
+- ✅ **Chart Colors**: Use the official `CHART_COLORS` constant (Primary=#007AFF, Secondary=#4CC9F0, Tertiary=#7209B7, Success=#2ECC71, Warning=#E74C3C)
+- ✅ **Typography**: `slate-900` for headings, `slate-700` for labels, `slate-600` for body text
+
+### 6. 📱 Responsive Design
+- ✅ Mobile-first: Test on **375px** (iPhone SE), **390px** (iPhone 12), **768px** (iPad)
+- ✅ Touch targets: Minimum **44px** for all buttons and interactive elements
+- ✅ Grid layouts: `grid-cols-1 lg:grid-cols-3` pattern for desktop
+- ✅ Export bar: Different layout for mobile vs desktop
+
+---
+
+## 🚨 BEFORE SUBMITTING A NEW TOOL - CHECKLIST
+
+Copy this checklist and verify EVERY item before considering a tool complete:
+
+```
+[ ] Export/Share bar at top with ALL 5 buttons (PDF, Excel, Copy, WhatsApp, Twitter)
+[ ] Minimum 3-4 different chart visualizations (not just one pie chart!)
+[ ] Calculator is sticky on scroll (if side-by-side layout with calculator on left)
+[ ] SEO content section with 800+ words in prose format
+[ ] All cards use: rounded-2xl shadow-md border border-slate-100
+[ ] Page uses: bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20
+[ ] Only slate-* colors used (no gray-*)
+[ ] CHART_COLORS constant defined and used
+[ ] Custom chart tooltips implemented
+[ ] Mobile responsive (tested at 375px, 768px, 1024px)
+[ ] PDF export works (container has id attribute)
+[ ] Excel export works (tool-specific export function created)
+[ ] Copy URL works and includes query params
+[ ] Social share messages are customized with tool results
+[ ] No console errors
+[ ] LocalStorage persistence works
+[ ] Input validation prevents invalid states
+[ ] Proper TypeScript types (no 'any')
+[ ] Page metadata complete (title, description, keywords, Open Graph)
+[ ] Added to homepage tools array
+[ ] Added to footer navigation
+[ ] Sitemap.xml updated
+```
 
 ---
 
@@ -425,45 +508,65 @@ Include 2-3 call-to-actions within article content:
 
 ### Color Palette
 
-#### Primary Brand Colors
-| Color | Hex | Usage | Tailwind Class |
-|-------|-----|-------|---|
-| Indigo (Primary) | `#4f46e5` | Brand, primary buttons, active states | `from-indigo-600 to-blue-600` |
-| Blue (Secondary) | `#2563eb` | Links, secondary actions | `text-blue-600` |
-| Slate | `#0f172a` → `#f8fafc` | Text hierarchy, backgrounds | `slate-900` to `slate-50` |
+#### 🎨 Official Brand Color Palette (MANDATORY)
 
-**IMPORTANT:** Use `slate-*` throughout, NOT `gray-*`. All text, borders, and backgrounds must use the slate palette for consistency.
+| Role | Hex | Name | Usage |
+|------|-----|------|-------|
+| **Primary** | `#007AFF` | Vibrant Blue | Brand color, primary charts, buttons, active states, section badges |
+| **Secondary** | `#4CC9F0` | Sky Blue | Secondary chart series, hover states, links |
+| **Tertiary** | `#7209B7` | Soft Purple | Third chart series, accent elements, gradients |
+| **Neutral** | `#F8F9FA` | Light Grey | Card backgrounds, input backgrounds |
+| **Success** | `#2ECC71` | Emerald Green | Growth indicators, positive values, gains |
+| **Warning** | `#E74C3C` | Soft Red | Cost indicators, negative values, interest/expenses |
+| **Additional** | `#5E60CE` | Muted Indigo | 6th chart series, additional data categories |
+| **Slate** | `#0f172a` → `#f8fafc` | Slate scale | Text hierarchy, borders, grid/axis |
 
-#### Unified Chart Color Palette
-All tools use identical chart colors (copy this constant into every new tool):
+**IMPORTANT:** 
+- Use `slate-*` throughout, NOT `gray-*`. All text, borders, and backgrounds must use the slate palette.
+- Charts MUST follow the color order: Primary → Secondary → Tertiary → Success → Warning → Additional.
+- Never use old colors like `#6366f1` (indigo), `#f59e0b` (amber), or `#f43f5e` (rose) in charts.
+
+#### Unified Chart Color Constant (COPY INTO EVERY TOOL)
 ```typescript
 const CHART_COLORS = {
-  primary: '#3b82f6',    // blue-500
-  accent: '#14b8a6',     // teal-500
-  secondary: '#6366f1',  // indigo-500
-  warning: '#f59e0b',    // amber-500
-  danger: '#f43f5e',     // rose-500
-  success: '#10b981',    // emerald-500
+  primary: '#007AFF',    // Vibrant Blue - PRIMARY brand color
+  secondary: '#4CC9F0',  // Sky Blue - SECONDARY
+  accent: '#7209B7',     // Soft Purple - ACCENT/TERTIARY
+  teal: '#2ECC71',       // Emerald Green - growth/success
+  rose: '#E74C3C',       // Soft Red - cost/warning
+  purple: '#5E60CE',     // Muted Indigo - additional
   grid: '#f1f5f9',       // slate-100
   axis: '#94a3b8',       // slate-400
 };
 ```
 
-#### Tool-Specific Accent Colors (One Per Tool)
-| Tool | Accent | Gradient | Usage |
-|------|--------|----------|-------|
-| EMI | Blue-Indigo | `from-blue-500 to-indigo-600` | Cards, sliders, badges |
-| FIRE | Blue-Indigo | `from-blue-600 to-indigo-600` | Cards, sliders, badges |
-| SIP | Blue-Indigo | `from-blue-500 to-indigo-600` | Cards, sliders, badges |
-| **Next Tool** | *Stay in blue-indigo family* | `from-[color]-500 to-[shade]-600` | Sections, progress indicators |
+**Key Mapping:**
+| CHART_COLORS Key | Palette Role | When to Use |
+|---|---|---|
+| `primary` | Primary (#007AFF) | Main data series, balance, total value |
+| `secondary` | Secondary (#4CC9F0) | Second series, comparisons |
+| `accent` | Tertiary (#7209B7) | Third series, accent highlights |
+| `teal` | Success (#2ECC71) | Growth, gains, positive metrics |
+| `rose` | Warning (#E74C3C) | Costs, interest, negative metrics |
+| `purple` | Additional (#5E60CE) | Extra series when 6+ needed |
 
-**Rule:** One accent color per tool—consistent throughout. Use that color for:
-- Section header badges (numbered circles)
-- Slider tracks and thumbs
-- Card gradients and accents
-- Active buttons/tabs
-- Chart series
-- Progress indicators
+#### Tool-Specific Semantic Aliases
+Tools may define semantic aliases that map to the official palette:
+```typescript
+// Example: SIP Wealth Planner
+invested: '#007AFF',   // → primary (what you put in)
+gained: '#2ECC71',     // → success (what you earned)
+realValue: '#4CC9F0',  // → secondary (inflation-adjusted)
+```
+
+#### UI Accent Colors
+All tools share the same accent color scheme for interactive elements:
+- **Section badges:** `bg-blue-600 text-white` (primary) or `bg-teal-500 text-white` (secondary section)
+- **Focus rings:** `ring-2 ring-blue-50 border-blue-400`
+- **Active toggles:** `bg-blue-600`
+- **Slider tracks:** Fill with `#007AFF`
+- **Gradient buttons:** `bg-gradient-to-r from-blue-600 to-indigo-600`
+- **Reset buttons:** Ghost style with uppercase tracking
 
 ### Typography
 
@@ -536,6 +639,77 @@ Never use `from-slate-50 via-blue-50 to-indigo-50` (too saturated).
   {/* Full width on mobile, 1/3 on desktop */}
 </div>
 ```
+
+---
+
+## Layout Patterns & Sticky Calculator
+
+### Two Primary Layout Patterns
+
+#### Pattern 1: Side-by-Side (Calculator Left, Charts Right)
+
+**When to use:** Tools with complex inputs and multiple visualizations
+
+**CRITICAL:** Calculator section MUST be sticky when scrolling
+
+```tsx
+<div className="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-6 items-start">
+  {/* Left: Calculator (STICKY) */}
+  <section className="lg:sticky lg:top-6 lg:self-start bg-white rounded-2xl border border-slate-100 shadow-md p-5">
+    <h2 className="text-lg font-bold text-slate-800 mb-4">Calculator Inputs</h2>
+    {/* Input fields */}
+  </section>
+
+  {/* Right: Charts and Results */}
+  <section className="space-y-6">
+    {/* Multiple charts, tables, insights */}
+  </section>
+</div>
+```
+
+**Key Classes for Sticky:**
+- `lg:sticky` - Makes it stick on desktop only
+- `lg:top-6` - 24px from top when stuck (allows header space)
+- `lg:self-start` - Aligns to start of grid row
+- `items-start` on parent grid - Required for sticky to work
+
+**Why Sticky is MANDATORY:**
+- Users naturally scroll down to see charts and results
+- Without sticky, they can't adjust inputs without scrolling back up
+- Massively improves UX and engagement
+- Standard pattern in modern financial calculators
+
+#### Pattern 2: Stacked (Calculator Top, Charts Below)
+
+**When to use:** Simple tools with fewer inputs or single primary chart
+
+```tsx
+<div className="max-w-4xl mx-auto space-y-6">
+  {/* Top: Calculator */}
+  <section className="bg-white rounded-2xl border border-slate-100 shadow-md p-6">
+    <h2 className="text-lg font-bold text-slate-800 mb-4">Calculator Inputs</h2>
+    {/* Input fields */}
+  </section>
+
+  {/* Below: Results and Charts */}
+  <section className="space-y-6">
+    {/* Charts, tables, insights */}
+  </section>
+</div>
+```
+
+**When to use each:**
+- **Side-by-Side**: SIP planner, FIRE calculator, Mortgage calculator (many inputs + many charts)
+- **Stacked**: Simple interest calculator, age calculator (few inputs or simple output)
+
+### Mobile Behavior
+
+**IMPORTANT:** Sticky behavior should ONLY apply on desktop (`lg:` breakpoint)
+
+On mobile:
+- Calculator always appears at top
+- Results/charts scroll naturally below
+- No sticky behavior (would block too much screen)
 
 ---
 
@@ -788,6 +962,39 @@ const AnimatedNumber: React.FC<{
 
 ## Charting & Data Visualization
 
+### ⚠️ CRITICAL: Multiple Charts Required
+
+**MINIMUM REQUIREMENT: 3-4 Different Visualizations**
+
+A single chart is NOT sufficient. Financial calculators are visual tools - users need multiple perspectives on their data.
+
+**Why Multiple Charts Matter:**
+- Different users understand data differently (some prefer trends, others breakdowns)
+- Increases engagement and time on page (better SEO signals)
+- Demonstrates tool sophistication and value
+- Industry standard for professional financial tools
+
+### Chart Strategy by Tool Type
+
+#### Loan/Mortgage Tools (Minimum 4 charts):
+1. **Balance Over Time** - Area chart showing loan paydown
+2. **Payment Breakdown** - Pie/Donut chart (Principal vs Interest vs Taxes)
+3. **Principal vs Interest** - Stacked bar chart by year
+4. **Amortization Schedule** - Table with monthly breakdown
+5. **Payoff Scenarios** - Bar chart comparing different rates/extra payments
+
+#### Investment/Wealth Tools (Minimum 4 charts):
+1. **Growth Projection** - Area chart with invested vs gained
+2. **Year-over-Year Growth** - Bar chart showing annual returns
+3. **Contribution vs Growth** - Stacked area showing sources of wealth
+4. **Real vs Nominal** - Line chart with inflation adjustment
+5. **Milestone Timeline** - Visual showing when goals are reached
+
+#### Comparison Tools (Minimum 3 charts):
+1. **Side-by-Side Comparison** - Bar chart
+2. **Cumulative Difference** - Area chart over time
+3. **Breakeven Analysis** - Line chart showing crossover point
+
 ### Chart Library Strategy
 
 **Only Library:** Recharts  
@@ -887,6 +1094,10 @@ This keeps charts responsive even with 1000+ projection years.
 
 ## Sharing & Export Features (Required for All Tools)
 
+### ⚠️ CRITICAL: Export Bar MUST Be At TOP of Page
+
+**MANDATORY PLACEMENT:** Immediately after the page header, **BEFORE** calculator inputs.
+
 Every tool **MUST** include the following sharing and export capabilities as **MINIMUM REQUIRED FEATURES**. These are non-negotiable requirements for all tools. Follow the existing calculators (EMI, FIRE, SIP, Compound Interest, Income Tax) as reference implementations.
 
 ### ⚠️ CRITICAL: Minimum Required Features
@@ -900,6 +1111,43 @@ Every tool **MUST** include the following sharing and export capabilities as **M
 5. ✅ **Twitter/X Share** — Tweet composer with results + URL
 
 **If any of these features are missing, the tool is considered incomplete and must be updated before deployment.**
+
+### Page Layout with Export Bar
+
+```tsx
+return (
+  <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 py-4 px-4">
+    <article className="max-w-7xl mx-auto">
+      
+      {/* 1. HEADER - Always first */}
+      <header className="text-center mb-6">
+        <h1 className="text-3xl font-bold text-slate-900 mb-1">
+          [Tool Name] Calculator
+        </h1>
+        <p className="text-sm text-slate-500 max-w-3xl mx-auto">
+          [Tool description]
+        </p>
+      </header>
+
+      {/* 2. EXPORT BAR - MANDATORY, ALWAYS SECOND */}
+      <div className="flex flex-wrap gap-2 justify-center mb-6">
+        {/* Export and share buttons */}
+      </div>
+
+      {/* 3. CALCULATOR & CHARTS - After export bar */}
+      <div className="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-6">
+        {/* Calculator inputs */}
+        {/* Charts and results */}
+      </div>
+
+      {/* 4. EDUCATIONAL CONTENT - At bottom */}
+      <section className="mt-12">
+        {/* 800+ words content */}
+      </section>
+    </article>
+  </div>
+);
+```
 
 ### Implementation Reference
 
@@ -943,6 +1191,112 @@ useEffect(() => {
 ```
 
 ### Sharing Bar UI — Unified Theme Colors
+
+**PLACEMENT OPTIONS:**
+
+#### Option 1: Centered Row (Most Common - Use for Most Tools)
+Best for tools with side-by-side layout. Export bar spans full width above content.
+
+```tsx
+{/* Export + Share bar — CENTERED ABOVE CONTENT */}
+<div className="flex flex-wrap gap-2 justify-center mb-6">
+  <button 
+    onClick={handleExportPDF} 
+    disabled={exporting !== null}
+    className="flex items-center gap-2 bg-white hover:bg-indigo-50 border border-slate-100 hover:border-indigo-200 text-slate-600 hover:text-indigo-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50"
+  >
+    {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
+  </button>
+  
+  <button 
+    onClick={handleExportExcel} 
+    disabled={exporting !== null}
+    className="flex items-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-200 text-slate-600 hover:text-teal-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50"
+  >
+    {exporting === 'excel' ? '⏳ Generating…' : '📊 Export Excel'}
+  </button>
+  
+  <button 
+    onClick={handleCopyURL}
+    className="flex items-center gap-2 bg-white hover:bg-slate-50 border border-slate-100 hover:border-slate-200 text-slate-600 hover:text-slate-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm"
+  >
+    {copied ? '✅ Copied!' : '🔗 Copy Plan URL'}
+  </button>
+  
+  <button 
+    onClick={handleShareWhatsApp}
+    className="flex items-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-200 text-slate-600 hover:text-teal-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm"
+  >
+    💬 WhatsApp
+  </button>
+  
+  <button 
+    onClick={handleShareTwitter}
+    className="flex items-center gap-2 bg-white hover:bg-sky-50 border border-slate-100 hover:border-sky-200 text-slate-600 hover:text-sky-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm"
+  >
+    🐦 Twitter
+  </button>
+</div>
+```
+
+#### Option 2: Sidebar in Calculator Card (Alternative for Side-by-Side)
+If calculator is on left and you want export options integrated into that card.
+
+```tsx
+<section className="lg:sticky lg:top-6 lg:self-start bg-white rounded-2xl border border-slate-100 shadow-md p-5">
+  <h2 className="text-lg font-bold text-slate-800 mb-4">Calculator</h2>
+  
+  {/* Input fields here */}
+  
+  <hr className="my-6 border-slate-100" />
+  
+  {/* Export section at bottom of calculator card */}
+  <div className="space-y-2">
+    <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
+      Export & Share
+    </h3>
+    
+    <div className="grid grid-cols-2 gap-2">
+      <button onClick={handleExportPDF} disabled={exporting !== null}
+        className="flex items-center justify-center gap-1.5 bg-white hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 text-slate-600 hover:text-indigo-700 text-xs font-bold py-2.5 rounded-xl transition-all">
+        📄 {exporting === 'pdf' ? '...' : 'PDF'}
+      </button>
+      <button onClick={handleExportExcel} disabled={exporting !== null}
+        className="flex items-center justify-center gap-1.5 bg-white hover:bg-teal-50 border border-slate-200 hover:border-teal-300 text-slate-600 hover:text-teal-700 text-xs font-bold py-2.5 rounded-xl transition-all">
+        📊 {exporting === 'excel' ? '...' : 'Excel'}
+      </button>
+    </div>
+    
+    <button onClick={handleCopyURL}
+      className="w-full flex items-center justify-center gap-1.5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 text-slate-600 hover:text-slate-700 text-xs font-bold py-2.5 rounded-xl transition-all">
+      🔗 {copied ? '✅ Copied!' : 'Copy URL'}
+    </button>
+    
+    <div className="grid grid-cols-2 gap-2">
+      <button onClick={handleShareWhatsApp}
+        className="flex items-center justify-center gap-1.5 bg-white hover:bg-teal-50 border border-slate-200 hover:border-teal-300 text-slate-600 hover:text-teal-700 text-xs font-bold py-2.5 rounded-xl transition-all">
+        💬
+      </button>
+      <button onClick={handleShareTwitter}
+        className="flex items-center justify-center gap-1.5 bg-white hover:bg-sky-50 border border-slate-200 hover:border-sky-300 text-slate-600 hover:text-sky-700 text-xs font-bold py-2.5 rounded-xl transition-all">
+        🐦
+      </button>
+    </div>
+  </div>
+</section>
+```
+
+**Use Option 1 (Centered Row) for:**
+- All new tools by default
+- Tools with complex layouts
+- Maximum visibility
+
+**Use Option 2 (Sidebar Integration) for:**
+- Side-by-side layouts where calculator is prominent
+- When you want to save vertical space
+- Advanced tools like SIP Wealth Planner
+
+### Sharing Bar UI — Unified Theme Colors (Detailed)
 
 **Use these exact button colors for consistency across all tools:**
 
@@ -1170,13 +1524,151 @@ Then use `text-tool-accent`, `bg-tool-accent`, etc.
 
 ## Content Requirements for AdSense & SEO
 
+### ⚠️ CRITICAL: 800+ Words Educational Content MANDATORY
+
+**This is NON-NEGOTIABLE for AdSense approval and SEO ranking.**
+
 ### Why Content Quality Matters
 
 Google AdSense requires:
 1. **Original, high-quality content** — calculators must educate, not just compute
-2. **Adequate content** — thin pages get penalized
-3. **User engagement signals** — time on page matters
+2. **Adequate content** — thin pages (< 500 words) get penalized or rejected
+3. **User engagement signals** — time on page matters (1-3 min average ideal)
 4. **Mobile-friendly, fast** — we handle this technically; you handle content
+
+### Content Structure (Target: 800-1200 Words)
+
+Every tool page must include **all** of these content sections:
+
+#### 1. What Is [Tool Name]? (200-300 words)
+- **Placement:** Below the calculator and charts
+- **Purpose:** Define the concept, explain use cases
+- **Format:** 2-3 paragraphs with subheadings
+- **Example topics:**
+  - What is a mortgage/amortization schedule/SIP?
+  - Why is this calculation important?
+  - Who should use this tool?
+
+```tsx
+<section className="mt-12">
+  <article className="prose prose-slate max-w-none">
+    <h2 className="text-2xl font-bold text-slate-900 mb-4">
+      What is a [Tool Name]?
+    </h2>
+    <p className="text-slate-600 leading-relaxed mb-4">
+      [First paragraph explaining the concept...]
+    </p>
+    <p className="text-slate-600 leading-relaxed mb-4">
+      [Second paragraph with more detail...]
+    </p>
+    <p className="text-slate-600 leading-relaxed">
+      [Third paragraph connecting to the tool...]
+    </p>
+  </article>
+</section>
+```
+
+#### 2. How It Works / Methodology (200-300 words)
+- **Placement:** After the "What Is" section
+- **Purpose:** Explain the calculation methodology
+- **Format:** Step-by-step or component breakdown
+- **Include:** Formulas (LaTeX or plain text), key variables, assumptions
+
+```tsx
+<section className="mt-8">
+  <article className="prose prose-slate max-w-none">
+    <h2 className="text-2xl font-bold text-slate-900 mb-4">
+      How the [Calculation] Works
+    </h2>
+    <p className="text-slate-600 leading-relaxed mb-4">
+      The calculation uses the following formula: [Formula explanation]
+    </p>
+    <div className="bg-slate-50 rounded-xl p-6 my-6 not-prose">
+      <h4 className="font-bold text-slate-900 mb-3">Key Components:</h4>
+      <ul className="space-y-2 text-sm text-slate-700">
+        <li><strong>Component 1:</strong> Description...</li>
+        <li><strong>Component 2:</strong> Description...</li>
+        <li><strong>Component 3:</strong> Description...</li>
+      </ul>
+    </div>
+    <p className="text-slate-600 leading-relaxed">
+      Our calculator handles all these computations automatically...
+    </p>
+  </article>
+</section>
+```
+
+#### 3. Use Cases / When to Use (200-300 words)
+- **Placement:** After methodology
+- **Purpose:** Real-world scenarios and examples
+- **Format:** 2-4 specific use cases with context
+
+```tsx
+<section className="mt-8">
+  <article className="prose prose-slate max-w-none">
+    <h2 className="text-2xl font-bold text-slate-900 mb-4">
+      When to Use This Calculator
+    </h2>
+    
+    <h3 className="text-xl font-bold text-slate-900 mt-6 mb-3">
+      1. [Use Case Title]
+    </h3>
+    <p className="text-slate-600 leading-relaxed">
+      [Detailed explanation with example...]
+    </p>
+
+    <h3 className="text-xl font-bold text-slate-900 mt-6 mb-3">
+      2. [Use Case Title]
+    </h3>
+    <p className="text-slate-600 leading-relaxed">
+      [Detailed explanation with example...]
+    </p>
+    
+    {/* More use cases */}
+  </article>
+</section>
+```
+
+#### 4. Tips / FAQs / Best Practices (200-300 words)
+- **Placement:** End of content section
+- **Purpose:** Answer common questions, provide actionable advice
+- **Format:** Q&A style or tip cards
+
+```tsx
+<section className="mt-8">
+  <h2 className="text-2xl font-bold text-slate-900 mb-6">
+    Frequently Asked Questions
+  </h2>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+      <h4 className="font-bold text-slate-900 mb-2">
+        Question 1?
+      </h4>
+      <p className="text-sm text-slate-600 leading-relaxed">
+        Detailed answer explaining the concept...
+      </p>
+    </div>
+    {/* More FAQ cards */}
+  </div>
+</section>
+```
+
+### Content Quality Guidelines
+
+**✓ DO:**
+- Write in clear, conversational tone
+- Use specific numbers and examples
+- Break up text with subheadings every 150-200 words
+- Include actionable takeaways
+- Link to related calculators naturally within content
+- Use proper grammar and spelling (run through spell check)
+
+**✗ DON'T:**
+- Copy content from other sites (must be 100% original)
+- Use only bullet points (needs full paragraphs)
+- Write vague, generic content ("this calculator is useful")
+- Front-load with excessive keywords (write naturally)
+- Use AI-generated content without heavy editing and humanization
 
 ### Minimum Content Guidelines
 

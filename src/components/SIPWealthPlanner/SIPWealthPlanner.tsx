@@ -21,24 +21,17 @@ import { formatCurrency, formatYAxisValue } from './SIPWealthPlanner.utils';
 import { SIPInputs } from './SIPWealthPlanner.types';
 import { generatePDFReport, fmtCurrency as pdfFmtCurrency, fmtPercent, type PDFReportConfig } from '../../utils/pdf';
 import { exportSIPToExcel } from '../../utils/excel';
+import { CHART_COLORS } from '../../utils/chartColors';
 
-// Unified chart colors (based on home page hero: indigo→blue→cyan gradient)
-const CHART_COLORS = {
-  primary: '#6366f1',    // indigo-500 - PRIMARY
-  secondary: '#3b82f6',  // blue-500 - SECONDARY  
-  accent: '#06b6d4',     // cyan-500 - ACCENT
-  teal: '#14b8a6',       // teal-500 - growth/success
-  amber: '#f59e0b',      // amber-500 - warning/info
-  rose: '#f43f5e',       // rose-500 - danger
-  grid: '#f1f5f9',       // slate-100
-  axis: '#94a3b8',       // slate-400
-  // Semantic aliases for SIP
-  invested: '#3b82f6',   // blue
-  gained: '#14b8a6',     // teal
-  realValue: '#f59e0b',  // amber
-  flat: '#6366f1',       // indigo
-  delay: '#f43f5e',      // rose
-  interest: '#06b6d4',   // cyan
+// Color palette
+const SIP_COLORS = {
+  ...CHART_COLORS,
+  invested: CHART_COLORS.primary,
+  gained: CHART_COLORS.secondary,
+  realValue: CHART_COLORS.accent,
+  flat: CHART_COLORS.accent,
+  delay: CHART_COLORS.purple,
+  interest: CHART_COLORS.secondary,
 };
 
 type SliderFieldProps = {
@@ -112,7 +105,7 @@ const SliderField: React.FC<SliderFieldProps> = ({
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
         className="calc-range w-full h-2 rounded-full cursor-pointer"
-        style={{ background: `linear-gradient(to right, ${CHART_COLORS.invested} ${progress}%, #e2e8f0 ${progress}%)` }}
+        style={{ background: `linear-gradient(to right, ${SIP_COLORS.invested} ${progress}%, ${CHART_COLORS.grid} ${progress}%)` }}
       />
     </div>
   );
@@ -425,7 +418,7 @@ const SIPWealthPlanner: React.FC = () => {
   }, [result, inputs]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 py-4 px-4" id="sip-planner-content">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-blue-50/20 py-4 px-4" id="sip-planner-content">
       <article className="max-w-7xl mx-auto" itemScope itemType="https://schema.org/WebApplication">
         <header className="text-center mb-6" id="calculator">
           <h1 className="text-3xl font-bold text-slate-900 mb-1" itemProp="name">
@@ -440,7 +433,7 @@ const SIPWealthPlanner: React.FC = () => {
 
         {/* Export + Share bar */}
         <div className="flex flex-wrap gap-2 justify-center mb-6">
-          <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-indigo-50 border border-slate-100 hover:border-indigo-200 text-slate-600 hover:text-indigo-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
+          <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-blue-50 border border-slate-100 hover:border-blue-200 text-slate-600 hover:text-blue-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
             {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
           </button>
           <button onClick={handleExportExcel} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-200 text-slate-600 hover:text-teal-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
@@ -608,7 +601,7 @@ const SIPWealthPlanner: React.FC = () => {
               </div>
               <button
                 onClick={() => updateInputs({ compareWithFlat: !inputs.compareWithFlat })}
-                className={`w-12 h-6 rounded-full relative transition ${inputs.compareWithFlat ? 'bg-indigo-500' : 'bg-slate-300'}`}
+                className={`w-12 h-6 rounded-full relative transition ${inputs.compareWithFlat ? 'bg-blue-500' : 'bg-slate-300'}`}
               >
                 <span className={`absolute top-1 w-4 h-4 bg-white rounded-full transition ${inputs.compareWithFlat ? 'left-7' : 'left-1'}`} />
               </button>
@@ -645,9 +638,9 @@ const SIPWealthPlanner: React.FC = () => {
 
 
             {inputs.mode === 'goal' && (
-              <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="bg-gradient-to-r from-indigo-50 to-blue-50 border border-indigo-200 rounded-xl p-4">
+              <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="bg-gradient-to-r from-blue-50 to-blue-50 border border-blue-200 rounded-xl p-4">
                 <p className="text-sm font-semibold text-slate-700">Goal Planning</p>
-                <p className="text-2xl font-bold text-indigo-700 mt-1">
+                <p className="text-2xl font-bold text-blue-700 mt-1">
                   Required SIP: {formatCurrency(result.requiredMonthlyInvestment, inputs.currency)} / month
                 </p>
                 <p className="text-xs text-slate-500 mt-1">
@@ -725,18 +718,18 @@ const SIPWealthPlanner: React.FC = () => {
                 {hydrated ? (
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={chartData}>
-                      <CartesianGrid stroke={CHART_COLORS.grid} strokeDasharray="3 3" />
-                      <XAxis dataKey="year" tick={{ fontSize: 11, fill: CHART_COLORS.axis }} />
-                      <YAxis tickFormatter={(value) => formatYAxisValue(value, inputs.currency)} tick={{ fontSize: 11, fill: CHART_COLORS.axis }} />
+                      <CartesianGrid stroke={SIP_COLORS.grid} strokeDasharray="3 3" />
+                      <XAxis dataKey="year" tick={{ fontSize: 11, fill: SIP_COLORS.axis }} stroke={SIP_COLORS.axis} axisLine={false} tickLine={false} />
+                      <YAxis tickFormatter={(value) => formatYAxisValue(value, inputs.currency)} tick={{ fontSize: 11, fill: SIP_COLORS.axis }} stroke={SIP_COLORS.axis} axisLine={false} tickLine={false} />
                       <Tooltip
                         formatter={(value: number | undefined, name: string | undefined) => [formatCurrency(value ?? 0, inputs.currency), name ?? 'Value']}
                         labelFormatter={(label) => `Year ${label}`}
                       />
-                      <Area type="monotone" dataKey="invested" stackId="a" stroke={CHART_COLORS.invested} fill={CHART_COLORS.invested} fillOpacity={0.6} name="Total Invested" />
-                      <Area type="monotone" dataKey="gained" stackId="a" stroke={CHART_COLORS.gained} fill={CHART_COLORS.gained} fillOpacity={0.7} name="Wealth Gained" />
-                      <Line type="monotone" dataKey="realCorpus" stroke={CHART_COLORS.realValue} strokeWidth={2.5} dot={false} name="Real Value (Inflation Adjusted)" />
+                      <Area type="monotone" dataKey="invested" stackId="a" stroke={SIP_COLORS.invested} fill={SIP_COLORS.invested} fillOpacity={0.6} name="Total Invested" />
+                      <Area type="monotone" dataKey="gained" stackId="a" stroke={SIP_COLORS.gained} fill={SIP_COLORS.gained} fillOpacity={0.7} name="Wealth Gained" />
+                      <Line type="monotone" dataKey="realCorpus" stroke={SIP_COLORS.realValue} strokeWidth={2.5} dot={false} name="Real Value (Inflation Adjusted)" />
                       {inputs.compareWithFlat && (
-                        <Line type="monotone" dataKey="flatCorpus" stroke={CHART_COLORS.flat} strokeWidth={2} dot={false} strokeDasharray="6 4" name="Flat SIP Corpus" />
+                        <Line type="monotone" dataKey="flatCorpus" stroke={SIP_COLORS.flat} strokeWidth={2} dot={false} strokeDasharray="6 4" name="Flat SIP Corpus" />
                       )}
                     </AreaChart>
                   </ResponsiveContainer>
@@ -789,7 +782,7 @@ const SIPWealthPlanner: React.FC = () => {
                 <div className="space-y-3">
                   <div>
                     <p className="text-xs text-slate-500">Monthly SIP in Last Year</p>
-                    <p className="text-2xl font-bold text-indigo-600">
+                    <p className="text-2xl font-bold text-blue-600">
                       {formatCurrency(lastYear?.monthlySip ?? 0, inputs.currency, true)}
                     </p>
                   </div>
@@ -815,13 +808,13 @@ const SIPWealthPlanner: React.FC = () => {
                 {hydrated ? (
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={contributionVsGrowthData}>
-                      <CartesianGrid stroke={CHART_COLORS.grid} strokeDasharray="3 3" />
-                      <XAxis dataKey="year" tick={{ fontSize: 11, fill: CHART_COLORS.axis }} />
-                      <YAxis tickFormatter={(value) => formatYAxisValue(value, inputs.currency)} tick={{ fontSize: 11, fill: CHART_COLORS.axis }} />
+                      <CartesianGrid stroke={SIP_COLORS.grid} strokeDasharray="3 3" />
+                      <XAxis dataKey="year" tick={{ fontSize: 11, fill: SIP_COLORS.axis }} stroke={SIP_COLORS.axis} axisLine={false} tickLine={false} />
+                      <YAxis tickFormatter={(value) => formatYAxisValue(value, inputs.currency)} tick={{ fontSize: 11, fill: SIP_COLORS.axis }} stroke={SIP_COLORS.axis} axisLine={false} tickLine={false} />
                       <Tooltip formatter={(value: number | undefined, name: string | undefined) => [formatCurrency(value ?? 0, inputs.currency), name ?? 'Value']} />
                       <Legend />
-                      <Bar dataKey="invested" fill={CHART_COLORS.invested} name="Total Invested" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="interest" fill={CHART_COLORS.gained} name="Interest Earned" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="invested" fill={SIP_COLORS.invested} name="Total Invested" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="interest" fill={SIP_COLORS.gained} name="Interest Earned" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 ) : (
@@ -834,11 +827,11 @@ const SIPWealthPlanner: React.FC = () => {
                 {hydrated ? (
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={yearlySipPathData}>
-                      <CartesianGrid stroke={CHART_COLORS.grid} strokeDasharray="3 3" />
-                      <XAxis dataKey="year" tick={{ fontSize: 11, fill: CHART_COLORS.axis }} />
-                      <YAxis tickFormatter={(value) => formatYAxisValue(value, inputs.currency)} tick={{ fontSize: 11, fill: CHART_COLORS.axis }} />
+                      <CartesianGrid stroke={SIP_COLORS.grid} strokeDasharray="3 3" />
+                      <XAxis dataKey="year" tick={{ fontSize: 11, fill: SIP_COLORS.axis }} stroke={SIP_COLORS.axis} axisLine={false} tickLine={false} />
+                      <YAxis tickFormatter={(value) => formatYAxisValue(value, inputs.currency)} tick={{ fontSize: 11, fill: SIP_COLORS.axis }} stroke={SIP_COLORS.axis} axisLine={false} tickLine={false} />
                       <Tooltip formatter={(value: number | undefined) => formatCurrency(value ?? 0, inputs.currency)} labelFormatter={(label) => `Year ${label}`} />
-                      <Area type="monotone" dataKey="sip" stroke={CHART_COLORS.flat} fill={CHART_COLORS.flat} fillOpacity={0.45} name="Monthly SIP" />
+                      <Area type="monotone" dataKey="sip" stroke={SIP_COLORS.flat} fill={SIP_COLORS.flat} fillOpacity={0.45} name="Monthly SIP" />
                     </AreaChart>
                   </ResponsiveContainer>
                 ) : (
@@ -853,13 +846,13 @@ const SIPWealthPlanner: React.FC = () => {
                 {hydrated ? (
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={interestPerYearData}>
-                      <CartesianGrid stroke={CHART_COLORS.grid} strokeDasharray="3 3" />
-                      <XAxis dataKey="year" tick={{ fontSize: 11, fill: CHART_COLORS.axis }} />
-                      <YAxis tickFormatter={(value) => formatYAxisValue(value, inputs.currency)} tick={{ fontSize: 11, fill: CHART_COLORS.axis }} />
+                      <CartesianGrid stroke={SIP_COLORS.grid} strokeDasharray="3 3" />
+                      <XAxis dataKey="year" tick={{ fontSize: 11, fill: SIP_COLORS.axis }} stroke={SIP_COLORS.axis} axisLine={false} tickLine={false} />
+                      <YAxis tickFormatter={(value) => formatYAxisValue(value, inputs.currency)} tick={{ fontSize: 11, fill: SIP_COLORS.axis }} stroke={SIP_COLORS.axis} axisLine={false} tickLine={false} />
                       <Tooltip formatter={(value: number | undefined, name: string | undefined) => [formatCurrency(value ?? 0, inputs.currency), name ?? 'Value']} labelFormatter={(label) => `Year ${label}`} />
                       <Legend />
-                      <Bar dataKey="interest" fill={CHART_COLORS.interest} name="Interest This Year" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="investment" fill={CHART_COLORS.invested} name="Investment This Year" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="interest" fill={SIP_COLORS.interest} name="Interest This Year" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="investment" fill={SIP_COLORS.invested} name="Investment This Year" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 ) : (
@@ -873,13 +866,13 @@ const SIPWealthPlanner: React.FC = () => {
                   {hydrated ? (
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart data={realVsNominalData}>
-                        <CartesianGrid stroke={CHART_COLORS.grid} strokeDasharray="3 3" />
-                        <XAxis dataKey="year" tick={{ fontSize: 11, fill: CHART_COLORS.axis }} />
-                        <YAxis tickFormatter={(value) => formatYAxisValue(value, inputs.currency)} tick={{ fontSize: 11, fill: CHART_COLORS.axis }} />
+                        <CartesianGrid stroke={SIP_COLORS.grid} strokeDasharray="3 3" />
+                        <XAxis dataKey="year" tick={{ fontSize: 11, fill: SIP_COLORS.axis }} stroke={SIP_COLORS.axis} axisLine={false} tickLine={false} />
+                        <YAxis tickFormatter={(value) => formatYAxisValue(value, inputs.currency)} tick={{ fontSize: 11, fill: SIP_COLORS.axis }} stroke={SIP_COLORS.axis} axisLine={false} tickLine={false} />
                         <Tooltip formatter={(value: number | undefined, name: string | undefined) => [formatCurrency(value ?? 0, inputs.currency), name ?? 'Value']} labelFormatter={(label) => `Year ${label}`} />
                         <Legend />
-                        <Line type="monotone" dataKey="nominal" stroke={CHART_COLORS.invested} strokeWidth={2.5} dot={false} name="Nominal Corpus" />
-                        <Line type="monotone" dataKey="real" stroke={CHART_COLORS.realValue} strokeWidth={2.5} dot={false} name="Real Corpus" />
+                        <Line type="monotone" dataKey="nominal" stroke={SIP_COLORS.invested} strokeWidth={2.5} dot={false} name="Nominal Corpus" />
+                        <Line type="monotone" dataKey="real" stroke={SIP_COLORS.realValue} strokeWidth={2.5} dot={false} name="Real Corpus" />
                       </LineChart>
                     </ResponsiveContainer>
                   ) : (
@@ -897,13 +890,13 @@ const SIPWealthPlanner: React.FC = () => {
                 {hydrated ? (
                   <ResponsiveContainer width="100%" height="85%">
                     <BarChart data={delayCostChartData}>
-                      <CartesianGrid stroke={CHART_COLORS.grid} strokeDasharray="3 3" />
-                      <XAxis dataKey="name" tick={{ fontSize: 10, fill: CHART_COLORS.axis }} />
-                      <YAxis tickFormatter={(value) => formatYAxisValue(value, inputs.currency)} tick={{ fontSize: 11, fill: CHART_COLORS.axis }} />
+                      <CartesianGrid stroke={SIP_COLORS.grid} strokeDasharray="3 3" />
+                      <XAxis dataKey="name" tick={{ fontSize: 10, fill: SIP_COLORS.axis }} stroke={SIP_COLORS.axis} axisLine={false} tickLine={false} />
+                      <YAxis tickFormatter={(value) => formatYAxisValue(value, inputs.currency)} tick={{ fontSize: 11, fill: SIP_COLORS.axis }} stroke={SIP_COLORS.axis} axisLine={false} tickLine={false} />
                       <Tooltip formatter={(value: number | undefined, name: string | undefined) => [formatCurrency(value ?? 0, inputs.currency), name ?? 'Value']} />
                       <Legend />
-                      <Bar dataKey="corpus" fill={CHART_COLORS.gained} name="Final Corpus" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="loss" fill={CHART_COLORS.delay} name="Opportunity Loss" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="corpus" fill={SIP_COLORS.gained} name="Final Corpus" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="loss" fill={SIP_COLORS.delay} name="Opportunity Loss" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 ) : (
@@ -917,11 +910,11 @@ const SIPWealthPlanner: React.FC = () => {
               {hydrated ? (
                 <ResponsiveContainer width="100%" height="90%">
                   <BarChart data={yoyGrowthData}>
-                    <CartesianGrid stroke={CHART_COLORS.grid} strokeDasharray="3 3" />
-                    <XAxis dataKey="year" tick={{ fontSize: 11, fill: CHART_COLORS.axis }} />
-                    <YAxis tick={{ fontSize: 11, fill: CHART_COLORS.axis }} label={{ value: '%', angle: -90, position: 'insideLeft' }} />
+                    <CartesianGrid stroke={SIP_COLORS.grid} strokeDasharray="3 3" />
+                    <XAxis dataKey="year" tick={{ fontSize: 11, fill: SIP_COLORS.axis }} stroke={SIP_COLORS.axis} axisLine={false} tickLine={false} />
+                    <YAxis tick={{ fontSize: 11, fill: SIP_COLORS.axis }} label={{ value: '%', angle: -90, position: 'insideLeft' }} stroke={SIP_COLORS.axis} axisLine={false} tickLine={false} />
                     <Tooltip formatter={(value: number | undefined) => `${value}%`} labelFormatter={(label) => `Year ${label}`} />
-                    <Bar dataKey="growth" fill={CHART_COLORS.gained} name="YoY Growth %" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="growth" fill={SIP_COLORS.gained} name="YoY Growth %" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               ) : (

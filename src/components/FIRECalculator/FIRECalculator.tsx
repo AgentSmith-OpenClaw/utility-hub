@@ -25,26 +25,14 @@ import {
 import { useFIRE } from '../../hooks/useFIRE';
 import { exportFIREToExcel } from '../../utils/excel';
 import { generatePDFReport, fmtCurrency as pdfFmtCurrency, fmtPercent, type PDFReportConfig } from '../../utils/pdf';
-
-// ── Chart color constants using CSS variable values ───────────────
-// Unified chart colors (based on home page hero: indigo→blue→cyan gradient)
-const CHART_COLORS = {
-  primary: '#6366f1',    // indigo-500 - PRIMARY (hero gradient start)
-  secondary: '#3b82f6',  // blue-500 - SECONDARY (hero middle)
-  accent: '#06b6d4',     // cyan-500 - ACCENT (hero end)
-  teal: '#14b8a6',       // teal-500 - growth/success
-  amber: '#f59e0b',      // amber-500 - warning/info
-  rose: '#f43f5e',       // rose-500 - danger (use sparingly)
-  grid: '#f1f5f9',       // slate-100
-  axis: '#94a3b8',       // slate-400
-};
+import { CHART_COLORS, PIE_COLORS } from '../../utils/chartColors';
 
 const FIRE_BAR_COLORS = [
-  CHART_COLORS.teal,
   CHART_COLORS.primary,
   CHART_COLORS.secondary,
   CHART_COLORS.accent,
-  CHART_COLORS.amber,
+  CHART_COLORS.teal,
+  CHART_COLORS.purple,
 ];
 
 // ── Number Input ──────────────────────────────────────────────────
@@ -152,7 +140,7 @@ const SliderInput: React.FC<SliderInputProps> = ({
         type="range" min={min} max={max} step={step} value={value}
         onChange={(e) => onChange(parseFloat(e.target.value))}
         className="calc-range w-full h-2 rounded-full cursor-pointer outline-none"
-        style={{ background: `linear-gradient(to right, ${CHART_COLORS.primary} ${pct}%, #e2e8f0 ${pct}%)` }}
+        style={{ background: `linear-gradient(to right, ${CHART_COLORS.primary} ${pct}%, ${CHART_COLORS.grid} ${pct}%)` }}
       />
     </div>
   );
@@ -280,8 +268,8 @@ const FIRECalculator: React.FC = () => {
   const incomeBreakdown = useMemo(() => [
     { name: 'Fixed Expenses', value: inputs.monthlyFixedExpenses, fill: CHART_COLORS.primary },
     { name: 'Lifestyle Expenses', value: inputs.monthlyLifestyleExpenses, fill: CHART_COLORS.accent },
-    { name: 'Investments', value: inputs.monthlyContribution, fill: CHART_COLORS.teal },
-    { name: 'Misc / Remaining', value: Math.max(0, result.monthlyMisc), fill: CHART_COLORS.amber },
+    { name: 'Investments', value: inputs.monthlyContribution, fill: CHART_COLORS.secondary },
+    { name: 'Misc / Remaining', value: Math.max(0, result.monthlyMisc), fill: CHART_COLORS.secondary },
   ], [inputs.monthlyFixedExpenses, inputs.monthlyLifestyleExpenses, inputs.monthlyContribution, result.monthlyMisc]);
 
   const currentFireTypeInfo = FIRE_TYPES.find(f => f.type === inputs.fireType) || FIRE_TYPES[1];
@@ -473,14 +461,14 @@ const FIRECalculator: React.FC = () => {
   }, [inputs.currentSavings, inputs.monthlyContribution, inputs.monthlyFixedExpenses, inputs.expectedReturn]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 py-4 px-4" id="fire-calculator-content">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-blue-50/20 py-4 px-4" id="fire-calculator-content">
       <article className="max-w-7xl mx-auto" itemScope itemType="https://schema.org/WebApplication">
 
         {/* ── Header ──────────────────────────────────────────── */}
         <header className="text-center mb-6" id="calculator">
           <h1 className="text-3xl font-bold text-slate-900 mb-1" itemProp="name">
             FIRE Calculator{' '}
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-600 to-blue-600 bg-clip-text text-transparent">
               — Financial Independence
             </span>
           </h1>
@@ -494,7 +482,7 @@ const FIRECalculator: React.FC = () => {
 
         {/* Export + Share bar */}
         <div className="flex flex-wrap gap-2 justify-center mb-6">
-          <button onClick={handleExportToPDF} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-indigo-50 border border-slate-100 hover:border-indigo-200 text-slate-600 hover:text-indigo-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
+          <button onClick={handleExportToPDF} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-blue-50 border border-slate-100 hover:border-blue-200 text-slate-600 hover:text-blue-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
             {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
           </button>
           <button onClick={handleExportToExcel} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-200 text-slate-600 hover:text-teal-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
@@ -551,7 +539,7 @@ const FIRECalculator: React.FC = () => {
                   whileTap={{ scale: 0.98 }}
                   className={`relative text-left rounded-xl p-4 transition-all cursor-pointer ${
                     isSelected
-                      ? `bg-gradient-to-br ${ft?.gradient || 'from-blue-500 to-indigo-600'} text-white shadow-lg ring-2 ring-offset-2 ${ft?.type === 'lean' ? 'ring-emerald-400' : ft?.type === 'regular' ? 'ring-blue-400' : ft?.type === 'fat' ? 'ring-purple-400' : ft?.type === 'coast' ? 'ring-cyan-400' : 'ring-amber-400'}`
+                      ? `bg-gradient-to-br ${ft?.gradient || 'from-blue-500 to-blue-600'} text-white shadow-lg ring-2 ring-offset-2 ${ft?.type === 'lean' ? 'ring-emerald-400' : ft?.type === 'regular' ? 'ring-blue-400' : ft?.type === 'fat' ? 'ring-purple-400' : ft?.type === 'coast' ? 'ring-cyan-400' : 'ring-amber-400'}`
                       : 'bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300'
                   }`}
                 >
@@ -718,7 +706,7 @@ const FIRECalculator: React.FC = () => {
             </div>
             <div>
               <label className="text-xs font-semibold text-slate-600 mb-1 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: CHART_COLORS.teal }} />
+                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: CHART_COLORS.secondary }} />
                 Monthly Investment <span className="text-slate-400 font-normal">(401k, Stocks, MFs)</span>
               </label>
               <div className="flex items-center bg-teal-50 rounded-xl border-2 border-teal-200 px-3 py-2">
@@ -740,7 +728,7 @@ const FIRECalculator: React.FC = () => {
           </div>
 
           {/* Income Breakdown Summary */}
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-100">
+          <div className="bg-gradient-to-r from-blue-50 to-blue-50 rounded-xl p-4 border border-blue-100">
             <h4 className="text-sm font-bold text-slate-700 mb-3">💰 Monthly Income Breakdown</h4>
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
               <div className="text-center">
@@ -763,7 +751,7 @@ const FIRECalculator: React.FC = () => {
               </div>
               <div className="text-center">
                 <div className="flex items-center justify-center gap-1">
-                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: CHART_COLORS.teal }} />
+                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: CHART_COLORS.secondary }} />
                   <span className="text-xs text-slate-500">Investing</span>
                 </div>
                 <div className="text-base font-bold text-teal-600">
@@ -772,7 +760,7 @@ const FIRECalculator: React.FC = () => {
               </div>
               <div className="text-center">
                 <div className="flex items-center justify-center gap-1">
-                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: CHART_COLORS.amber }} />
+                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: CHART_COLORS.secondary }} />
                   <span className="text-xs text-slate-500">Remaining</span>
                 </div>
                 <div className={`text-base font-bold ${result.monthlyMisc < 0 ? 'text-rose-600' : 'text-slate-800'}`}>
@@ -905,7 +893,7 @@ const FIRECalculator: React.FC = () => {
             </div>
             <div className="mt-3 h-2 rounded-full bg-slate-100 overflow-hidden">
               <motion.div
-                className="h-full rounded-full bg-gradient-to-r from-blue-400 to-indigo-500"
+                className="h-full rounded-full bg-gradient-to-r from-blue-400 to-blue-500"
                 initial={{ width: 0 }}
                 animate={{ width: `${Math.min(progressPercent, 100)}%` }}
                 transition={{ duration: 0.8, ease: 'easeOut' }}
@@ -954,10 +942,10 @@ const FIRECalculator: React.FC = () => {
                     <YAxis tickFormatter={formatYAxis} stroke={CHART_COLORS.axis} fontSize={12} tickLine={false} axisLine={false} />
                     <Tooltip content={<ChartTooltip />} />
                     <Area type="monotone" dataKey="endBalance" fill="url(#portfolioGradNew)" stroke={CHART_COLORS.primary} strokeWidth={2.5} name="Portfolio" animationDuration={800} />
-                    <Line type="monotone" dataKey="fireNumber" stroke={CHART_COLORS.rose} strokeWidth={2} strokeDasharray="8 4" dot={false} name="FIRE Target" animationDuration={800} />
+                    <Line type="monotone" dataKey="fireNumber" stroke={CHART_COLORS.secondary} strokeWidth={2} strokeDasharray="8 4" dot={false} name="FIRE Target" animationDuration={800} />
                     {result.yearsToFIRE < 70 && (
-                      <ReferenceLine x={result.fireAge} stroke={CHART_COLORS.teal} strokeWidth={2} strokeDasharray="4 4"
-                        label={{ value: '🔥 FIRE!', position: 'top', fontSize: 12, fontWeight: 'bold', fill: '#059669' }}
+                      <ReferenceLine x={result.fireAge} stroke={CHART_COLORS.accent} strokeWidth={2} strokeDasharray="4 4"
+                        label={{ value: '🔥 FIRE!', position: 'top', fontSize: 12, fontWeight: 'bold', fill: CHART_COLORS.accent }}
                       />
                     )}
                   </ComposedChart>
@@ -978,8 +966,8 @@ const FIRECalculator: React.FC = () => {
                         <stop offset="100%" stopColor={CHART_COLORS.primary} stopOpacity={0.02} />
                       </linearGradient>
                       <linearGradient id="growthGradNew" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor={CHART_COLORS.teal} stopOpacity={0.4} />
-                        <stop offset="100%" stopColor={CHART_COLORS.teal} stopOpacity={0.02} />
+                        <stop offset="0%" stopColor={CHART_COLORS.secondary} stopOpacity={0.4} />
+                        <stop offset="100%" stopColor={CHART_COLORS.secondary} stopOpacity={0.02} />
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
@@ -987,7 +975,7 @@ const FIRECalculator: React.FC = () => {
                     <YAxis tickFormatter={formatYAxis} stroke={CHART_COLORS.axis} fontSize={12} tickLine={false} axisLine={false} />
                     <Tooltip content={<ChartTooltip />} />
                     <Area type="monotone" dataKey="totalContributed" stackId="1" fill="url(#contribGradNew)" stroke={CHART_COLORS.primary} strokeWidth={2} name="Your Contributions" animationDuration={800} />
-                    <Area type="monotone" dataKey="totalGrowth" stackId="1" fill="url(#growthGradNew)" stroke={CHART_COLORS.teal} strokeWidth={2} name="Investment Growth" animationDuration={800} />
+                    <Area type="monotone" dataKey="totalGrowth" stackId="1" fill="url(#growthGradNew)" stroke={CHART_COLORS.secondary} strokeWidth={2} name="Investment Growth" animationDuration={800} />
                   </AreaChart>
                 </ResponsiveContainer>
               </motion.div>
@@ -1007,7 +995,7 @@ const FIRECalculator: React.FC = () => {
                       labelLine={false}
                       label={({ name, value, percent }) => `${name}: ${formatCurrency(value, inputs.currency)} (${((percent || 0) * 100).toFixed(0)}%)`}
                       outerRadius={110}
-                      fill="#8884d8"
+                      fill={CHART_COLORS.primary}
                       dataKey="value"
                       animationDuration={800}
                     >
@@ -1099,8 +1087,8 @@ const FIRECalculator: React.FC = () => {
                       );
                     }} />
                     <Area type="monotone" dataKey="endBalance" fill="url(#postfireGrad)" stroke={CHART_COLORS.accent} strokeWidth={2.5} name="Portfolio Balance" animationDuration={800} />
-                    <Line type="monotone" dataKey="withdrawal" stroke={CHART_COLORS.rose} strokeWidth={2} dot={false} name="Annual Withdrawal" animationDuration={800} />
-                    <Line type="monotone" dataKey="growth" stroke={CHART_COLORS.teal} strokeWidth={1.5} strokeDasharray="5 3" dot={false} name="Investment Growth" animationDuration={800} />
+                    <Line type="monotone" dataKey="withdrawal" stroke={CHART_COLORS.secondary} strokeWidth={2} dot={false} name="Annual Withdrawal" animationDuration={800} />
+                    <Line type="monotone" dataKey="growth" stroke={CHART_COLORS.accent} strokeWidth={1.5} strokeDasharray="5 3" dot={false} name="Investment Growth" animationDuration={800} />
                   </ComposedChart>
                 </ResponsiveContainer>
                 <div className="flex flex-wrap gap-4 justify-center mt-3">
@@ -1108,10 +1096,10 @@ const FIRECalculator: React.FC = () => {
                     <span className="w-3 h-3 rounded-full" style={{ backgroundColor: CHART_COLORS.accent }} /> Portfolio Balance
                   </div>
                   <div className="flex items-center gap-1.5 text-xs text-slate-500">
-                    <span className="w-3 h-0.5 rounded-full" style={{ backgroundColor: CHART_COLORS.rose, display: 'inline-block', width: 12 }} /> Withdrawals
+                    <span className="w-3 h-0.5 rounded-full" style={{ backgroundColor: CHART_COLORS.secondary, display: 'inline-block', width: 12 }} /> Withdrawals
                   </div>
                   <div className="flex items-center gap-1.5 text-xs text-slate-500">
-                    <span className="w-3 h-0.5 rounded-full" style={{ backgroundColor: CHART_COLORS.teal, display: 'inline-block', width: 12, borderTop: '1px dashed' }} /> Growth
+                    <span className="w-3 h-0.5 rounded-full" style={{ backgroundColor: CHART_COLORS.accent, display: 'inline-block', width: 12, borderTop: '1px dashed' }} /> Growth
                   </div>
                 </div>
               </motion.div>
@@ -1130,14 +1118,14 @@ const FIRECalculator: React.FC = () => {
                 {result.milestones.map((m, i) => (
                   <motion.div key={m.label} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }} className="flex-shrink-0 flex items-start">
                     <div className="flex flex-col items-center w-28 sm:w-32 text-center">
-                      <div className="w-11 h-11 rounded-full bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center text-xl shadow-sm border border-blue-100">{m.icon}</div>
+                      <div className="w-11 h-11 rounded-full bg-gradient-to-br from-blue-50 to-blue-50 flex items-center justify-center text-xl shadow-sm border border-blue-100">{m.icon}</div>
                       <span className="text-xs font-bold text-slate-900 mt-2 leading-tight">{m.label}</span>
                       <span className="text-xs font-semibold text-blue-600 mt-0.5">{formatCurrency(m.targetAmount, inputs.currency, true)}</span>
                       <span className="text-[10px] text-slate-400">Age {m.ageAtMilestone} · {m.yearsToReach}y</span>
                     </div>
                     {i < result.milestones.length - 1 && (
                       <div className="flex-shrink-0 w-6 sm:w-8 flex items-center justify-center mt-5">
-                        <div className="w-full h-0.5 bg-gradient-to-r from-blue-200 to-indigo-200 rounded-full" />
+                        <div className="w-full h-0.5 bg-gradient-to-r from-blue-200 to-blue-200 rounded-full" />
                       </div>
                     )}
                   </motion.div>
@@ -1151,7 +1139,7 @@ const FIRECalculator: React.FC = () => {
         {result.portfolioAtRetirement > 0 && result.yearsToFIRE > 0 && (
           <section className="mb-8">
             <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-              className="bg-gradient-to-r from-blue-50 via-indigo-50 to-teal-50 rounded-2xl p-6 border border-blue-100 shadow-sm"
+              className="bg-gradient-to-r from-blue-50 via-blue-50 to-teal-50 rounded-2xl p-6 border border-blue-100 shadow-sm"
             >
               <h3 className="font-bold text-slate-900 mb-3 flex items-center gap-2">
                 <span className="text-xl">💡</span> Power of Compounding
@@ -1445,7 +1433,7 @@ const FIRECalculator: React.FC = () => {
             </a>
             <a
               href="/finance/learn/coast-fire-strategy"
-              className="flex flex-col bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl px-5 py-4 hover:shadow-md transition-all group border border-blue-100"
+              className="flex flex-col bg-gradient-to-br from-blue-50 to-blue-50 rounded-xl px-5 py-4 hover:shadow-md transition-all group border border-blue-100"
             >
               <span className="text-sm font-bold text-slate-900 mb-1">Coast FIRE Strategy</span>
               <span className="text-xs text-slate-600 mb-2">Achieve financial freedom in phases—retire early without the grind</span>
@@ -1457,7 +1445,7 @@ const FIRECalculator: React.FC = () => {
         </section>
 
         {/* CTA */}
-        <section className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl text-white p-6 sm:p-8 mb-8 text-center">
+        <section className="bg-gradient-to-r from-blue-600 to-blue-600 rounded-2xl text-white p-6 sm:p-8 mb-8 text-center">
           <h2 className="text-2xl font-bold mb-3">Ready to Start Your FIRE Journey?</h2>
           <p className="mb-4 leading-relaxed text-blue-100">
             The first step is knowing your number. Use this calculator to create your personalized plan, explore different scenarios, and track your progress.

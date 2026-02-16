@@ -17,12 +17,13 @@ import { useBuyVsRent } from '../../hooks/useBuyVsRent';
 import { formatCurrency, formatPercent } from './BuyVsRent.utils';
 import { exportToExcel } from '../../utils/excel';
 import { generatePDFReport, fmtCurrency as pdfFmtCurrency, fmtPercent, type PDFReportConfig } from '../../utils/pdf';
+import { CHART_COLORS as BASE_COLORS, PIE_COLORS } from '../../utils/chartColors';
 
 const CHART_COLORS = {
-  buying: '#3b82f6',
-  renting: '#10b981',
-  buyingGradient: ['#6366f1', '#3b82f6'],
-  rentingGradient: ['#10b981', '#14b8a6'],
+  buying: BASE_COLORS.primary,
+  renting: BASE_COLORS.secondary,
+  buyingGradient: [BASE_COLORS.primary, BASE_COLORS.secondary],
+  rentingGradient: [BASE_COLORS.secondary, BASE_COLORS.accent],
 };
 
 export const BuyVsRentRedesigned: React.FC = () => {
@@ -506,20 +507,22 @@ export const BuyVsRentRedesigned: React.FC = () => {
                       <stop offset="95%" stopColor={CHART_COLORS.renting} stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                  <CartesianGrid strokeDasharray="3 3" stroke={BASE_COLORS.grid} />
                   <XAxis
                     dataKey="year"
                     label={{ value: 'Year', position: 'insideBottom', offset: -5 }}
+                    stroke={BASE_COLORS.axis} axisLine={false} tickLine={false}
                   />
                   <YAxis
                     tickFormatter={(value) => formatCurrency(value)}
                     label={{ value: 'Net Worth', angle: -90, position: 'insideLeft' }}
+                    stroke={BASE_COLORS.axis} axisLine={false} tickLine={false}
                   />
                   <Tooltip
                     formatter={(value) => formatCurrency(value as number)}
                     contentStyle={{
                       backgroundColor: 'white',
-                      border: '1px solid #e2e8f0',
+                      border: `1px solid ${BASE_COLORS.grid}`,
                       borderRadius: '8px',
                     }}
                   />
@@ -582,10 +585,10 @@ export const BuyVsRentRedesigned: React.FC = () => {
                           `${entry.name}: ${((entry.value / result.totalBuyingCost) * 100).toFixed(0)}%`
                         }
                         outerRadius={80}
-                        fill="#8884d8"
+                        fill={BASE_COLORS.primary}
                         dataKey="value"
                       >
-                        {['#3b82f6', '#f59e0b', '#8b5cf6', '#06b6d4', '#f97316'].map((color, index) => (
+                        {PIE_COLORS.slice(0, 5).map((color, index) => (
                           <Cell key={`cell-${index}`} fill={color} />
                         ))}
                       </Pie>
@@ -618,10 +621,10 @@ export const BuyVsRentRedesigned: React.FC = () => {
                           `${entry.name}: ${((entry.value / result.totalRentingCost) * 100).toFixed(0)}%`
                         }
                         outerRadius={80}
-                        fill="#8884d8"
+                        fill={BASE_COLORS.primary}
                         dataKey="value"
                       >
-                        {[CHART_COLORS.renting, '#06b6d4'].map((color, index) => (
+                        {[CHART_COLORS.renting, BASE_COLORS.accent].map((color, index) => (
                           <Cell key={`cell-${index}`} fill={color} />
                         ))}
                       </Pie>

@@ -259,3 +259,180 @@ export const exportIncomeTaxToExcel = (
   const data2 = new Blob([excelBuffer2], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
   saveAs(data2, filename);
 };
+
+// Mortgage Calculator Excel Export
+export interface MortgageExportData {
+  homePrice: number;
+  downPayment: number;
+  loanAmount: number;
+  interestRate: number;
+  loanTerm: number;
+  propertyTax: number;
+  homeInsurance: number;
+  hoa: number;
+  pmi: number;
+  monthlyPayment: number;
+  monthlyPrincipalInterest: number;
+  totalPayment: number;
+  totalInterest: number;
+  schedule: Array<{
+    month: number;
+    principal: number;
+    interest: number;
+    totalPayment: number;
+    remainingBalance: number;
+    cumulativePrincipal: number;
+    cumulativeInterest: number;
+  }>;
+}
+
+export const exportMortgageToExcel = (
+  data: MortgageExportData,
+  filename: string = 'mortgage_analysis.xlsx'
+) => {
+  const wb = XLSX.utils.book_new();
+
+  // Sheet 1: Summary
+  const summaryData = [
+    { Parameter: 'Home Price', Value: `$${data.homePrice.toLocaleString()}` },
+    { Parameter: 'Down Payment', Value: `$${data.downPayment.toLocaleString()}` },
+    { Parameter: 'Loan Amount', Value: `$${data.loanAmount.toLocaleString()}` },
+    { Parameter: 'Interest Rate', Value: `${data.interestRate}%` },
+    { Parameter: 'Loan Term', Value: `${data.loanTerm} years` },
+    { Parameter: '', Value: '' },
+    { Parameter: 'Monthly P&I', Value: `$${data.monthlyPrincipalInterest.toLocaleString()}` },
+    { Parameter: 'Property Tax', Value: `$${data.propertyTax.toLocaleString()}` },
+    { Parameter: 'Home Insurance', Value: `$${data.homeInsurance.toLocaleString()}` },
+    { Parameter: 'HOA Fees', Value: `$${data.hoa.toLocaleString()}` },
+    { Parameter: 'PMI', Value: `$${data.pmi.toLocaleString()}` },
+    { Parameter: '', Value: '' },
+    { Parameter: 'Total Monthly Payment', Value: `$${data.monthlyPayment.toLocaleString()}` },
+    { Parameter: 'Total Interest (Life of Loan)', Value: `$${data.totalInterest.toLocaleString()}` },
+    { Parameter: 'Total Amount Paid', Value: `$${data.totalPayment.toLocaleString()}` },
+  ];
+  const ws1 = XLSX.utils.json_to_sheet(summaryData);
+  XLSX.utils.book_append_sheet(wb, ws1, 'Summary');
+
+  // Sheet 2: Amortization Schedule
+  const scheduleData = data.schedule.map(row => ({
+    'Month': row.month,
+    'Principal': Math.round(row.principal),
+    'Interest': Math.round(row.interest),
+    'Total Payment': Math.round(row.totalPayment),
+    'Remaining Balance': Math.round(row.remainingBalance),
+    'Cumulative Principal': Math.round(row.cumulativePrincipal),
+    'Cumulative Interest': Math.round(row.cumulativeInterest),
+  }));
+  const ws2 = XLSX.utils.json_to_sheet(scheduleData);
+  XLSX.utils.book_append_sheet(wb, ws2, 'Amortization Schedule');
+
+  // Sheet 3: Yearly Summary
+  const yearlySummary: any[] = [];
+  const totalMonths = data.schedule.length;
+  const years = Math.ceil(totalMonths / 12);
+  
+  for (let year = 1; year <= years; year++) {
+    const startMonth = (year - 1) * 12;
+    const endMonth = Math.min(year * 12, totalMonths);
+    const yearData = data.schedule.slice(startMonth, endMonth);
+    
+    const principalPaid = yearData.reduce((sum, row) => sum + row.principal, 0);
+    const interestPaid = yearData.reduce((sum, row) => sum + row.interest, 0);
+    const endingBalance = yearData[yearData.length - 1]?.remainingBalance || 0;
+    
+    yearlySummary.push({
+      'Year': year,
+      'Principal Paid': Math.round(principalPaid),
+      'Interest Paid': Math.round(interestPaid),
+      'Total Paid': Math.round(principalPaid + interestPaid),
+      'Ending Balance': Math.round(endingBalance),
+    });
+  }
+  const ws3 = XLSX.utils.json_to_sheet(yearlySummary);
+  XLSX.utils.book_append_sheet(wb, ws3, 'Yearly Summary');
+
+  const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+  saveAs(blob, filename);
+};
+
+// Amortization Calculator Excel Export
+export interface AmortizationExportData {
+  loanAmount: number;
+  annualRate: number;
+  tenureYears: number;
+  monthlyEMI: number;
+  totalInterest: number;
+  totalAmount: number;
+  schedule: Array<{
+    month: number;
+    principal: number;
+    interest: number;
+    totalPayment: number;
+    remainingBalance: number;
+  }>;
+}
+
+export const exportAmortizationToExcel = (
+  data: AmortizationExportData,
+  filename: string = 'amortization_schedule.xlsx'
+) => {
+  const wb = XLSX.utils.book_new();
+
+  // Sheet 1: Summary
+  const summaryData = [
+    { Parameter: 'Loan Amount', Value: `₹${data.loanAmount.toLocaleString('en-IN')}` },
+    { Parameter: 'Interest Rate', Value: `${data.annualRate}%` },
+    { Parameter: 'Loan Tenure', Value: `${data.tenureYears} years` },
+    { Parameter: '', Value: '' },
+    { Parameter: 'Monthly EMI', Value: `₹${data.monthlyEMI.toLocaleString('en-IN')}` },
+    { Parameter: 'Total Interest', Value: `₹${data.totalInterest.toLocaleString('en-IN')}` },
+    { Parameter: 'Total Amount Payable', Value: `₹${data.totalAmount.toLocaleString('en-IN')}` },
+    { Parameter: 'Interest/Principal Ratio', Value: `${((data.totalInterest / data.loanAmount) * 100).toFixed(1)}%` },
+  ];
+  const ws1 = XLSX.utils.json_to_sheet(summaryData);
+  XLSX.utils.book_append_sheet(wb, ws1, 'Summary');
+
+  // Sheet 2: Complete Schedule
+  const scheduleData = data.schedule.map(row => ({
+    'Month': row.month,
+    'Principal': Math.round(row.principal),
+    'Interest': Math.round(row.interest),
+    'EMI': Math.round(row.totalPayment),
+    'Remaining Balance': Math.round(row.remainingBalance),
+  }));
+  const ws2 = XLSX.utils.json_to_sheet(scheduleData);
+  XLSX.utils.book_append_sheet(wb, ws2, 'Amortization Schedule');
+
+  // Sheet 3: Yearly Breakdown
+  const yearlyBreakdown: any[] = [];
+  const totalMonths = data.schedule.length;
+  const years = Math.ceil(totalMonths / 12);
+  
+  for (let year = 1; year <= years; year++) {
+    const startMonth = (year - 1) * 12;
+    const endMonth = Math.min(year * 12, totalMonths);
+    const yearData = data.schedule.slice(startMonth, endMonth);
+    
+    const principalPaid = yearData.reduce((sum, row) => sum + row.principal, 0);
+    const interestPaid = yearData.reduce((sum, row) => sum + row.interest, 0);
+    const totalPaid = yearData.reduce((sum, row) => sum + row.totalPayment, 0);
+    const endingBalance = yearData[yearData.length - 1]?.remainingBalance || 0;
+    const cumulativePrincipal = data.loanAmount - endingBalance;
+    
+    yearlyBreakdown.push({
+      'Year': year,
+      'Principal Paid': Math.round(principalPaid),
+      'Interest Paid': Math.round(interestPaid),
+      'Total EMI Paid': Math.round(totalPaid),
+      'Cumulative Principal': Math.round(cumulativePrincipal),
+      'Remaining Balance': Math.round(endingBalance),
+    });
+  }
+  const ws3 = XLSX.utils.json_to_sheet(yearlyBreakdown);
+  XLSX.utils.book_append_sheet(wb, ws3, 'Yearly Breakdown');
+
+  const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+  saveAs(blob, filename);
+};

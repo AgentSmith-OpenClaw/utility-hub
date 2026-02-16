@@ -44,12 +44,56 @@ const getMarginalRate = (taxableIncome: number, slabs: Slab[]): number => {
   return slabs[slabs.length - 1].rate;
 };
 
-const calculateSurcharge = (taxBeforeSurcharge: number, taxableIncome: number): number => {
+const calculateSurcharge = (taxBeforeSurcharge: number, taxableIncome: number, regime: TaxRegime = 'old'): number => {
   if (taxableIncome <= 5000000) return 0;
-  if (taxableIncome <= 10000000) return taxBeforeSurcharge * 0.10;
-  if (taxableIncome <= 20000000) return taxBeforeSurcharge * 0.15;
-  if (taxableIncome <= 50000000) return taxBeforeSurcharge * 0.25;
-  return taxBeforeSurcharge * 0.37; // Above 5 Cr → applies marginal relief in practice
+  
+  let rate = 0;
+  if (taxableIncome <= 10000000) rate = 0.10;
+  else if (taxableIncome <= 20000000) rate = 0.15;
+  else if (taxableIncome <= 50000000) rate = 0.25;
+  else rate = (regime === 'new') ? 0.25 : 0.37; // New regime surcharge capped at 25% (Finance Act 2023)
+
+  const surcharge = taxBeforeSurcharge * rate;
+
+  // Marginal Relief on Surcharge
+  // Surcharge payable shall not exceed the amount being the difference between (Taxable Income - Threshold) 
+  // plus the surcharge that would have been payable if the income was exactly the threshold.
+  const thresholds = [
+    { limit: 5000000, surchargeRate: 0.10, prevSurchargeRate: 0 },
+    { limit: 10000000, surchargeRate: 0.15, prevSurchargeRate: 0.10 },
+    { limit: 20000000, surchargeRate: 0.25, prevSurchargeRate: 0.15 },
+    { limit: 50000000, surchargeRate: regime === 'new' ? 0.25 : 0.37, prevSurchargeRate: 0.25 }
+  ];
+
+  for (const t of thresholds) {
+    if (taxableIncome > t.limit) {
+      // Calculate tax at threshold to determine marginal relief
+      // We need a way to get tax at threshold without recursion if possible,
+      // but since tax calculation is linear, we can use a simplified version.
+      const slabs = regime === 'new' ? NEW_REGIME_SLABS : OLD_REGIME_SLABS;
+      const { tax: taxAtThreshold } = calculateTaxForSlabs(t.limit, slabs);
+      
+      // Rebate at threshold (only for first threshold if relevant, but 50L is way past rebates)
+      let rebateAtThreshold = 0;
+      if (regime === 'old' && t.limit <= 500000) rebateAtThreshold = Math.min(taxAtThreshold, 12500);
+      if (regime === 'new' && t.limit <= 1200000) rebateAtThreshold = Math.min(taxAtThreshold, 60000);
+      
+      const taxAfterRebateAtThreshold = taxAtThreshold - rebateAtThreshold;
+      const surchargeAtThreshold = taxAfterRebateAtThreshold * t.prevSurchargeRate;
+      const totalTaxAtThreshold = taxAfterRebateAtThreshold + surchargeAtThreshold;
+
+      const currentTotalTaxWithoutRelief = taxBeforeSurcharge + surcharge;
+      const incomeExcess = taxableIncome - t.limit;
+      
+      const maxAllowedTotalTax = totalTaxAtThreshold + incomeExcess;
+
+      if (currentTotalTaxWithoutRelief > maxAllowedTotalTax) {
+        return maxAllowedTotalTax - taxBeforeSurcharge;
+      }
+    }
+  }
+
+  return surcharge;
 };
 
 const OLD_REGIME_SLABS: Slab[] = [
@@ -94,7 +138,7 @@ const calculateOldRegimeTax = (inputs: IncomeTaxInputs): TaxBreakdown => {
   }
 
   let taxAfterRebate = rawTax - rebate87A;
-  const surcharge = calculateSurcharge(taxAfterRebate, taxableIncome);
+  const surcharge = calculateSurcharge(taxAfterRebate, taxableIncome, 'old');
   const taxBeforeCess = taxAfterRebate + surcharge;
   const cess = (taxBeforeCess * 4) / 100;
   const totalTax = taxBeforeCess + cess;
@@ -135,10 +179,19 @@ const calculateNewRegimeTax = (inputs: IncomeTaxInputs): TaxBreakdown => {
   let rebate87A = 0;
   if (taxableIncome <= 1200000) {
     rebate87A = Math.min(rawTax, 60000);
+  } else if (taxableIncome > 1200000 && taxableIncome <= 1275000) {
+    // Marginal Relief for 87A in New Regime (Budget 2025)
+    // The tax payable cannot exceed the income exceeding 12,00,000 (after standard deduction)
+    // Effectively: tax = taxableIncome - 12,00,000
+    const taxAtThreshold = 0; // Tax is 0 at 12L due to 60k rebate
+    const excessIncome = taxableIncome - 1200000;
+    if (rawTax > excessIncome) {
+      rebate87A = rawTax - excessIncome;
+    }
   }
 
   let taxAfterRebate = rawTax - rebate87A;
-  const surcharge = calculateSurcharge(taxAfterRebate, taxableIncome);
+  const surcharge = calculateSurcharge(taxAfterRebate, taxableIncome, 'new');
   const taxBeforeCess = taxAfterRebate + surcharge;
   const cess = (taxBeforeCess * 4) / 100;
   const totalTax = taxBeforeCess + cess;

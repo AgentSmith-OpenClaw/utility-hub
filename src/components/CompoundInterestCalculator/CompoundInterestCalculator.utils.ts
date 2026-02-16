@@ -98,13 +98,5 @@ export const formatCurrency = (value: number, compact = false): string => {
   }).format(value);
 };
 
-export const CHART_COLORS = {
-  primary: '#6366f1',    // indigo-500 - PRIMARY
-  secondary: '#3b82f6',  // blue-500 - SECONDARY  
-  accent: '#06b6d4',     // cyan-500 - ACCENT
-  teal: '#14b8a6',       // teal-500 - growth/success
-  amber: '#f59e0b',      // amber-500 - warning/info
-  rose: '#f43f5e',       // rose-500 - danger
-  grid: '#f1f5f9',       // slate-100
-  axis: '#94a3b8',       // slate-400
-};
+// Re-export from central config so existing imports keep working
+export { CHART_COLORS } from '../../utils/chartColors';
