@@ -25,7 +25,7 @@ import {
 } from 'recharts';
 import { useIncomeTax } from '../../hooks/useIncomeTax';
 import { formatCurrency } from './IncomeTaxCalculator.utils';
-import { exportToPDF } from '../../utils/pdf';
+import { generatePDFReport, fmtCurrency as pdfFmtCurrency, fmtPercent, type PDFReportConfig } from '../../utils/pdf';
 import { exportIncomeTaxToExcel } from '../../utils/excel';
 
 const CHART_COLORS = {
@@ -147,15 +147,108 @@ const IncomeTaxCalculator: React.FC = () => {
   const handleExportPDF = useCallback(async () => {
     setExporting('pdf');
     try {
-      await exportToPDF('tax-calculator-content', 'India_2026_Tax_Report.pdf', {
-        title: 'India 2026 Tax Analysis',
-      });
+      const fmt = (v: number) => pdfFmtCurrency(v, 'INR');
+      const recommended = result.recommendedRegime === 'new' ? result.newRegime : result.oldRegime;
+      const other = result.recommendedRegime === 'new' ? result.oldRegime : result.newRegime;
+      const config: PDFReportConfig = {
+        title: 'India Income Tax Report (2025-26)',
+        subtitle: 'Old vs New Regime Comparison',
+        filename: 'India_2026_Tax_Report.pdf',
+        sections: [
+          {
+            type: 'inputs',
+            title: 'Income Details',
+            inputs: [
+              { label: 'Annual Salary', value: fmt(inputs.annualSalary) },
+              { label: 'Interest Income', value: fmt(inputs.interestIncome) },
+              { label: 'Rental Income', value: fmt(inputs.rentalIncome) },
+              { label: 'Other Income', value: fmt(inputs.otherIncome) },
+              { label: 'Salaried Employee', value: inputs.isSalaried ? 'Yes' : 'No' },
+              { label: 'Section 80C', value: fmt(inputs.section80C) },
+              { label: 'Section 80D', value: fmt(inputs.section80D) },
+              { label: 'NPS (80CCD 1B)', value: fmt(inputs.nps80CCD1B) },
+              { label: 'HRA Exemption', value: fmt(inputs.hraExemption) },
+              { label: 'Home Loan Interest', value: fmt(inputs.homeLoanInterest24b) },
+            ],
+          },
+          {
+            type: 'metrics',
+            title: 'Tax Summary',
+            metrics: [
+              { label: `${result.recommendedRegime === 'new' ? 'New' : 'Old'} Regime Tax`, value: fmt(recommended.totalTax), subtitle: `Effective: ${recommended.effectiveRate.toFixed(1)}%` },
+              { label: `${result.recommendedRegime === 'new' ? 'Old' : 'New'} Regime Tax`, value: fmt(other.totalTax), subtitle: `Effective: ${other.effectiveRate.toFixed(1)}%` },
+              { label: 'Tax Savings', value: fmt(result.savings), subtitle: `${result.recommendedRegime === 'new' ? 'New' : 'Old'} Regime is better` },
+              { label: 'Monthly In-hand', value: fmt(recommended.monthlyTakeHome), subtitle: `${fmt(recommended.takeHomeIncome)}/year` },
+            ],
+          },
+          {
+            type: 'message',
+            message: {
+              heading: `✅ ${result.recommendedRegime === 'new' ? 'New' : 'Old'} Regime Recommended`,
+              text: `You save ${fmt(result.savings)} by choosing the ${result.recommendedRegime === 'new' ? 'New' : 'Old'} Tax Regime. Your effective tax rate is ${recommended.effectiveRate.toFixed(1)}% with a monthly take-home of ${fmt(recommended.monthlyTakeHome)}.`,
+            },
+          },
+          {
+            type: 'charts',
+            title: 'Visual Analysis',
+            charts: [
+              { title: 'Tax Regime Comparison', elementId: 'tax-chart-main' },
+            ],
+          },
+          {
+            type: 'table',
+            title: 'Detailed Tax Breakdown',
+            table: {
+              title: 'Old vs New Regime Comparison',
+              columns: [
+                { header: 'Metric', key: 'metric', align: 'left' },
+                { header: 'Old Regime', key: 'old', align: 'right' },
+                { header: 'New Regime', key: 'new', align: 'right' },
+              ],
+              rows: [
+                { metric: 'Gross Income', old: fmt(result.oldRegime.grossIncome), new: fmt(result.newRegime.grossIncome) },
+                { metric: 'Total Deductions', old: fmt(result.oldRegime.totalDeductions), new: fmt(result.newRegime.totalDeductions) },
+                { metric: 'Taxable Income', old: fmt(result.oldRegime.taxableIncome), new: fmt(result.newRegime.taxableIncome) },
+                { metric: 'Tax Before Cess', old: fmt(result.oldRegime.taxBeforeCess), new: fmt(result.newRegime.taxBeforeCess) },
+                { metric: '87A Rebate', old: fmt(result.oldRegime.rebate87A), new: fmt(result.newRegime.rebate87A) },
+                { metric: 'Surcharge', old: fmt(result.oldRegime.surcharge), new: fmt(result.newRegime.surcharge) },
+                { metric: '4% Cess', old: fmt(result.oldRegime.cess), new: fmt(result.newRegime.cess) },
+                { metric: 'Total Tax', old: fmt(result.oldRegime.totalTax), new: fmt(result.newRegime.totalTax) },
+                { metric: 'Take Home', old: fmt(result.oldRegime.takeHomeIncome), new: fmt(result.newRegime.takeHomeIncome) },
+                { metric: 'Effective Rate', old: `${result.oldRegime.effectiveRate.toFixed(1)}%`, new: `${result.newRegime.effectiveRate.toFixed(1)}%` },
+                { metric: 'Monthly Tax', old: fmt(result.oldRegime.monthlyTax), new: fmt(result.newRegime.monthlyTax) },
+                { metric: 'Monthly In-hand', old: fmt(result.oldRegime.monthlyTakeHome), new: fmt(result.newRegime.monthlyTakeHome) },
+              ],
+            },
+          },
+          {
+            type: 'table',
+            title: 'Slab-wise Tax Breakdown',
+            table: {
+              title: `${result.recommendedRegime === 'new' ? 'New' : 'Old'} Regime Slabs`,
+              columns: [
+                { header: 'Slab', key: 'slab', align: 'left' },
+                { header: 'Rate', key: 'rate', align: 'right' },
+                { header: 'Taxable Amount', key: 'amount', align: 'right' },
+                { header: 'Tax', key: 'tax', align: 'right' },
+              ],
+              rows: recommended.slabBreakdown.map(s => ({
+                slab: s.range,
+                rate: `${s.rate}%`,
+                amount: fmt(s.taxableAmount),
+                tax: fmt(s.tax),
+              })),
+            },
+          },
+        ],
+      };
+      await generatePDFReport(config);
     } catch (e) {
       console.error(e);
     } finally {
       setExporting(null);
     }
-  }, []);
+  }, [inputs, result]);
 
   const handleExportExcel = useCallback(async () => {
     setExporting('excel');
@@ -454,7 +547,7 @@ const IncomeTaxCalculator: React.FC = () => {
                   ))}
                 </div>
 
-                <div className="p-6 h-[400px]">
+                <div id="tax-chart-main" className="p-6 h-[400px]">
                   <ResponsiveContainer width="100%" height="100%">
                     {activeTab === 'regime' ? (
                       <BarChart data={regimeCompareData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
