@@ -20,10 +20,11 @@ import {
 import {
   FIRE_TYPES,
   formatCurrency,
+  getFireTypeInfo,
 } from './FIRECalculator.utils';
 import { useFIRE } from '../../hooks/useFIRE';
 import { exportFIREToExcel } from '../../utils/excel';
-import { exportToPDF } from '../../utils/pdf';
+import { generatePDFReport, fmtCurrency as pdfFmtCurrency, fmtPercent, type PDFReportConfig } from '../../utils/pdf';
 
 // ── Chart color constants using CSS variable values ───────────────
 // Unified chart colors (based on home page hero: indigo→blue→cyan gradient)
@@ -308,21 +309,112 @@ const FIRECalculator: React.FC = () => {
   const handleExportToPDF = useCallback(async () => {
     setExporting('pdf');
     try {
-      await exportToPDF(
-        'fire-calculator-content',
-        'FIRE_Analysis.pdf',
-        {
-          title: 'FIRE Calculator Analysis',
-          orientation: 'portrait',
-          quality: 0.92,
-        }
-      );
+      const cur = inputs.currency;
+      const fmt = (v: number) => pdfFmtCurrency(v, cur);
+      const config: PDFReportConfig = {
+        title: 'FIRE Calculator Report',
+        subtitle: `${getFireTypeInfo(inputs.fireType).label} FIRE Analysis — Age ${inputs.currentAge} to ${result.fireAge}`,
+        filename: 'FIRE_Analysis.pdf',
+        sections: [
+          {
+            type: 'inputs',
+            title: 'Your Financial Profile',
+            inputs: [
+              { label: 'Current Age', value: String(inputs.currentAge) },
+              { label: 'Monthly Income', value: fmt(inputs.monthlyIncome) },
+              { label: 'Fixed Expenses', value: fmt(inputs.monthlyFixedExpenses) },
+              { label: 'Lifestyle Expenses', value: fmt(inputs.monthlyLifestyleExpenses) },
+              { label: 'Current Savings', value: fmt(inputs.currentSavings) },
+              { label: 'Monthly Contribution', value: fmt(inputs.monthlyContribution) },
+              { label: 'Expected Return', value: fmtPercent(inputs.expectedReturn) },
+              { label: 'Inflation Rate', value: fmtPercent(inputs.inflationRate) },
+              { label: 'Withdrawal Rate', value: fmtPercent(inputs.withdrawalRate) },
+              { label: 'FIRE Type', value: getFireTypeInfo(inputs.fireType).label },
+            ],
+          },
+          {
+            type: 'metrics',
+            title: 'FIRE Results',
+            metrics: [
+              { label: 'FIRE Number', value: fmt(result.fireNumber), subtitle: 'Target corpus needed' },
+              { label: 'Years to FIRE', value: `${result.yearsToFIRE} years`, subtitle: `FIRE age: ${result.fireAge}` },
+              { label: 'Savings Rate', value: fmtPercent(result.savingsRate), subtitle: `${fmt(result.annualSavings)}/year` },
+              { label: 'Safe Withdrawal', value: `${fmt(result.safeMonthlyWithdrawal)}/mo`, subtitle: `${fmt(result.safeWithdrawalAmount)}/year` },
+            ],
+          },
+          {
+            type: 'message',
+            message: {
+              heading: result.yearsToFIRE < 70 ? '🔥 FIRE is achievable!' : '⚠️ FIRE may take a while',
+              text: result.yearsToFIRE < 70
+                ? `You can achieve financial independence by age ${result.fireAge} (in ${result.yearsToFIRE} years). Your portfolio of ${fmt(result.portfolioAtRetirement)} will sustain ${fmt(result.safeMonthlyWithdrawal)}/month withdrawals.`
+                : `At current rates, FIRE would take ${result.yearsToFIRE} years. Consider increasing contributions or reducing expenses.`,
+            },
+          },
+          {
+            type: 'charts',
+            title: 'Visual Analysis',
+            charts: [
+              { title: 'Portfolio Projection', elementId: 'fire-chart-portfolio' },
+              { title: 'Growth Breakdown (Contributions vs Growth)', elementId: 'fire-chart-growth' },
+              { title: 'FIRE Types Comparison', elementId: 'fire-chart-comparison' },
+              { title: 'Life After FIRE', elementId: 'fire-chart-postfire' },
+            ],
+          },
+          {
+            type: 'table',
+            title: 'Portfolio Projection',
+            table: {
+              title: 'Year-wise Portfolio Growth',
+              columns: [
+                { header: 'Year', key: 'year', align: 'left' },
+                { header: 'Age', key: 'age', align: 'left' },
+                { header: 'Contributions', key: 'contributions', align: 'right' },
+                { header: 'Growth', key: 'growth', align: 'right' },
+                { header: 'End Balance', key: 'endBalance', align: 'right' },
+                { header: 'FIRE Target', key: 'fireNumber', align: 'right' },
+              ],
+              rows: result.projections.map(p => ({
+                year: String(p.year),
+                age: String(p.age),
+                contributions: fmt(p.contributions),
+                growth: fmt(p.growth),
+                endBalance: fmt(p.endBalance),
+                fireNumber: fmt(p.fireNumber),
+              })),
+              maxRows: 40,
+            },
+          },
+          {
+            type: 'table',
+            title: 'FIRE Type Comparison',
+            table: {
+              title: 'All FIRE Strategies',
+              columns: [
+                { header: 'Type', key: 'type', align: 'left' },
+                { header: 'Target', key: 'target', align: 'right' },
+                { header: 'Years', key: 'years', align: 'right' },
+                { header: 'FIRE Age', key: 'age', align: 'right' },
+                { header: 'Monthly Withdrawal', key: 'withdrawal', align: 'right' },
+              ],
+              rows: result.allFireTypes.map(ft => ({
+                type: ft.label,
+                target: fmt(ft.fireNumber),
+                years: String(ft.yearsToFIRE),
+                age: String(ft.fireAge),
+                withdrawal: fmt(ft.monthlyWithdrawal),
+              })),
+            },
+          },
+        ],
+      };
+      await generatePDFReport(config);
     } catch (e) {
       console.error(e);
     } finally {
       setExporting(null);
     }
-  }, []);
+  }, [inputs, result]);
 
   const handleCopyURL = useCallback(async () => {
     try {
@@ -844,7 +936,7 @@ const FIRECalculator: React.FC = () => {
           {mounted && (
             <>
               {/* Portfolio Projection Chart */}
-              <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-2xl shadow-md border border-slate-100 p-6">
+              <motion.div id="fire-chart-portfolio" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-2xl shadow-md border border-slate-100 p-6">
                 <h3 className="text-lg font-bold text-slate-800 mb-1 flex items-center gap-2">
                   <span className="text-xl">📈</span> Portfolio Projection
                 </h3>
@@ -873,7 +965,7 @@ const FIRECalculator: React.FC = () => {
               </motion.div>
 
               {/* Growth Breakdown Chart */}
-              <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-white rounded-2xl shadow-md border border-slate-100 p-6">
+              <motion.div id="fire-chart-growth" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-white rounded-2xl shadow-md border border-slate-100 p-6">
                 <h3 className="text-lg font-bold text-slate-800 mb-1 flex items-center gap-2">
                   <span className="text-xl">📊</span> Growth Breakdown
                 </h3>
@@ -939,7 +1031,7 @@ const FIRECalculator: React.FC = () => {
               </motion.div>
 
               {/* FIRE Type Comparison Bar Chart */}
-              <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-white rounded-2xl shadow-md border border-slate-100 p-6">
+              <motion.div id="fire-chart-comparison" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-white rounded-2xl shadow-md border border-slate-100 p-6">
                 <h3 className="text-lg font-bold text-slate-800 mb-1 flex items-center gap-2">
                   <span className="text-xl">🔥</span> FIRE Types Comparison
                 </h3>
@@ -971,7 +1063,7 @@ const FIRECalculator: React.FC = () => {
               </motion.div>
 
               {/* Life After FIRE Chart */}
-              <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="bg-white rounded-2xl shadow-md border border-slate-100 p-6">
+              <motion.div id="fire-chart-postfire" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="bg-white rounded-2xl shadow-md border border-slate-100 p-6">
                 <h3 className="text-lg font-bold text-slate-800 mb-1 flex items-center gap-2">
                   <span className="text-xl">🏝️</span> Life After FIRE
                 </h3>

@@ -19,7 +19,7 @@ import {
 import { useSIPPlanner } from '../../hooks/useSIPPlanner';
 import { formatCurrency, formatYAxisValue } from './SIPWealthPlanner.utils';
 import { SIPInputs } from './SIPWealthPlanner.types';
-import { exportToPDF } from '../../utils/pdf';
+import { generatePDFReport, fmtCurrency as pdfFmtCurrency, fmtPercent, type PDFReportConfig } from '../../utils/pdf';
 import { exportSIPToExcel } from '../../utils/excel';
 
 // Unified chart colors (based on home page hero: indigo→blue→cyan gradient)
@@ -292,16 +292,99 @@ const SIPWealthPlanner: React.FC = () => {
   const handleExportPDF = useCallback(async () => {
     setExporting('pdf');
     try {
-      await exportToPDF('sip-planner-content', 'SIP_Wealth_Plan.pdf', {
-        title: 'SIP & Wealth Plan',
-        quality: 0.92,
-      });
+      const cur = inputs.currency;
+      const fmt = (v: number) => pdfFmtCurrency(v, cur);
+      const config: PDFReportConfig = {
+        title: 'SIP Wealth Planner Report',
+        subtitle: `${inputs.mode === 'goal' ? 'Goal-Based' : 'Wealth Projection'} — ${inputs.tenureYears} Year Plan`,
+        filename: 'SIP_Wealth_Plan.pdf',
+        sections: [
+          {
+            type: 'inputs',
+            title: 'Investment Parameters',
+            inputs: [
+              { label: 'Monthly Investment', value: fmt(inputs.monthlyInvestment) },
+              { label: 'Investment Tenure', value: `${inputs.tenureYears} years` },
+              { label: 'Expected Annual Return', value: fmtPercent(inputs.annualReturn) },
+              { label: 'Initial Lumpsum', value: fmt(inputs.lumpsumAmount) },
+              { label: 'Step-up Mode', value: inputs.stepUpMode === 'percent' ? `${inputs.stepUpValue}% yearly` : `${fmt(inputs.stepUpValue)} yearly` },
+              { label: 'Inflation', value: inputs.inflationEnabled ? fmtPercent(inputs.inflationRate) : 'Disabled' },
+              ...(inputs.mode === 'goal' ? [{ label: 'Target Corpus', value: fmt(inputs.targetCorpus) }] : []),
+            ],
+          },
+          {
+            type: 'metrics',
+            title: 'Results Summary',
+            metrics: [
+              { label: 'Estimated Corpus', value: fmt(result.estimatedCorpus) },
+              { label: 'Total Invested', value: fmt(result.totalInvested) },
+              { label: 'Wealth Gained', value: fmt(result.wealthGained) },
+              { label: 'Purchasing Power', value: fmt(result.purchasingPower), subtitle: 'Inflation adjusted' },
+              ...(inputs.mode === 'goal' ? [{ label: 'Required Monthly SIP', value: fmt(result.requiredMonthlyInvestment) }] : []),
+              { label: 'XIRR', value: fmtPercent(result.xirr) },
+              { label: 'Absolute Return', value: fmtPercent(result.absoluteReturn) },
+              { label: 'Final Monthly SIP', value: fmt(result.finalMonthlyInvestment) },
+            ],
+          },
+          {
+            type: 'charts',
+            title: 'Visual Analysis',
+            charts: [
+              { title: 'Growth Path', elementId: 'sip-chart-growth' },
+              { title: 'Cumulative Invested vs Interest', elementId: 'sip-chart-cumulative' },
+              { title: 'Interest Earned Per Year', elementId: 'sip-chart-interest' },
+            ],
+          },
+          {
+            type: 'table',
+            title: 'Year-wise Projection',
+            table: {
+              title: 'Investment Schedule',
+              columns: [
+                { header: 'Year', key: 'year', align: 'left' },
+                { header: 'Monthly SIP', key: 'sip', align: 'right' },
+                { header: 'Yr Investment', key: 'yrInv', align: 'right' },
+                { header: 'Total Invested', key: 'totalInv', align: 'right' },
+                { header: 'Total Corpus', key: 'corpus', align: 'right' },
+                { header: 'Real Value', key: 'real', align: 'right' },
+              ],
+              rows: result.yearlyBreakdown.map(row => ({
+                year: String(row.year),
+                sip: fmt(row.monthlySip),
+                yrInv: fmt(row.yearlyInvestment),
+                totalInv: fmt(row.totalInvested),
+                corpus: fmt(row.totalCorpus),
+                real: fmt(row.realCorpus),
+              })),
+              maxRows: 30,
+            },
+          },
+          ...(result.delayCostData.length > 0 ? [{
+            type: 'table' as const,
+            title: 'Cost of Delay Analysis',
+            table: {
+              title: 'What happens if you delay',
+              columns: [
+                { header: 'Delay (Years)', key: 'delay', align: 'left' as const },
+                { header: 'Final Corpus', key: 'corpus', align: 'right' as const },
+                { header: 'Opportunity Loss', key: 'loss', align: 'right' as const },
+              ],
+              rows: result.delayCostData.map(d => ({
+                delay: `${d.delayYears} years`,
+                corpus: fmt(d.corpus),
+                loss: fmt(d.loss),
+              })),
+            },
+          }] : []),
+        ],
+      };
+      await generatePDFReport(config);
     } catch (e) {
       console.error(e);
     } finally {
       setExporting(null);
     }
-  }, []);
+  }, [inputs, result]);
 
   const handleExportExcel = useCallback(() => {
     setExporting('excel');
@@ -637,7 +720,7 @@ const SIPWealthPlanner: React.FC = () => {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl border border-slate-100 shadow-md p-4 h-[360px]">
+              <div id="sip-chart-growth" className="bg-white rounded-2xl border border-slate-100 shadow-md p-4 h-[360px]">
                 <h3 className="text-sm font-bold text-slate-700 mb-2">Growth Path</h3>
                 {hydrated ? (
                   <ResponsiveContainer width="100%" height="100%">
@@ -727,7 +810,7 @@ const SIPWealthPlanner: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-              <div className="bg-white rounded-2xl border border-slate-100 shadow-md p-4 h-[320px]">
+              <div id="sip-chart-cumulative" className="bg-white rounded-2xl border border-slate-100 shadow-md p-4 h-[320px]">
                 <h3 className="text-sm font-bold text-slate-700 mb-2">Cumulative Invested vs Interest</h3>
                 {hydrated ? (
                   <ResponsiveContainer width="100%" height="100%">
@@ -765,7 +848,7 @@ const SIPWealthPlanner: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-              <div className="bg-white rounded-2xl border border-slate-100 shadow-md p-4 h-[320px]">
+              <div id="sip-chart-interest" className="bg-white rounded-2xl border border-slate-100 shadow-md p-4 h-[320px]">
                 <h3 className="text-sm font-bold text-slate-700 mb-2">Interest Earned Per Year</h3>
                 {hydrated ? (
                   <ResponsiveContainer width="100%" height="100%">

@@ -16,7 +16,7 @@ import {
 import { useBuyVsRent } from '../../hooks/useBuyVsRent';
 import { formatCurrency, formatPercent } from './BuyVsRent.utils';
 import { exportToExcel } from '../../utils/excel';
-import { exportToPDF } from '../../utils/pdf';
+import { generatePDFReport, fmtCurrency as pdfFmtCurrency, fmtPercent, type PDFReportConfig } from '../../utils/pdf';
 
 const CHART_COLORS = {
   buying: '#3b82f6',
@@ -42,17 +42,85 @@ export const BuyVsRentRedesigned: React.FC = () => {
   const handleExportPDF = useCallback(async () => {
     setExporting('pdf');
     try {
-      await exportToPDF('buy-vs-rent-content', 'Buy_vs_Rent_Analysis.pdf', {
-        title: 'Buy vs Rent Analysis',
-        orientation: 'portrait',
-        quality: 0.92,
-      });
+      const fmt = (v: number) => '$' + Math.round(v).toLocaleString('en-US');
+      const lastData = result.monthlyData[result.monthlyData.length - 1];
+      const config: PDFReportConfig = {
+        title: 'Buy vs Rent Analysis Report',
+        subtitle: `${inputs.yearsToAnalyze}-Year Housing Decision Analysis`,
+        filename: 'Buy_vs_Rent_Analysis.pdf',
+        sections: [
+          {
+            type: 'inputs',
+            title: 'Scenario Parameters',
+            inputs: [
+              { label: 'Home Price', value: fmt(inputs.homePrice) },
+              { label: 'Down Payment', value: `${inputs.downPaymentPercent}% (${fmt(result.downPayment)})` },
+              { label: 'Loan Term', value: `${inputs.loanTermYears} years` },
+              { label: 'Interest Rate', value: `${inputs.interestRate}%` },
+              { label: 'Monthly Rent', value: fmt(inputs.monthlyRent) },
+              { label: 'Rent Increase', value: `${inputs.rentIncreaseRate}%/yr` },
+              { label: 'Home Appreciation', value: `${inputs.homeAppreciationRate}%/yr` },
+              { label: 'Investment Return', value: `${inputs.investmentReturnRate}%/yr` },
+              { label: 'Analysis Period', value: `${inputs.yearsToAnalyze} years` },
+              { label: 'Property Tax Rate', value: `${inputs.propertyTaxRate}%` },
+            ],
+          },
+          {
+            type: 'metrics',
+            title: 'Results Summary',
+            metrics: [
+              { label: 'Monthly Mortgage', value: fmt(result.monthlyMortgage) },
+              { label: 'Buying Net Worth', value: fmt(result.finalBuyingNetWorth), subtitle: `After ${inputs.yearsToAnalyze} years` },
+              { label: 'Renting Net Worth', value: fmt(result.finalRentingNetWorth), subtitle: `After ${inputs.yearsToAnalyze} years` },
+              { label: 'Net Worth Difference', value: fmt(Math.abs(result.netWorthDifference)), subtitle: `${result.recommendation === 'buy' ? 'Buying' : 'Renting'} wins` },
+            ],
+          },
+          {
+            type: 'message',
+            message: {
+              heading: result.recommendation === 'buy' ? '🏠 Buying is better' : result.recommendation === 'rent' ? '🏢 Renting is better' : '⚖️ It\'s a close call',
+              text: result.recommendationReason + (result.breakEvenYears ? ` Break-even point: ${result.breakEvenYears.toFixed(1)} years.` : ''),
+            },
+          },
+          {
+            type: 'charts',
+            title: 'Visual Analysis',
+            charts: [
+              { title: 'Net Worth Over Time', elementId: 'bvr-chart-networth' },
+            ],
+          },
+          {
+            type: 'table',
+            title: 'Year-by-Year Comparison',
+            table: {
+              title: 'Annual Summary',
+              columns: [
+                { header: 'Year', key: 'year', align: 'left' },
+                { header: 'Buy Net Worth', key: 'buyNW', align: 'right' },
+                { header: 'Rent Net Worth', key: 'rentNW', align: 'right' },
+                { header: 'Buy Total Cost', key: 'buyCost', align: 'right' },
+                { header: 'Rent Total Cost', key: 'rentCost', align: 'right' },
+                { header: 'Difference', key: 'diff', align: 'right' },
+              ],
+              rows: yearlyData.map(d => ({
+                year: String(d.year),
+                buyNW: fmt(d.buyingNetWorth),
+                rentNW: fmt(d.rentingNetWorth),
+                buyCost: fmt(d.totalBuyingCost),
+                rentCost: fmt(d.totalRentingCost),
+                diff: fmt(d.buyingNetWorth - d.rentingNetWorth),
+              })),
+            },
+          },
+        ],
+      };
+      await generatePDFReport(config);
     } catch (e) {
       console.error(e);
     } finally {
       setExporting(null);
     }
-  }, []);
+  }, [inputs, result, yearlyData]);
 
   const handleExportExcel = useCallback(() => {
     setExporting('excel');
@@ -398,7 +466,7 @@ export const BuyVsRentRedesigned: React.FC = () => {
         </section>
 
         {/* Charts Section */}
-        <section className="bg-white rounded-2xl shadow-md border border-slate-100 p-6 mb-6">
+        <section id="bvr-chart-networth" className="bg-white rounded-2xl shadow-md border border-slate-100 p-6 mb-6">
           <div className="mb-6">
             <div className="flex flex-wrap gap-2 border-b border-slate-200">
               <button
