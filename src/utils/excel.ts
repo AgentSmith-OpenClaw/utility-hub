@@ -5,6 +5,7 @@ import { YearlyProjection, FIRETypeComparison, PostFIREProjection } from '../com
 import { SIPInputs, SIPResult } from '../components/SIPWealthPlanner/SIPWealthPlanner.types';
 import { CompoundInterestInputs, CompoundInterestResult } from '../components/CompoundInterestCalculator/CompoundInterestCalculator.types';
 import { IncomeTaxInputs, IncomeTaxResult } from '../components/IncomeTaxCalculator/IncomeTaxCalculator.types';
+import { RealHourlyWageInputs, RealHourlyWageResult } from '../components/RealHourlyWageCalculator/RealHourlyWageCalculator.types';
 
 export const exportToExcel = (schedule: Payment[], filename: string = 'emi_schedule.xlsx') => {
   const ws = XLSX.utils.json_to_sheet(schedule);
@@ -435,4 +436,64 @@ export const exportAmortizationToExcel = (
   const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
   const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
   saveAs(blob, filename);
+};
+
+// Real Hourly Wage Calculator Excel Export
+export const exportRealHourlyWageToExcel = (
+  inputs: RealHourlyWageInputs,
+  result: RealHourlyWageResult,
+  filename: string = 'real_hourly_wage_report.xlsx'
+) => {
+  const wb = XLSX.utils.book_new();
+  const cs = inputs.currency_symbol;
+
+  // Sheet 1: Summary
+  const summaryData = [
+    { Metric: 'Nominal Hourly Wage', Value: `${cs}${result.summary_metrics.nominal_wage.toFixed(2)}/hr` },
+    { Metric: 'Real Hourly Wage', Value: `${cs}${result.summary_metrics.real_wage.toFixed(2)}/hr` },
+    { Metric: 'Wage Erosion', Value: `${result.summary_metrics.erosion_percentage.toFixed(1)}%` },
+    { Metric: 'Remote Equivalent Salary', Value: `${cs}${Math.round(result.summary_metrics.remote_equivalent).toLocaleString()}` },
+    { Metric: '', Value: '' },
+    { Metric: 'Total Annual Hours Invested', Value: result.detailed_breakdown.total_annual_hours_invested.toFixed(1) },
+    { Metric: 'Unpaid Shadow Hours', Value: result.detailed_breakdown.total_unpaid_hours.toFixed(1) },
+    { Metric: 'Annual Work Costs', Value: `${cs}${Math.round(result.detailed_breakdown.total_annual_work_costs).toLocaleString()}` },
+    { Metric: 'Adjusted Take-Home Pay', Value: `${cs}${Math.round(result.detailed_breakdown.adjusted_take_home_pay).toLocaleString()}` },
+  ];
+  const ws1 = XLSX.utils.json_to_sheet(summaryData);
+  XLSX.utils.book_append_sheet(wb, ws1, 'Summary');
+
+  // Sheet 2: Inputs
+  const inputData = [
+    { Parameter: 'Gross Annual Salary', Value: `${cs}${inputs.gross_annual_salary.toLocaleString()}` },
+    { Parameter: 'Effective Tax Rate', Value: `${inputs.tax_rate}%` },
+    { Parameter: 'Currency', Value: cs },
+    { Parameter: 'Contract Hours/Week', Value: inputs.hours_per_week },
+    { Parameter: 'Vacation Weeks/Year', Value: inputs.vacation_weeks },
+    { Parameter: 'Daily Commute (min)', Value: inputs.commute_daily_minutes },
+    { Parameter: 'Daily Prep Time (min)', Value: inputs.prep_daily_minutes },
+    { Parameter: 'Daily Decompression (min)', Value: inputs.decompression_daily_minutes },
+    { Parameter: 'Unpaid Overtime (hrs/week)', Value: inputs.unpaid_overtime_weekly },
+    { Parameter: 'Monthly Commute Cost', Value: `${cs}${inputs.commute_cost_monthly}` },
+    { Parameter: 'Monthly Food & Coffee', Value: `${cs}${inputs.food_coffee_monthly}` },
+    { Parameter: 'Annual Professional Upkeep', Value: `${cs}${inputs.professional_upkeep_annual}` },
+    { Parameter: 'Monthly Misc. Costs', Value: `${cs}${inputs.misc_monthly_costs}` },
+    { Parameter: 'Remote Worker', Value: inputs.is_remote ? 'Yes' : 'No' },
+  ];
+  const ws2 = XLSX.utils.json_to_sheet(inputData);
+  XLSX.utils.book_append_sheet(wb, ws2, 'Inputs');
+
+  // Sheet 3: Cost Breakdown
+  const costData = [
+    { Category: 'Annual Commute Cost', Value: inputs.is_remote ? 0 : inputs.commute_cost_monthly * 12 },
+    { Category: 'Annual Food & Coffee', Value: inputs.is_remote ? 0 : inputs.food_coffee_monthly * 12 },
+    { Category: 'Professional Upkeep', Value: inputs.professional_upkeep_annual },
+    { Category: 'Annual Misc. Costs', Value: inputs.misc_monthly_costs * 12 },
+    { Category: 'Total Work Costs', Value: result.detailed_breakdown.total_annual_work_costs },
+  ];
+  const ws3r = XLSX.utils.json_to_sheet(costData);
+  XLSX.utils.book_append_sheet(wb, ws3r, 'Cost Breakdown');
+
+  const excelBufferR = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  const blobR = new Blob([excelBufferR], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+  saveAs(blobR, filename);
 };

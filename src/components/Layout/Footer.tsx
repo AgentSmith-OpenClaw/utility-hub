@@ -9,6 +9,7 @@ const footerSections = [
       { label: 'FIRE Calculator', href: '/finance/fire-calculator' },
       { label: 'SIP Calculator', href: '/finance/sip-calculator' },
       { label: 'Compound Interest', href: '/finance/compound-interest-calculator' },
+      { label: 'Real Hourly Wage', href: '/finance/real-hourly-wage-calculator' },
     ],
   },
   {
