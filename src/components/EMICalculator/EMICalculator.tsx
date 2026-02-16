@@ -8,7 +8,7 @@ import { useEMI } from '../../hooks/useEMI';
 import { Prepayment } from './EMICalculator.types';
 import { validateLoanInputs } from '../../utils/validation';
 import { exportToExcel } from '../../utils/excel';
-import { exportToPDF } from '../../utils/pdf';
+import { generatePDFReport, fmtCurrency, type PDFReportConfig } from '../../utils/pdf';
 import AdSlot from '../AdSlot/AdSlot';
 
 // Unified chart colors (based on home page hero: indigo→blue→cyan gradient)
@@ -294,16 +294,82 @@ const EMICalculator: React.FC = () => {
   const handleExportPDF = useCallback(async () => {
     setExporting('pdf');
     try {
-      await exportToPDF('emi-calculator-content', 'EMI_Amortization_Schedule.pdf', {
-        title: 'EMI Calculator Results',
-        quality: 0.92,
-      });
+      const la = parseFloat(loanAmount) || 0;
+      const ar = parseFloat(annualRate) || 0;
+      const ty = parseFloat(tenureYears) || 0;
+      const config: PDFReportConfig = {
+        title: 'EMI Calculator Report',
+        subtitle: `Loan of ${fmtCurrency(la)} at ${ar}% for ${ty} years`,
+        filename: 'EMI_Amortization_Schedule.pdf',
+        sections: [
+          {
+            type: 'inputs',
+            title: 'Loan Parameters',
+            inputs: [
+              { label: 'Loan Amount', value: fmtCurrency(la) },
+              { label: 'Annual Interest Rate', value: `${ar}%` },
+              { label: 'Tenure', value: `${ty} years (${ty * 12} months)` },
+              { label: 'Prepayments', value: prepayments.length > 0 ? `${prepayments.length} configured` : 'None' },
+            ],
+          },
+          {
+            type: 'metrics',
+            title: 'Loan Summary',
+            metrics: [
+              { label: 'Monthly EMI', value: fmtCurrency(emi) },
+              { label: 'Total Interest', value: fmtCurrency(summary?.totalInterest || 0) },
+              { label: 'Total Amount', value: fmtCurrency(summary?.totalAmount || 0) },
+              { label: 'Interest Saved', value: fmtCurrency(summary?.interestSaved || 0), subtitle: summary ? `Actual tenure: ${summary.actualTenure} months` : undefined },
+            ],
+          },
+          ...(summary && summary.interestSaved > 0 ? [{
+            type: 'message' as const,
+            message: {
+              heading: 'Prepayment Impact',
+              text: `You save ${fmtCurrency(summary.interestSaved)} in interest and reduce tenure by ${(ty * 12) - summary.actualTenure} months through prepayments.`,
+            },
+          }] : []),
+          {
+            type: 'charts' as const,
+            title: 'Visual Analysis',
+            charts: [
+              { title: 'Loan Breakdown (Principal vs Interest)', elementId: 'emi-chart-pie' },
+              { title: 'Outstanding Balance Over Time', elementId: 'emi-chart-balance' },
+              { title: 'Yearly Payment Breakdown', elementId: 'emi-chart-yearly' },
+              { title: 'Cumulative Payment Analysis', elementId: 'emi-chart-cumulative' },
+            ],
+          },
+          {
+            type: 'table',
+            title: 'Amortization Schedule',
+            table: {
+              title: 'Payment Schedule',
+              columns: [
+                { header: 'Month', key: 'month', align: 'left' },
+                { header: 'EMI', key: 'emi', align: 'right' },
+                { header: 'Principal', key: 'principal', align: 'right' },
+                { header: 'Interest', key: 'interest', align: 'right' },
+                { header: 'Balance', key: 'balance', align: 'right' },
+              ],
+              rows: schedule.map(p => ({
+                month: String(p.month),
+                emi: fmtCurrency(p.totalPayment),
+                principal: fmtCurrency(p.principal),
+                interest: fmtCurrency(p.interest),
+                balance: fmtCurrency(p.remainingBalance),
+              })),
+              maxRows: 60,
+            },
+          },
+        ],
+      };
+      await generatePDFReport(config);
     } catch (e) {
       console.error(e);
     } finally {
       setExporting(null);
     }
-  }, []);
+  }, [loanAmount, annualRate, tenureYears, emi, summary, schedule, prepayments]);
 
   const handleExportExcel = useCallback(() => {
     setExporting('excel');
@@ -846,7 +912,7 @@ const EMICalculator: React.FC = () => {
               <>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
                   {/* Donut Chart */}
-                  <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-4">
+                  <div id="emi-chart-pie" className="bg-white rounded-2xl shadow-md border border-slate-100 p-4">
                     <h3 className="text-lg font-bold text-slate-800 mb-3">Loan Breakdown</h3>
                     <div className="h-48">
                       <ResponsiveContainer width="100%" height="100%">
@@ -864,7 +930,7 @@ const EMICalculator: React.FC = () => {
                   </div>
 
                   {/* Balance Area Chart */}
-                  <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-4 lg:col-span-2">
+                  <div id="emi-chart-balance" className="bg-white rounded-2xl shadow-md border border-slate-100 p-4 lg:col-span-2">
                     <h3 className="text-lg font-bold text-slate-800 mb-3">Outstanding Balance</h3>
                     <div className="h-48">
                       <ResponsiveContainer width="100%" height="100%">
@@ -916,7 +982,7 @@ const EMICalculator: React.FC = () => {
                   </div>
 
                   {/* Yearly Payment Bar Chart */}
-                  <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-4">
+                  <div id="emi-chart-yearly" className="bg-white rounded-2xl shadow-md border border-slate-100 p-4">
                     <h3 className="text-lg font-bold text-slate-800 mb-3">Yearly Payment Breakdown</h3>
                     <div className="h-64">
                       <ResponsiveContainer width="100%" height="100%">
@@ -935,7 +1001,7 @@ const EMICalculator: React.FC = () => {
                 </div>
 
                 {/* Cumulative Chart */}
-                <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-4 mb-6">
+                <div id="emi-chart-cumulative" className="bg-white rounded-2xl shadow-md border border-slate-100 p-4 mb-6">
                   <h3 className="text-lg font-bold text-slate-800 mb-3">Cumulative Payment Analysis</h3>
                   <div className="h-64">
                     <ResponsiveContainer width="100%" height="100%">

@@ -21,7 +21,7 @@ import {
 import { useCompoundInterest } from '../../hooks/useCompoundInterest';
 import { CompoundingFrequency } from './CompoundInterestCalculator.types';
 import { formatCurrency, CHART_COLORS } from './CompoundInterestCalculator.utils';
-import { exportToPDF } from '../../utils/pdf';
+import { generatePDFReport, fmtCurrency as pdfFmtCurrency, fmtPercent, type PDFReportConfig } from '../../utils/pdf';
 import { exportCompoundInterestToExcel } from '../../utils/excel';
 
 // --- Sub-components ---
@@ -171,15 +171,84 @@ const CompoundInterestCalculator: React.FC = () => {
   const handleExportPDF = useCallback(async () => {
     setExporting('pdf');
     try {
-      await exportToPDF('compound-calculator-content', 'Compound_Interest_Report.pdf', {
-        title: 'Compound Interest Projection',
-      });
+      const fmt = (v: number) => pdfFmtCurrency(v, 'INR');
+      const rule72 = inputs.annualRate > 0 ? (72 / inputs.annualRate).toFixed(1) : 'N/A';
+      const interestPct = result.finalBalance > 0 ? ((result.totalInterest / result.finalBalance) * 100).toFixed(1) : '0';
+      const inflationLoss = result.finalBalance > 0 ? (((result.finalBalance - result.realValue) / result.finalBalance) * 100).toFixed(1) : '0';
+      const config: PDFReportConfig = {
+        title: 'Compound Interest Report',
+        subtitle: `${inputs.years}-Year Projection at ${inputs.annualRate}% p.a.`,
+        filename: 'Compound_Interest_Report.pdf',
+        sections: [
+          {
+            type: 'inputs',
+            title: 'Investment Parameters',
+            inputs: [
+              { label: 'Initial Principal', value: fmt(inputs.initialPrincipal) },
+              { label: 'Monthly Contribution', value: fmt(inputs.monthlyContribution) },
+              { label: 'Annual Interest Rate', value: `${inputs.annualRate}%` },
+              { label: 'Investment Period', value: `${inputs.years} years` },
+              { label: 'Compounding Frequency', value: inputs.compoundingFrequency },
+              { label: 'Inflation Rate', value: `${inputs.inflationRate}%` },
+            ],
+          },
+          {
+            type: 'metrics',
+            title: 'Projection Summary',
+            metrics: [
+              { label: 'Final Balance', value: fmt(result.finalBalance) },
+              { label: 'Total Principal', value: fmt(result.totalPrincipal) },
+              { label: 'Total Interest', value: fmt(result.totalInterest), subtitle: `${interestPct}% of total` },
+              { label: 'Real Value', value: fmt(result.realValue), subtitle: `${inflationLoss}% lost to inflation` },
+            ],
+          },
+          {
+            type: 'message',
+            message: {
+              heading: 'Key Insights',
+              text: `Your money doubles every ~${rule72} years (Rule of 72). Interest earned (${fmt(result.totalInterest)}) makes up ${interestPct}% of your final corpus.`,
+            },
+          },
+          {
+            type: 'charts',
+            title: 'Visual Analysis',
+            charts: [
+              { title: 'Growth Over Time', elementId: 'ci-chart-main' },
+            ],
+          },
+          {
+            type: 'table',
+            title: 'Year-by-Year Projection',
+            table: {
+              title: 'Detailed Breakdown',
+              columns: [
+                { header: 'Year', key: 'year', align: 'left' },
+                { header: 'Balance', key: 'balance', align: 'right' },
+                { header: 'Principal', key: 'principal', align: 'right' },
+                { header: 'Interest', key: 'interest', align: 'right' },
+                { header: 'Annual Interest', key: 'annual', align: 'right' },
+                { header: 'Real Value', key: 'real', align: 'right' },
+              ],
+              rows: result.yearlyData.map(d => ({
+                year: String(d.year),
+                balance: fmt(d.balance),
+                principal: fmt(d.totalPrincipal),
+                interest: fmt(d.totalInterest),
+                annual: fmt(d.annualInterest),
+                real: fmt(d.realValue),
+              })),
+              maxRows: 30,
+            },
+          },
+        ],
+      };
+      await generatePDFReport(config);
     } catch (e) {
       console.error(e);
     } finally {
       setExporting(null);
     }
-  }, []);
+  }, [inputs, result]);
 
   const handleExportExcel = useCallback(async () => {
     setExporting('excel');
@@ -398,7 +467,7 @@ const CompoundInterestCalculator: React.FC = () => {
                   ))}
                 </div>
 
-                <div className="p-6 h-[420px]">
+                <div id="ci-chart-main" className="p-6 h-[420px]">
                   <ResponsiveContainer width="100%" height="100%">
                     {activeTab === 'growth' ? (
                       /* Tab 1: Total Balance Growth Line */
