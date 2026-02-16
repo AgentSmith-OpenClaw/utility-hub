@@ -15,6 +15,7 @@ import {
   calculatePurchasingPower, 
   US_CPI_DATA 
 } from './InflationCalculator.utils';
+import { CHART_COLORS } from '../../utils/chartColors';
 
 const InflationCalculator: React.FC = () => {
   const [amount, setAmount] = useState<number>(100);
@@ -144,21 +145,21 @@ const InflationCalculator: React.FC = () => {
               <AreaChart data={chartData}>
                 <defs>
                   <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.1}/>
-                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                    <stop offset="5%" stopColor={CHART_COLORS.primary} stopOpacity={0.1}/>
+                    <stop offset="95%" stopColor={CHART_COLORS.primary} stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={CHART_COLORS.grid} />
                 <XAxis 
                   dataKey="year" 
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: '#64748b', fontSize: 12 }}
+                  tick={{ fill: CHART_COLORS.axis, fontSize: 12 }}
                 />
                 <YAxis 
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: '#64748b', fontSize: 12 }}
+                  tick={{ fill: CHART_COLORS.axis, fontSize: 12 }}
                   tickFormatter={(value) => `$${value}`}
                 />
                 <Tooltip 
@@ -168,13 +169,13 @@ const InflationCalculator: React.FC = () => {
                     borderRadius: '8px',
                     color: '#fff'
                   }}
-                  itemStyle={{ color: '#60a5fa' }}
+                  itemStyle={{ color: CHART_COLORS.secondary }}
                   formatter={(value) => [`$${value}`, 'Value']}
                 />
                 <Area 
                   type="monotone" 
                   dataKey="value" 
-                  stroke="#3b82f6" 
+                  stroke={CHART_COLORS.primary} 
                   strokeWidth={3}
                   fillOpacity={1} 
                   fill="url(#colorValue)" 

@@ -27,17 +27,7 @@ import { useIncomeTax } from '../../hooks/useIncomeTax';
 import { formatCurrency } from './IncomeTaxCalculator.utils';
 import { generatePDFReport, fmtCurrency as pdfFmtCurrency, fmtPercent, type PDFReportConfig } from '../../utils/pdf';
 import { exportIncomeTaxToExcel } from '../../utils/excel';
-
-const CHART_COLORS = {
-  primary: '#6366f1',
-  secondary: '#3b82f6',
-  accent: '#06b6d4',
-  teal: '#14b8a6',
-  amber: '#f59e0b',
-  rose: '#f43f5e',
-  grid: '#f1f5f9',
-  axis: '#94a3b8',
-};
+import { CHART_COLORS } from '../../utils/chartColors';
 
 // --- Shared Sub-components ---
 
@@ -94,7 +84,7 @@ const InputField: React.FC<{
           {tooltip && <HelpTooltip text={tooltip} />}
         </label>
         <div className={`flex items-center bg-white rounded-xl border px-2.5 py-1.5 transition-all ${
-          focused ? 'border-indigo-400 shadow-sm ring-2 ring-indigo-50' : 'border-slate-100 hover:border-slate-200'
+          focused ? 'border-blue-400 shadow-sm ring-2 ring-blue-50' : 'border-slate-100 hover:border-slate-200'
         }`}>
           {prefix && <span className="text-xs font-bold text-slate-400 mr-1">{prefix}</span>}
           <input
@@ -296,7 +286,7 @@ const IncomeTaxCalculator: React.FC = () => {
     { name: 'Tax + Cess', value: currentRegime.totalTax - currentRegime.surcharge },
     ...(currentRegime.surcharge > 0 ? [{ name: 'Surcharge', value: currentRegime.surcharge }] : []),
   ];
-  const PIE_COLORS = [CHART_COLORS.teal, CHART_COLORS.rose, CHART_COLORS.amber];
+  const PIE_COLORS = [CHART_COLORS.primary, CHART_COLORS.secondary, CHART_COLORS.accent];
 
   const slabChartData = currentRegime.slabBreakdown.filter(s => s.taxableAmount > 0).map(s => ({
     name: s.range,
@@ -321,17 +311,17 @@ const IncomeTaxCalculator: React.FC = () => {
   ] as const;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-blue-50/20 py-8 px-4">
       <article className="max-w-7xl mx-auto">
         
         {/* Header */}
         <header className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-4">
-            <span className="w-2 h-2 bg-indigo-600 rounded-full animate-pulse" />
+          <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-4">
+            <span className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" />
             Updated for FY 2025-26 (AY 2026-27)
           </div>
           <h1 className="text-3xl sm:text-5xl font-black text-slate-900 mb-3 tracking-tight">
-            India 2026 <span className="text-indigo-600">Tax Calculator</span>
+            India 2026 <span className="text-blue-600">Tax Calculator</span>
           </h1>
           <p className="text-slate-500 max-w-2xl mx-auto text-sm sm:text-base font-medium">
             Compare Old vs New Tax Regimes with the latest Union Budget 2025 changes.
@@ -341,7 +331,7 @@ const IncomeTaxCalculator: React.FC = () => {
 
         {/* Export + Share bar */}
         <div className="flex flex-wrap gap-2 justify-center mb-6">
-          <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-indigo-50 border border-slate-100 hover:border-indigo-200 text-slate-600 hover:text-indigo-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
+          <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-blue-50 border border-slate-100 hover:border-blue-200 text-slate-600 hover:text-blue-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
             {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
           </button>
           <button onClick={handleExportExcel} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-200 text-slate-600 hover:text-teal-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
@@ -368,22 +358,22 @@ const IncomeTaxCalculator: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 className="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 overflow-hidden relative"
               >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50/50 rounded-full -mr-16 -mt-16 blur-3xl pointer-events-none" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50/50 rounded-full -mr-16 -mt-16 blur-3xl pointer-events-none" />
                 
                 <div className="flex items-center justify-between mb-8">
                   <h2 className="text-lg font-black text-slate-800 flex items-center gap-2">
-                    <span className="bg-indigo-600 text-white rounded-lg w-7 h-7 flex items-center justify-center text-xs font-black shadow-lg shadow-indigo-200">1</span>
+                    <span className="bg-blue-600 text-white rounded-lg w-7 h-7 flex items-center justify-center text-xs font-black shadow-lg shadow-blue-200">1</span>
                     Income
                   </h2>
                   <div className="flex items-center gap-2">
-                    <span className={`text-[10px] font-black uppercase ${!inputs.isSalaried ? 'text-indigo-600' : 'text-slate-300'}`}>Business</span>
+                    <span className={`text-[10px] font-black uppercase ${!inputs.isSalaried ? 'text-blue-600' : 'text-slate-300'}`}>Business</span>
                     <button 
                       onClick={() => updateInputs({ isSalaried: !inputs.isSalaried })}
-                      className={`w-10 h-5 rounded-full relative transition-all ${inputs.isSalaried ? 'bg-indigo-600' : 'bg-slate-200'}`}
+                      className={`w-10 h-5 rounded-full relative transition-all ${inputs.isSalaried ? 'bg-blue-600' : 'bg-slate-200'}`}
                     >
                       <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${inputs.isSalaried ? 'right-1' : 'left-1'}`} />
                     </button>
-                    <span className={`text-[10px] font-black uppercase ${inputs.isSalaried ? 'text-indigo-600' : 'text-slate-300'}`}>Salaried</span>
+                    <span className={`text-[10px] font-black uppercase ${inputs.isSalaried ? 'text-blue-600' : 'text-slate-300'}`}>Salaried</span>
                   </div>
                 </div>
 
@@ -485,12 +475,12 @@ const IncomeTaxCalculator: React.FC = () => {
               {/* Summary Cards */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-                  className="bg-indigo-600 rounded-2xl p-5 text-white shadow-xl shadow-indigo-100 relative overflow-hidden group col-span-2">
+                  className="bg-blue-600 rounded-2xl p-5 text-white shadow-xl shadow-blue-100 relative overflow-hidden group col-span-2">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-700" />
                   <p className="text-[10px] font-black uppercase tracking-widest opacity-70 mb-1">Recommended</p>
                   <h3 className="text-2xl sm:text-3xl font-black mb-1 capitalize">{result.recommendedRegime} Regime</h3>
-                  <p className="text-xs font-bold text-indigo-100">
-                    Save <span className="text-white bg-indigo-500 px-1.5 py-0.5 rounded ml-1">{formatCurrency(result.savings)}</span> vs {result.recommendedRegime === 'new' ? 'Old' : 'New'} Regime
+                  <p className="text-xs font-bold text-blue-100">
+                    Save <span className="text-white bg-blue-500 px-1.5 py-0.5 rounded ml-1">{formatCurrency(result.savings)}</span> vs {result.recommendedRegime === 'new' ? 'Old' : 'New'} Regime
                   </p>
                 </motion.div>
 
@@ -537,7 +527,7 @@ const IncomeTaxCalculator: React.FC = () => {
                       onClick={() => setActiveTab(tab.id)}
                       className={`flex-shrink-0 flex-1 py-3 text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-1.5 transition-all rounded-xl ${
                         activeTab === tab.id 
-                          ? 'bg-indigo-50 text-indigo-600' 
+                          ? 'bg-blue-50 text-blue-600' 
                           : 'text-slate-400 hover:text-slate-600'
                       }`}
                     >
@@ -556,8 +546,8 @@ const IncomeTaxCalculator: React.FC = () => {
                         <YAxis stroke={CHART_COLORS.axis} fontSize={10} axisLine={false} tickLine={false} tickFormatter={(v) => formatCurrency(v, true)} />
                         <Tooltip content={<ChartTooltip />} cursor={{ fill: '#f8fafc' }} />
                         <Legend verticalAlign="top" align="right" iconType="circle" />
-                        <Bar dataKey="tax" name="Tax Payable" fill={CHART_COLORS.rose} radius={[8, 8, 0, 0]} barSize={40} />
-                        <Bar dataKey="takeHome" name="Take Home" fill={CHART_COLORS.teal} radius={[8, 8, 0, 0]} barSize={40} />
+                        <Bar dataKey="tax" name="Tax Payable" fill={CHART_COLORS.secondary} radius={[8, 8, 0, 0]} barSize={40} />
+                        <Bar dataKey="takeHome" name="Take Home" fill={CHART_COLORS.primary} radius={[8, 8, 0, 0]} barSize={40} />
                       </BarChart>
                     ) : activeTab === 'breakdown' ? (
                       <PieChart>
@@ -579,15 +569,15 @@ const IncomeTaxCalculator: React.FC = () => {
                         <YAxis stroke={CHART_COLORS.axis} fontSize={10} axisLine={false} tickLine={false} tickFormatter={(v) => formatCurrency(v, true)} />
                         <Tooltip content={<ChartTooltip />} cursor={{ fill: '#f8fafc' }} />
                         <Legend verticalAlign="top" align="right" iconType="circle" />
-                        <Bar dataKey="amount" name="Taxable in Slab" fill={CHART_COLORS.secondary} radius={[6, 6, 0, 0]} />
-                        <Bar dataKey="tax" name="Tax on Slab" fill={CHART_COLORS.rose} radius={[6, 6, 0, 0]} />
+                        <Bar dataKey="amount" name="Taxable in Slab" fill={CHART_COLORS.primary} radius={[6, 6, 0, 0]} />
+                        <Bar dataKey="tax" name="Tax on Slab" fill={CHART_COLORS.secondary} radius={[6, 6, 0, 0]} />
                       </BarChart>
                     ) : activeTab === 'income-curve' ? (
                       <AreaChart data={result.incomeWiseTax} margin={{ top: 10, right: 30, left: 20, bottom: 5 }}>
                         <defs>
                           <linearGradient id="gradOld" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor={CHART_COLORS.amber} stopOpacity={0.15} />
-                            <stop offset="95%" stopColor={CHART_COLORS.amber} stopOpacity={0} />
+                            <stop offset="5%" stopColor={CHART_COLORS.secondary} stopOpacity={0.15} />
+                            <stop offset="95%" stopColor={CHART_COLORS.secondary} stopOpacity={0} />
                           </linearGradient>
                           <linearGradient id="gradNew" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="5%" stopColor={CHART_COLORS.primary} stopOpacity={0.15} />
@@ -599,7 +589,7 @@ const IncomeTaxCalculator: React.FC = () => {
                         <YAxis stroke={CHART_COLORS.axis} fontSize={10} axisLine={false} tickLine={false} tickFormatter={(v) => formatCurrency(v, true)} />
                         <Tooltip content={<ChartTooltip />} />
                         <Legend verticalAlign="top" align="right" iconType="circle" />
-                        <Area type="monotone" dataKey="oldTax" name="Old Regime Tax" stroke={CHART_COLORS.amber} strokeWidth={2} fill="url(#gradOld)" />
+                        <Area type="monotone" dataKey="oldTax" name="Old Regime Tax" stroke={CHART_COLORS.secondary} strokeWidth={2} fill="url(#gradOld)" />
                         <Area type="monotone" dataKey="newTax" name="New Regime Tax" stroke={CHART_COLORS.primary} strokeWidth={2} fill="url(#gradNew)" />
                       </AreaChart>
                     ) : (
@@ -609,7 +599,7 @@ const IncomeTaxCalculator: React.FC = () => {
                         <YAxis stroke={CHART_COLORS.axis} fontSize={10} axisLine={false} tickLine={false} tickFormatter={(v) => formatCurrency(v, true)} />
                         <Tooltip content={<ChartTooltip />} cursor={{ fill: '#f8fafc' }} />
                         <Legend verticalAlign="top" align="right" iconType="circle" />
-                        <Bar dataKey="old" name="Old Regime" fill={CHART_COLORS.amber} radius={[6, 6, 0, 0]} />
+                        <Bar dataKey="old" name="Old Regime" fill={CHART_COLORS.secondary} radius={[6, 6, 0, 0]} />
                         <Bar dataKey="new" name="New Regime" fill={CHART_COLORS.primary} radius={[6, 6, 0, 0]} />
                       </BarChart>
                     )}
@@ -620,7 +610,7 @@ const IncomeTaxCalculator: React.FC = () => {
               {/* Detailed Breakdown Tables */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {[result.oldRegime, result.newRegime].map((reg) => (
-                  <div key={reg.regime} className={`p-6 rounded-2xl border ${reg.regime === result.recommendedRegime ? 'bg-white border-indigo-100 shadow-xl shadow-indigo-50' : 'bg-slate-50 border-slate-100'}`}>
+                  <div key={reg.regime} className={`p-6 rounded-2xl border ${reg.regime === result.recommendedRegime ? 'bg-white border-blue-100 shadow-xl shadow-blue-50' : 'bg-slate-50 border-slate-100'}`}>
                     <div className="flex items-center justify-between mb-6">
                       <h4 className="text-sm font-black uppercase tracking-widest text-slate-800">{reg.regime} Regime</h4>
                       {reg.regime === result.recommendedRegime && <span className="bg-teal-100 text-teal-700 text-[8px] font-black px-2 py-0.5 rounded-full uppercase">Optimal</span>}
@@ -643,7 +633,7 @@ const IncomeTaxCalculator: React.FC = () => {
                       <div className="h-px bg-slate-200/50" />
                       <div className="flex justify-between text-sm font-black text-slate-900">
                         <span>Net Tax</span>
-                        <span className={reg.regime === result.recommendedRegime ? 'text-indigo-600' : ''}>{formatCurrency(reg.totalTax)}</span>
+                        <span className={reg.regime === result.recommendedRegime ? 'text-blue-600' : ''}>{formatCurrency(reg.totalTax)}</span>
                       </div>
                       <div className="flex justify-between text-xs font-bold text-slate-400">
                         <span>Effective Rate</span>
@@ -661,7 +651,7 @@ const IncomeTaxCalculator: React.FC = () => {
               {/* Slab-wise Breakdown Table */}
               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 overflow-hidden">
                 <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-4 flex items-center gap-2">
-                  <span className="bg-indigo-100 text-indigo-600 rounded-lg w-6 h-6 flex items-center justify-center text-[10px] font-black">📋</span>
+                  <span className="bg-blue-100 text-blue-600 rounded-lg w-6 h-6 flex items-center justify-center text-[10px] font-black">📋</span>
                   Slab-wise Tax Breakdown ({result.recommendedRegime === 'new' ? 'New' : 'Old'} Regime)
                 </h3>
                 <div className="overflow-x-auto">
@@ -680,7 +670,7 @@ const IncomeTaxCalculator: React.FC = () => {
                           <td className="py-2.5 font-bold text-slate-700">{slab.range}</td>
                           <td className="py-2.5 text-right font-bold text-slate-500">{slab.rate}%</td>
                           <td className="py-2.5 text-right font-bold text-slate-700">{formatCurrency(slab.taxableAmount)}</td>
-                          <td className="py-2.5 text-right font-black text-indigo-600">{formatCurrency(slab.tax)}</td>
+                          <td className="py-2.5 text-right font-black text-blue-600">{formatCurrency(slab.tax)}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -695,11 +685,11 @@ const IncomeTaxCalculator: React.FC = () => {
         <section className="mt-16 space-y-16">
           {/* Budget 2025 Highlights */}
           <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-100 shadow-sm relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-50 rounded-full blur-3xl -mr-32 -mt-32 opacity-60" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full blur-3xl -mr-32 -mt-32 opacity-60" />
             <div className="relative z-10 max-w-3xl">
               <h2 className="text-3xl font-black text-slate-900 mb-6 tracking-tight">Key Changes in Budget 2025 (FY 2025-26)</h2>
               <p className="text-slate-600 text-lg leading-relaxed mb-6 font-medium">
-                The Union Budget 2025 has introduced transformative changes to the <span className="text-indigo-600 font-bold">New Tax Regime</span>, making it significantly more attractive for the middle class and salaried employees.
+                The Union Budget 2025 has introduced transformative changes to the <span className="text-blue-600 font-bold">New Tax Regime</span>, making it significantly more attractive for the middle class and salaried employees.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
                 <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
@@ -717,7 +707,7 @@ const IncomeTaxCalculator: React.FC = () => {
                 </div>
               </div>
               <p className="text-slate-600 leading-relaxed font-medium">
-                The New Regime is now the <span className="text-indigo-600 font-bold uppercase tracking-tight">DEFAULT</span> tax regime. If you wish to use the Old Regime to claim deductions like HRA, 80C, or Home Loan interest, you must explicitly opt-in when filing your taxes.
+                The New Regime is now the <span className="text-blue-600 font-bold uppercase tracking-tight">DEFAULT</span> tax regime. If you wish to use the Old Regime to claim deductions like HRA, 80C, or Home Loan interest, you must explicitly opt-in when filing your taxes.
               </p>
             </div>
           </div>
@@ -729,7 +719,7 @@ const IncomeTaxCalculator: React.FC = () => {
               <p className="text-slate-500 font-medium text-sm">Valid for FY 2025-26 (Assessment Year 2026-27). Compare the new rates against your current salary.</p>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-slate-900 rounded-[40px] p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -ml-32 -mt-32" />
+              <div className="absolute top-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -ml-32 -mt-32" />
               <div className="space-y-4 relative z-10">
                 <div className="grid grid-cols-1 gap-2">
                   {[
@@ -739,7 +729,7 @@ const IncomeTaxCalculator: React.FC = () => {
                     ['₹12,00,001 - ₹16,00,000', '15%', 'text-white font-bold'],
                     ['₹16,00,001 - ₹20,00,000', '20%', 'text-white font-bold'],
                     ['₹20,00,001 - ₹24,00,000', '25%', 'text-white font-bold'],
-                    ['Above ₹24,00,000', '30%', 'text-indigo-400 font-black'],
+                    ['Above ₹24,00,000', '30%', 'text-blue-400 font-black'],
                   ].map(([range, rate, colorClass]) => (
                     <div key={range} className="flex justify-between items-center border-b border-white/10 pb-2.5 last:border-0">
                       <span className="text-[11px] text-slate-300 uppercase tracking-wider font-bold">{range}</span>
@@ -750,11 +740,11 @@ const IncomeTaxCalculator: React.FC = () => {
               </div>
               <div className="space-y-6">
                 <div className="bg-white/5 rounded-2xl p-6 border border-white/10 backdrop-blur-sm">
-                  <h4 className="font-bold text-indigo-400 mb-3 uppercase tracking-widest text-xs">Section 87A Rebate Deep-Dive</h4>
-                  <p className="text-sm text-indigo-100 leading-relaxed font-medium">
+                  <h4 className="font-bold text-blue-400 mb-3 uppercase tracking-widest text-xs">Section 87A Rebate Deep-Dive</h4>
+                  <p className="text-sm text-blue-100 leading-relaxed font-medium">
                     The tax rebate under Section 87A is the hero feature of the New Regime. If your total income (including Standard Deduction) is up to <span className="text-white font-bold">₹12.75 Lakhs</span>, your total tax liability is actually <span className="text-teal-400 font-bold">ZERO</span>.
                   </p>
-                  <p className="text-[11px] text-indigo-300 mt-4 leading-relaxed italic">
+                  <p className="text-[11px] text-blue-300 mt-4 leading-relaxed italic">
                     Why? ₹12.75L - ₹75K (Std. Ded.) = ₹12L. The 87A rebate covers taxes for income up to ₹12L in the New Regime.
                   </p>
                 </div>
@@ -767,7 +757,7 @@ const IncomeTaxCalculator: React.FC = () => {
             <div className="space-y-6">
               <h2 className="text-3xl font-black text-slate-900 mb-6 tracking-tight">Deciding Between Regimes</h2>
               <p className="text-slate-600 leading-relaxed font-medium">
-                The best regime for you depends on how much you <span className="text-indigo-600 font-bold">INVEST</span>. The Old Regime rewards savers, while the New Regime offers lower rates without the need to lock your money in long-term products.
+                The best regime for you depends on how much you <span className="text-blue-600 font-bold">INVEST</span>. The Old Regime rewards savers, while the New Regime offers lower rates without the need to lock your money in long-term products.
               </p>
               <div className="bg-amber-50 rounded-2xl p-6 border border-amber-100 shadow-sm">
                 <h5 className="font-bold text-amber-900 mb-2">The "Magic Number" Calculation</h5>
@@ -778,7 +768,7 @@ const IncomeTaxCalculator: React.FC = () => {
             </div>
 
             <div className="bg-white rounded-[40px] p-8 sm:p-10 border border-slate-100 shadow-xl relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-100 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity" />
               <h3 className="text-2xl font-black text-slate-900 mb-6 tracking-tight">Top Deductions (Old Regime)</h3>
               <ul className="space-y-4">
                 {[
@@ -787,9 +777,9 @@ const IncomeTaxCalculator: React.FC = () => {
                   { label: "80D (Health Premium)", value: "Up to ₹50k" },
                   { label: "80CCD(1B) (Additional NPS)", value: "₹50,000" }
                 ].map((item, i) => (
-                  <li key={i} className="flex justify-between items-center bg-slate-50 p-4 rounded-xl border border-slate-100 group-hover:border-indigo-100 transition-colors">
+                  <li key={i} className="flex justify-between items-center bg-slate-50 p-4 rounded-xl border border-slate-100 group-hover:border-blue-100 transition-colors">
                     <span className="text-sm font-bold text-slate-700">{item.label}</span>
-                    <span className="text-xs font-black text-indigo-600">{item.value}</span>
+                    <span className="text-xs font-black text-blue-600">{item.value}</span>
                   </li>
                 ))}
               </ul>
@@ -819,11 +809,11 @@ const IncomeTaxCalculator: React.FC = () => {
                 }
               ].map((faq, i) => (
                 <div key={i} className="group" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
-                  <h4 className="font-bold text-slate-800 mb-3 text-lg leading-snug group-hover:text-indigo-600 transition-colors flex gap-2" itemProp="name">
-                    <span className="text-indigo-200">Q.</span> {faq.q}
+                  <h4 className="font-bold text-slate-800 mb-3 text-lg leading-snug group-hover:text-blue-600 transition-colors flex gap-2" itemProp="name">
+                    <span className="text-blue-200">Q.</span> {faq.q}
                   </h4>
                   <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
-                    <p className="text-sm text-slate-500 leading-relaxed font-medium pl-6 border-l-2 border-slate-100 group-hover:border-indigo-100 transition-colors" itemProp="text">{faq.a}</p>
+                    <p className="text-sm text-slate-500 leading-relaxed font-medium pl-6 border-l-2 border-slate-100 group-hover:border-blue-100 transition-colors" itemProp="text">{faq.a}</p>
                   </div>
                 </div>
               ))}

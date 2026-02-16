@@ -27,6 +27,16 @@ export interface MortgageResult {
   totalInterest: number;
 }
 
+export interface AmortizationRow {
+  month: number;
+  principal: number;
+  interest: number;
+  totalPayment: number;
+  remainingBalance: number;
+  cumulativePrincipal: number;
+  cumulativeInterest: number;
+}
+
 export const calculateMortgage = (inputs: MortgageInputs): MortgageResult => {
   const {
     homePrice,
@@ -88,4 +98,52 @@ export const calculateMortgage = (inputs: MortgageInputs): MortgageResult => {
     totalPayment,
     totalInterest
   };
+};
+
+export const generateAmortizationSchedule = (inputs: MortgageInputs): AmortizationRow[] => {
+  const { homePrice, downPayment, loanTerm, interestRate } = inputs;
+  const loanAmount = homePrice - downPayment;
+  const monthlyRate = interestRate / 100 / 12;
+  const numberOfPayments = loanTerm * 12;
+
+  // Calculate fixed monthly payment
+  let monthlyPayment = 0;
+  if (monthlyRate === 0) {
+    monthlyPayment = loanAmount / numberOfPayments;
+  } else {
+    monthlyPayment = 
+      (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / 
+      (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+  }
+
+  const schedule: AmortizationRow[] = [];
+  let remainingBalance = loanAmount;
+  let cumulativePrincipal = 0;
+  let cumulativeInterest = 0;
+
+  for (let month = 1; month <= numberOfPayments; month++) {
+    const interestPayment = remainingBalance * monthlyRate;
+    const principalPayment = monthlyPayment - interestPayment;
+    
+    remainingBalance -= principalPayment;
+    cumulativePrincipal += principalPayment;
+    cumulativeInterest += interestPayment;
+
+    // Handle rounding errors on final payment
+    if (month === numberOfPayments) {
+      remainingBalance = 0;
+    }
+
+    schedule.push({
+      month,
+      principal: principalPayment,
+      interest: interestPayment,
+      totalPayment: monthlyPayment,
+      remainingBalance: Math.max(0, remainingBalance),
+      cumulativePrincipal,
+      cumulativeInterest,
+    });
+  }
+
+  return schedule;
 };

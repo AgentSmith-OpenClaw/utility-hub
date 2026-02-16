@@ -10,20 +10,7 @@ import { validateLoanInputs } from '../../utils/validation';
 import { exportToExcel } from '../../utils/excel';
 import { generatePDFReport, fmtCurrency, type PDFReportConfig } from '../../utils/pdf';
 import AdSlot from '../AdSlot/AdSlot';
-
-// Unified chart colors (based on home page hero: indigo→blue→cyan gradient)
-const CHART_COLORS = {
-  primary: '#6366f1',    // indigo-500 - PRIMARY (hero gradient start)
-  secondary: '#3b82f6',  // blue-500 - SECONDARY (hero middle)
-  accent: '#06b6d4',     // cyan-500 - ACCENT (hero end)
-  teal: '#14b8a6',       // teal-500 - growth/success
-  amber: '#f59e0b',      // amber-500 - warning/info
-  rose: '#f43f5e',       // rose-500 - danger (use sparingly)
-  grid: '#f1f5f9',       // slate-100
-  axis: '#94a3b8',       // slate-400
-};
-
-const PIE_COLORS = [CHART_COLORS.primary, CHART_COLORS.teal];
+import { CHART_COLORS, PIE_COLORS } from '../../utils/chartColors';
 
 // Custom tooltip matching FIRE/SIP pattern
 const ChartTooltip = ({ active, payload, label }: any) => {
@@ -483,7 +470,7 @@ const EMICalculator: React.FC = () => {
   }, [schedule, loanAmount, summary, prepayments]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 py-3 px-4" id="emi-calculator-content">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-blue-50/20 py-3 px-4" id="emi-calculator-content">
       <article className="max-w-7xl mx-auto" itemScope itemType="https://schema.org/WebApplication">
         <header className="text-center mb-4" id="calculator">
           <h1 className="text-3xl font-bold text-slate-900 mb-1" itemProp="name">
@@ -498,7 +485,7 @@ const EMICalculator: React.FC = () => {
 
         {/* Export + Share bar */}
         <div className="flex flex-wrap gap-2 justify-center mb-6">
-          <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-indigo-50 border border-slate-100 hover:border-indigo-200 text-slate-600 hover:text-indigo-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
+          <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-blue-50 border border-slate-100 hover:border-blue-200 text-slate-600 hover:text-blue-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
             {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
           </button>
           <button onClick={handleExportExcel} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-teal-50 border border-slate-100 hover:border-teal-200 text-slate-600 hover:text-teal-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
@@ -583,7 +570,7 @@ const EMICalculator: React.FC = () => {
             <div className="flex gap-3">
               <button
                 onClick={handleCalculate}
-                className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-2.5 rounded-lg transition duration-200 shadow-md text-sm"
+                className="flex-1 bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700 text-white font-semibold py-2.5 rounded-lg transition duration-200 shadow-md text-sm"
               >
                 Calculate EMI
               </button>
@@ -612,7 +599,7 @@ const EMICalculator: React.FC = () => {
                     onClick={() => setPrepaymentFrequency(freq)}
                     className={`px-2 py-1.5 rounded-lg text-xs font-semibold transition ${
                       prepaymentFrequency === freq
-                        ? 'bg-indigo-600 text-white'
+                        ? 'bg-blue-600 text-white'
                         : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                     }`}
                   >
@@ -629,7 +616,7 @@ const EMICalculator: React.FC = () => {
                   onClick={() => setPrepaymentStrategy('reduce-tenure')}
                   className={`px-3 py-2 rounded-lg text-xs font-semibold transition ${
                     prepaymentStrategy === 'reduce-tenure'
-                      ? 'bg-indigo-600 text-white'
+                      ? 'bg-blue-600 text-white'
                       : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
                 >
@@ -639,7 +626,7 @@ const EMICalculator: React.FC = () => {
                   onClick={() => setPrepaymentStrategy('reduce-emi')}
                   className={`px-3 py-2 rounded-lg text-xs font-semibold transition ${
                     prepaymentStrategy === 'reduce-emi'
-                      ? 'bg-indigo-600 text-white'
+                      ? 'bg-blue-600 text-white'
                       : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
                 >
@@ -690,7 +677,7 @@ const EMICalculator: React.FC = () => {
               <div className="flex items-end">
                 <button
                   onClick={handleAddPrepayment}
-                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-lg transition duration-200 shadow-md text-sm"
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-200 shadow-md text-sm"
                 >
                   + Add
                 </button>
@@ -733,7 +720,7 @@ const EMICalculator: React.FC = () => {
           <>
             {/* Summary Cards - Compact */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl shadow-md p-4 text-white">
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-md p-4 text-white">
                 <p className="text-blue-100 mb-1 text-xs font-semibold">Monthly EMI</p>
                 <p className="text-3xl font-bold">₹{emi.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
               </div>
@@ -743,8 +730,8 @@ const EMICalculator: React.FC = () => {
                 <p className="text-3xl font-bold">₹{summary.totalInterest.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
               </div>
               
-              <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl shadow-md p-4 text-white">
-                <p className="text-indigo-100 mb-1 text-xs font-semibold">Total Amount</p>
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-md p-4 text-white">
+                <p className="text-blue-100 mb-1 text-xs font-semibold">Total Amount</p>
                 <p className="text-3xl font-bold">₹{summary.totalAmount.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
               </div>
               
@@ -763,7 +750,7 @@ const EMICalculator: React.FC = () => {
 
             {/* Prepayment Impact Analysis */}
             {summary.prepaymentImpacts && summary.prepaymentImpacts.length > 0 && (
-              <div className="bg-gradient-to-r from-indigo-600 to-blue-600 rounded-2xl shadow-md p-5 mb-6 text-white">
+              <div className="bg-gradient-to-r from-blue-600 to-blue-600 rounded-2xl shadow-md p-5 mb-6 text-white">
                 <h3 className="text-xl font-bold mb-4">📊 Prepayment Impact Analysis</h3>
                 
                 {/* Cumulative Impact Summary */}
@@ -965,8 +952,8 @@ const EMICalculator: React.FC = () => {
                               <stop offset="95%" stopColor={CHART_COLORS.primary} stopOpacity={0.05} />
                             </linearGradient>
                             <linearGradient id="piIntGrad" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor={CHART_COLORS.accent} stopOpacity={0.4} />
-                              <stop offset="95%" stopColor={CHART_COLORS.accent} stopOpacity={0.05} />
+                              <stop offset="5%" stopColor={CHART_COLORS.secondary} stopOpacity={0.4} />
+                              <stop offset="95%" stopColor={CHART_COLORS.secondary} stopOpacity={0.05} />
                             </linearGradient>
                           </defs>
                           <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
@@ -975,7 +962,7 @@ const EMICalculator: React.FC = () => {
                           <RechartsTooltip content={<ChartTooltip />} />
                           <Legend formatter={(value: string) => <span className="text-xs text-slate-600">{value}</span>} />
                           <Area type="monotone" dataKey="principal" name="Principal" stackId="1" stroke={CHART_COLORS.primary} fill="url(#piPrinGrad)" strokeWidth={2} />
-                          <Area type="monotone" dataKey="interest" name="Interest" stackId="1" stroke={CHART_COLORS.accent} fill="url(#piIntGrad)" strokeWidth={2} />
+                          <Area type="monotone" dataKey="interest" name="Interest" stackId="1" stroke={CHART_COLORS.secondary} fill="url(#piIntGrad)" strokeWidth={2} />
                         </AreaChart>
                       </ResponsiveContainer>
                     </div>
@@ -993,7 +980,7 @@ const EMICalculator: React.FC = () => {
                           <RechartsTooltip content={<ChartTooltip />} />
                           <Legend formatter={(value: string) => <span className="text-xs text-slate-600">{value}</span>} />
                           <Bar dataKey="principal" name="Principal" stackId="a" fill={CHART_COLORS.primary} radius={[0, 0, 0, 0]} />
-                          <Bar dataKey="interest" name="Interest" stackId="a" fill={CHART_COLORS.accent} radius={[4, 4, 0, 0]} />
+                          <Bar dataKey="interest" name="Interest" stackId="a" fill={CHART_COLORS.secondary} radius={[4, 4, 0, 0]} />
                         </BarChart>
                       </ResponsiveContainer>
                     </div>
@@ -1012,8 +999,8 @@ const EMICalculator: React.FC = () => {
                             <stop offset="95%" stopColor={CHART_COLORS.primary} stopOpacity={0.02} />
                           </linearGradient>
                           <linearGradient id="cumIGrad" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor={CHART_COLORS.accent} stopOpacity={0.3} />
-                            <stop offset="95%" stopColor={CHART_COLORS.accent} stopOpacity={0.02} />
+                            <stop offset="5%" stopColor={CHART_COLORS.secondary} stopOpacity={0.3} />
+                            <stop offset="95%" stopColor={CHART_COLORS.secondary} stopOpacity={0.02} />
                           </linearGradient>
                         </defs>
                         <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
@@ -1022,7 +1009,7 @@ const EMICalculator: React.FC = () => {
                         <RechartsTooltip content={<ChartTooltip />} />
                         <Legend formatter={(value: string) => <span className="text-xs text-slate-600">{value}</span>} />
                         <Area type="monotone" dataKey="cumPrincipal" name="Cumulative Principal" stroke={CHART_COLORS.primary} fill="url(#cumPGrad)" strokeWidth={2} />
-                        <Area type="monotone" dataKey="cumInterest" name="Cumulative Interest" stroke={CHART_COLORS.accent} fill="url(#cumIGrad)" strokeWidth={2} />
+                        <Area type="monotone" dataKey="cumInterest" name="Cumulative Interest" stroke={CHART_COLORS.secondary} fill="url(#cumIGrad)" strokeWidth={2} />
                       </AreaChart>
                     </ResponsiveContainer>
                   </div>
@@ -1038,15 +1025,15 @@ const EMICalculator: React.FC = () => {
                         <AreaChart data={chartData.interestPerYear}>
                           <defs>
                             <linearGradient id="intYrGrad" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor={CHART_COLORS.rose} stopOpacity={0.3} />
-                              <stop offset="95%" stopColor={CHART_COLORS.rose} stopOpacity={0.02} />
+                              <stop offset="5%" stopColor={CHART_COLORS.secondary} stopOpacity={0.3} />
+                              <stop offset="95%" stopColor={CHART_COLORS.secondary} stopOpacity={0.02} />
                             </linearGradient>
                           </defs>
                           <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
                           <XAxis dataKey="year" stroke={CHART_COLORS.axis} fontSize={11} tickLine={false} />
                           <YAxis tickFormatter={formatYAxis} stroke={CHART_COLORS.axis} fontSize={11} tickLine={false} />
                           <RechartsTooltip content={<ChartTooltip />} />
-                          <Area type="monotone" dataKey="interest" name="Interest Paid" stroke={CHART_COLORS.rose} fill="url(#intYrGrad)" strokeWidth={2} />
+                          <Area type="monotone" dataKey="interest" name="Interest Paid" stroke={CHART_COLORS.secondary} fill="url(#intYrGrad)" strokeWidth={2} />
                         </AreaChart>
                       </ResponsiveContainer>
                     </div>
@@ -1064,8 +1051,8 @@ const EMICalculator: React.FC = () => {
                               <stop offset="95%" stopColor={CHART_COLORS.primary} stopOpacity={0.05} />
                             </linearGradient>
                             <linearGradient id="pctIGrad" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor={CHART_COLORS.accent} stopOpacity={0.4} />
-                              <stop offset="95%" stopColor={CHART_COLORS.accent} stopOpacity={0.05} />
+                              <stop offset="5%" stopColor={CHART_COLORS.secondary} stopOpacity={0.4} />
+                              <stop offset="95%" stopColor={CHART_COLORS.secondary} stopOpacity={0.05} />
                             </linearGradient>
                           </defs>
                           <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
@@ -1074,7 +1061,7 @@ const EMICalculator: React.FC = () => {
                           <RechartsTooltip content={<PctTooltip />} />
                           <Legend formatter={(value: string) => <span className="text-xs text-slate-600">{value}</span>} />
                           <Area type="monotone" dataKey="principalPct" name="Principal %" stackId="1" stroke={CHART_COLORS.primary} fill="url(#pctPGrad)" strokeWidth={2} />
-                          <Area type="monotone" dataKey="interestPct" name="Interest %" stackId="1" stroke={CHART_COLORS.accent} fill="url(#pctIGrad)" strokeWidth={2} />
+                          <Area type="monotone" dataKey="interestPct" name="Interest %" stackId="1" stroke={CHART_COLORS.secondary} fill="url(#pctIGrad)" strokeWidth={2} />
                         </AreaChart>
                       </ResponsiveContainer>
                     </div>
@@ -1156,7 +1143,7 @@ const EMICalculator: React.FC = () => {
         {showHistory && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowHistory(false)}>
             <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[80vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
-              <div className="bg-gradient-to-r from-indigo-600 to-blue-600 text-white p-6 flex justify-between items-center">
+              <div className="bg-gradient-to-r from-blue-600 to-blue-600 text-white p-6 flex justify-between items-center">
                 <h2 className="text-2xl font-bold">📊 Calculation History</h2>
                 <div className="flex gap-2">
                   {history.length > 0 && (
@@ -1187,7 +1174,7 @@ const EMICalculator: React.FC = () => {
                       <div
                         key={item.id}
                         onClick={() => handleLoadHistory(item)}
-                        className="bg-gradient-to-r from-slate-50 to-blue-50 rounded-lg p-4 border-2 border-slate-200 hover:border-indigo-400 cursor-pointer transition shadow-sm hover:shadow-md"
+                        className="bg-gradient-to-r from-slate-50 to-blue-50 rounded-lg p-4 border-2 border-slate-200 hover:border-blue-400 cursor-pointer transition shadow-sm hover:shadow-md"
                       >
                         <div className="flex justify-between items-start mb-3">
                           <div>
@@ -1204,7 +1191,7 @@ const EMICalculator: React.FC = () => {
                               ₹{item.loanAmount.toLocaleString('en-IN')} @ {item.annualRate}% for {item.tenureYears} years
                             </p>
                           </div>
-                          <span className="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-semibold">
+                          <span className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-semibold">
                             {item.prepayments.length} prepayments
                           </span>
                         </div>
@@ -1223,7 +1210,7 @@ const EMICalculator: React.FC = () => {
                           </div>
                           <div>
                             <p className="text-slate-600 text-xs">Actual Tenure</p>
-                            <p className="font-bold text-indigo-600">{Math.floor(item.actualTenure / 12)}y {item.actualTenure % 12}m</p>
+                            <p className="font-bold text-blue-600">{Math.floor(item.actualTenure / 12)}y {item.actualTenure % 12}m</p>
                           </div>
                         </div>
                       </div>
@@ -1239,7 +1226,7 @@ const EMICalculator: React.FC = () => {
         {history.length > 0 && (
           <button
             onClick={() => setShowHistory(true)}
-            className="fixed bottom-6 right-6 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-2xl transition duration-200 flex items-center gap-2 z-40"
+            className="fixed bottom-6 right-6 bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-2xl transition duration-200 flex items-center gap-2 z-40"
           >
             📊 History ({history.length})
           </button>
@@ -1286,8 +1273,8 @@ const EMICalculator: React.FC = () => {
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div className="bg-indigo-50 rounded-xl p-5 border-2 border-indigo-200">
-              <h3 className="text-lg font-bold text-indigo-800 mb-3">🎯 Reduce Tenure Strategy</h3>
+            <div className="bg-blue-50 rounded-xl p-5 border-2 border-blue-200">
+              <h3 className="text-lg font-bold text-blue-800 mb-3">🎯 Reduce Tenure Strategy</h3>
               <p className="text-slate-700 text-sm leading-relaxed mb-3">
                 Your monthly EMI <strong>stays the same</strong>, but the loan duration <strong>decreases</strong>. This means you become debt-free faster.
               </p>
@@ -1379,7 +1366,7 @@ const EMICalculator: React.FC = () => {
               <p className="text-slate-600 text-sm">Choose one-time, monthly, quarterly, or yearly prepayments. Select Reduce Tenure or Reduce EMI strategy for each.</p>
             </div>
             <div className="text-center">
-              <div className="bg-indigo-50 text-indigo-600 border border-indigo-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 text-xl font-bold">3</div>
+              <div className="bg-blue-50 text-blue-600 border border-blue-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 text-xl font-bold">3</div>
               <h3 className="font-bold text-slate-800 mb-2">Analyze Results</h3>
               <p className="text-slate-600 text-sm">View 8 interactive charts, prepayment impact analysis, interest savings breakdown, and download the full amortization schedule.</p>
             </div>
@@ -1455,7 +1442,7 @@ const EMICalculator: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <a
               href="/finance/learn/understanding-emi-calculations"
-              className="flex flex-col bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl px-5 py-4 hover:shadow-md transition-all group border border-blue-100"
+              className="flex flex-col bg-gradient-to-br from-blue-50 to-blue-50 rounded-xl px-5 py-4 hover:shadow-md transition-all group border border-blue-100"
             >
               <span className="text-sm font-bold text-slate-900 mb-1">Understanding EMI Calculations</span>
               <span className="text-xs text-slate-600 mb-2">Learn the formula, factors, and math behind your monthly payments</span>
@@ -1511,10 +1498,10 @@ const EMICalculator: React.FC = () => {
 
           {/* Deep Dive: Why Prepay? */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="bg-indigo-600 rounded-3xl p-8 text-white shadow-xl shadow-indigo-100 relative overflow-hidden group">
+            <div className="bg-blue-600 rounded-3xl p-8 text-white shadow-xl shadow-blue-100 relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-110 transition-transform duration-700" />
               <h2 className="text-2xl font-bold mb-6">Why Loan Prepayment is a Wealth Builder</h2>
-              <p className="text-indigo-100 mb-6 leading-relaxed">
+              <p className="text-blue-100 mb-6 leading-relaxed">
                 Prepaying your loan in the early years is one of the most effective ways to build wealth. Because EMI interest is calculated on the reducing balance, a prepayment goes directly toward reducing your principal.
               </p>
               <ul className="space-y-4">
