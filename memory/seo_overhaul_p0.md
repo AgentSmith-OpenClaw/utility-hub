@@ -33,6 +33,8 @@ For each tool in `utility-hub/src/pages/finance/`:
 2. **Income Tax Calculator** (High Traffic/Current) [DONE]
 3. **EMI / Amortization Calculator** (Consolidated SEO) [DONE]
 4. **SIP / FIRE Calculators** (Investment Intent) [DONE]
+5. **Compound Interest Calculator** (Fundamental Wealth Tool) [DONE]
+6. **Buy vs Rent Calculator** (High Intent Decision) [DONE]
 
 ## Engineering Safeguard
 - Each page overhaul will be staged in a single long-lived branch: `feat/p0-seo-overhaul`.
