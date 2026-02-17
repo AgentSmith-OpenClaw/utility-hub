@@ -180,35 +180,142 @@ const AmortizationCalculator: React.FC = () => {
         </div>
 
         {/* Learn More Section - SEO Optimized */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-12">
-          <article className="prose prose-slate max-w-none">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">What is an Amortization Schedule?</h2>
-            <p className="text-slate-600 leading-relaxed">
-              An <strong>amortization schedule</strong> is a complete table of periodic loan payments, showing the amount of principal and the amount of interest that comprise each payment until the loan is paid off at the end of its term.
+        <section className="mt-16 space-y-16">
+          <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-100 shadow-sm prose prose-slate max-w-none">
+            <h2 className="text-4xl font-black text-slate-900 mb-6 tracking-tight not-prose">The Ultimate Guide to Loan Amortization</h2>
+            <p className="lead text-xl text-slate-600 font-medium">
+              Loans can be deceptive. A simple monthly payment often hides the true cost of borrowing. 
+              Our <strong>Amortization Calculator</strong> doesn't just show you what you pay; it reveals <em>where</em> your money goes.
             </p>
-            <p className="text-slate-600 leading-relaxed">
-              Early in the schedule, the majority of each payment is devoted to interest. As the loan matures, a larger portion of each payment goes toward the principal. Our calculator helps you visualize this shift with an interactive balance trend chart and a detailed monthly breakdown.
+            <p>
+              Whether you're managing a 30-year home mortgage, a 5-year car loan, or a personal loan, understanding your amortization schedule is the single most effective way to save money and become debt-free faster.
             </p>
-          </article>
 
-          <article className="prose prose-slate max-w-none">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Why Use an Amortization Calculator?</h2>
-            <ul className="space-y-3 text-slate-600">
-              <li className="flex gap-3">
-                <span className="text-indigo-600 font-bold">✓</span>
-                <span><strong>Plan Your Budget:</strong> Know exactly how much you'll pay every month for the life of the loan.</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-indigo-600 font-bold">✓</span>
-                <span><strong>Interest Tracking:</strong> Understand exactly how much total interest you will pay to the lender.</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-indigo-600 font-bold">✓</span>
-                <span><strong>Debt Strategy:</strong> Visualize how increasing your monthly payment can drastically reduce your loan term and total interest paid.</span>
-              </li>
+            <h3 className="text-2xl font-bold text-slate-800 mt-12 mb-6">What is Amortization?</h3>
+            <p>
+              Amortization is the process of spreading out a loan into a series of fixed payments over time. While your total monthly payment remains constant, the ratio of <strong>Principal</strong> (the money you borrowed) to <strong>Interest</strong> (the lender's profit) changes with every single payment.
+            </p>
+            <p>
+              This is often represented by an "Amortization Curve":
+            </p>
+            <ul className="list-disc pl-6 space-y-2">
+              <li><strong>Early Years:</strong> Your payments are almost entirely interest. You barely make a dent in the loan balance.</li>
+              <li><strong>Middle Years:</strong> The tide begins to turn. Principal payments increase, interest decreases.</li>
+              <li><strong>Final Years:</strong> Your payments are almost entirely principal, rapidly clearing the remaining debt.</li>
             </ul>
-          </article>
-        </div>
+
+            <h3 className="text-2xl font-bold text-slate-800 mt-12 mb-6">The "Front-Loaded" Interest Trap</h3>
+            <p>
+              Many borrowers are shocked to see that after 5 years of paying a 20-year mortgage, they still owe 90% of the original loan amount. 
+              This isn't a scam; it's math. Lenders calculate interest based on the <em>outstanding balance</em>. Since the balance is highest at the start, the interest charge is highest.
+            </p>
+            <div className="bg-amber-50 border-l-4 border-amber-500 p-6 my-6 not-prose">
+              <h4 className="font-bold text-amber-900 mb-2">Example: ₹50 Lakh Loan @ 8.5% for 20 Years</h4>
+              <p className="text-sm text-amber-800">
+                <strong>Month 1 Payment:</strong> ₹43,391<br/>
+                Interest: ₹35,417 (82%)<br/>
+                Principal: ₹7,974 (18%)
+              </p>
+              <p className="text-sm text-amber-800 mt-4">
+                <strong>Month 120 (Year 10) Payment:</strong> ₹43,391<br/>
+                Interest: ₹24,800 (57%)<br/>
+                Principal: ₹18,591 (43%)
+              </p>
+            </div>
+
+            <h3 className="text-2xl font-bold text-slate-800 mt-12 mb-6">The Power of Prepayment</h3>
+            <p>
+              Because interest is calculated on the remaining balance, <strong>any extra payment</strong> you make goes 100% towards the principal. This has a compounding effect:
+            </p>
+            <ol className="list-decimal pl-6 space-y-2">
+              <li>You reduce the principal immediately.</li>
+              <li>The interest charged next month is lower (because the balance is lower).</li>
+              <li>More of your <em>regular</em> payment goes towards principal next month.</li>
+              <li>This cycle repeats, accelerating your debt freedom.</li>
+            </ol>
+            <p>
+              <strong>Pro Tip:</strong> Making just one extra EMI per year can reduce a 20-year loan term by approx. 2-3 years and save lakhs in interest.
+            </p>
+
+            <h3 className="text-2xl font-bold text-slate-800 mt-12 mb-6">Flat Rate vs. Reducing Balance Interest</h3>
+            <p>
+              Be careful when comparing loans. A "Flat Rate" of 5% is often more expensive than a "Reducing Balance Rate" of 9%.
+            </p>
+            <ul className="list-disc pl-6 space-y-2">
+              <li><strong>Reducing Balance (Standard):</strong> Interest is calculated on the remaining principal. This is fair and standard for home loans.</li>
+              <li><strong>Flat Rate (Deceptive):</strong> Interest is calculated on the <em>original</em> loan amount for the entire tenure. You continue paying interest on money you have already paid back! Always convert a Flat Rate to an effective Reducing Rate (IRR) to compare.</li>
+            </ul>
+
+            <h3 className="text-2xl font-bold text-slate-800 mt-12 mb-6">Frequently Asked Questions (FAQ)</h3>
+            <div className="not-prose space-y-4">
+              <details className="group border border-slate-200 rounded-xl bg-slate-50 open:bg-white open:shadow-sm transition-all">
+                <summary className="flex items-center justify-between p-4 font-semibold cursor-pointer list-none text-slate-800">
+                  <span>Does paying extra reduce monthly EMI or Tenure?</span>
+                  <span className="transition group-open:rotate-180">
+                    <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                  </span>
+                </summary>
+                <div className="px-4 pb-4 text-slate-600">
+                  <p>Usually, lenders reduce the <strong>Tenure</strong> by default, keeping the EMI same. This saves you the maximum interest. However, you can specifically request the lender to reduce the <strong>EMI</strong> if you want to lower your monthly burden while keeping the tenure same.</p>
+                </div>
+              </details>
+              <details className="group border border-slate-200 rounded-xl bg-slate-50 open:bg-white open:shadow-sm transition-all">
+                <summary className="flex items-center justify-between p-4 font-semibold cursor-pointer list-none text-slate-800">
+                  <span>What is a Negative Amortization?</span>
+                  <span className="transition group-open:rotate-180">
+                    <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                  </span>
+                </summary>
+                <div className="px-4 pb-4 text-slate-600">
+                  <p>This happens when your monthly payment is <em>less</em> than the interest due. The unpaid interest gets added to your principal balance, causing your debt to <strong>grow</strong> instead of shrink. This is dangerous and common in certain student loans or complex mortgage products.</p>
+                </div>
+              </details>
+              <details className="group border border-slate-200 rounded-xl bg-slate-50 open:bg-white open:shadow-sm transition-all">
+                <summary className="flex items-center justify-between p-4 font-semibold cursor-pointer list-none text-slate-800">
+                  <span>How often is interest calculated?</span>
+                  <span className="transition group-open:rotate-180">
+                    <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                  </span>
+                </summary>
+                <div className="px-4 pb-4 text-slate-600">
+                  <p>For most home and auto loans, interest is compounded <strong>monthly</strong>. However, some personal loans or credit cards may compound daily. The more frequent the compounding, the higher the effective interest rate.</p>
+                </div>
+              </details>
+            </div>
+
+            {/* JSON-LD Schema for FAQ */}
+            <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Does paying extra reduce monthly EMI or Tenure?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Usually, it reduces the Tenure, which maximizes savings. You can request to reduce EMI instead if you prefer lower monthly payments."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What is a Negative Amortization?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "It occurs when payments don't cover the interest due, causing the loan balance to increase over time."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How often is interest calculated?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Most loans compound monthly. Daily compounding (like on credit cards) results in higher total interest."
+                  }
+                }
+              ]
+            })}} />
+          </div>
+        </section>
       </div>
     </div>
   );

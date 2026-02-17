@@ -693,172 +693,262 @@ const IncomeTaxCalculator: React.FC = () => {
 
         {/* --- Educational Content & SEO Section --- */}
         <section className="mt-16 space-y-16">
-          {/* Budget 2025 Highlights */}
-          <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-100 shadow-sm relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-50 rounded-full blur-3xl -mr-32 -mt-32 opacity-60" />
-            <div className="relative z-10 max-w-3xl">
-              <h2 className="text-3xl font-black text-slate-900 mb-6 tracking-tight">Key Changes in Budget 2025 (FY 2025-26)</h2>
-              <p className="text-slate-600 text-lg leading-relaxed mb-6 font-medium">
-                The Union Budget 2025 has introduced transformative changes to the <span className="text-indigo-600 font-bold">New Tax Regime</span>, making it significantly more attractive for the middle class and salaried employees.
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
-                  <h4 className="font-bold text-slate-800 mb-2 flex items-center gap-2">
-                    <span className="text-xl">💰</span> Raised Standard Deduction
-                  </h4>
-                  <p className="text-xs text-slate-500 leading-relaxed font-black">Increased to ₹75,000</p>
-                  <p className="text-[10px] text-slate-400 mt-1">Directly reducing taxable income for all salaried taxpayers in the New Regime.</p>
-                </div>
-                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
-                  <h4 className="font-bold text-slate-800 mb-2 flex items-center gap-2">
-                    <span className="text-xl">📊</span> Widened Tax Slabs
-                  </h4>
-                  <p className="text-xs text-slate-500 leading-relaxed font-medium">The slabs have been pushed higher, ensuring that you pay 5-10% less tax for every lakh earned between ₹4L and ₹15L.</p>
-                </div>
-              </div>
-              <p className="text-slate-600 leading-relaxed font-medium">
-                The New Regime is now the <span className="text-indigo-600 font-bold uppercase tracking-tight">DEFAULT</span> tax regime. If you wish to use the Old Regime to claim deductions like HRA, 80C, or Home Loan interest, you must explicitly opt-in when filing your taxes.
-              </p>
-            </div>
-          </div>
+          {/* Hero Content Block */}
+          <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-100 shadow-sm relative overflow-hidden prose prose-slate max-w-none">
+            <h2 className="text-4xl font-black text-slate-900 mb-6 tracking-tight not-prose">Mastering Your Income Tax in India (FY 2025-26)</h2>
+            <p className="lead text-xl text-slate-600 font-medium">
+              Tax planning isn't just about saving money; it's about optimizing your entire financial life. 
+              The Union Budget 2025 has fundamentally shifted the landscape by making the <strong>New Tax Regime</strong> the default and most attractive option for the vast majority of taxpayers.
+            </p>
+            <p>
+              Whether you're a fresh graduate earning your first paycheck or a seasoned professional with a complex portfolio, understanding the nuances of the <strong>Income Tax Act</strong> is crucial. 
+              This comprehensive guide breaks down everything from the latest slab rates to hidden deductions, helping you legally reduce your tax liability to the absolute minimum.
+            </p>
 
-          {/* New Tax Slabs Breakdown */}
-          <div className="space-y-8">
-            <div className="text-center max-w-2xl mx-auto">
-              <h2 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">New Tax Slabs (Budget 2025)</h2>
-              <p className="text-slate-500 font-medium text-sm">Valid for FY 2025-26 (Assessment Year 2026-27). Compare the new rates against your current salary.</p>
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-slate-900 rounded-[40px] p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -ml-32 -mt-32" />
-              <div className="space-y-4 relative z-10">
-                <div className="grid grid-cols-1 gap-2">
-                  {[
-                    ['Up to ₹4,00,000', 'No Tax', 'text-teal-400 font-black'],
-                    ['₹4,00,001 - ₹8,00,000', '5%', 'text-white font-bold'],
-                    ['₹8,00,001 - ₹12,00,000', '10%', 'text-white font-bold'],
-                    ['₹12,00,001 - ₹16,00,000', '15%', 'text-white font-bold'],
-                    ['₹16,00,001 - ₹20,00,000', '20%', 'text-white font-bold'],
-                    ['₹20,00,001 - ₹24,00,000', '25%', 'text-white font-bold'],
-                    ['Above ₹24,00,000', '30%', 'text-indigo-400 font-black'],
-                  ].map(([range, rate, colorClass]) => (
-                    <div key={range} className="flex justify-between items-center border-b border-white/10 pb-2.5 last:border-0">
-                      <span className="text-[11px] text-slate-300 uppercase tracking-wider font-bold">{range}</span>
-                      <span className={`text-sm ${colorClass}`}>{rate}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="space-y-6">
-                <div className="bg-white/5 rounded-2xl p-6 border border-white/10 backdrop-blur-sm">
-                  <h4 className="font-bold text-indigo-400 mb-3 uppercase tracking-widest text-xs">Section 87A Rebate Deep-Dive</h4>
-                  <p className="text-sm text-indigo-100 leading-relaxed font-medium">
-                    The tax rebate under Section 87A is the hero feature of the New Regime. If your total income (including Standard Deduction) is up to <span className="text-white font-bold">₹12.75 Lakhs</span>, your total tax liability is actually <span className="text-teal-400 font-bold">ZERO</span>.
-                  </p>
-                  <p className="text-[11px] text-indigo-300 mt-4 leading-relaxed italic">
-                    Why? ₹12.75L - ₹75K (Std. Ded.) = ₹12L. The 87A rebate covers taxes for income up to ₹12L in the New Regime.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+            <h3 className="text-2xl font-bold text-slate-800 mt-12 mb-6">Old vs. New Regime: The Ultimate Showdown</h3>
+            <p>
+              The biggest question every Indian taxpayer faces is: <em>"Which regime should I choose?"</em>
+              The answer isn't as simple as it used to be. The government is actively pushing the New Regime by sweetening the deal with lower rates and a higher rebate limit.
+            </p>
 
-          {/* Old vs New Strategy */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center px-4">
-            <div className="space-y-6">
-              <h2 className="text-3xl font-black text-slate-900 mb-6 tracking-tight">Deciding Between Regimes</h2>
-              <p className="text-slate-600 leading-relaxed font-medium">
-                The best regime for you depends on how much you <span className="text-indigo-600 font-bold">INVEST</span>. The Old Regime rewards savers, while the New Regime offers lower rates without the need to lock your money in long-term products.
-              </p>
-              <div className="bg-amber-50 rounded-2xl p-6 border border-amber-100 shadow-sm">
-                <h5 className="font-bold text-amber-900 mb-2">The "Magic Number" Calculation</h5>
-                <p className="text-sm text-amber-800 leading-relaxed">
-                  Generally, if your total deductions (80C, 80D, HRA, etc.) exceed <span className="font-bold underline">₹3.75 - ₹4.25 Lakhs</span> (depending on your salary bracket), you should consider the <span className="font-bold">Old Regime</span>. For everyone else, the New Regime is faster, simpler, and cheaper.
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-[40px] p-8 sm:p-10 border border-slate-100 shadow-xl relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-100 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity" />
-              <h3 className="text-2xl font-black text-slate-900 mb-6 tracking-tight">Top Deductions (Old Regime)</h3>
-              <ul className="space-y-4">
-                {[
-                  { label: "80C (PPF, ELSS, Insurance)", value: "₹1,50,000" },
-                  { label: "Section 24 (Home Loan Interest)", value: "₹2,00,000" },
-                  { label: "80D (Health Premium)", value: "Up to ₹50k" },
-                  { label: "80CCD(1B) (Additional NPS)", value: "₹50,000" }
-                ].map((item, i) => (
-                  <li key={i} className="flex justify-between items-center bg-slate-50 p-4 rounded-xl border border-slate-100 group-hover:border-indigo-100 transition-colors">
-                    <span className="text-sm font-bold text-slate-700">{item.label}</span>
-                    <span className="text-xs font-black text-indigo-600">{item.value}</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-8 not-prose">
+              <div className="bg-indigo-50 rounded-2xl p-8 border border-indigo-100">
+                <h4 className="text-xl font-bold text-indigo-900 mb-4 flex items-center gap-2">
+                  <span>🚀</span> New Tax Regime (Default)
+                </h4>
+                <ul className="space-y-3">
+                  <li className="flex gap-3 text-indigo-800 text-sm">
+                    <span className="text-indigo-500 font-bold">✓</span>
+                    <span><strong>Lower Tax Rates:</strong> Significantly reduced slab rates compared to the Old Regime.</span>
                   </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+                  <li className="flex gap-3 text-indigo-800 text-sm">
+                    <span className="text-indigo-500 font-bold">✓</span>
+                    <span><strong>Higher Rebate:</strong> No tax up to ₹12 Lakhs income (u/s 87A).</span>
+                  </li>
+                  <li className="flex gap-3 text-indigo-800 text-sm">
+                    <span className="text-indigo-500 font-bold">✓</span>
+                    <span><strong>Simplicity:</strong> No need to track receipts, rent agreements, or investment proofs.</span>
+                  </li>
+                  <li className="flex gap-3 text-indigo-800 text-sm">
+                    <span className="text-rose-500 font-bold">✗</span>
+                    <span><strong>No Deductions:</strong> You lose HRA, LTA, 80C, 80D, and Home Loan Interest benefits.</span>
+                  </li>
+                </ul>
+              </div>
 
-          {/* FAQ Section */}
-          <div className="space-y-6 pb-12" itemScope itemType="https://schema.org/FAQPage">
-            <h2 className="text-3xl font-black text-slate-900 text-center mb-10 tracking-tight">Income Tax FAQs</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {[
-                {
-                  q: "Can I choose my tax regime every year?",
-                  a: "Yes! If you are a salaried employee without any business income, you can switch between the Old and New regime every financial year at your convenience during ITR filing."
-                },
-                {
-                  q: "What is Surcharge and how is it calculated?",
-                  a: "Surcharge is an additional tax on the 'tax amount' for high earners. It starts at 10% for income above ₹50L and goes up to 25% (under New Regime) or 37% (under Old Regime). Our calculator accurately accounts for 'Marginal Relief' so you don't pay more tax than your extra income above the threshold."
-                },
-                {
-                  q: "Is there any tax on zero income after rebate?",
-                  a: "If your income is below the rebate threshold (₹12L in New Regime), your tax becomes zero. However, you are still legally required to file an Income Tax Return (ITR) if your gross income exceeds specific limits."
-                },
-                {
-                  q: "What about Health and Education Cess?",
-                  a: "A 4% Cess is added on top of your final tax liability (after rebate and surcharge). It is mandatory for every taxpayer in India, regardless of the regime chosen."
-                }
-              ].map((faq, i) => (
-                <div key={i} className="group" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
-                  <h4 className="font-bold text-slate-800 mb-3 text-lg leading-snug group-hover:text-indigo-600 transition-colors flex gap-2" itemProp="name">
-                    <span className="text-indigo-200">Q.</span> {faq.q}
-                  </h4>
-                  <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
-                    <p className="text-sm text-slate-500 leading-relaxed font-medium pl-6 border-l-2 border-slate-100 group-hover:border-indigo-100 transition-colors" itemProp="text">{faq.a}</p>
-                  </div>
+              <div className="bg-amber-50 rounded-2xl p-8 border border-amber-100">
+                <h4 className="text-xl font-bold text-amber-900 mb-4 flex items-center gap-2">
+                  <span>🛡️</span> Old Tax Regime
+                </h4>
+                <ul className="space-y-3">
+                  <li className="flex gap-3 text-amber-800 text-sm">
+                    <span className="text-amber-600 font-bold">✓</span>
+                    <span><strong>Deduction Heavy:</strong> Claim HRA, 80C, 80D, Home Loan Interest, and more.</span>
+                  </li>
+                  <li className="flex gap-3 text-amber-800 text-sm">
+                    <span className="text-amber-600 font-bold">✓</span>
+                    <span><strong>Ideal for High Commitments:</strong> Best if you already have high rent, home loans, and insurance.</span>
+                  </li>
+                  <li className="flex gap-3 text-amber-800 text-sm">
+                    <span className="text-rose-600 font-bold">✗</span>
+                    <span><strong>Higher Rates:</strong> The tax slabs are steeper (e.g., 30% kicks in at ₹10L).</span>
+                  </li>
+                  <li className="flex gap-3 text-amber-800 text-sm">
+                    <span className="text-rose-600 font-bold">✗</span>
+                    <span><strong>Complex Compliance:</strong> Requires meticulous documentation and proof submission.</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <h3 className="text-2xl font-bold text-slate-800 mt-12 mb-6">Decoding the Deductions (Old Regime Only)</h3>
+            <p>
+              If you opt for the Old Regime, your goal is to maximize "Chapter VI-A" deductions to lower your taxable income. Here are the heavy hitters:
+            </p>
+
+            <h4 className="font-bold text-slate-800 mt-6">1. Section 80C (Limit: ₹1.5 Lakhs)</h4>
+            <p>This is the most popular bucket. It includes:</p>
+            <ul className="list-disc pl-6 space-y-1 text-slate-600">
+              <li><strong>EPF (Employee Provident Fund):</strong> Your mandatory salary contribution.</li>
+              <li><strong>PPF (Public Provident Fund):</strong> A safe, government-backed 15-year scheme.</li>
+              <li><strong>ELSS (Equity Linked Savings Scheme):</strong> Tax-saving mutual funds (3-year lock-in).</li>
+              <li><strong>LIC Premiums:</strong> Life insurance policies.</li>
+              <li><strong>Principal Repayment:</strong> On your home loan.</li>
+              <li><strong>Tuition Fees:</strong> For up to two children.</li>
+            </ul>
+
+            <h4 className="font-bold text-slate-800 mt-6">2. Section 80D (Health Insurance)</h4>
+            <p>Don't ignore health insurance. Apart from protecting your health, it saves tax:</p>
+            <ul className="list-disc pl-6 space-y-1 text-slate-600">
+              <li><strong>Self & Family:</strong> Up to ₹25,000 (₹50,000 if senior citizens).</li>
+              <li><strong>Parents:</strong> Additional up to ₹25,000 (₹50,000 if senior citizens).</li>
+              <li><strong>Preventive Checkup:</strong> Up to ₹5,000 within the overall limit.</li>
+            </ul>
+
+            <h4 className="font-bold text-slate-800 mt-6">3. Section 24(b) (Home Loan Interest)</h4>
+            <p>
+              Homeowners can claim up to <strong>₹2 Lakhs</strong> per year on the interest component of their home loan EMI. 
+              Note: If the property is rented out, there is no upper limit on the interest deduction (though loss set-off is capped at ₹2L).
+            </p>
+
+            <h4 className="font-bold text-slate-800 mt-6">4. HRA (House Rent Allowance)</h4>
+            <p>
+              Salaried employees living in rented accommodation can claim HRA exemption. The exemption is the <strong>lowest</strong> of:
+            </p>
+            <ol className="list-decimal pl-6 space-y-1 text-slate-600">
+              <li>Actual HRA received.</li>
+              <li>Actual rent paid minus 10% of Basic Salary + DA.</li>
+              <li>50% of Basic + DA (Metros) or 40% (Non-Metros).</li>
+            </ol>
+
+            <h3 className="text-2xl font-bold text-slate-800 mt-12 mb-6">Income Tax Slabs for FY 2025-26 (AY 2026-27)</h3>
+            <p>
+              The slab rates determine how much tax you pay on each portion of your income. The New Regime slabs are significantly wider than the Old Regime.
+            </p>
+
+            <div className="overflow-x-auto my-6 not-prose">
+              <table className="w-full text-sm text-left text-slate-600 border border-slate-200 rounded-lg">
+                <thead className="bg-slate-50 text-slate-700 uppercase font-bold text-xs">
+                  <tr>
+                    <th className="px-6 py-3 border-b">Income Range</th>
+                    <th className="px-6 py-3 border-b">New Regime Rate</th>
+                    <th className="px-6 py-3 border-b">Old Regime Rate</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b">
+                    <td className="px-6 py-4 font-medium">Up to ₹3,00,000</td>
+                    <td className="px-6 py-4 text-teal-600 font-bold">Nil</td>
+                    <td className="px-6 py-4 text-teal-600 font-bold">Nil</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="px-6 py-4 font-medium">₹3L - ₹4L</td>
+                    <td className="px-6 py-4 text-teal-600 font-bold">Nil</td>
+                    <td className="px-6 py-4">5% (above ₹2.5L)</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="px-6 py-4 font-medium">₹4L - ₹5L</td>
+                    <td className="px-6 py-4">5%</td>
+                    <td className="px-6 py-4">5%</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="px-6 py-4 font-medium">₹5L - ₹8L</td>
+                    <td className="px-6 py-4">5%</td>
+                    <td className="px-6 py-4">20%</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="px-6 py-4 font-medium">₹8L - ₹10L</td>
+                    <td className="px-6 py-4">10%</td>
+                    <td className="px-6 py-4">20%</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="px-6 py-4 font-medium">₹10L - ₹12L</td>
+                    <td className="px-6 py-4">10%</td>
+                    <td className="px-6 py-4 text-rose-600 font-bold">30%</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="px-6 py-4 font-medium">₹12L - ₹15L</td>
+                    <td className="px-6 py-4">15%</td>
+                    <td className="px-6 py-4 text-rose-600 font-bold">30%</td>
+                  </tr>
+                   <tr className="border-b">
+                    <td className="px-6 py-4 font-medium">Above ₹15L</td>
+                    <td className="px-6 py-4">20-30%</td>
+                    <td className="px-6 py-4 text-rose-600 font-bold">30%</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p className="text-xs text-slate-500 mt-2 italic">* Note: Old Regime slabs are for individuals &lt;60 years. Senior citizens have higher basic exemption limits.</p>
+            </div>
+
+            <h3 className="text-2xl font-bold text-slate-800 mt-12 mb-6">Frequently Asked Questions (FAQ)</h3>
+            <div className="not-prose space-y-4">
+              <details className="group border border-slate-200 rounded-xl bg-slate-50 open:bg-white open:shadow-sm transition-all">
+                <summary className="flex items-center justify-between p-4 font-semibold cursor-pointer list-none text-slate-800">
+                  <span>Is interest from Savings Account taxable?</span>
+                  <span className="transition group-open:rotate-180">
+                    <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                  </span>
+                </summary>
+                <div className="px-4 pb-4 text-slate-600">
+                  <p>Yes, interest from savings accounts is fully taxable under "Income from Other Sources". However, under the Old Regime, Section 80TTA allows a deduction of up to ₹10,000 (₹50,000 for senior citizens u/s 80TTB) on such interest.</p>
                 </div>
-              ))}
+              </details>
+              <details className="group border border-slate-200 rounded-xl bg-slate-50 open:bg-white open:shadow-sm transition-all">
+                <summary className="flex items-center justify-between p-4 font-semibold cursor-pointer list-none text-slate-800">
+                  <span>How is Surcharge calculated?</span>
+                  <span className="transition group-open:rotate-180">
+                    <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                  </span>
+                </summary>
+                <div className="px-4 pb-4 text-slate-600">
+                  <p>Surcharge is a tax on tax. It applies if your total income exceeds ₹50 Lakhs. The rates range from 10% to 25% (New Regime) or 37% (Old Regime). Marginal relief ensures that the surcharge doesn't exceed the income earned above the threshold.</p>
+                </div>
+              </details>
+              <details className="group border border-slate-200 rounded-xl bg-slate-50 open:bg-white open:shadow-sm transition-all">
+                <summary className="flex items-center justify-between p-4 font-semibold cursor-pointer list-none text-slate-800">
+                  <span>Can I switch back to the Old Regime?</span>
+                  <span className="transition group-open:rotate-180">
+                    <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                  </span>
+                </summary>
+                <div className="px-4 pb-4 text-slate-600">
+                  <p>Salaried individuals can choose between regimes every year. However, if you have business or professional income, once you opt for the New Regime, you can only switch back to the Old Regime <strong>once</strong> in your lifetime.</p>
+                </div>
+              </details>
+               <details className="group border border-slate-200 rounded-xl bg-slate-50 open:bg-white open:shadow-sm transition-all">
+                <summary className="flex items-center justify-between p-4 font-semibold cursor-pointer list-none text-slate-800">
+                  <span>What is the Standard Deduction?</span>
+                  <span className="transition group-open:rotate-180">
+                    <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                  </span>
+                </summary>
+                <div className="px-4 pb-4 text-slate-600">
+                  <p>A flat deduction of ₹50,000 (Old Regime) or ₹75,000 (New Regime) is available to all salaried employees and pensioners. You don't need to submit any proofs to claim this; it's automatically applied.</p>
+                </div>
+              </details>
             </div>
           </div>
-
-          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-8 sm:p-10">
-            <h2 className="text-3xl font-black text-slate-900 mb-5 tracking-tight">Tax Planning Framework Beyond Regime Selection</h2>
-            <div className="space-y-4 text-sm text-slate-600 leading-relaxed font-medium">
-              <p>
-                Choosing Old versus New Regime is only the first layer of tax planning. The stronger approach is to optimize cash flow, compliance, and long-term wealth simultaneously.
-                In many cases, people over-focus on deduction hunting and under-focus on avoidable penalties, timing of declarations, and documentation quality.
-              </p>
-              <p>
-                Begin with your gross income map: salary components, variable pay, interest income, capital gains, and side income.
-                Then classify each stream by tax treatment and filing requirements. This prevents year-end surprises and helps you estimate advance tax needs accurately,
-                especially if you have freelance income or significant non-salary earnings.
-              </p>
-              <p>
-                Under the Old Regime, deduction planning should align with real financial goals rather than tax-saving products alone.
-                For example, 80C can include EPF, ELSS, and principal repayment—but your allocation should match liquidity needs and risk appetite.
-                Tax benefit is valuable, but poor product fit can hurt long-term outcomes.
-              </p>
-              <p>
-                Under the New Regime, simplicity is the key advantage. Lower slab rates and standard deduction reduce complexity, making it easier to plan monthly cash flow.
-                This can be especially useful for younger earners and professionals who prefer flexible investing over locked-in instruments.
-                However, you should still evaluate annual break-even points if your deduction profile changes.
-              </p>
-              <p>
-                Finally, keep robust records: rent receipts, insurance proofs, donation receipts, and investment statements.
-                Good documentation reduces filing errors and supports you during notices or verification requests.
-                Use this calculator as your scenario engine, then review with a qualified tax professional if you have business income, capital gains, or cross-border tax exposure.
-              </p>
-            </div>
-          </div>
+          
+           {/* JSON-LD Schema for FAQ */}
+            <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Is interest from Savings Account taxable?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, interest from savings accounts is fully taxable. However, under the Old Regime, Section 80TTA allows a deduction of up to ₹10,000."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How is Surcharge calculated?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Surcharge is a tax on tax for income above ₹50 Lakhs. Rates range from 10% to 37% depending on income level and regime."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I switch back to the Old Regime?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Salaried individuals can switch every year. Business owners can only switch back once in a lifetime after opting for the New Regime."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What is the Standard Deduction?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "It is a flat deduction of ₹50,000 (Old) or ₹75,000 (New) available to all salaried employees without needing proofs."
+                  }
+                }
+              ]
+            })}} />
         </section>
       </article>
     </div>

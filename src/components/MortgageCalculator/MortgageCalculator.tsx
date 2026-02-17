@@ -189,30 +189,201 @@ const MortgageCalculator: React.FC = () => {
               </div>
             </div>
 
-            {/* Educational Content */}
+            {/* Educational Content & FAQ */}
             <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm prose prose-slate max-w-none">
-              <h2 className="text-2xl font-bold text-slate-900 mb-4">Understanding Your Mortgage Payment</h2>
-              <p>
-                A standard mortgage payment consists of four main components, often referred to as <strong>PITI</strong>: Principal, Interest, Taxes, and Insurance.
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 not-prose">
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
-                  <h4 className="font-bold text-indigo-600 mb-1">Principal & Interest</h4>
-                  <p className="text-sm text-slate-600">The bulk of your payment. Principal pays down the loan balance, while interest is the cost of borrowing.</p>
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">Master Your Mortgage: The Ultimate Guide</h2>
+              
+              <section className="mb-12">
+                <h3 className="text-2xl font-semibold text-slate-800 mb-4">Why Use a Mortgage Calculator?</h3>
+                <p>
+                  Buying a home is likely the largest financial decision you'll ever make. A mortgage isn't just a monthly bill; it's a complex financial instrument with multiple moving parts. 
+                  Our <strong>Mortgage Calculator</strong> cuts through the confusion by providing a transparent, line-item breakdown of your monthly obligation.
+                </p>
+                <p>
+                  Most buyers focus solely on the principal and interest (P&I). However, the "real" cost of homeownership includes property taxes, homeowners insurance, private mortgage insurance (PMI), and HOA fees. 
+                  Ignoring these can lead to "house poor" syndrome—where your income covers the mortgage, but leaves nothing for life.
+                </p>
+                <p>
+                  Use this tool to:
+                </p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li><strong>Budget Accurately:</strong> See the full PITI (Principal, Interest, Taxes, Insurance) payment.</li>
+                  <li><strong>Scenario Test:</strong> Adjust down payments to see how it affects your rate and PMI.</li>
+                  <li><strong>Amortization Insight:</strong> Understand how much of your payment goes to interest vs. equity in the early years.</li>
+                </ul>
+              </section>
+
+              <section className="mb-12">
+                <h3 className="text-2xl font-semibold text-slate-800 mb-4">Deep Dive: The Math Behind Your Monthly Payment</h3>
+                <p>
+                  Your monthly mortgage payment is the sum of four distinct components, often referred to as PITI. Understanding how each variable impacts your bottom line gives you leverage when shopping for a loan.
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8 not-prose">
+                  <div className="p-6 rounded-2xl bg-indigo-50 border border-indigo-100">
+                    <h4 className="text-lg font-bold text-indigo-700 mb-2">1. Principal & Interest (P&I)</h4>
+                    <p className="text-slate-700 text-sm">
+                      <strong>Principal</strong> pays down your loan balance. <strong>Interest</strong> is the bank's profit. 
+                      In the early years of a 30-year fixed loan, nearly 70% of your payment goes to interest. This shifts over time as the principal balance decreases.
+                    </p>
+                  </div>
+                  <div className="p-6 rounded-2xl bg-blue-50 border border-blue-100">
+                    <h4 className="text-lg font-bold text-blue-700 mb-2">2. Property Taxes</h4>
+                    <p className="text-slate-700 text-sm">
+                      Taxes fund local services like schools and roads. Rates vary wildly by location (e.g., NJ averages ~2.4%, while HI is ~0.28%). 
+                      This cost never goes away, even after the mortgage is paid off.
+                    </p>
+                  </div>
+                  <div className="p-6 rounded-2xl bg-cyan-50 border border-cyan-100">
+                    <h4 className="text-lg font-bold text-cyan-700 mb-2">3. Homeowners Insurance</h4>
+                    <p className="text-slate-700 text-sm">
+                      Lenders require this to protect the asset against fire, theft, and disasters. 
+                      Costs depend on coverage limits, deductibles, and location risks (flood zones, wildfire areas).
+                    </p>
+                  </div>
+                  <div className="p-6 rounded-2xl bg-teal-50 border border-teal-100">
+                    <h4 className="text-lg font-bold text-teal-700 mb-2">4. Mortgage Insurance (PMI)</h4>
+                    <p className="text-slate-700 text-sm">
+                      If you put down less than 20%, lenders usually charge PMI (0.5% - 1.5% of loan annually). 
+                      It protects <em>them</em> if you default. It drops off automatically once you reach 22% equity.
+                    </p>
+                  </div>
                 </div>
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
-                  <h4 className="font-bold text-blue-600 mb-1">Property Taxes</h4>
-                  <p className="text-sm text-slate-600">Levied by your local government. The national average is around 1.1%, but varies significantly by state.</p>
+
+                <h4 className="text-xl font-bold text-slate-800 mt-8 mb-3">The Amortization Curve</h4>
+                <p>
+                  Mortgage loans use an amortization schedule. This means your payment amount stays the same (for fixed-rate loans), but the allocation changes.
+                  Initially, you pay mostly interest. For example, on a $400k loan at 6.5%, your first payment might be $2,528, with $2,166 going to interest and only $362 to principal.
+                  It takes about 13 years before your principal payment exceeds your interest payment.
+                </p>
+              </section>
+
+              <section className="mb-12">
+                <h3 className="text-2xl font-semibold text-slate-800 mb-4">Strategic Advice: Save Thousands on Your Mortgage</h3>
+                <p>
+                  A mortgage is a contract, but it's not set in stone. Smart borrowers use strategies to reduce the total interest paid over the life of the loan.
+                </p>
+                
+                <div className="space-y-6">
+                  <div>
+                    <h5 className="font-bold text-slate-900">Make One Extra Payment Per Year</h5>
+                    <p>
+                      By making 13 payments a year instead of 12, you can shave 4-6 years off a 30-year mortgage and save tens of thousands in interest. 
+                      This works because the extra payment goes 100% toward principal, reducing the balance that accrues interest.
+                    </p>
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-slate-900">Recast Instead of Refinance</h5>
+                    <p>
+                      If you come into a lump sum of cash, ask your lender for a "recast." You pay a large sum toward the principal, and they re-amortize the remaining balance over the same term. 
+                      This lowers your monthly payment without the closing costs of refinancing.
+                    </p>
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-slate-900">Shop for PMI</h5>
+                    <p>
+                      PMI rates vary by insurer. Ask your lender if they can shop around for cheaper PMI, or consider an "upfront PMI" buyout if you have extra cash at closing but less than 20% down.
+                    </p>
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-slate-900">Avoid the "Rate Trap"</h5>
+                    <p>
+                      Don't obsess over the interest rate alone. A lower rate might come with high "points" (prepaid interest) that take 7+ years to break even. 
+                      Calculate the "break-even point" before buying points.
+                    </p>
+                  </div>
                 </div>
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
-                  <h4 className="font-bold text-cyan-600 mb-1">Home Insurance</h4>
-                  <p className="text-sm text-slate-600">Protects your home against damage. Lenders require this to protect their investment.</p>
+              </section>
+
+              <section className="mb-12">
+                <h3 className="text-2xl font-semibold text-slate-800 mb-6">Frequently Asked Questions</h3>
+                <div className="space-y-4">
+                  <details className="group border border-slate-200 rounded-xl bg-slate-50 open:bg-white open:shadow-sm transition-all">
+                    <summary className="flex items-center justify-between p-4 font-semibold cursor-pointer list-none text-slate-800">
+                      <span>How much house can I afford?</span>
+                      <span className="transition group-open:rotate-180">
+                        <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                      </span>
+                    </summary>
+                    <div className="px-4 pb-4 text-slate-600">
+                      <p>The "28/36 rule" is a standard guideline. Your housing costs (PITI) shouldn't exceed 28% of your gross monthly income, and your total debt (including car loans, student loans, credit cards) shouldn't exceed 36%. However, with current interest rates, many lenders stretch this to 43% or even 50% for qualified borrowers.</p>
+                    </div>
+                  </details>
+                  <details className="group border border-slate-200 rounded-xl bg-slate-50 open:bg-white open:shadow-sm transition-all">
+                    <summary className="flex items-center justify-between p-4 font-semibold cursor-pointer list-none text-slate-800">
+                      <span>What is a good interest rate for a mortgage?</span>
+                      <span className="transition group-open:rotate-180">
+                        <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                      </span>
+                    </summary>
+                    <div className="px-4 pb-4 text-slate-600">
+                      <p>Mortgage rates fluctuate daily based on the bond market and Federal Reserve policy. A "good" rate is one that is at or below the national average for your credit score tier. Borrowers with credit scores above 760 typically qualify for the best available rates.</p>
+                    </div>
+                  </details>
+                  <details className="group border border-slate-200 rounded-xl bg-slate-50 open:bg-white open:shadow-sm transition-all">
+                    <summary className="flex items-center justify-between p-4 font-semibold cursor-pointer list-none text-slate-800">
+                      <span>Is it better to put 20% down?</span>
+                      <span className="transition group-open:rotate-180">
+                        <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                      </span>
+                    </summary>
+                    <div className="px-4 pb-4 text-slate-600">
+                      <p>Ideally, yes. Putting 20% down avoids Private Mortgage Insurance (PMI), secures a lower interest rate, and provides immediate equity. However, for many first-time buyers, a 3.5% (FHA) or 3-5% (Conventional) down payment is a smarter path to homeownership than waiting years to save 20% while home prices rise.</p>
+                    </div>
+                  </details>
+                  <details className="group border border-slate-200 rounded-xl bg-slate-50 open:bg-white open:shadow-sm transition-all">
+                    <summary className="flex items-center justify-between p-4 font-semibold cursor-pointer list-none text-slate-800">
+                      <span>What are closing costs?</span>
+                      <span className="transition group-open:rotate-180">
+                        <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                      </span>
+                    </summary>
+                    <div className="px-4 pb-4 text-slate-600">
+                      <p>Closing costs are fees paid at the final signing of your loan. They typically range from 2% to 5% of the loan amount and include appraisal fees, title insurance, origination fees, and prepaid taxes/insurance. You can sometimes negotiate for the seller to pay a portion of these costs.</p>
+                    </div>
+                  </details>
                 </div>
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
-                  <h4 className="font-bold text-teal-600 mb-1">PMI</h4>
-                  <p className="text-sm text-slate-600">Private Mortgage Insurance is usually required if your down payment is less than 20% of the home price.</p>
-                </div>
-              </div>
+                
+                {/* JSON-LD Schema for FAQ */}
+                <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "FAQPage",
+                  "mainEntity": [
+                    {
+                      "@type": "Question",
+                      "name": "How much house can I afford?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "The '28/36 rule' is a standard guideline. Your housing costs (PITI) shouldn't exceed 28% of your gross monthly income, and your total debt shouldn't exceed 36%. However, many lenders stretch this to 43% or even 50% for qualified borrowers."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "What is a good interest rate for a mortgage?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Mortgage rates fluctuate daily based on the bond market. A 'good' rate is one that is at or below the national average for your credit score tier. Borrowers with scores above 760 typically qualify for the best rates."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "Is it better to put 20% down?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Ideally, yes, to avoid PMI and secure a lower rate. However, for many first-time buyers, a 3-5% down payment is a smarter path to homeownership than waiting years to save 20% while prices rise."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "What are closing costs?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Closing costs are fees paid at signing, typically 2-5% of the loan amount. They include appraisal fees, title insurance, origination fees, and prepaids. Sellers can sometimes pay a portion of these costs."
+                      }
+                    }
+                  ]
+                })}} />
+              </section>
             </div>
           </div>
         </div>
