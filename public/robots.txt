@@ -4,7 +4,7 @@ Allow: /
 Disallow:
 
 # Sitemap
-Sitemap: https://toolist.app/sitemap.xml
+Sitemap: https://toolisk.com/sitemap.xml
 
 # Crawl-delay
 Crawl-delay: 1

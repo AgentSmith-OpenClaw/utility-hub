@@ -1,263 +1,262 @@
-import { NextPage } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 import BuyVsRentRedesigned from '../../components/BuyVsRent/BuyVsRentRedesigned';
-import Header from '../../components/Layout/Header';
-import Footer from '../../components/Layout/Footer';
+import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
 
-const BuyVsRentCalculatorPage: NextPage = () => {
+export default function BuyVsRentCalculatorPage() {
+  const breadcrumbSchema = generateBreadcrumbs('/finance/buy-vs-rent-calculator');
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Is renting always throwing money away?",
+        "name": "Is buying always better than renting in India?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. While you don't build equity, renting provides flexibility and avoids maintenance costs, property taxes, and market risks. If you invest the difference between rent and a mortgage payment, renting can sometimes outperform buying financially."
+          "text": "Not necessarily. While cultural preferences favor ownership, buying only makes financial sense when property appreciation and tax benefits outweigh the opportunity cost of invested capital plus all ownership expenses. In expensive markets with low rental yields, renting and investing the difference often produces superior wealth outcomes over 10-15 years."
         }
       },
       {
         "@type": "Question",
-        "name": "What is the 5% Rule in Rent vs Buy?",
+        "name": "What hidden costs do home buyers often miss?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The 5% Rule suggests that unrecoverable costs of homeownership (property tax ~1%, maintenance ~1%, cost of capital ~3%) total roughly 5% of the home's value annually. If your annual rent is less than 5% of a comparable home's price, renting is likely cheaper."
+          "text": "Beyond EMI and down payment, homeowners face registration costs (7-10% in many states), annual property tax, insurance, maintenance reserves (1-2% of property value annually), renovation costs, and major repairs. These can add 30-40% to the total cost of ownership over 20 years. Factor all expenses for accurate buy vs rent comparison."
         }
       },
       {
         "@type": "Question",
-        "name": "What hidden costs should I consider when buying?",
+        "name": "How do I estimate realistic property appreciation?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Beyond the mortgage, consider property taxes (1-2%), maintenance (1% annually), homeowners insurance, HOA fees, closing costs (2-5%), and selling costs (6% agent fees)."
+          "text": "Historical Indian real estate returns average 8-10% in major metros, but vary dramatically by location and period. Conservative planning uses 6-8% to avoid over-optimism. Check actual transaction prices in your specific area over the past decade using registration data. Avoid basing decisions on seller claims or outlier appreciation stories."
         }
       },
       {
         "@type": "Question",
-        "name": "How does inflation affect buying vs renting?",
+        "name": "Should I buy if I might relocate in 5 years?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Buying acts as a hedge against inflation because a fixed-rate mortgage payment stays the same while rents typically rise with inflation. Over 10-20 years, this locked-in housing cost becomes a significant advantage."
+          "text": "Probably not. Transaction costs typically require 7-10 years to break even. Buying for short durations locks capital, incurs high entry/exit costs, and risks selling during market downturns. If career mobility is likely, renting preserves flexibility while investing the would-be down payment in liquid assets typically produces better outcomes."
         }
       },
       {
         "@type": "Question",
-        "name": "What is the break-even point?",
+        "name": "How does rental yield affect the buy vs rent decision?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The break-even point is the number of years you must live in a home for buying to be financially better than renting. It typically ranges from 3 to 7 years depending on the market and closing costs."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Does this calculator include opportunity cost?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. Our calculator assumes that any monthly savings from renting are invested in the stock market (at a configurable return rate), allowing for a fair 'apples-to-apples' comparison of net worth over time."
+          "text": "Rental yield (annual rent divided by property price) indicates market pricing. Yields below 2-2.5% suggest overpriced property relative to rents, favoring renting. Higher yields (3-4%+) indicate better value for buyers. Mumbai and Bangalore often have 1.5-2% yields, making renting economically attractive compared to many tier-2 cities with 3-4% yields."
         }
       }
     ]
   };
 
+  const softwareSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Buy vs Rent Calculator",
+    "applicationCategory": "FinanceApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "Compare the full financial impact of buying versus renting property, including hidden costs, opportunity costs, and wealth accumulation."
+  };
+
   return (
     <>
       <Head>
-        <title>Buy vs Rent Calculator — Is it Better to Buy or Rent? | Toolisk</title>
-        <meta
-          name="description"
-          content="Compare the true cost of buying vs renting a home. Our calculator accounts for mortgage interest, property taxes, maintenance, rent inflation, and investment opportunity costs."
+        <title>Buy vs Rent Calculator - Complete Cost Comparison | Utility Hub</title>
+        <meta 
+          name="description" 
+          content="Compare buying vs renting with full cost analysis including hidden ownership expenses, opportunity costs, and wealth accumulation. Make informed property decisions with real numbers." 
         />
-        <meta
-          name="keywords"
-          content="buy vs rent calculator, rent or buy analysis, home buying break-even, 5% rule real estate, opportunity cost renting vs buying, housing market calculator, mortgage vs rent"
+        <meta 
+          name="keywords" 
+          content="buy vs rent calculator, property comparison, home ownership cost, rental yield, real estate calculator, property investment" 
         />
-        <meta property="og:title" content="Buy vs Rent Calculator — The Ultimate Financial Decision Tool" />
-        <meta
-          property="og:description"
-          content="Should you buy a house or keep renting? Use our detailed financial model to find your break-even year and net worth projection."
-        />
+        <link rel="canonical" href={`${SITE_URL}/finance/buy-vs-rent-calculator`} />
+        <meta property="og:title" content="Buy vs Rent Calculator - Complete Cost Comparison" />
+        <meta property="og:description" content="Analyze whether buying or renting makes better financial sense with comprehensive cost comparison." />
+        <meta property="og:url" content={`${SITE_URL}/finance/buy-vs-rent-calculator`} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://toolisk.com/finance/buy-vs-rent-calculator" />
-        <link rel="canonical" href="https://toolisk.com/finance/buy-vs-rent-calculator" />
-        
-        {/* Schema.org for WebApp + FAQ */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@graph": [
-              {
-                "@type": "WebApplication",
-                "name": "Buy vs Rent Calculator",
-                "url": "https://toolisk.com/finance/buy-vs-rent-calculator",
-                "description": "Compare the financial outcomes of buying versus renting a home with detailed charts.",
-                "applicationCategory": "FinanceApplication",
-                "operatingSystem": "All",
-                "offers": {
-                  "@type": "Offer",
-                  "price": "0",
-                  "priceCurrency": "USD"
-                }
-              },
-              faqSchema
-            ]
-          })}
-        </script>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema]) }}
+        />
       </Head>
 
-      <div className="bg-slate-50 min-h-screen">
-        <Header />
+      <BuyVsRentRedesigned />
 
-        <main className="pt-8 pb-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-             {/* Tool Section */}
-             <div className="mb-12">
-              <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 text-center mb-4">
-                Buy vs. Rent Calculator
-              </h1>
-              <p className="text-lg text-slate-600 text-center max-w-2xl mx-auto mb-8">
-                Should you buy a home or keep renting? Compare the total cost of ownership vs. renting and investing the difference.
-              </p>
-              <div itemScope itemType="https://schema.org/WebApplication">
-                <BuyVsRentRedesigned />
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-14">
+
+        {/* Lead */}
+        <div className="bg-gradient-to-br from-teal-600 to-cyan-700 rounded-3xl p-8 sm:p-10 text-white">
+          <h2 className="text-3xl font-bold mb-3">Buy vs Rent: The Math May Surprise You</h2>
+          <p className="text-teal-100 text-lg leading-relaxed max-w-3xl">
+            &quot;Rent is money down the drain&quot; is Indian common wisdom — but in cities where rental yields sit below 2%, the numbers often tell a very different story.
+          </p>
+        </div>
+
+        {/* True ownership costs */}
+        <section>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">🏠 True Cost of Ownership (Beyond EMI)</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
+            {[
+              { icon: '📋', label: 'Stamp Duty + Registration', val: '7–10% upfront', desc: 'Paid at purchase on property value. On a ₹1Cr home = ₹7–10L out of pocket before EMI 1.' },
+              { icon: '💰', label: 'Down Payment', val: '20% minimum', desc: '₹20L on ₹1Cr home — locked capital that forfeits investment returns.' },
+              { icon: '🏛️', label: 'Property Tax', val: '₹15–40k/yr', desc: 'Ongoing, non-negotiable, and increases over time.' },
+              { icon: '🛡️', label: 'Insurance', val: '₹8–15k/yr', desc: 'Home + contents insurance. Mandatory for lenders.' },
+              { icon: '🔧', label: 'Maintenance Charges', val: '₹29–58k/yr', desc: 'For a 1,200 sqft apartment. Standalone homes bear individual costs.' },
+              { icon: '🏗️', label: 'Repairs & Renovation', val: '1–2% of value/yr', desc: '₹1–2L/yr amortized for plumbing, painting, appliances on a ₹1Cr home.' },
+            ].map(c => (
+              <div key={c.label} className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+                <div className="text-2xl mb-2">{c.icon}</div>
+                <div className="font-semibold text-slate-800 text-sm">{c.label}</div>
+                <div className="text-teal-600 font-bold text-xs mb-2">{c.val}</div>
+                <p className="text-xs text-slate-500">{c.desc}</p>
               </div>
-            </div>
-
-            {/* Content Section */}
-            <article className="max-w-4xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 p-8 md:p-12 prose prose-slate prose-lg">
-              
-              <h2>The Rent vs. Buy Dilemma: It's Not Just About the Monthly Payment</h2>
-              <p>
-                For decades, the American Dream (and the dream in many other countries) has been synonymous with homeownership. We are told that "renting is throwing money away" and that "paying a mortgage is paying yourself." While there is truth to these adages, they are dangerous oversimplifications.
-              </p>
-              <p>
-                In reality, renting is not throwing money away—it is exchanging money for a place to live, just like buying food is exchanging money for sustenance. Similarly, buying a home is not always a good investment. When you factor in unrecoverable costs like property taxes, maintenance, insurance, and mortgage interest, owning a home can sometimes be <em>more</em> expensive than renting, even over the long term.
-              </p>
-              <p>
-                This calculator is designed to help you make an objective, mathematical decision. By comparing the <strong>Total Cost of Ownership</strong> against the <strong>Total Cost of Renting</strong> (plus the investment returns of any cash saved), we can determine the break-even point where buying becomes the superior financial choice.
-              </p>
-
-              <h3>The "5% Rule" of Unrecoverable Costs</h3>
-              <p>
-                One of the most robust frameworks for comparing renting and buying is the <strong>5% Rule</strong>, popularized by portfolio manager Ben Felix. This rule estimates the annual unrecoverable costs of owning a home.
-              </p>
-              <p>
-                Unrecoverable costs are money you pay that does not build equity. For renters, this is 100% of the rent. For homeowners, it includes:
-              </p>
-              <ul>
-                <li><strong>Property Taxes:</strong> ~1% of the home value per year.</li>
-                <li><strong>Maintenance Costs:</strong> ~1% of the home value per year. (Roofs leak, water heaters break, paint fades).</li>
-                <li><strong>Cost of Capital:</strong> ~3% of the home value per year. This represents the mortgage interest you pay <em>or</em> the opportunity cost of having your equity tied up in the house instead of the stock market.</li>
-              </ul>
-              <p>
-                <strong>The Calculation:</strong> Take the price of the home you want to buy. Multiply it by 5%. Divide by 12.
-              </p>
-              <div className="bg-slate-100 p-6 rounded-lg font-mono text-sm border-l-4 border-blue-600 my-6">
-                (Home Price × 0.05) ÷ 12 = Break-Even Monthly Rent
-              </div>
-              <p>
-                If you can rent a comparable home for <em>less</em> than this number, renting is likely the better financial decision. If rent is <em>higher</em>, buying is likely better.
-              </p>
-
-              <h3>The Hidden Costs of Homeownership</h3>
-              <p>
-                First-time buyers often focus solely on the mortgage principal and interest (P&I). This is a mistake. The real cost of owning a home includes <strong>PITI</strong> (Principal, Interest, Taxes, Insurance) plus maintenance and HOA fees.
-              </p>
-              <ul>
-                <li><strong>Property Taxes:</strong> In many states, this can be 2% or more of the home's value annually. On a $500,000 home, that's $10,000 a year—roughly $833/month—gone forever.</li>
-                <li><strong>Maintenance:</strong> The "1% Rule" suggests budgeting 1% of the home's value annually for repairs. Even if you don't spend it this year, you will spend it when the roof needs replacing in 10 years.</li>
-                <li><strong>Closing Costs:</strong> Buying a home costs money upfront (2-5% of purchase price). Selling a home costs even more (6-10% for agent commissions and taxes). This "transaction friction" is why buying for the short term (less than 5 years) is almost always a losing proposition.</li>
-              </ul>
-
-              <h3>The "Invest the Difference" Strategy</h3>
-              <p>
-                This is the most critical variable in our calculator.
-              </p>
-              <p>
-                Scenario:
-                <br />
-                <strong>Option A (Buy):</strong> You pay $50,000 down payment + $10,000 closing costs. Monthly cost: $3,500.
-                <br />
-                <strong>Option B (Rent):</strong> You pay $0 down. Monthly rent: $2,500.
-              </p>
-              <p>
-                If you choose Option B, you have an extra $60,000 upfront and save $1,000 every month. <strong>If you spend that money on lifestyle, buying wins.</strong> But if you <strong>invest that money</strong> in a diversified portfolio (like an S&P 500 index fund returning historically ~10%), renting can often outperform buying.
-              </p>
-              <p>
-                Our calculator models this aggressive investment strategy to show you the <strong>Opportunity Cost</strong> of your down payment.
-              </p>
-
-              <h3>Inflation: The Homeowner's Best Friend</h3>
-              <p>
-                If renting has so many advantages, why do people buy? <strong>Inflation hedging.</strong>
-              </p>
-              <p>
-                When you get a fixed-rate mortgage, your principal and interest payment is locked in for 30 years.
-                <br />
-                - In Year 1, you pay $2,000/month.
-                <br />
-                - In Year 20, you still pay $2,000/month (which, due to inflation, feels like paying $1,000 in today's money).
-              </p>
-              <p>
-                Renters do not have this luxury. Rents typically rise with inflation. A $2,000 apartment today might cost $3,600 in 20 years. Over long time horizons (10+ years), the fixed cost of a mortgage usually wins out against rising rents, even with maintenance costs included.
-              </p>
-
-              <h3>Decision Matrix: When to Buy vs. Rent</h3>
-              
-              <div className="grid md:grid-cols-2 gap-8 my-8">
-                <div className="bg-green-50 p-6 rounded-xl border border-green-200">
-                  <h4 className="font-bold text-green-900 text-xl mb-4">✅ You Should Buy If...</h4>
-                  <ul className="space-y-3 text-green-800">
-                    <li className="flex items-start"><span className="mr-2">•</span> <strong>You plan to stay 7+ years.</strong> This spreads out the closing costs and allows appreciation to compound.</li>
-                    <li className="flex items-start"><span className="mr-2">•</span> <strong>You want control.</strong> You can paint walls, renovate kitchens, and have pets without asking permission.</li>
-                    <li className="flex items-start"><span className="mr-2">•</span> <strong>You struggle to save.</strong> The "forced savings" of paying down mortgage principal acts as a behavioral hack for building wealth.</li>
-                    <li className="flex items-start"><span className="mr-2">•</span> <strong>Rents are high.</strong> In some markets, the Price-to-Rent ratio favors buying significantly.</li>
-                  </ul>
-                </div>
-
-                <div className="bg-blue-50 p-6 rounded-xl border border-blue-200">
-                  <h4 className="font-bold text-blue-900 text-xl mb-4">🏠 You Should Rent If...</h4>
-                  <ul className="space-y-3 text-blue-800">
-                    <li className="flex items-start"><span className="mr-2">•</span> <strong>You might move in &lt;5 years.</strong> Transaction costs will likely wipe out any equity gains.</li>
-                    <li className="flex items-start"><span className="mr-2">•</span> <strong>You prioritize flexibility.</strong> Breaking a lease is cheap; selling a house is slow and expensive.</li>
-                    <li className="flex items-start"><span className="mr-2">•</span> <strong>Investments yield high returns.</strong> If you can get 10-12% returns in the market, your capital is better deployed there than in a house appreciating at 3-4%.</li>
-                    <li className="flex items-start"><span className="mr-2">•</span> <strong>You hate maintenance.</strong> When the toilet breaks, you call the landlord, not the plumber.</li>
-                  </ul>
-                </div>
-              </div>
-
-              <h3>The Psychological Factor</h3>
-              <p>
-                Finally, remember that this isn't just a math problem. It's a life problem.
-              </p>
-              <p>
-                Buying a home offers a sense of permanence, community, and pride of ownership that a spreadsheet cannot quantify. Renting offers freedom, mobility, and freedom from the stress of unexpected repairs.
-              </p>
-              <p>
-                Use this calculator to inform your decision, but don't let the numbers override your lifestyle goals. Sometimes, the "wrong" financial decision is the right life decision.
-              </p>
-
-              <hr className="my-12 border-slate-200" />
-
-              <h3>Frequently Asked Questions</h3>
-              <div className="not-prose space-y-8 mt-8">
-                {faqSchema.mainEntity.map((faq, index) => (
-                  <div key={index} className="bg-slate-50 rounded-xl p-6 border border-slate-100">
-                    <h4 className="font-bold text-slate-900 text-lg mb-2">{faq.name}</h4>
-                    <p className="text-slate-600 leading-relaxed">{faq.acceptedAnswer.text}</p>
-                  </div>
-                ))}
-              </div>
-
-            </article>
+            ))}
           </div>
-        </main>
-        
-        <Footer />
+          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5">
+            <p className="text-amber-900 text-sm">When ₹25k rent is compared to ₹60k EMI, the actual comparison is <strong>₹25k all-in (renting) vs ₹75k+ all-in (owning)</strong> after all recurring costs.</p>
+          </div>
+        </section>
+
+        {/* Opportunity cost */}
+        <section>
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">📈 The Opportunity Cost That Changes Everything</h2>
+          <p className="text-slate-500 mb-6">The ₹30L spent on down payment + registration isn&apos;t gone — it&apos;s locked in property. Here&apos;s what it could have done instead.</p>
+          <div className="bg-slate-900 text-white rounded-3xl p-8 sm:p-10 grid sm:grid-cols-2 gap-6">
+            <div>
+              <div className="text-teal-400 font-bold text-xs uppercase tracking-widest mb-2">₹30L down payment invested</div>
+              <div className="text-3xl font-bold mb-1">₹2.8 Crore</div>
+              <p className="text-slate-400 text-sm">At 12% for 20 years — that capital is completely liquid.</p>
+            </div>
+            <div>
+              <div className="text-teal-400 font-bold text-xs uppercase tracking-widest mb-2">₹50k/mo difference invested</div>
+              <div className="text-3xl font-bold mb-1">₹4.5 Crore</div>
+              <p className="text-slate-400 text-sm">Monthly cost gap (own vs rent) invested as a SIP at 12% for 20 years.</p>
+            </div>
+            <div className="sm:col-span-2 bg-teal-500/20 rounded-2xl p-4 border border-teal-500/30">
+              <div className="text-teal-300 font-semibold mb-1">Combined renter&apos;s portfolio after 20 years</div>
+              <div className="text-2xl font-bold text-white">~₹7.3 Crore (liquid)</div>
+              <p className="text-teal-200 text-sm mt-1">The property must appreciate to ₹7.3Cr (10.6% CAGR) for buying to match — before selling costs.</p>
+            </div>
+          </div>
+          <div className="mt-4 bg-blue-50 border border-blue-100 rounded-2xl p-5">
+            <p className="text-blue-900 text-sm"><strong>The catch:</strong> This only works if you actually invest the difference. People who won&apos;t do that consistently may build more wealth through the forced savings of a home loan.</p>
+          </div>
+        </section>
+
+        {/* Rental yield */}
+        <section>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">📊 Rental Yield by City: Who Benefits From Buying?</h2>
+          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+            <table className="w-full text-sm">
+              <thead className="bg-slate-50 border-b border-slate-200">
+                <tr>
+                  <th className="text-left px-5 py-3 font-semibold text-slate-600">Market</th>
+                  <th className="text-right px-5 py-3 font-semibold text-slate-600">Typical Rental Yield</th>
+                  <th className="text-right px-5 py-3 font-semibold text-slate-600">Verdict</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {[
+                  { city: 'Mumbai (premium areas)', yield: '< 2%', verdict: 'Rent favoured', color: 'text-red-500' },
+                  { city: 'Bangalore (tech corridors)', yield: '1.8–2.5%', verdict: 'Rent favoured', color: 'text-red-500' },
+                  { city: 'Pune / Hyderabad', yield: '3–4%', verdict: 'Neutral / Buy OK', color: 'text-amber-600' },
+                  { city: 'Tier-2 cities', yield: '3.5–4.5%', verdict: 'Buying reasonable', color: 'text-emerald-600' },
+                ].map(r => (
+                  <tr key={r.city} className="hover:bg-slate-50 transition">
+                    <td className="px-5 py-3 text-slate-700">{r.city}</td>
+                    <td className="px-5 py-3 text-right font-semibold text-slate-800">{r.yield}</td>
+                    <td className={`px-5 py-3 text-right font-medium ${r.color}`}>{r.verdict}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-sm text-slate-400 mt-2 pl-1">Yields below 2.5% signal properties are expensive relative to rents. The lower the yield, the stronger the case for renting.</p>
+        </section>
+
+        {/* Time horizon */}
+        <section>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">⏳ How Long You Stay Changes Everything</h2>
+          <div className="space-y-3">
+            {[
+              { horizon: 'Under 5 years', verdict: 'Rent — almost always', color: 'text-red-600', bg: 'bg-red-50 border-red-200', desc: 'Transaction costs (stamp duty, registration, brokerage) consume 8–12% of property value. Appreciation rarely overcomes this in under 5 years.' },
+              { horizon: '5–10 years', verdict: 'Run the numbers', color: 'text-amber-600', bg: 'bg-amber-50 border-amber-200', desc: 'Depends heavily on city, rental yield, and actual appreciation. Use the calculator above with realistic inputs — not hopeful ones.' },
+              { horizon: '10–15+ years', verdict: 'Buying often wins', color: 'text-emerald-600', bg: 'bg-emerald-50 border-emerald-100', desc: 'Appreciation compounds, transaction costs amortize over many years, and forced equity building has had time to work in your favour.' },
+            ].map(row => (
+              <div key={row.horizon} className={`flex gap-4 rounded-2xl border p-5 ${row.bg}`}>
+                <div className="w-32 flex-shrink-0">
+                  <div className="text-sm font-semibold text-slate-700">{row.horizon}</div>
+                  <div className={`text-xs font-bold mt-0.5 ${row.color}`}>{row.verdict}</div>
+                </div>
+                <p className="text-sm text-slate-600">{row.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Non-financial factors */}
+        <section>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">💡 When the Math Doesn&apos;t Tell the Full Story</h2>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              { icon: '🔒', t: 'Security of tenure', d: 'Landlords can ask you to vacate. Rental negotiations every few years create stress. For families with school-age children, stability matters.' },
+              { icon: '🎨', t: 'Freedom to customise', d: 'You can\'t knock walls, paint freely, or renovate a rented home. For many people, making a home truly their own has real value.' },
+              { icon: '💪', t: 'Forced savings', d: 'Undisciplined savers rarely invest the monthly difference. For them, the EMI acts as mandatory wealth-building regardless of the spreadsheet outcome.' },
+              { icon: '🌍', t: 'Career mobility', d: 'If there\'s a 30%+ chance you relocate cities in 5–7 years, ownership locks you in during potentially bad selling conditions.' },
+            ].map(c => (
+              <div key={c.t} className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex gap-3">
+                <div className="text-2xl flex-shrink-0">{c.icon}</div>
+                <div>
+                  <div className="font-semibold text-slate-800 text-sm mb-1">{c.t}</div>
+                  <p className="text-xs text-slate-500">{c.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Frequently Asked Questions</h2>
+          <div className="space-y-4">
+            {faqSchema.mainEntity.map((faq, index) => (
+              <div key={index} className="bg-slate-50 rounded-2xl border border-slate-200 p-6">
+                <h3 className="font-semibold text-slate-900 mb-2">{faq.name}</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">{faq.acceptedAnswer.text}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Related tools */}
+        <section>
+          <h2 className="text-xl font-bold text-slate-900 mb-4">Related Finance Tools</h2>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              { href: '/finance/mortgage-calculator', title: 'Mortgage Calculator', desc: 'Calculate home loan EMI, total interest, and full repayment cost.' },
+              { href: '/finance/compound-interest-calculator', title: 'Compound Interest Calculator', desc: 'Model how your down payment grows if invested instead.' },
+              { href: '/finance/sip-calculator', title: 'SIP Calculator', desc: 'Calculate returns from investing the monthly rent-vs-EMI gap.' },
+              { href: '/finance/fire-calculator', title: 'FIRE Calculator', desc: 'Plan financial independence factoring in housing as a major variable.' },
+            ].map(t => (
+              <Link key={t.href} href={t.href} className="block p-5 bg-white border border-slate-200 rounded-2xl hover:border-teal-400 hover:shadow-md transition-all">
+                <div className="font-semibold text-slate-900 mb-1">{t.title}</div>
+                <p className="text-sm text-slate-500">{t.desc}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
       </div>
     </>
   );
-};
+}
 
-export default BuyVsRentCalculatorPage;

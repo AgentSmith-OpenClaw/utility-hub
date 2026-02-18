@@ -655,79 +655,8 @@ export const BuyVsRentRedesigned: React.FC = () => {
             content="Renting offers mobility for career moves. Buying provides stability and tax benefits but has higher transaction costs."
           />
         </div>
-
-        {/* FAQ Section - Compact */}
-        <section className="bg-white rounded-2xl shadow-md border border-slate-100 p-6 mb-6">
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">Common Questions</h2>
-          <div className="space-y-3">
-            <FAQItem
-              question="How accurate is this calculator?"
-              answer="This calculator provides estimates based on your inputs and standard financial formulas. Actual results may vary. It's meant to help you compare scenarios, not predict exact outcomes."
-            />
-            <FAQItem
-              question="What is the break-even point?"
-              answer="The break-even point is when your net worth from buying equals your net worth from renting. Before this point, renting may be financially better; after it, buying typically provides more wealth accumulation."
-            />
-            <FAQItem
-              question="What investment return should I assume?"
-              answer="Historical stock market returns average around 7-10% annually. Conservative investors might use 5-7%, while aggressive investors might use 8-10%. The default of 7% represents a moderate assumption."
-            />
-          </div>
-        </section>
-
-        {/* Content for SEO - Compact */}
-        <section className="bg-white rounded-2xl shadow-md border border-slate-100 p-6">
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">Understanding Buy vs Rent</h2>
-          <div className="prose max-w-none text-slate-700 space-y-3 text-sm leading-relaxed">
-            <p>
-              The decision to buy or rent a home is one of the most significant financial choices you'll make.
-              While homeownership has long been considered part of the American Dream, renting can sometimes be
-              the smarter financial move, especially in expensive markets or for those who value flexibility.
-            </p>
-            <p>
-              <strong>Financial Factors:</strong> Beyond the monthly payment, consider property taxes, insurance,
-              maintenance costs, HOA fees, and closing costs. These can add 30-50% to your base mortgage payment.
-              On the renting side, you'll have more predictable monthly costs but no equity building.
-            </p>
-            <p>
-              <strong>Market Conditions:</strong> In high-appreciation markets, buying can be very profitable. In
-              flat or declining markets, renting might make more sense. The price-to-rent ratio (home price divided
-              by annual rent) is a useful metric: above 20 often favors renting, below 15 typically favors buying.
-            </p>
-            <p>
-              <strong>Personal Circumstances:</strong> How long do you plan to stay? If less than 5 years, renting
-              is usually better due to transaction costs. Do you have stable income? Homeownership requires emergency
-              funds for unexpected repairs. Consider consulting with a financial advisor for personalized guidance.
-            </p>
-            <h3 className="text-lg font-bold text-slate-900 mt-6">A Practical Framework for Better Decisions</h3>
-            <p>
-              The best buy-versus-rent decision is rarely emotional when numbers are compared honestly. Start with time horizon.
-              If your expected stay is short, buying costs such as registration, brokerage, loan setup, and resale friction can wipe out expected appreciation.
-              If your horizon is longer, principal repayment and property value growth can create a meaningful net-worth advantage.
-            </p>
-            <p>
-              Next, compare opportunity cost. A down payment invested in diversified assets can compound significantly over a decade.
-              That means the true cost of buying is not just the EMI, but also the foregone growth of that capital.
-              This calculator includes that perspective so you can evaluate both paths on a comparable net-worth basis instead of monthly payment alone.
-            </p>
-            <p>
-              Risk management matters as much as returns. Homeowners face concentration risk in a single asset and location.
-              Renters face rent escalation and less control over tenancy terms. Your choice should align with income stability,
-              mobility needs, family plans, and your ability to maintain an emergency buffer after upfront payments.
-            </p>
-            <p>
-              Use scenario testing before deciding. Increase interest rates, lower appreciation assumptions, and test higher maintenance.
-              If buying still wins under conservative assumptions, confidence in that decision is higher.
-              If outcomes flip easily, renting while investing the difference may be the safer route until conditions improve.
-            </p>
-            <p>
-              Finally, remember that financial optimum and lifestyle optimum are not always identical.
-              Some households value stability, customization, and long-term roots enough to accept a modest financial trade-off.
-              Others prioritize flexibility and career mobility. A strong decision is one that fits both your balance sheet and your life stage.
-            </p>
-          </div>
-        </section>
         </div>
+
       </article>
     </div>
   );

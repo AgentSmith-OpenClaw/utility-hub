@@ -1,235 +1,223 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import FIRECalculator from '../../components/FIRECalculator/FIRECalculator';
+import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
 
 export default function FIRECalculatorPage() {
-  const faqStructuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: [
+  const breadcrumbSchema = generateBreadcrumbs('/finance/fire-calculator');
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
       {
-        '@type': 'Question',
-        name: 'What is the FIRE Movement?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'FIRE stands for "Financial Independence, Retire Early." It is a lifestyle movement with the goal of gaining financial independence and retiring early. The model encourages extreme saving and investment, allowing proponents to retire far earlier than traditional budgets and retirement plans would allow.',
-        },
+        "@type": "Question",
+        "name": "What is the 4% rule for FIRE?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The 4% rule suggests you can withdraw 4% of your retirement corpus annually, adjusted for inflation, with high probability your money lasts 30+ years. It originates from US historical data. In India, conservative planners use 3-3.5% due to longer lifespans, higher inflation volatility, and less developed markets. A ₹1 crore corpus supports ₹3-4 lakh annual expenses safely."
+        }
       },
       {
-        '@type': 'Question',
-        name: 'How do I calculate my FIRE number?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'The standard FIRE number is 25 times your annual expenses. This is based on the 4% rule, which suggests that if you withdraw 4% of your portfolio annually (adjusted for inflation), your money should last for at least 30 years.',
-        },
+        "@type": "Question",
+        "name": "How much corpus do I need to retire early in India?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Multiply your annual expenses by 25-33 depending on safety margin desired. For ₹10 lakh annual expenses, target ₹2.5-3.3 crores. This assumes 3-4% safe withdrawal rate. Factor in healthcare inflation, lifestyle changes, and no pension income. Most successful FIRE achievers in India target 30-35x annual expenses for comfortable early retirement."
+        }
       },
       {
-        '@type': 'Question',
-        name: 'What is the 4% Rule?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'The 4% rule is a rule of thumb used to determine how much a retiree should withdraw from a retirement account each year. This rule seeks to provide a steady income stream to the retiree while maintaining an account balance that keeps income flowing through retirement.',
-        },
+        "@type": "Question",
+        "name": "What is sequence of returns risk?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Early portfolio losses during retirement are devastating because you're withdrawing simultaneously. A 30% crash in your first retirement year forces selling units at depressed prices, permanently reducing your corpus. The same average returns in different sequences produce vastly different outcomes. This is why retirees need conservative asset allocation and cash buffers."
+        }
       },
       {
-        '@type': 'Question',
-        name: 'What are the different types of FIRE?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'There are four main types: Lean FIRE (minimalist living), Fat FIRE (higher standard of living), Barista FIRE (part-time work for benefits), and Coast FIRE (saving enough early so compound interest covers retirement without further contributions).',
-        },
+        "@type": "Question",
+        "name": "Should I include my home value in my FIRE number?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No, unless you plan to sell and downsize or rent. Your primary residence provides housing, not income. If you need ₹8 lakhs annually and own a ₹2 crore house, you still need separate corpus to generate that ₹8 lakhs. Only count home equity if you'll definitely liquidate it during retirement - which most people don't."
+        }
       },
       {
-        '@type': 'Question',
-        name: 'Does this calculator account for inflation?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Yes, the Toolisk FIRE calculator allows you to input an inflation rate to adjust your future expenses and portfolio growth, giving you a realistic "real" return projection.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Why is Savings Rate so important?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Your savings rate is the percentage of your income you save. It is the single most important factor in determining your time to retirement. A higher savings rate means you need less money to live on and are saving more, drastically reducing the years needed to reach FIRE.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'What is Sequence of Returns Risk?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'This is the risk that the market crashes right after you retire. If your portfolio drops significantly in the early years of withdrawal, you deplete your principal faster, increasing the risk of running out of money. Many FIRE adherents mitigate this with a cash buffer or a variable withdrawal rate.',
-        },
-      },
-    ],
+        "@type": "Question",
+        "name": "Is Coast FIRE more realistic than full FIRE?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For many people, yes. Coast FIRE means accumulating enough that compound growth covers retirement without additional contributions, letting you work less stressfully for current expenses. Barista FIRE involves part-time work covering living costs while investments compound. These variants reduce the massive corpus needed for full early retirement while improving quality of life."
+        }
+      }
+    ]
+  };
+  const softwareSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "FIRE Calculator",
+    "applicationCategory": "FinanceApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "Calculate your Financial Independence Retire Early (FIRE) corpus based on expenses, withdrawal rate, and timeline."
   };
 
   return (
     <>
       <Head>
-        <title>
-          FIRE Calculator: Plan Your Early Retirement (Financial Independence) — Toolisk
-        </title>
-        <meta
-          name="description"
-          content="Calculate your FIRE number with our free advanced FIRE calculator. Compare Lean, Fat, Coast, and Barista FIRE strategies. Visualize your path to financial freedom."
+        <title>FIRE Calculator - Financial Independence Planning | Utility Hub</title>
+        <meta 
+          name="description" 
+          content="Calculate your FIRE corpus for early retirement. Plan financial independence with safe withdrawal rates, sequence risk analysis, and realistic timeline projections for retiring early." 
         />
-        <meta
-          name="keywords"
-          content="fire calculator, financial independence calculator, retire early calculator, fire number, 4 percent rule, lean fire, fat fire, coast fire, barista fire, early retirement planner"
+        <meta 
+          name="keywords" 
+          content="FIRE calculator, financial independence, early retirement, safe withdrawal rate, Coast FIRE, Barista FIRE, retirement corpus" 
         />
-        <link rel="canonical" href="https://toolisk.com/finance/fire-calculator" />
-        <meta
-          property="og:title"
-          content="FIRE Calculator: Plan Your Early Retirement — Toolisk"
-        />
-        <meta
-          property="og:description"
-          content="Discover your path to Financial Independence and Early Retirement. Calculate your FIRE number, savings rate, and time to freedom."
-        />
-        <meta
-          property="og:url"
-          content="https://toolisk.com/finance/fire-calculator"
-        />
+        <link rel="canonical" href="https://utilityhub.app/finance/fire-calculator" />
+        <meta property="og:title" content="FIRE Calculator - Financial Independence Planning" />
+        <meta property="og:description" content="Calculate corpus needed for financial independence and early retirement." />
+        <meta property="og:url" content="https://utilityhub.app/finance/fire-calculator" />
         <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema]) }}
         />
       </Head>
 
       <FIRECalculator />
 
-      <div className="max-w-4xl mx-auto px-4 py-12 prose prose-lg text-gray-700">
-        <h1>FIRE Calculator: Your Definitive Roadmap to Financial Freedom</h1>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-14">
 
-        <p>
-          The dream of retiring in your 30s or 40s was once considered a fantasy reserved for lottery winners or tech moguls. Today, it is a calculable, achievable reality for anyone willing to master their finances. The <strong>FIRE (Financial Independence, Retire Early)</strong> movement has democratized wealth building, focusing on extreme savings, smart investing, and intentional living.
-        </p>
-        <p>
-          Our <strong>Toolisk FIRE Calculator</strong> isn't just a calculator; it's a time machine. By inputting your current financial snapshot, it tells you exactly when work becomes optional. Whether you want to quit the rat race, travel the world, or pursue passion projects, this tool plots your trajectory.
-        </p>
-
-        <h2>The Philosophy of FIRE: Math Over Magic</h2>
-        <p>
-          At its core, FIRE is a simple math problem. It posits that there is a specific net worth number—your "FIRE Number"—at which your investments generate enough passive income to cover your living expenses forever. Once you hit this number, you are financially independent.
-        </p>
-        <p>
-          The standard formula is derived from the inverse of the Safe Withdrawal Rate (SWR):
-        </p>
-        <div className="bg-gray-100 p-4 rounded-md text-center font-mono my-6 text-xl font-bold">
-          FIRE Number = Annual Expenses × 25
+        {/* Lead */}
+        <div className="bg-gradient-to-br from-orange-500 to-rose-600 rounded-3xl p-8 sm:p-10 text-white">
+          <h2 className="text-3xl font-bold mb-3">Your FIRE Roadmap</h2>
+          <p className="text-orange-100 text-lg leading-relaxed max-w-3xl">
+            Financial independence doesn&apos;t mean you stop working — it means you work because you want to. The math is simple; the discipline is the hard part.
+          </p>
         </div>
-        <p>
-          This assumes a 4% annual withdrawal rate. For example:
-        </p>
-        <ul>
-          <li><strong>Annual Spending:</strong> $40,000</li>
-          <li><strong>FIRE Number:</strong> $40,000 × 25 = $1,000,000</li>
-        </ul>
-        <p>
-          If you have $1 million invested in a diversified portfolio (e.g., total stock market index funds), you can withdraw $40,000 in the first year and adjust for inflation every subsequent year, with a 95%+ probability of never running out of money over a 30-year retirement.
-        </p>
 
-        <h2>The Trinity Study and the 4% Rule</h2>
-        <p>
-          The 4% Rule comes from the famous "Trinity Study" conducted by three professors at Trinity University in 1998. They analyzed historical market data from 1925 to 1995 to determine "safe withdrawal rates" for retirement portfolios containing stocks and bonds.
-        </p>
-        <p>
-          <strong>Key Findings:</strong>
-        </p>
-        <ul>
-          <li>A portfolio of 50% stocks and 50% bonds had a 96% success rate over 30-year periods with a 4% withdrawal rate.</li>
-          <li>A portfolio of 75% stocks and 25% bonds had a 98% success rate.</li>
-          <li>Withdrawal rates above 5% significantly increased the risk of portfolio depletion.</li>
-        </ul>
-        <p>
-          <em>Modern Critique:</em> Some experts argue that in a low-interest-rate environment with high valuations, 4% might be too aggressive. They suggest a safer rate of 3.25% or 3.5% (meaning you need ~30x-33x your expenses). Our calculator allows you to adjust your withdrawal rate to be as conservative or aggressive as you like.
-        </p>
-
-        <h2>The Power of Savings Rate</h2>
-        <p>
-          Most people focus on investment returns ("What stock should I buy?"), but in the accumulation phase, your <strong>savings rate</strong> is the dominant variable.
-        </p>
-        <p>
-          Consider two people earning $100,000/year:
-        </p>
-        <ol>
-          <li><strong>Person A saves 10%:</strong> Spending $90k requires a portfolio of $2.25M. Saving $10k/year takes ~51 years to reach this.</li>
-          <li><strong>Person B saves 50%:</strong> Spending $50k requires a portfolio of $1.25M. Saving $50k/year takes ~17 years to reach this.</li>
-        </ol>
-        <p>
-          Increasing your savings rate attacks the problem from both ends: it increases your investment capital <em>and</em> decreases the target amount you need to retire.
-        </p>
-
-        <h2>Types of FIRE: Choose Your Adventure</h2>
-        <p>
-          The movement has evolved into several sub-genres to fit different lifestyles:
-        </p>
-        <h3>1. Lean FIRE</h3>
-        <p>
-          For the minimalists. You aim for expenses below the national average (e.g., $25k-$40k/year). This is the fastest route but requires a frugal lifestyle. Ideal for those who value freedom over luxury.
-        </p>
-        <h3>2. Fat FIRE</h3>
-        <p>
-          For those who want to retire in style. You aim for $100k+ annual spending to cover travel, fine dining, and hobbies. This requires a much larger portfolio ($2.5M+) and a high income during your working years.
-        </p>
-        <h3>3. Barista FIRE</h3>
-        <p>
-          A hybrid approach. You save enough to cover basic expenses but continue working a low-stress, part-time job (like a barista) to cover "fun money" or, crucially, health insurance benefits. This dramatically lowers your required FIRE number.
-        </p>
-        <h3>4. Coast FIRE</h3>
-        <p>
-          You front-load your savings early in your career (e.g., save $200k by age 30). Then, you stop saving entirely and just let compound interest grow that sum to your retirement target by age 65. You only need to earn enough to cover current expenses, giving you immense career flexibility immediately.
-        </p>
-
-        <h2>Advanced Concepts: Risk Management</h2>
-        <h3>Sequence of Returns Risk</h3>
-        <p>
-          The biggest danger to early retirees is a market crash in the first 5 years of retirement. If your portfolio drops 30% just as you start withdrawing, you are selling assets at a loss, which permanently impairs your capital.
-          <br /><strong>Mitigation:</strong> Keep 1-2 years of expenses in cash (Cash Cushion) or use a "Bond Tent" (shift to more bonds before retiring, then back to stocks) to ride out volatility without selling equities.
-        </p>
-        <h3>Healthcare (The US Problem)</h3>
-        <p>
-          For Americans, early retirement means losing employer-sponsored health insurance before Medicare kicks in at 65. This is often the biggest expense in a FIRE budget. Strategies include using ACA subsidies (by keeping taxable income low), Health Share Ministries, or geo-arbitrage (moving to countries with affordable healthcare).
-        </p>
-        <h3>Geo-Arbitrage</h3>
-        <p>
-          One of the most potent FIRE hacks. If you earn in Dollars/Euros/Pounds but live in a country with a lower cost of living (e.g., Portugal, Thailand, Mexico), your money goes 2x-3x further. This can cut your required FIRE number in half overnight.
-        </p>
-
-        <h2>Investment Vehicles for FIRE</h2>
-        <p>
-          Most FIRE adherents swear by low-cost, broad-market Index Funds (like VTSAX or SWTSX). Why?
-        </p>
-        <ul>
-          <li><strong>Simplicity:</strong> You own the entire market. No need to pick winners.</li>
-          <li><strong>Low Fees:</strong> Expense ratios as low as 0.03% mean you keep more of your returns.</li>
-          <li><strong>Reliability:</strong> Historically, the stock market has returned ~10% annually over long periods.</li>
-        </ul>
-        <p>
-          Others supplement this with Real Estate (rental income) for cash flow or Dividend Stocks. Our calculator assumes a total return approach, which is mathematically robust.
-        </p>
-
-        <h2>How to Use This Tool Effectively</h2>
-        <ol>
-          <li><strong>Be Honest with Expenses:</strong> Track your spending for 3 months. Most people underestimate their annual burn rate. Don't forget lumpy expenses like car repairs or medical bills.</li>
-          <li><strong>Play with Scenarios:</strong> What if you work 2 more years? What if you save 5% more? Small tweaks can change your retirement date by years.</li>
-          <li><strong>Adjust for Inflation:</strong> We default to 3% inflation. If you believe costs will rise faster, adjust this up to see the impact on your "Real" FIRE number.</li>
-        </ol>
-
-        <h2>Frequently Asked Questions (FAQ)</h2>
-        <div className="space-y-6">
-          {faqStructuredData.mainEntity.map((faq, index) => (
-            <div key={index} className="border-b pb-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">{faq.name}</h3>
-              <p className="text-gray-700">{faq.acceptedAnswer.text}</p>
+        {/* FIRE Number */}
+        <section>
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">🎯 Calculating Your FIRE Number</h2>
+          <p className="text-slate-500 mb-6">Multiply annual expenses by a safe withdrawal multiplier. The right number depends on how conservative you want to be.</p>
+          <div className="grid sm:grid-cols-3 gap-5 mb-5">
+            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+              <div className="text-orange-600 font-bold text-sm uppercase tracking-widest mb-2">Aggressive (4%)</div>
+              <div className="text-lg font-bold text-slate-800 mb-1">25× annual spend</div>
+              <p className="text-xs text-slate-500">Historical US market data. Works in stable, low-inflation environments. Less reliable for 40+ year retirements.</p>
             </div>
-          ))}
-        </div>
+            <div className="bg-orange-500 text-white rounded-2xl p-6 shadow-lg scale-105">
+              <div className="text-orange-100 font-bold text-sm uppercase tracking-widest mb-2">Balanced (3.3%)</div>
+              <div className="text-lg font-bold mb-1">30× annual spend</div>
+              <p className="text-orange-100 text-xs">Recommended for India — higher inflation volatility, longer horizons, no pension system.</p>
+            </div>
+            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+              <div className="text-teal-600 font-bold text-sm uppercase tracking-widest mb-2">Conservative (3%)</div>
+              <div className="text-lg font-bold text-slate-800 mb-1">33× annual spend</div>
+              <p className="text-xs text-slate-500">For early retirees in their 40s, healthcare buffers, or those with volatile income history.</p>
+            </div>
+          </div>
+          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5">
+            <p className="text-amber-900 text-sm"><strong>Don&apos;t count your primary home.</strong> It provides shelter, not income. Only count assets that generate withdrawable returns in your FIRE number.</p>
+          </div>
+        </section>
+
+        {/* FIRE Variants */}
+        <section>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">🔥 FIRE Is Not One Size Fits All</h2>
+          <div className="grid sm:grid-cols-3 gap-4">
+            {[
+              { name: 'Coast FIRE', color: 'bg-blue-50 border-blue-200', label: 'text-blue-700', desc: 'Accumulate enough that compound growth alone reaches full FIRE by traditional retirement age. Work only for living expenses — no more forced savings.' },
+              { name: 'Barista FIRE', color: 'bg-purple-50 border-purple-200', label: 'text-purple-700', desc: 'Partial corpus + part-time/gig work covering expenses. Stay professionally active, reduce stress, let investments grow.' },
+              { name: 'Lean FIRE', color: 'bg-orange-50 border-orange-200', label: 'text-orange-700', desc: 'Minimalist lifestyle in lower-cost cities. Lower corpus target, but thin margins can be strained by healthcare emergencies or family obligations.' },
+            ].map(v => (
+              <div key={v.name} className={`rounded-2xl border p-6 ${v.color}`}>
+                <div className={`font-bold text-lg mb-2 ${v.label}`}>{v.name}</div>
+                <p className="text-sm text-slate-600">{v.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* India-specific */}
+        <section>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">🇮🇳 India-Specific FIRE Factors</h2>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              { icon: '🏥', t: 'Healthcare is the biggest wildcard', d: 'No Medicare equivalent. Premiums rise to ₹80k–1.5L/yr by your 60s. Budget healthcare inflation at 10–12%, not 6%.' },
+              { icon: '📈', t: 'Inflation is more volatile', d: 'Indian CPI averages 5–6% but spikes to 10%+ periodically. A rigid 4% withdrawal rule is riskier here than in developed markets.' },
+              { icon: '👨‍👩‍👧', t: 'Family obligations are real', d: 'Supporting parents, extended-family expectations, and children beyond 18 are common costs many FIRE plans don\'t budget for.' },
+              { icon: '🏠', t: 'Own your home before FIREing', d: 'Eliminating rent (30–40% of income) dramatically reduces required corpus. Prioritise debt-free homeownership first.' },
+            ].map(c => (
+              <div key={c.t} className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex gap-3">
+                <div className="text-2xl flex-shrink-0">{c.icon}</div>
+                <div>
+                  <div className="font-semibold text-slate-800 text-sm mb-1">{c.t}</div>
+                  <p className="text-xs text-slate-500">{c.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Common mistakes */}
+        <section>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">🚫 FIRE Planning Mistakes That Sink Plans</h2>
+          <div className="space-y-3">
+            {[
+              { n: '01', t: 'Underestimating expenses', d: 'Retirees often spend more initially on travel and hobbies. Healthcare escalates. Add a 20–30% buffer above current spending in your FIRE number.' },
+              { n: '02', t: 'Using today\'s rupees for future targets', d: '₹50k/mo today becomes ₹1.1L in 15 years at 5% inflation. Your FIRE number must be in future rupees, or you must use real (inflation-adjusted) returns.' },
+              { n: '03', t: 'Optimistic return assumptions', d: 'Plan on 10–12% equity, 6–8% debt. Using 15% historical returns as your base risks a significant shortfall at the worst possible time.' },
+              { n: '04', t: 'Ignoring withdrawal taxes', d: 'LTCG on equity (10%+ above ₹1L/yr), debt as income. Calculate post-tax withdrawals — not gross corpus returns — when sizing your corpus.' },
+            ].map(m => (
+              <div key={m.n} className="flex gap-4 bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+                <span className="text-slate-300 font-black text-2xl leading-none mt-0.5">{m.n}</span>
+                <div>
+                  <div className="font-semibold text-slate-800 mb-1">{m.t}</div>
+                  <p className="text-sm text-slate-500">{m.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Frequently Asked Questions</h2>
+          <div className="space-y-4">
+            {faqSchema.mainEntity.map((faq, index) => (
+              <div key={index} className="bg-slate-50 rounded-2xl border border-slate-200 p-6">
+                <h3 className="font-semibold text-slate-900 mb-2">{faq.name}</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">{faq.acceptedAnswer.text}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Related tools */}
+        <section>
+          <h2 className="text-xl font-bold text-slate-900 mb-4">Related Finance Tools</h2>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              { href: '/finance/sip-calculator', title: 'SIP Calculator', desc: 'Build your FIRE corpus with disciplined monthly SIPs and step-ups.' },
+              { href: '/finance/compound-interest-calculator', title: 'Compound Interest Calculator', desc: 'See how your corpus grows during the withdrawal phase.' },
+              { href: '/finance/income-tax-calculator', title: 'Income Tax Calculator', desc: 'Optimise taxes during accumulation to accelerate your FIRE date.' },
+              { href: '/finance/buy-vs-rent-calculator', title: 'Buy vs Rent Calculator', desc: 'Owning your home debt-free significantly lowers your FIRE corpus requirement.' },
+            ].map(t => (
+              <Link key={t.href} href={t.href} className="block p-5 bg-white border border-slate-200 rounded-2xl hover:border-orange-400 hover:shadow-md transition-all">
+                <div className="font-semibold text-slate-900 mb-1">{t.title}</div>
+                <p className="text-sm text-slate-500">{t.desc}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
       </div>
     </>
   );
 }
+

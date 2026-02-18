@@ -1,279 +1,252 @@
 import Head from 'next/head';
-import Header from '../../components/Layout/Header';
-import Footer from '../../components/Layout/Footer';
+import Link from 'next/link';
 import CompoundInterestCalculator from '../../components/CompoundInterestCalculator/CompoundInterestCalculator';
+import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
 
-export default function CompoundInterestPage() {
+export default function CompoundInterestCalculatorPage() {
+  const breadcrumbSchema = generateBreadcrumbs('/finance/compound-interest-calculator');
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "How is compound interest different from simple interest?",
+        "name": "How does compounding frequency affect returns?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Simple interest is calculated only on the principal amount (your initial deposit). Compound interest is calculated on the principal *plus* any accumulated interest. Over time, compound interest grows your wealth exponentially, while simple interest grows it linearly."
+          "text": "Higher compounding frequency increases returns, though the difference is often modest. Daily compounding slightly outperforms annual compounding - on a ₹1 lakh investment at 10% for 20 years, daily compounding yields about ₹7.32 lakhs versus ₹6.73 lakhs with annual compounding. The real impact comes from the interest rate and time invested, not frequency alone."
         }
       },
       {
         "@type": "Question",
-        "name": "What is the formula for compound interest?",
+        "name": "Should I invest lump-sum or via monthly SIP?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The formula is A = P(1 + r/n)^(nt). Here, A is the future value, P is the principal, r is the annual interest rate, n is the number of compounding periods per year, and t is the time in years."
+          "text": "If you have a lump sum available, investing it immediately typically beats rupee cost averaging due to longer market exposure. However, if you're accumulating money monthly from salary, SIP is your only option. The best strategy is investing lump sums when available (bonuses, inheritance) while maintaining regular SIPs from monthly income."
         }
       },
       {
         "@type": "Question",
-        "name": "How often is interest compounded in most savings accounts?",
+        "name": "What's a realistic compound interest rate to expect?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Most high-yield savings accounts compound interest daily or monthly. The more frequent the compounding, the higher the Annual Percentage Yield (APY) compared to the Annual Percentage Rate (APR)."
+          "text": "Conservative estimates use 10-12% for equity investments, 6-8% for debt, and 8-10% for balanced portfolios. Historical Indian equity returns average 12-15%, but past performance doesn't guarantee future results. For financial planning, using modest assumptions prevents over-optimism. You can always beat conservative projections, but undershooting aggressive ones derails goals."
         }
       },
       {
         "@type": "Question",
-        "name": "What is the Rule of 72?",
+        "name": "How does inflation affect compound returns?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The Rule of 72 is a mental shortcut to estimate how long it takes to double your money. Divide 72 by your annual interest rate. For example, at a 6% return, your money doubles in 12 years (72 ÷ 6 = 12)."
+          "text": "Inflation erodes purchasing power, so focus on real returns (nominal returns minus inflation). If you're earning 12% but inflation is 6%, your real return is roughly 6%. When planning for future expenses, increase your target corpus to account for inflation, or calculate based on today's values and inflate the goal amount using expected inflation rates."
         }
       },
       {
         "@type": "Question",
-        "name": "Does this calculator account for inflation?",
+        "name": "When should I withdraw and stop compounding?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. By enabling the 'Inflation Adjustment' toggle, you can see your future wealth in 'today's dollars.' This shows your Real Rate of Return (Nominal Return minus Inflation Rate)."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What is the best way to maximize compound interest?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Start early. Time is the most powerful variable in the compounding formula. Investing smaller amounts in your 20s often yields more than investing larger amounts in your 40s due to the exponential nature of compounding."
+          "text": "Only withdraw when you reach your goal or genuinely need the money. Every early withdrawal sacrifices years of compounding. For retirement planning, consider systematic withdrawal plans that let remaining corpus continue compounding while you draw income. Premature withdrawals for non-essential expenses are among the costliest financial mistakes."
         }
       }
     ]
+  };
+  const softwareSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Compound Interest Calculator",
+    "applicationCategory": "FinanceApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "Calculate compound interest on lump-sum investments with various compounding frequencies and visualize exponential wealth growth."
   };
 
   return (
     <>
       <Head>
-        <title>Compound Interest Calculator — Visualize Wealth Growth & ROI | Toolisk</title>
+        <title>Compound Interest Calculator - Exponential Growth Projections | Utility Hub</title>
         <meta 
           name="description" 
-          content="Calculate compound interest with monthly contributions, inflation adjustments, and tax scenarios. Visualize how small investments grow into massive wealth over time." 
+          content="Calculate compound interest on lump-sum investments. Compare compounding frequencies, visualize exponential growth, and understand how time multiplies wealth over decades." 
         />
         <meta 
           name="keywords" 
-          content="compound interest calculator, investment calculator, roi calculator, future value calculator, compound interest formula, inflation adjusted return, rule of 72, wealth growth" 
+          content="compound interest calculator, compounding frequency, investment growth, exponential returns, lump sum investment, wealth calculator" 
         />
-        <link rel="canonical" href="https://toolisk.com/finance/compound-interest-calculator" />
-        
-        {/* Open Graph */}
-        <meta property="og:title" content="Compound Interest Calculator — The 8th Wonder of the World" />
-        <meta property="og:description" content="See the magic of compounding. Calculate returns with monthly deposits, inflation, and dynamic charts. Free, no signup required." />
+        <link rel="canonical" href="https://utilityhub.app/finance/compound-interest-calculator" />
+        <meta property="og:title" content="Compound Interest Calculator - Exponential Growth Projections" />
+        <meta property="og:description" content="Calculate how lump-sum investments grow with compound interest over time." />
+        <meta property="og:url" content="https://utilityhub.app/finance/compound-interest-calculator" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://toolisk.com/finance/compound-interest-calculator" />
-        
-        {/* Schema.org for WebApp + FAQ */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@graph": [
-              {
-                "@type": "WebApplication",
-                "name": "Compound Interest Calculator",
-                "url": "https://toolisk.com/finance/compound-interest-calculator",
-                "description": "A comprehensive financial tool to calculate future value based on principal, interest rate, frequency, and inflation.",
-                "applicationCategory": "FinanceApplication",
-                "operatingSystem": "All",
-                "offers": {
-                  "@type": "Offer",
-                  "price": "0",
-                  "priceCurrency": "USD"
-                }
-              },
-              faqSchema
-            ]
-          })}
-        </script>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema]) }}
+        />
       </Head>
 
-      <div className="bg-slate-50 min-h-screen">
-        <Header />
-        
-        <main className="pt-8 pb-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            {/* Tool Section */}
-            <div className="mb-12">
-              <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 text-center mb-4">
-                Compound Interest Calculator
-              </h1>
-              <p className="text-lg text-slate-600 text-center max-w-2xl mx-auto mb-8">
-                Watch your money make money. Calculate the future value of your investments with monthly contributions and inflation adjustments.
-              </p>
-              <CompoundInterestCalculator />
+      <CompoundInterestCalculator />
+
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-14">
+
+        {/* Lead */}
+        <div className="bg-gradient-to-br from-violet-600 to-blue-700 rounded-3xl p-8 sm:p-10 text-white">
+          <h2 className="text-3xl font-bold mb-3">Compound Interest: The 8th Wonder</h2>
+          <p className="text-violet-100 text-lg leading-relaxed max-w-3xl">
+            Compound interest rewards patience, punishes withdrawals, and accelerates exponentially — but only if you stay invested long enough for the snowball to build real mass.
+          </p>
+        </div>
+
+        {/* The 3 variables */}
+        <section>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">🎛️ The Three Variables That Control Your Outcome</h2>
+          <div className="grid sm:grid-cols-3 gap-5">
+            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+              <div className="text-3xl mb-3">⏳</div>
+              <div className="font-bold text-slate-800 mb-2">Time</div>
+              <p className="text-sm text-slate-500 mb-3">The most powerful variable — and the one you can never buy back. Starting 10 years earlier can be worth more than doubling your investment amount.</p>
+              <div className="bg-violet-50 rounded-xl p-3 text-xs text-violet-800">₹10L at 25 vs 35 @ 12% → ₹2.95Cr vs ₹95L by age 60</div>
             </div>
-
-            {/* Content Section */}
-            <article className="max-w-4xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 p-8 md:p-12 prose prose-slate prose-lg">
-              
-              <h2>The Eighth Wonder of the World</h2>
-              <p>
-                Albert Einstein reportedly called compound interest "the eighth wonder of the world." Whether the quote is authentic or not, the mathematical principle behind it is undeniable. Compounding is the engine of wealth creation. It is the reason why saving a few hundred dollars a month in your 20s can make you a millionaire by retirement, while saving thousands in your 50s might struggle to achieve the same result.
-              </p>
-              <p>
-                At its core, <strong>compound interest</strong> is simple: it is interest on interest. When you invest money, you earn a return. In the next period, you earn a return on your original money <em>plus</em> the return you just earned. Over short periods, this effect is barely noticeable. Over long periods (10, 20, or 30 years), the curve goes vertical. This calculator is designed to help you visualize that curve and plan your financial future with precision.
-              </p>
-
-              <h3>How the Compound Interest Formula Works</h3>
-              <p>
-                While our calculator handles the heavy lifting, understanding the math helps you make better decisions. The standard formula for compound interest is:
-              </p>
-              <div className="bg-slate-100 p-6 rounded-lg font-mono text-sm overflow-x-auto my-6 border-l-4 border-blue-600">
-                A = P (1 + r/n)<sup>nt</sup>
-              </div>
-              <p>Let's break down the variables:</p>
-              <ul>
-                <li><strong>A (Amount):</strong> The future value of the investment, including interest.</li>
-                <li><strong>P (Principal):</strong> Your initial deposit.</li>
-                <li><strong>r (Rate):</strong> The annual interest rate (in decimal form; e.g., 5% becomes 0.05).</li>
-                <li><strong>n (Number of times):</strong> How often interest is compounded per year (e.g., 12 for monthly, 365 for daily).</li>
-                <li><strong>t (Time):</strong> The number of years the money is invested.</li>
-              </ul>
-              <p>
-                The most important variable here is <strong>t (Time)</strong>. Because time is an exponent in the formula, doubling the time period doesn't just double your money—it often quadruples or octuples it. This is why "starting early" is the single most effective investment strategy.
-              </p>
-
-              <h3>Simple vs. Compound Interest: A Case Study</h3>
-              <p>
-                To truly appreciate the power of compounding, compare it to simple interest.
-              </p>
-              <p>
-                Imagine you invest <strong>$10,000</strong> at a <strong>7%</strong> annual return for <strong>30 years</strong>.
-              </p>
-              <ul>
-                <li>
-                  <strong>With Simple Interest:</strong> You earn 7% of $10,000 ($700) every year.
-                  <br />
-                  $700 × 30 years = $21,000 in interest.
-                  <br />
-                  <strong>Total Value: $31,000.</strong>
-                </li>
-                <li>
-                  <strong>With Compound Interest:</strong> In year one, you earn $700. In year two, you earn 7% on $10,700 ($749). By year 30, you aren't earning $700; you're earning over $5,000 <em>per year</em> in interest alone.
-                  <br />
-                  <strong>Total Value: $76,123.</strong>
-                </li>
-              </ul>
-              <p>
-                The difference is staggering. The simple interest account grew by roughly 3x. The compound interest account grew by over 7.6x. That extra $45,000 didn't come from working harder; it came from the mathematical force of compounding.
-              </p>
-
-              <h3>The "Snowball Effect" of Monthly Contributions</h3>
-              <p>
-                Most of us don't just invest a lump sum and walk away. We contribute monthly from our paychecks. This adds fuel to the fire.
-              </p>
-              <p>
-                If you start with $0 but invest <strong>$500/month</strong> at <strong>8%</strong> return:
-              </p>
-              <ul>
-                <li><strong>10 Years:</strong> You have roughly <strong>$91,000</strong>. (You contributed $60,000).</li>
-                <li><strong>20 Years:</strong> You have roughly <strong>$294,000</strong>. (You contributed $120,000).</li>
-                <li><strong>30 Years:</strong> You have roughly <strong>$745,000</strong>. (You contributed $180,000).</li>
-                <li><strong>40 Years:</strong> You have roughly <strong>$1.75 Million</strong>. (You contributed $240,000).</li>
-              </ul>
-              <p>
-                Notice what happens between year 30 and year 40. You only contributed an extra $60,000 of your own money, but your wealth grew by <strong>over $1 million</strong>. This is the "hockey stick" moment of compounding. The money your money makes is now making more money than you can save from your salary.
-              </p>
-
-              <h3>Inflation: The Silent Wealth Killer</h3>
-              <p>
-                There is one catch: <strong>Inflation</strong>. A million dollars in 2050 won't buy what a million dollars buys today.
-              </p>
-              <p>
-                To get an accurate picture of your future purchasing power, you must look at the <strong>Real Rate of Return</strong>.
-              </p>
-              <div className="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400 text-slate-800 italic my-4">
-                Real Return ≈ Nominal Return - Inflation Rate
-              </div>
-              <p>
-                If your investment portfolio returns 8% per year, but inflation is running at 3%, your <em>real</em> wealth is only growing at 5%.
-              </p>
-              <p>
-                Our calculator includes an <strong>"Inflation Adjustment"</strong> toggle. When enabled, it discounts your future value back to "today's dollars." This is crucial for retirement planning. If you need $50,000/year to live on today, you might need $100,000/year in 25 years just to maintain the same standard of living.
-              </p>
-
-              <h3>The Rule of 72</h3>
-              <p>
-                Want to do a quick calculation in your head? Use the <strong>Rule of 72</strong>.
-              </p>
-              <p>
-                Divide 72 by your expected annual interest rate to find out how many years it will take for your money to double.
-              </p>
-              <ul>
-                <li><strong>4% Return:</strong> Doubles in 18 years (72 ÷ 4).</li>
-                <li><strong>6% Return:</strong> Doubles in 12 years (72 ÷ 6).</li>
-                <li><strong>8% Return:</strong> Doubles in 9 years (72 ÷ 8).</li>
-                <li><strong>10% Return:</strong> Doubles in 7.2 years (72 ÷ 10).</li>
-                <li><strong>12% Return:</strong> Doubles in 6 years (72 ÷ 12).</li>
-              </ul>
-              <p>
-                This rule highlights the importance of fees. If you are paying a 2% fee to a financial advisor, your 8% return becomes 6%. That seemingly small fee extends your doubling time from 9 years to 12 years—a massive delay in your financial freedom.
-              </p>
-
-              <h3>Frequency of Compounding</h3>
-              <p>
-                The frequency—how often interest is added to the principal—matters.
-              </p>
-              <ul>
-                <li><strong>Daily Compounding:</strong> Standard for savings accounts. Interest is calculated 365 times a year.</li>
-                <li><strong>Monthly Compounding:</strong> Common for mortgages and some investment products.</li>
-                <li><strong>Annually Compounding:</strong> Interest is added once a year.</li>
-              </ul>
-              <p>
-                The difference between monthly and annual compounding on a $10,000 investment at 5% over 10 years is relatively small (about $60), but for large loans or long time horizons, it adds up. Always ask for the <strong>APY (Annual Percentage Yield)</strong>, which accounts for compounding, rather than just the APR.
-              </p>
-
-              <h3>Actionable Tips to Accelerate Wealth</h3>
-              <ol>
-                <li>
-                  <strong>Automate Your Savings:</strong> The best way to benefit from compounding is consistency. Set up an automatic transfer (SIP) the day your paycheck hits. You can't spend what isn't in your checking account.
-                </li>
-                <li>
-                  <strong>Increase Contributions Annually:</strong> If you get a 3% raise, increase your savings rate by 1-2%. This "lifestyle creep" prevention ensures your savings grow faster than your spending.
-                </li>
-                <li>
-                  <strong>Reinvest Dividends:</strong> If you own stocks or funds that pay dividends, turn on DRIP (Dividend Reinvestment Plan). Using dividends to buy more shares accelerates the compounding snowball.
-                </li>
-                <li>
-                  <strong>Minimize Taxes:</strong> Use tax-advantaged accounts like 401(k)s, IRAs, or ISAs. Taxes are a drag on compounding. Paying taxes at the end (deferred) allows your money to compound on the gross amount for decades.
-                </li>
-              </ol>
-
-              <hr className="my-12 border-slate-200" />
-
-              <h3>Frequently Asked Questions</h3>
-              <div className="not-prose space-y-8 mt-8">
-                {faqSchema.mainEntity.map((faq, index) => (
-                  <div key={index} className="bg-slate-50 rounded-xl p-6 border border-slate-100">
-                    <h4 className="font-bold text-slate-900 text-lg mb-2">{faq.name}</h4>
-                    <p className="text-slate-600 leading-relaxed">{faq.acceptedAnswer.text}</p>
-                  </div>
-                ))}
-              </div>
-
-            </article>
+            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+              <div className="text-3xl mb-3">📊</div>
+              <div className="font-bold text-slate-800 mb-2">Rate of Return</div>
+              <p className="text-sm text-slate-500 mb-3">A 2% difference compounds dramatically. The gap between 10% and 12% on ₹10L over 25 years is over ₹62 lakhs.</p>
+              <div className="bg-violet-50 rounded-xl p-3 text-xs text-violet-800">Fund selection and asset allocation matter enormously</div>
+            </div>
+            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+              <div className="text-3xl mb-3">💰</div>
+              <div className="font-bold text-slate-800 mb-2">Principal</div>
+              <p className="text-sm text-slate-500 mb-3">Doubling principal doubles the final corpus if all else stays equal. Combined with monthly additions, the effect is multiplicative.</p>
+              <div className="bg-violet-50 rounded-xl p-3 text-xs text-violet-800">Lump sum + SIP creates two simultaneous compounding streams</div>
+            </div>
           </div>
-        </main>
-        
-        <Footer />
+        </section>
+
+        {/* Compounding frequency */}
+        <section>
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">🔁 Does Compounding Frequency Matter?</h2>
+          <p className="text-slate-500 mb-6">More frequent compounding is better — but the practical impact is smaller than most expect.</p>
+          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+            <table className="w-full text-sm">
+              <thead className="bg-slate-50 border-b border-slate-200">
+                <tr>
+                  <th className="text-left px-5 py-3 font-semibold text-slate-600">Frequency</th>
+                  <th className="text-right px-5 py-3 font-semibold text-slate-600">₹1L @ 10% for 20 yrs</th>
+                  <th className="text-right px-5 py-3 font-semibold text-slate-600">Effective APY</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {[
+                  { f: 'Annual', val: '₹6,72,750', apy: '10.00%' },
+                  { f: 'Quarterly', val: '₹7,00,000', apy: '10.38%' },
+                  { f: 'Monthly', val: '₹7,29,000', apy: '10.47%' },
+                  { f: 'Daily', val: '₹7,31,948', apy: '10.52%' },
+                ].map(r => (
+                  <tr key={r.f} className="hover:bg-slate-50 transition">
+                    <td className="px-5 py-3 text-slate-700">{r.f}</td>
+                    <td className="px-5 py-3 text-right font-semibold text-slate-800">{r.val}</td>
+                    <td className="px-5 py-3 text-right text-slate-500">{r.apy}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-sm text-slate-400 mt-2 pl-1">The rate and time invested matter far more than compounding frequency.</p>
+        </section>
+
+        {/* Inflation / real returns */}
+        <section>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">🌡️ Real Returns vs Nominal Returns</h2>
+          <div className="grid sm:grid-cols-2 gap-5">
+            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6">
+              <div className="font-bold text-amber-900 mb-2">The Inflation Problem</div>
+              <p className="text-sm text-amber-800">₹1 crore in 25 years at 6% inflation has the purchasing power of just ~₹23 lakhs today. You need ~₹4.3 crores to maintain equivalent value.</p>
+            </div>
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+              <div className="font-bold text-slate-800 mb-2">Work With Real Returns</div>
+              <p className="text-sm text-slate-500">Nominal return (12%) − inflation (6%) ≈ real return (6%). Plan future expenses in today&apos;s rupees using real returns, or explicitly inflate targets to account for purchasing power erosion.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Tax-advantaged compounding */}
+        <section>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">🛡️ Tax-Free vs Taxable Compounding</h2>
+          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+            <table className="w-full text-sm">
+              <thead className="bg-slate-50 border-b border-slate-200">
+                <tr>
+                  <th className="text-left px-5 py-3 font-semibold text-slate-600">Account Type</th>
+                  <th className="text-right px-5 py-3 font-semibold text-slate-600">₹10L @ 12% for 20 yrs</th>
+                  <th className="text-right px-5 py-3 font-semibold text-slate-600">Final Corpus</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                <tr className="hover:bg-slate-50"><td className="px-5 py-3 text-slate-700">Tax-free (EPF / PPF)</td><td className="px-5 py-3 text-right text-slate-500">Full compounding</td><td className="px-5 py-3 text-right font-bold text-emerald-600">₹96.5L</td></tr>
+                <tr className="hover:bg-slate-50"><td className="px-5 py-3 text-slate-700">Taxable (effective ~10.8%)</td><td className="px-5 py-3 text-right text-slate-500">Annual tax drag</td><td className="px-5 py-3 text-right font-semibold text-slate-700">~₹78L</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="text-sm text-slate-400 mt-2 pl-1">The ₹18L difference is the cost of interrupted compounding. Max out tax-advantaged accounts first.</p>
+        </section>
+
+        {/* Getting started */}
+        <section>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">🚀 Practical Starting Points</h2>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              { icon: '💳', t: 'Clear expensive debt first', d: 'Compound interest at 18–36% on credit cards destroys wealth faster than any investment builds it.' },
+              { icon: '🛡️', t: 'Build an emergency fund', d: '3–6 months in a liquid fund. This buffer lets long-term investments compound uninterrupted through surprises.' },
+              { icon: '📅', t: 'Start today, not "someday"', d: 'Every delayed month is a real lost return. A ₹50k lump sum invested today begins compounding immediately.' },
+              { icon: '🎯', t: 'Use conservative projections', d: 'Plan on 10% equity returns, not 15%. Pleasant surprises beat shortfalls when you\'re close to your goal.' },
+            ].map(c => (
+              <div key={c.t} className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex gap-3">
+                <div className="text-2xl">{c.icon}</div>
+                <div>
+                  <div className="font-semibold text-slate-800 text-sm mb-1">{c.t}</div>
+                  <p className="text-xs text-slate-500">{c.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Frequently Asked Questions</h2>
+          <div className="space-y-4">
+            {faqSchema.mainEntity.map((faq, index) => (
+              <div key={index} className="bg-slate-50 rounded-2xl border border-slate-200 p-6">
+                <h3 className="font-semibold text-slate-900 mb-2">{faq.name}</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">{faq.acceptedAnswer.text}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Related tools */}
+        <section>
+          <h2 className="text-xl font-bold text-slate-900 mb-4">Related Finance Tools</h2>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              { href: '/finance/sip-calculator', title: 'SIP Calculator', desc: 'Combine monthly SIPs with lump-sum compounding for maximum growth.' },
+              { href: '/finance/fire-calculator', title: 'FIRE Calculator', desc: 'See how your compounding corpus funds decades of retirement.' },
+              { href: '/finance/income-tax-calculator', title: 'Income Tax Calculator', desc: 'Maximise after-tax compound returns with the right deductions.' },
+              { href: '/finance/mortgage-calculator', title: 'Mortgage Calculator', desc: 'Compare compound growth of investments vs paying down a home loan.' },
+            ].map(t => (
+              <Link key={t.href} href={t.href} className="block p-5 bg-white border border-slate-200 rounded-2xl hover:border-violet-400 hover:shadow-md transition-all">
+                <div className="font-semibold text-slate-900 mb-1">{t.title}</div>
+                <p className="text-sm text-slate-500">{t.desc}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
       </div>
     </>
   );
 }
+
