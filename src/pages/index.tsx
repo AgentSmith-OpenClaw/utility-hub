@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import { useState, useMemo } from 'react';
 
 interface Tool {
   name: string;
@@ -8,7 +9,6 @@ interface Tool {
   icon: string;
   tags: string[];
   isNew?: boolean;
-  comingSoon?: boolean;
 }
 
 const tools: Tool[] = [
@@ -84,18 +84,22 @@ const tools: Tool[] = [
     tags: ['Finance', 'Real Estate', 'Mortgage', 'Global'],
     isNew: true,
   },
-  {
-    name: 'Regex Tester',
-    description:
-      'Build, test, and debug regular expressions in real time with match highlighting and cheat sheet.',
-    path: '#',
-    icon: '🔍',
-    tags: ['Developer', 'Testing', 'Text'],
-    comingSoon: true,
-  },
 ];
 
 export default function Home() {
+  const [search, setSearch] = useState('');
+
+  const filteredTools = useMemo(() => {
+    if (!search.trim()) return tools;
+    const q = search.toLowerCase();
+    return tools.filter(
+      (t) =>
+        t.name.toLowerCase().includes(q) ||
+        t.description.toLowerCase().includes(q) ||
+        t.tags.some((tag) => tag.toLowerCase().includes(q))
+    );
+  }, [search]);
+
   return (
     <>
       <Head>
@@ -162,36 +166,59 @@ export default function Home() {
 
         {/* About */}
         <section className="max-w-4xl mx-auto px-4 -mt-8 relative z-10">
-          <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 sm:p-8">
-            <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center text-lg">
-                💡
-              </div>
-              <div>
-                <h2 className="text-lg font-bold text-slate-900 mb-1">About this site</h2>
-                <p className="text-slate-600 leading-relaxed">
-                  Toolisk is a curated collection of practical web utilities designed to help you
-                  solve everyday tasks quickly and privately. Each tool focuses on clarity,
-                  performance, and usefulness—so you can get reliable results without distractions.
-                  Explore calculators, planners, and developer helpers built to be straightforward
-                  and easy to use.
-                </p>
-              </div>
-            </div>
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-slate-200 px-5 py-3 flex items-center gap-3">
+            <span className="text-lg">💡</span>
+            <p className="text-sm text-slate-600">
+              <strong className="text-slate-800">Toolisk</strong> — practical web tools that are fast, private, and client-side. No sign-ups, no data sent to servers.
+            </p>
           </div>
         </section>
 
         {/* Tools Grid */}
         <section id="tools" className="max-w-6xl mx-auto px-4 py-16">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-slate-900">Tools</h2>
             <p className="mt-2 text-slate-500">
-              Pick a tool to get started. More tools are on the way.
+              Pick a tool to get started.
             </p>
           </div>
 
+          {/* Search Bar */}
+          <div className="max-w-md mx-auto mb-10">
+            <div className="relative">
+              <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
+              </svg>
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search tools… e.g. EMI, tax, SIP, mortgage"
+                className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 bg-white text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm transition-shadow"
+                aria-label="Search tools"
+              />
+              {search && (
+                <button
+                  onClick={() => setSearch('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                  aria-label="Clear search"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+            </div>
+          </div>
+
+          {filteredTools.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-slate-400 text-lg">No tools match &ldquo;{search}&rdquo;</p>
+              <button onClick={() => setSearch('')} className="mt-3 text-sm text-indigo-600 hover:underline">Clear search</button>
+            </div>
+          ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {tools.map((tool) => {
+            {filteredTools.map((tool) => {
               const CardContent = (
                 <>
                   <div className="flex items-center gap-3 mb-3">
@@ -204,11 +231,6 @@ export default function Home() {
                         {tool.isNew && (
                           <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded-full">
                             New
-                          </span>
-                        )}
-                        {tool.comingSoon && (
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700 bg-amber-100 px-1.5 py-0.5 rounded-full">
-                            Coming Soon
                           </span>
                         )}
                       </div>
@@ -229,17 +251,6 @@ export default function Home() {
                   </div>
                 </>
               );
-
-              if (tool.comingSoon) {
-                return (
-                  <div
-                    key={tool.name}
-                    className="group relative bg-white rounded-2xl border border-slate-100 shadow-sm p-6 flex flex-col opacity-75 cursor-default"
-                  >
-                    {CardContent}
-                  </div>
-                );
-              }
 
               return (
                 <Link
@@ -262,6 +273,7 @@ export default function Home() {
               );
             })}
           </div>
+          )}
         </section>
       </div>
     </>
