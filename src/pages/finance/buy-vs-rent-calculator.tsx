@@ -70,20 +70,23 @@ export default function BuyVsRentCalculatorPage() {
   return (
     <>
       <Head>
-        <title>Buy vs Rent Calculator - Complete Cost Comparison | Toolisk</title>
+        <title>Buy vs Rent Calculator — Should You Buy or Rent a Home? | Toolisk</title>
         <meta 
           name="description" 
-          content="Compare buying vs renting with full cost analysis including hidden ownership expenses, opportunity costs, and wealth accumulation. Make informed property decisions with real numbers." 
+          content="Compare buying vs renting with 20+ cost factors. See net worth projections, opportunity cost analysis, and get a data-driven recommendation for your situation." 
         />
         <meta 
           name="keywords" 
-          content="buy vs rent calculator, property comparison, home ownership cost, rental yield, real estate calculator, property investment" 
+          content="buy vs rent calculator, should I buy or rent, property comparison, home ownership cost, rental yield, real estate calculator, net worth analysis" 
         />
         <link rel="canonical" href={`${SITE_URL}/finance/buy-vs-rent-calculator`} />
-        <meta property="og:title" content="Buy vs Rent Calculator - Complete Cost Comparison" />
-        <meta property="og:description" content="Analyze whether buying or renting makes better financial sense with comprehensive cost comparison." />
+        <meta property="og:title" content="Buy vs Rent Calculator — Should You Buy or Rent a Home?" />
+        <meta property="og:description" content="Compare buying vs renting with 20+ cost factors. Get a data-driven recommendation for your situation." />
         <meta property="og:url" content={`${SITE_URL}/finance/buy-vs-rent-calculator`} />
         <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Buy vs Rent Calculator — Should You Buy or Rent a Home? | Toolisk" />
+        <meta name="twitter:description" content="Compare buying vs renting with 20+ factors. Net worth projections, opportunity cost, and data-driven recommendations." />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema]) }}

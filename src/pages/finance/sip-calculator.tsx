@@ -70,20 +70,23 @@ export default function SIPCalculatorPage() {
   return (
     <>
       <Head>
-        <title>SIP Calculator - Plan Systematic Investment Returns | Toolisk</title>
+        <title>SIP Calculator — Mutual Fund Returns with Step-Up SIP | Toolisk</title>
         <meta 
           name="description" 
-          content="Calculate SIP returns with step-up options. Plan systematic investments with rupee cost averaging, visualize wealth growth, and optimize monthly contributions for your financial goals." 
+          content="Calculate SIP returns with annual step-up options. Visualize wealth growth from systematic investments, plan goal-based SIPs, and optimize monthly contributions." 
         />
         <meta 
           name="keywords" 
-          content="SIP calculator, systematic investment plan, mutual fund calculator, step-up SIP, rupee cost averaging, wealth planning, investment calculator" 
+          content="SIP calculator, systematic investment plan, mutual fund calculator, step-up SIP, rupee cost averaging, wealth planning, investment calculator, goal planning" 
         />
         <link rel="canonical" href={`${SITE_URL}/finance/sip-calculator`} />
-        <meta property="og:title" content="SIP Calculator - Plan Systematic Investment Returns" />
-        <meta property="og:description" content="Calculate SIP returns with step-up options and plan your systematic investments effectively." />
+        <meta property="og:title" content="SIP Calculator — Mutual Fund Returns with Step-Up SIP" />
+        <meta property="og:description" content="Calculate SIP returns with annual step-up options. Visualize wealth growth and plan goal-based investments." />
         <meta property="og:url" content={`${SITE_URL}/finance/sip-calculator`} />
         <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="SIP Calculator — Mutual Fund Returns with Step-Up SIP | Toolisk" />
+        <meta name="twitter:description" content="Calculate SIP returns with step-up options. Plan goal-based investments and visualize wealth growth over time." />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema]) }}

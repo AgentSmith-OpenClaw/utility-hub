@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // Static site generation - creates standalone HTML files
+  // Use static export only for production builds; dev mode runs as normal Next.js server
+  ...(process.env.NODE_ENV === 'production' ? { output: 'export' } : {}),
   distDir: 'build',
-  trailingSlash: false, // Enforce no trailing slash to prevent duplicate URLs
+  trailingSlash: false,
   images: {
     unoptimized: true,
   },
