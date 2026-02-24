@@ -63,13 +63,14 @@ export default function BuyVsRentCalculatorPage() {
       "price": "0",
       "priceCurrency": "USD"
     },
-    "description": "Compare the full financial impact of buying versus renting property, including hidden costs, opportunity costs, and wealth accumulation."
+    "description": "Compare the full financial impact of buying versus renting property, including hidden costs, opportunity costs, and wealth accumulation.",
+    "url": `${SITE_URL}/finance/buy-vs-rent-calculator`
   };
 
   return (
     <>
       <Head>
-        <title>Buy vs Rent Calculator - Complete Cost Comparison | Utility Hub</title>
+        <title>Buy vs Rent Calculator - Complete Cost Comparison | Toolisk</title>
         <meta 
           name="description" 
           content="Compare buying vs renting with full cost analysis including hidden ownership expenses, opportunity costs, and wealth accumulation. Make informed property decisions with real numbers." 

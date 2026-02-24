@@ -63,13 +63,14 @@ export default function IncomeTaxCalculatorPage() {
       "price": "0",
       "priceCurrency": "USD"
     },
-    "description": "Compare old vs new tax regimes and calculate income tax with deductions optimization for Indian taxpayers."
+    "description": "Compare old vs new tax regimes and calculate income tax with deductions optimization for Indian taxpayers.",
+    "url": `${SITE_URL}/finance/income-tax-calculator`
   };
 
   return (
     <>
       <Head>
-        <title>Income Tax Calculator - Old vs New Regime Comparison | Utility Hub</title>
+        <title>Income Tax Calculator - Old vs New Regime Comparison | Toolisk</title>
         <meta 
           name="description" 
           content="Calculate income tax for both old and new regimes. Compare tax liability, optimize deductions under Section 80C, HRA, and more. Find the best tax regime for your salary structure." 
@@ -78,10 +79,10 @@ export default function IncomeTaxCalculatorPage() {
           name="keywords" 
           content="income tax calculator, tax regime comparison, Section 80C, HRA calculation, tax deductions, tax saving investments, salary tax" 
         />
-        <link rel="canonical" href="https://utilityhub.app/finance/income-tax-calculator" />
+        <link rel="canonical" href={`${SITE_URL}/finance/income-tax-calculator`} />
         <meta property="og:title" content="Income Tax Calculator - Old vs New Regime Comparison" />
         <meta property="og:description" content="Calculate and compare income tax under old vs new regimes with comprehensive deduction optimization." />
-        <meta property="og:url" content="https://utilityhub.app/finance/income-tax-calculator" />
+        <meta property="og:url" content={`${SITE_URL}/finance/income-tax-calculator`} />
         <meta property="og:type" content="website" />
         <script
           type="application/ld+json"
@@ -399,6 +400,7 @@ export default function IncomeTaxCalculatorPage() {
               { href: '/finance/compound-interest-calculator', title: 'Compound Interest Calculator', desc: 'See how PPF, EPF, and NPS compound over decades.' },
               { href: '/finance/fire-calculator', title: 'FIRE Calculator', desc: 'Optimize post-retirement income for tax efficiency.' },
               { href: '/finance/mortgage-calculator', title: 'Mortgage Calculator', desc: 'Understand home loan EMI and Section 24 / 80C deductions.' },
+              { href: '/finance/amortization-calculator', title: 'Amortization Calculator', desc: 'See yearly interest for Section 24 planning and principal for 80C.' },
             ].map(t => (
               <Link key={t.href} href={t.href} className="block p-5 bg-white border border-slate-200 rounded-2xl hover:border-indigo-400 hover:shadow-md transition-all">
                 <div className="font-semibold text-slate-900 mb-1">{t.title}</div>

@@ -20,6 +20,10 @@ export default function Contact() {
           content="Contact the Toolisk team — report bugs, suggest tools, or ask questions. We actively monitor feedback and continuously improve our tools."
         />
         <link rel="canonical" href="https://toolisk.com/contact" />
+        <meta property="og:title" content="Contact Us — Toolisk" />
+        <meta property="og:description" content="Contact the Toolisk team — report bugs, suggest tools, or ask questions. We actively monitor feedback and continuously improve our tools." />
+        <meta property="og:url" content="https://toolisk.com/contact" />
+        <meta property="og:type" content="website" />
       </Head>
 
       <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">

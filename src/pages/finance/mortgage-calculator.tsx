@@ -63,13 +63,14 @@ export default function MortgageCalculatorPage() {
       "price": "0",
       "priceCurrency": "USD"
     },
-    "description": "Calculate home loan EMI, total interest, and affordability. Understand true cost of property ownership including taxes, insurance, and maintenance."
+    "description": "Calculate home loan EMI, total interest, and affordability. Understand true cost of property ownership including taxes, insurance, and maintenance.",
+    "url": `${SITE_URL}/finance/mortgage-calculator`
   };
 
   return (
     <>
       <Head>
-        <title>Mortgage Calculator - Home Loan EMI & Affordability | Utility Hub</title>
+        <title>Mortgage Calculator - Home Loan EMI & Affordability | Toolisk</title>
         <meta 
           name="description" 
           content="Calculate home loan EMI, total interest costs, and affordability. Understand complete housing costs including property tax, insurance, and maintenance beyond just EMI." 

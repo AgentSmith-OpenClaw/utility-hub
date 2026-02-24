@@ -76,7 +76,7 @@ export default function Document() {
               name: 'Mortgage Calculator',
               description:
                 'Free mortgage calculator and home loan interest calculator for US, UK, Canada, and Europe. Calculate monthly payments, analyze prepayment impact, compare strategies, view 8 interactive charts, and export amortization schedules.',
-              url: 'https://toolisk.com/emi-calculator',
+              url: 'https://toolisk.com/finance/emi-calculator',
               applicationCategory: 'FinanceApplication',
               operatingSystem: 'Any',
               browserRequirements: 'Requires JavaScript',
@@ -152,7 +152,7 @@ export default function Document() {
                   '@type': 'ListItem',
                   position: 2,
                   name: 'Mortgage Calculator',
-                  item: 'https://toolisk.com/emi-calculator',
+                  item: 'https://toolisk.com/finance/emi-calculator',
                 },
               ],
             }),
@@ -177,7 +177,7 @@ export default function Document() {
             <h2>Available Tools</h2>
             <ul>
               <li>
-                <a href="/emi-calculator">EMI Calculator</a> — Advanced EMI
+                <a href="/finance/emi-calculator">EMI Calculator</a> — Advanced EMI
                 calculator for home loan, car loan &amp; personal loan with prepayment
                 analysis, charts, and Excel export.
               </li>

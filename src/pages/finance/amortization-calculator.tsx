@@ -63,13 +63,14 @@ export default function AmortizationCalculatorPage() {
       "price": "0",
       "priceCurrency": "USD"
     },
-    "description": "Generate detailed amortization schedules showing principal and interest breakdown for every loan payment over the full tenure."
+    "description": "Generate detailed amortization schedules showing principal and interest breakdown for every loan payment over the full tenure.",
+    "url": `${SITE_URL}/finance/amortization-calculator`
   };
 
   return (
     <>
       <Head>
-        <title>Amortization Calculator - Loan Payment Schedule | Utility Hub</title>
+        <title>Amortization Calculator - Loan Payment Schedule | Toolisk</title>
         <meta 
           name="description" 
           content="Generate detailed amortization schedules for loans. See principal vs interest breakdown, cumulative interest paid, and understand how prepayments affect your loan timeline." 
