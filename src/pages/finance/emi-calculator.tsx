@@ -57,7 +57,7 @@ export default function EMICalculatorPage() {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
     name: 'EMI Calculator',
-    url: 'https://utilityhub.app/finance/emi-calculator',
+    url: `${SITE_URL}/finance/emi-calculator`,
     description: 'Free advanced EMI calculator with prepayment simulation, amortization schedule, and tenure vs EMI comparison for home loans, car loans, and personal loans.',
     applicationCategory: 'FinanceApplication',
     operatingSystem: 'All',

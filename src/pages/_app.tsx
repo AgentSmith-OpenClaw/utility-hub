@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import Clarity from '@microsoft/clarity';
 import Header from '../components/Layout/Header';
 import Footer from '../components/Layout/Footer';
@@ -37,6 +38,12 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Head>
+        <meta property="og:site_name" content="Toolisk" />
+        <meta property="og:locale" content="en_US" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@toolisk" />
+      </Head>
       <Header />
       <main className="flex-1">
         <Component {...pageProps} />

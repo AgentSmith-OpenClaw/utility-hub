@@ -11,6 +11,10 @@ export default function About() {
           content="Learn about Toolisk — a developer-driven project building high-performance, free online tools with a commitment to Speed, Privacy, and Accuracy."
         />
         <link rel="canonical" href="https://toolisk.com/about" />
+        <meta property="og:title" content="About Us — Toolisk" />
+        <meta property="og:description" content="Learn about Toolisk — a developer-driven project building high-performance, free online tools with a commitment to Speed, Privacy, and Accuracy." />
+        <meta property="og:url" content="https://toolisk.com/about" />
+        <meta property="og:type" content="website" />
       </Head>
 
       <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
@@ -113,23 +117,19 @@ export default function About() {
               <ul className="space-y-2 text-slate-600">
                 <li className="flex items-start gap-2">
                   <span className="text-indigo-500 mt-1">→</span>
-                  <span>FIRE Number Calculator for retirement planning</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-indigo-500 mt-1">→</span>
-                  <span>SIP Calculator with step-up and goal planning</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-indigo-500 mt-1">→</span>
-                  <span>Compound Interest Calculator with visualization</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-indigo-500 mt-1">→</span>
-                  <span>Amortization Calculator with detailed schedules</span>
+                  <span>Inflation Calculator for purchasing power analysis</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-indigo-500 mt-1">→</span>
                   <span>Regex Tester with real-time match highlighting</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-indigo-500 mt-1">→</span>
+                  <span>JSON Formatter &amp; Validator</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-indigo-500 mt-1">→</span>
+                  <span>Base64 Encoder/Decoder &amp; more developer utilities</span>
                 </li>
               </ul>
               <p className="text-slate-600 leading-relaxed mt-4">

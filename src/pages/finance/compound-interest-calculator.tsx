@@ -62,13 +62,14 @@ export default function CompoundInterestCalculatorPage() {
       "price": "0",
       "priceCurrency": "USD"
     },
-    "description": "Calculate compound interest on lump-sum investments with various compounding frequencies and visualize exponential wealth growth."
+    "description": "Calculate compound interest on lump-sum investments with various compounding frequencies and visualize exponential wealth growth.",
+    "url": `${SITE_URL}/finance/compound-interest-calculator`
   };
 
   return (
     <>
       <Head>
-        <title>Compound Interest Calculator - Exponential Growth Projections | Utility Hub</title>
+        <title>Compound Interest Calculator - Exponential Growth Projections | Toolisk</title>
         <meta 
           name="description" 
           content="Calculate compound interest on lump-sum investments. Compare compounding frequencies, visualize exponential growth, and understand how time multiplies wealth over decades." 
@@ -77,10 +78,10 @@ export default function CompoundInterestCalculatorPage() {
           name="keywords" 
           content="compound interest calculator, compounding frequency, investment growth, exponential returns, lump sum investment, wealth calculator" 
         />
-        <link rel="canonical" href="https://utilityhub.app/finance/compound-interest-calculator" />
+        <link rel="canonical" href={`${SITE_URL}/finance/compound-interest-calculator`} />
         <meta property="og:title" content="Compound Interest Calculator - Exponential Growth Projections" />
         <meta property="og:description" content="Calculate how lump-sum investments grow with compound interest over time." />
-        <meta property="og:url" content="https://utilityhub.app/finance/compound-interest-calculator" />
+        <meta property="og:url" content={`${SITE_URL}/finance/compound-interest-calculator`} />
         <meta property="og:type" content="website" />
         <script
           type="application/ld+json"

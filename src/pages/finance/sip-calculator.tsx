@@ -63,13 +63,14 @@ export default function SIPCalculatorPage() {
       "price": "0",
       "priceCurrency": "USD"
     },
-    "description": "Calculate systematic investment plan returns with step-up options and visualize wealth accumulation over time."
+    "description": "Calculate systematic investment plan returns with step-up options and visualize wealth accumulation over time.",
+    "url": `${SITE_URL}/finance/sip-calculator`
   };
 
   return (
     <>
       <Head>
-        <title>SIP Calculator - Plan Systematic Investment Returns | Utility Hub</title>
+        <title>SIP Calculator - Plan Systematic Investment Returns | Toolisk</title>
         <meta 
           name="description" 
           content="Calculate SIP returns with step-up options. Plan systematic investments with rupee cost averaging, visualize wealth growth, and optimize monthly contributions for your financial goals." 
@@ -314,7 +315,7 @@ export default function SIPCalculatorPage() {
               { href: '/finance/compound-interest-calculator', title: 'Compound Interest Calculator', desc: 'Model lump-sum investment growth alongside your SIP.' },
               { href: '/finance/fire-calculator', title: 'FIRE Calculator', desc: 'Plan your financial independence corpus and retirement timeline.' },
               { href: '/finance/income-tax-calculator', title: 'Income Tax Calculator', desc: 'Optimise ELSS for tax-saving within 80C while building wealth.' },
-              { href: '/finance/buy-vs-rent-calculator', title: 'Buy vs Rent Calculator', desc: 'See if investing SIP-style beats locking capital in property.' },
+              { href: '/finance/amortization-calculator', title: 'Amortization Calculator', desc: 'See loan principal vs interest breakdown to decide: prepay or invest via SIP.' },
             ].map(t => (
               <Link key={t.href} href={t.href} className="block p-5 bg-white border border-slate-200 rounded-2xl hover:border-emerald-400 hover:shadow-md transition-all">
                 <div className="font-semibold text-slate-900 mb-1">{t.title}</div>
