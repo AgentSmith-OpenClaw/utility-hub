@@ -70,20 +70,23 @@ export default function IncomeTaxCalculatorPage() {
   return (
     <>
       <Head>
-        <title>Income Tax Calculator - Old vs New Regime Comparison | Toolisk</title>
+        <title>Income Tax Calculator FY 2025-26 — Old vs New Regime | Toolisk</title>
         <meta 
           name="description" 
-          content="Calculate income tax for both old and new regimes. Compare tax liability, optimize deductions under Section 80C, HRA, and more. Find the best tax regime for your salary structure." 
+          content="Compare old vs new tax regime for FY 2025-26 with latest budget updates. Optimize Section 80C, HRA, NPS deductions. Instant calculation with marginal relief and rebate." 
         />
         <meta 
           name="keywords" 
-          content="income tax calculator, tax regime comparison, Section 80C, HRA calculation, tax deductions, tax saving investments, salary tax" 
+          content="income tax calculator, FY 2025-26, tax regime comparison, Section 80C, HRA calculation, tax deductions, NPS, marginal relief, tax saving" 
         />
         <link rel="canonical" href={`${SITE_URL}/finance/income-tax-calculator`} />
-        <meta property="og:title" content="Income Tax Calculator - Old vs New Regime Comparison" />
-        <meta property="og:description" content="Calculate and compare income tax under old vs new regimes with comprehensive deduction optimization." />
+        <meta property="og:title" content="Income Tax Calculator FY 2025-26 — Old vs New Regime" />
+        <meta property="og:description" content="Compare old vs new tax regime for FY 2025-26. Optimize 80C, HRA, NPS deductions with instant calculation." />
         <meta property="og:url" content={`${SITE_URL}/finance/income-tax-calculator`} />
         <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Income Tax Calculator FY 2025-26 — Old vs New Regime | Toolisk" />
+        <meta name="twitter:description" content="Compare old vs new tax regime for FY 2025-26. Optimize deductions and find the best regime for your salary." />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema]) }}

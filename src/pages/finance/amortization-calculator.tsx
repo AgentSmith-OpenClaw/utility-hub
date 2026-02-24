@@ -70,20 +70,23 @@ export default function AmortizationCalculatorPage() {
   return (
     <>
       <Head>
-        <title>Amortization Calculator - Loan Payment Schedule | Toolisk</title>
+        <title>Amortization Calculator — Loan Schedule & Interest Breakdown | Toolisk</title>
         <meta 
           name="description" 
-          content="Generate detailed amortization schedules for loans. See principal vs interest breakdown, cumulative interest paid, and understand how prepayments affect your loan timeline." 
+          content="Generate month-by-month amortization schedules. Track principal vs interest for every payment, see cumulative interest, and analyze how prepayments shorten your loan." 
         />
         <meta 
           name="keywords" 
-          content="amortization calculator, loan schedule, principal interest breakdown, prepayment planning, loan amortization table, mortgage schedule" 
+          content="amortization calculator, loan schedule, principal interest breakdown, prepayment planning, loan amortization table, mortgage schedule, Excel export" 
         />
         <link rel="canonical" href={`${SITE_URL}/finance/amortization-calculator`} />
-        <meta property="og:title" content="Amortization Calculator - Loan Payment Schedule" />
-        <meta property="og:description" content="Generate detailed loan amortization schedules with principal and interest breakdown." />
+        <meta property="og:title" content="Amortization Calculator — Loan Schedule & Interest Breakdown" />
+        <meta property="og:description" content="Generate month-by-month loan amortization schedules with principal vs interest breakdown and prepayment analysis." />
         <meta property="og:url" content={`${SITE_URL}/finance/amortization-calculator`} />
         <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Amortization Calculator — Loan Schedule & Interest Breakdown | Toolisk" />
+        <meta name="twitter:description" content="Generate month-by-month amortization schedules. Track principal vs interest and analyze prepayment impact." />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema]) }}
