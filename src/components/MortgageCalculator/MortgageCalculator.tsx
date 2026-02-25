@@ -38,30 +38,28 @@ const MortgageInputField: React.FC<{
 
   return (
     <div className="mb-4 last:mb-0">
-      <div className="flex items-center justify-between mb-1.5">
-        <label className="text-xs font-bold text-slate-600 flex items-center">
-          {label}
-          {tooltip && <HelpTooltip text={tooltip} />}
-        </label>
-        <div className={`flex items-center bg-white rounded-xl border px-2.5 py-1.5 transition-all ${
-          focused ? 'border-blue-400 shadow-sm ring-2 ring-blue-50' : 'border-slate-100 hover:border-slate-200'
-        }`}>
-          {prefix && <span className="text-xs font-bold text-slate-400 mr-1">{prefix}</span>}
-          <input
-            type="text"
-            value={displayValue}
-            onFocus={(e) => { setFocused(true); setDisplayValue(value.toString()); e.target.select(); }}
-            onBlur={() => {
-              setFocused(false);
-              const cleaned = displayValue.replace(/[^0-9.]/g, '');
-              const parsed = parseFloat(cleaned);
-              if (!isNaN(parsed)) onChange(Math.min(Math.max(parsed, min), max));
-            }}
-            onChange={(e) => setDisplayValue(e.target.value)}
-            className="w-24 text-right text-xs font-black text-slate-900 bg-transparent outline-none"
-          />
-          {suffix && <span className="text-xs font-bold text-slate-400 ml-1">{suffix}</span>}
-        </div>
+      <label className="text-xs font-bold text-slate-600 flex items-center mb-1.5">
+        {label}
+        {tooltip && <HelpTooltip text={tooltip} />}
+      </label>
+      <div className={`flex items-center bg-white rounded-xl border px-2.5 py-2 transition-all w-full ${
+        focused ? 'border-blue-400 shadow-sm ring-2 ring-blue-50' : 'border-slate-100 hover:border-slate-200'
+      }`}>
+        {prefix && <span className="text-xs font-bold text-slate-400 mr-1">{prefix}</span>}
+        <input
+          type="text"
+          value={displayValue}
+          onFocus={(e) => { setFocused(true); setDisplayValue(value.toString()); e.target.select(); }}
+          onBlur={() => {
+            setFocused(false);
+            const cleaned = displayValue.replace(/[^0-9.]/g, '');
+            const parsed = parseFloat(cleaned);
+            if (!isNaN(parsed)) onChange(Math.min(Math.max(parsed, min), max));
+          }}
+          onChange={(e) => setDisplayValue(e.target.value)}
+          className="flex-1 min-w-0 text-right text-xs font-black text-slate-900 bg-transparent outline-none"
+        />
+        {suffix && <span className="text-xs font-bold text-slate-400 ml-1 whitespace-nowrap">{suffix}</span>}
       </div>
     </div>
   );
