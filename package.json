@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "node scripts/generate-sitemap.js && next build",
+    "build": "next build",
+    "postbuild": "next-sitemap --config next-sitemap.config.js",
     "start": "npx serve build -l 3000",
     "serve": "npx serve build -l 3000",
     "preview": "npm run build && npm run serve",
-    "sitemap": "node scripts/generate-sitemap.js"
+    "sitemap": "next-sitemap --config next-sitemap.config.js"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",
@@ -34,6 +35,7 @@
     "@playwright/test": "^1.58.2",
     "@types/chart.js": "^2.9.41",
     "@types/file-saver": "^2.0.7",
+    "next-sitemap": "^4.2.3",
     "serve": "^14.2.5"
   }
 }

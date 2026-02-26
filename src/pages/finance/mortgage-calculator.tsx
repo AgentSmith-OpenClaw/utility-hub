@@ -63,26 +63,30 @@ export default function MortgageCalculatorPage() {
       "price": "0",
       "priceCurrency": "USD"
     },
-    "description": "Calculate home loan EMI, total interest, and affordability. Understand true cost of property ownership including taxes, insurance, and maintenance."
+    "description": "Calculate home loan EMI, total interest, and affordability. Understand true cost of property ownership including taxes, insurance, and maintenance.",
+    "url": `${SITE_URL}/finance/mortgage-calculator`
   };
 
   return (
     <>
       <Head>
-        <title>Mortgage Calculator - Home Loan EMI & Affordability | Utility Hub</title>
+        <title>Mortgage Calculator — Monthly Payment with Taxes & Insurance | Toolisk</title>
         <meta 
           name="description" 
-          content="Calculate home loan EMI, total interest costs, and affordability. Understand complete housing costs including property tax, insurance, and maintenance beyond just EMI." 
+          content="Calculate your full monthly mortgage payment including principal, interest, property taxes, insurance, and PMI. Compare loan terms and see the total cost of homeownership." 
         />
         <meta 
           name="keywords" 
-          content="mortgage calculator, home loan calculator, EMI calculator, loan affordability, property tax, home insurance, housing costs" 
+          content="mortgage calculator, home loan calculator, monthly payment, property tax, home insurance, PMI, housing costs, loan affordability" 
         />
         <link rel="canonical" href={`${SITE_URL}/finance/mortgage-calculator`} />
-        <meta property="og:title" content="Mortgage Calculator - Home Loan EMI & Affordability" />
-        <meta property="og:description" content="Calculate home loan EMI and understand total housing costs for informed property decisions." />
+        <meta property="og:title" content="Mortgage Calculator — Monthly Payment with Taxes & Insurance" />
+        <meta property="og:description" content="Calculate full mortgage payment including principal, interest, taxes, insurance, and PMI. See total cost of homeownership." />
         <meta property="og:url" content={`${SITE_URL}/finance/mortgage-calculator`} />
         <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Mortgage Calculator — Monthly Payment with Taxes & Insurance | Toolisk" />
+        <meta name="twitter:description" content="Calculate full mortgage payment with taxes, insurance & PMI. Compare loan terms and see total homeownership cost." />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema]) }}

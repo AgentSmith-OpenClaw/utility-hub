@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import Link from 'next/link';
 
 interface BlogArticle {
@@ -1273,3 +1274,22 @@ export default function BlogPost() {
     </>
   );
 }
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = Object.keys(articles).map((slug) => ({
+    params: { slug },
+  }));
+
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const slug = params?.slug as string;
+  if (!articles[slug]) {
+    return { notFound: true };
+  }
+  return { props: { slug } };
+};

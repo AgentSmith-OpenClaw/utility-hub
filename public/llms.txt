@@ -1,0 +1,33 @@
+# Toolisk
+
+> Free, high-performance online tools for daily use — fast, private, and feature-rich. All computation happens client-side in the browser; no data is ever sent to a server.
+
+Toolisk is a collection of financial calculators and utilities built for accuracy and speed. Tools are free, require no sign-up, and work entirely in your browser.
+
+## Finance Calculators
+
+- [EMI Calculator](https://toolisk.com/finance/emi-calculator): Calculate monthly loan repayments for home loans, car loans, and personal loans. Includes prepayment simulation, amortization schedule, and Reduce EMI vs Reduce Tenure comparison.
+- [SIP Calculator](https://toolisk.com/finance/sip-calculator): Calculate Systematic Investment Plan returns with step-up SIP options. Visualise wealth accumulation and plan goal-based investments.
+- [Compound Interest Calculator](https://toolisk.com/finance/compound-interest-calculator): Calculate compound interest for lump-sum investments across daily, monthly, and annual compounding frequencies.
+- [FIRE Calculator](https://toolisk.com/finance/fire-calculator): Calculate the corpus needed for Financial Independence Retire Early. Supports Lean FIRE, Fat FIRE, Coast FIRE, and Barista FIRE strategies.
+- [Income Tax Calculator](https://toolisk.com/finance/income-tax-calculator): Compare Old vs New tax regime for Indian taxpayers (FY 2025-26). Calculates tax liability, rebates, and deduction optimisation under Sections 80C, HRA, 80D, and more.
+- [Mortgage Calculator](https://toolisk.com/finance/mortgage-calculator): Calculate home loan EMI and total housing cost including property tax, insurance, and maintenance.
+- [Amortization Calculator](https://toolisk.com/finance/amortization-calculator): Generate month-by-month amortization schedules showing principal vs interest breakdown for any loan.
+- [Buy vs Rent Calculator](https://toolisk.com/finance/buy-vs-rent-calculator): Compare buying vs renting with full cost analysis including opportunity cost, hidden ownership expenses, and long-term wealth accumulation.
+
+## Finance Guides
+
+- [Understanding Compound Interest](https://toolisk.com/finance/learn/understanding-compound-interest): How compound interest works and why starting early matters.
+- [Understanding EMI Calculations](https://toolisk.com/finance/learn/understanding-emi-calculations): How EMI is calculated and how to plan loan repayment effectively.
+- [Prepayment Strategies Guide](https://toolisk.com/finance/learn/prepayment-strategies-guide): When and how to prepay loans to save maximum interest.
+- [FIRE Movement Explained](https://toolisk.com/finance/learn/fire-movement-explained): Introduction to Financial Independence Retire Early and how to calculate your FIRE number.
+- [Coast FIRE Strategy](https://toolisk.com/finance/learn/coast-fire-strategy): How Coast FIRE works and when it makes sense over full FIRE.
+- [Step-Up SIP vs Flat SIP](https://toolisk.com/finance/learn/step-up-sip-vs-flat-sip): Why increasing SIP contributions annually builds significantly more wealth.
+- [Inflation-Proof Investing Guide](https://toolisk.com/finance/learn/inflation-proof-investing-guide): How to invest such that real purchasing power grows over time.
+
+## About
+
+- [About Toolisk](https://toolisk.com/about): Background on the project, methodology, and principles.
+- [Privacy Policy](https://toolisk.com/privacy-policy): Zero-persistence architecture — no user data is stored or transmitted.
+- [Disclaimer](https://toolisk.com/disclaimer): Tools are for informational purposes only and do not constitute financial advice.
+- [Contact](https://toolisk.com/contact): admin@toolisk.com

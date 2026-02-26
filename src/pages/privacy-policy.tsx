@@ -11,6 +11,10 @@ export default function PrivacyPolicy() {
           content="Toolisk Privacy Policy — Learn how we handle your data with our zero-persistence approach. GDPR, CCPA, and LGPD compliant."
         />
         <link rel="canonical" href="https://toolisk.com/privacy-policy" />
+        <meta property="og:title" content="Privacy Policy — Toolisk" />
+        <meta property="og:description" content="Toolisk Privacy Policy — Learn how we handle your data with our zero-persistence approach. GDPR, CCPA, and LGPD compliant." />
+        <meta property="og:url" content="https://toolisk.com/privacy-policy" />
+        <meta property="og:type" content="website" />
       </Head>
 
       <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">

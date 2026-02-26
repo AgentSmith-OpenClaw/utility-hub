@@ -11,6 +11,10 @@ export default function Disclaimer() {
           content="Toolisk Disclaimer — Financial and technical disclaimers for all tools and calculators. Tools are provided as-is for informational purposes only."
         />
         <link rel="canonical" href="https://toolisk.com/disclaimer" />
+        <meta property="og:title" content="Disclaimer — Toolisk" />
+        <meta property="og:description" content="Toolisk Disclaimer — Financial and technical disclaimers for all tools and calculators. Tools are provided as-is for informational purposes only." />
+        <meta property="og:url" content="https://toolisk.com/disclaimer" />
+        <meta property="og:type" content="website" />
       </Head>
 
       <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">

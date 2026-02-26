@@ -62,26 +62,30 @@ export default function FIRECalculatorPage() {
       "price": "0",
       "priceCurrency": "USD"
     },
-    "description": "Calculate your Financial Independence Retire Early (FIRE) corpus based on expenses, withdrawal rate, and timeline."
+    "description": "Calculate your Financial Independence Retire Early (FIRE) corpus based on expenses, withdrawal rate, and timeline.",
+    "url": `${SITE_URL}/finance/fire-calculator`
   };
 
   return (
     <>
       <Head>
-        <title>FIRE Calculator - Financial Independence Planning | Utility Hub</title>
+        <title>FIRE Calculator — Plan Early Retirement & Financial Freedom | Toolisk</title>
         <meta 
           name="description" 
-          content="Calculate your FIRE corpus for early retirement. Plan financial independence with safe withdrawal rates, sequence risk analysis, and realistic timeline projections for retiring early." 
+          content="Calculate your FIRE number and early retirement timeline. Compare Lean, Fat, Coast & Barista FIRE strategies with safe withdrawal rate analysis and milestone tracking." 
         />
         <meta 
           name="keywords" 
-          content="FIRE calculator, financial independence, early retirement, safe withdrawal rate, Coast FIRE, Barista FIRE, retirement corpus" 
+          content="FIRE calculator, financial independence, early retirement, safe withdrawal rate, Coast FIRE, Barista FIRE, Lean FIRE, retirement corpus" 
         />
-        <link rel="canonical" href="https://utilityhub.app/finance/fire-calculator" />
-        <meta property="og:title" content="FIRE Calculator - Financial Independence Planning" />
-        <meta property="og:description" content="Calculate corpus needed for financial independence and early retirement." />
-        <meta property="og:url" content="https://utilityhub.app/finance/fire-calculator" />
+        <link rel="canonical" href={`${SITE_URL}/finance/fire-calculator`} />
+        <meta property="og:title" content="FIRE Calculator — Plan Early Retirement & Financial Freedom" />
+        <meta property="og:description" content="Calculate your FIRE number and retirement timeline. Compare Lean, Fat, Coast & Barista FIRE strategies." />
+        <meta property="og:url" content={`${SITE_URL}/finance/fire-calculator`} />
         <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="FIRE Calculator — Plan Early Retirement & Financial Freedom | Toolisk" />
+        <meta name="twitter:description" content="Calculate your FIRE number. Compare Lean, Fat, Coast & Barista FIRE with safe withdrawal rate analysis." />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema]) }}
@@ -206,7 +210,7 @@ export default function FIRECalculatorPage() {
               { href: '/finance/sip-calculator', title: 'SIP Calculator', desc: 'Build your FIRE corpus with disciplined monthly SIPs and step-ups.' },
               { href: '/finance/compound-interest-calculator', title: 'Compound Interest Calculator', desc: 'See how your corpus grows during the withdrawal phase.' },
               { href: '/finance/income-tax-calculator', title: 'Income Tax Calculator', desc: 'Optimise taxes during accumulation to accelerate your FIRE date.' },
-              { href: '/finance/buy-vs-rent-calculator', title: 'Buy vs Rent Calculator', desc: 'Owning your home debt-free significantly lowers your FIRE corpus requirement.' },
+              { href: '/finance/mortgage-calculator', title: 'Mortgage Calculator', desc: 'Owning your home debt-free significantly lowers your FIRE corpus requirement.' },
             ].map(t => (
               <Link key={t.href} href={t.href} className="block p-5 bg-white border border-slate-200 rounded-2xl hover:border-orange-400 hover:shadow-md transition-all">
                 <div className="font-semibold text-slate-900 mb-1">{t.title}</div>

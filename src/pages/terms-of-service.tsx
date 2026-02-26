@@ -11,6 +11,10 @@ export default function TermsOfService() {
           content="Toolisk Terms of Service — Understand the conditions governing your use of our free online tools, intellectual property, and fair use policies."
         />
         <link rel="canonical" href="https://toolisk.com/terms-of-service" />
+        <meta property="og:title" content="Terms of Service — Toolisk" />
+        <meta property="og:description" content="Toolisk Terms of Service — Understand the conditions governing your use of our free online tools, intellectual property, and fair use policies." />
+        <meta property="og:url" content="https://toolisk.com/terms-of-service" />
+        <meta property="og:type" content="website" />
       </Head>
 
       <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">

@@ -57,7 +57,7 @@ export default function EMICalculatorPage() {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
     name: 'EMI Calculator',
-    url: 'https://utilityhub.app/finance/emi-calculator',
+    url: `${SITE_URL}/finance/emi-calculator`,
     description: 'Free advanced EMI calculator with prepayment simulation, amortization schedule, and tenure vs EMI comparison for home loans, car loans, and personal loans.',
     applicationCategory: 'FinanceApplication',
     operatingSystem: 'All',
@@ -71,23 +71,26 @@ export default function EMICalculatorPage() {
   return (
     <>
       <Head>
-        <title>EMI Calculator: Plan Loan Repayment with Prepayment Strategy - Toolisk</title>
+        <title>EMI Calculator — Loan Repayment & Prepayment Planner | Toolisk</title>
         <meta
           name="description"
-          content="Calculate EMI for home loan, car loan, or personal loan. Compare prepayment strategies, see amortization schedule, and plan loan repayment with realistic assumptions."
+          content="Free EMI calculator for home, car & personal loans. Compare reduce-EMI vs reduce-tenure prepayment strategies, view 8 interactive charts, and export amortization schedule to Excel."
         />
         <meta
           name="keywords"
-          content="EMI calculator, home loan EMI, car loan calculator, personal loan EMI, prepayment strategy, loan amortization, reduce EMI vs reduce tenure"
+          content="EMI calculator, home loan EMI, car loan calculator, personal loan EMI, prepayment strategy, loan amortization, reduce EMI vs reduce tenure, Excel export"
         />
         <link rel="canonical" href={`${SITE_URL}/finance/emi-calculator`} />
-        <meta property="og:title" content="EMI Calculator: Plan Loan Repayment with Prepayment Strategy" />
+        <meta property="og:title" content="EMI Calculator — Loan Repayment & Prepayment Planner" />
         <meta
           property="og:description"
-          content="Free EMI calculator with prepayment impact analysis. Compare reduce EMI vs reduce tenure strategies and see full amortization schedule."
+          content="Free EMI calculator with prepayment impact analysis. Compare reduce EMI vs reduce tenure strategies, view charts, and export amortization to Excel."
         />
         <meta property="og:url" content={`${SITE_URL}/finance/emi-calculator`} />
-        <meta property="og:type" content="article" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="EMI Calculator — Loan Repayment & Prepayment Planner | Toolisk" />
+        <meta name="twitter:description" content="Free EMI calculator with prepayment analysis, 8 charts, and Excel export. Compare reduce-EMI vs reduce-tenure strategies." />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, softwareSchema, faqSchema]) }}
