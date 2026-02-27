@@ -1,11 +1,11 @@
----
+,-
 title: "Missed the Jan 31 Deadline? UK Self-Assessment Late Filing Guide 2026"
 date: "2026-02-20"
 author: "Toolisk Finance Team"
 category: "Tax"
 tags: ["UK Tax", "HMRC", "Self Assessment", "Penalties"]
 description: "A complete guide on what to do if you missed the 2025/2026 tax return deadline. Penalty appeals, time to pay arrangements, and how to minimize interest."
----
+,-
 
 # So You Missed the Jan 31 Deadline. Now What?
 
@@ -13,7 +13,7 @@ It happens. Maybe life got in the way, maybe you were waiting on a P60 that neve
 
 First, take a breath. Panic won't solve anything, but action will. HMRC penalties are strict, but they aren't instant doom if you handle the situation correctly.
 
-This guide walks you through exactly what happens next, how much it’s going to cost, and—crucially—how to stop the bleeding.
+This guide walks you through exactly what happens next, how much it’s going to cost, and—importantly—how to stop the bleeding.
 
 ## The Immediate Cost: The £100 Fixed Penalty
 

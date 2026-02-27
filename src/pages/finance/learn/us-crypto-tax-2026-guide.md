@@ -1,4 +1,4 @@
-# The 1099-DA Survival Guide: Navigating the New US Crypto Tax Rules in 2026
+# The 1099-DA Guide Guide: Understanding the New US Crypto Tax Rules in 2026
 
 If you’ve been trading crypto, you probably noticed a new form hitting your inbox this February: the **Form 1099-DA**. While the IRS has been talking about "Digital Asset" reporting for years, 2026 is the year it finally becomes a reality for every retail investor in the US.
 

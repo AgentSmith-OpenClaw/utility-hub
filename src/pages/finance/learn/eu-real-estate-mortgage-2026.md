@@ -1,6 +1,6 @@
-# EU Real Estate 2026: Navigating Mortgage Stability in France, Germany, and Spain
+# EU Real Estate 2026: Understanding Mortgage Stability in France, Germany, and Spain
 
-After a volatile few years, the European housing market has entered a period of relative stability in early 2026. While "cheap money" hasn't returned, the dramatic rate hikes of the mid-2020s have leveled off, creating a new—and more predictable—landscape for buyers in the EU's largest economies.
+After a volatile few years, the European housing market has entered a period of relative stability in early 2026. While "cheap money" hasn't returned, the dramatic rate hikes of the mid-2020s have leveled off, creating a new—and more predictable—market for buyers in the EU's largest economies.
 
 Whether you are looking for a flat in Berlin, a villa on the Costa del Sol, or a family home in the French countryside, here is the state of play for EU mortgages in 2026.
 

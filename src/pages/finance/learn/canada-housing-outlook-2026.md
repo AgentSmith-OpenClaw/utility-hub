@@ -1,6 +1,6 @@
 # Canada Housing Outlook 2026: Balancing Rates, Supply, and Affordability
 
-The Canadian real estate market enters 2026 at a crossroads. After a period of cooling driven by high interest rates, the conversation has shifted from "when will prices stop falling" to "how can we meet the surging demand." For buyers in Toronto, Vancouver, Calgary, and Montreal, the 2026 landscape is defined by a complex interplay of interest rate stabilization and a chronic housing supply deficit.
+The Canadian real estate market enters 2026 at a crossroads. After a period of cooling driven by high interest rates, the conversation has shifted from "when will prices stop falling" to "how can we meet the surging demand." For buyers in Toronto, Vancouver, Calgary, and Montreal, the 2026 market is defined by a complex connection of interest rate stabilization and a chronic housing supply deficit.
 
 ## Interest Rates: The New Normal
 
@@ -14,9 +14,9 @@ By early 2026, the Bank of Canada has signaled a move toward a "neutral" rate. T
 
 **The Rental Squeeze:** With many potential buyers priced out of ownership by high rates, the rental market is under unprecedented pressure. Rental yields are attractive for investors, but affordability for tenants has reached a critical point.
 
-## Navigating the 2026 Buy vs. Rent Dilemma
+## Understanding the 2026 Buy vs. Rent Dilemma
 
-With prices stabilizing but interest rates remaining elevated, the "Buy vs. Rent" calculation has never been more vital. In many Canadian urban centers, renting and investing the difference is mathematically superior in the short term, but the long-term benefit of principal paydown and potential appreciation still tilts the scales toward ownership for those who can afford the entry price.
+With prices stabilizing but interest rates remaining elevated, the "Buy vs. Rent" calculation has never been more essential. In many Canadian urban centers, renting and investing the difference is mathematically superior in the short term, but the long-term benefit of principal paydown and potential appreciation still tilts the scales toward ownership for those who can afford the entry price.
 
 To help you make this decision, our [Buy vs. Rent Calculator](https://toolisk.com/finance/buy-vs-rent-calculator) provides a comprehensive breakdown of the hidden costs of both options, tailored for the Canadian market.
 

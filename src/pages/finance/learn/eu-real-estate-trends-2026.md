@@ -1,4 +1,4 @@
-# European Real Estate 2026: Navigating the New Mortgage Landscape
+# European Real Estate 2026: Understanding the New Mortgage Market
 
 Across the Eurozone, the real estate market in 2026 is defined by a "great divergence." While some southern markets remain resilient, the northern hubs—Germany, France, and the Netherlands—are grappling with a fundamental reset in valuations driven by the European Central Bank's (ECB) sustained interest rate stance.
 
@@ -24,5 +24,5 @@ With many European mortgages being "variable" or "short-term fixed" (5-10 years)
 
 The European property market of 2026 requires more due diligence than ever. It is no longer a "buy and wait" game. Success now depends on understanding regional interest rate impacts and the long-term costs of property maintenance in a high-inflation environment.
 
----
+,-
 *Disclaimer: Toolisk provides financial tools and educational content. This is not professional financial advice.*

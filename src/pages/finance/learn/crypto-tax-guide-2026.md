@@ -1,8 +1,8 @@
----
+,-
 title: "Crypto Tax 2026: No More Grey Areas"
 description: "The IRS crackdown on digital assets is here. Learn what's reportable for the 2026 filing season."
 date: "2026-02-24"
----
+,-
 
 The IRS and CRA have finished their "education phase." In 2026, crypto tax enforcement is in full effect. If you traded in 2025, you are on the radar.
 

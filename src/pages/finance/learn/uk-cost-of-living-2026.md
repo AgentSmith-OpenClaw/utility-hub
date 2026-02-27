@@ -1,10 +1,10 @@
----
+,-
 title: "UK Cost of Living 2026: DWP Payments and the 20-Year Rule"
-description: "Navigating the 2026 DWP system, benefit changes, and the new settled status proposals."
+description: "Understanding the 2026 DWP system, benefit changes, and the new settled status proposals."
 date: "2026-02-24"
----
+,-
 
-The UK economy in 2026 is a mix of stabilizing interest rates and shifting social support. If you're navigating the DWP system, there are two dates and one specific policy proposal you need to watch.
+The UK economy in 2026 is a mix of stabilizing interest rates and shifting social support. If you're understanding the DWP system, there are two dates and one specific policy proposal you need to watch.
 
 ## New DWP Payments
 Starting April 2026, two new payments are coming. The Household Resilience Grant will be handled by local councils, so your experience will vary depending on where you live. The second is an expansion of energy support specifically for pensioners and those on disability benefits.

@@ -1,8 +1,8 @@
----
+,-
 title: "Freelancing in 2026: Why Your Hourly Rate is Lying to You"
 description: "Managing taxes, insurance, and the 'AI effect' on your freelance rates in 2026."
 date: "2026-02-24"
----
+,-
 
 Being a freelancer in 2026 is harder than it looks on social media. If you're still just charging "what the other guy charges," you're likely losing money every month.
 

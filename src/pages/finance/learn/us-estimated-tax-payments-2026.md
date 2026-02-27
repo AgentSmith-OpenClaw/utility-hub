@@ -1,11 +1,11 @@
----
+,-
 title: "Freelancers, Don't Get Penalized: US Estimated Tax Guide 2026"
 date: "2026-02-20"
 author: "Toolisk Finance Team"
 category: "Tax"
 tags: ["US Tax", "Freelancer", "1040-ES", "Estimated Tax", "Self-Employment"]
 description: "April 15, June 16, Sept 15, Jan 15. The deadlines every freelancer needs to know. How to calculate quarterly payments and avoid underpayment penalties."
----
+,-
 
 # The Freelancer's Nightmare: Estimated Tax Payments
 
@@ -13,7 +13,7 @@ For W-2 employees, tax day is April 15. For freelancers, gig workers, and busine
 
 If you owe at least **$1,000** in tax when you file your return, the IRS requires you to make estimated tax payments throughout the year using **Form 1040-ES.** Fail to pay enough, and you'll face an **underpayment penalty**—even if you pay everything you owe by April 15.
 
-Here is your survival guide for the **2026 tax year.**
+Here is your guide guide for the **2026 tax year.**
 
 ## The 2026 Deadlines
 

@@ -1,8 +1,8 @@
----
+,-
 title: "US Tax 2026: What the 'One Big Beautiful Bill' Actually Means for Your Wallet"
 description: "A practical guide to the 2026 US tax changes, new brackets, and how to avoid IRS delays."
 date: "2026-02-24"
----
+,-
 
 The 2026 tax season isn't just another year of paperwork. Between the "One Big Beautiful Bill Act" and the IRS's new aggressive stance on documentation, your usual "copy-paste" approach from last year will likely trigger an audit or a massive delay.
 
@@ -10,7 +10,7 @@ The 2026 tax season isn't just another year of paperwork. Between the "One Big B
 The IRS adjusted the numbers. If you haven't checked where you land, you're likely overpaying or under-saving.
 
 | Tax Rate | Single Filers | Married (Joint) |
-|----------|---------------|-----------------|
+|,,,,,|,,,,,,,-|,,,,,,,,-|
 | 10% | Up to $12,000 | Up to $24,000 |
 | 12% | $12,001 – $48,000 | $24,001 – $96,000 |
 | 22% | $48,001 – $100,000 | $96,001 – $200,000 |

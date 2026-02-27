@@ -10,7 +10,7 @@ If you are coming off a 5-year fixed rate of 1.99% and moving to a current 2026 
 
 For a $500,000 mortgage, that interest rate jump could mean an extra $700 to $1,000 per month in interest alone. This is the "payment shock" that is forcing many Canadians to rethink their household budgets.
 
-## 3 Strategies to Soften the Blow
+## 3 Tips to Soften the Blow
 
 ### 1. Lump Sum Payments (Before Renewal)
 If you have any savings, putting a lump sum toward your principal *before* you renew can significantly lower your new monthly payment. Because your principal is lower, the higher interest rate has a smaller base to act upon.
@@ -26,7 +26,7 @@ If your debt-to-income ratio has tightened due to the cost of living, traditiona
 With the 2026 federal tax brackets adjusted (14% for the first $58,523), many Canadians are considering moving to provinces with lower provincial tax or better housing affordability, like Alberta or parts of the Maritimes. If you are renewing a mortgage on a property you plan to leave, consider a **portable mortgage** that allows you to take your current rate and terms to a new home.
 
 ## How Toolisk Can Help
-Navigating a Canadian mortgage renewal requires precise math. Our [EMI Calculator](https://toolisk.com/finance/emi-calculator) allows you to compare your current payment against new rate offers instantly. 
+Understanding a Canadian mortgage renewal requires precise math. Our [EMI Calculator](https://toolisk.com/finance/emi-calculator) allows you to compare your current payment against new rate offers instantly. 
 
 Don't wait for your bank's renewal letter to arrive 30 days before the deadline. Start your research today and take control of your financial future.
 

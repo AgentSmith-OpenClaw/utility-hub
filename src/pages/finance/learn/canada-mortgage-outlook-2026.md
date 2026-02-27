@@ -1,8 +1,8 @@
----
+,-
 title: "Canada Mortgage Outlook 2026: The 6.18% Reality"
 description: "Expert predictions for 2026 Canadian mortgage rates and what housing inventory means for buyers."
 date: "2026-02-24"
----
+,-
 
 Canada's housing market has spent the last two years in a state of shock. In 2026, we're finally seeing a "new normal." The chaos of 2025 is over, but don't expect a return to the 2% rates of the past.
 

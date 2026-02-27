@@ -1,15 +1,15 @@
----
+,-
 title: "UK 'British ISA' 2026: The New £5k Allowance Explained"
 date: "2026-02-20"
 author: "Toolisk Finance Team"
 category: "Investing"
 tags: ["UK Investing", "ISA", "Tax Free", "British ISA"]
 description: "Everything you need to know about the new £5,000 'British ISA' allowance for 2026. What counts as a UK asset? Should you use it?"
----
+,-
 
 # The £5,000 'British ISA' Allowance: A 2026 Game Changer?
 
-The UK investment landscape just got a patriotic twist. After much anticipation, the **"British ISA"** (officially the UK ISA) is live for the **2026/2027 tax year**, offering savers an extra **£5,000 tax-free allowance** on top of the standard £20,000 ISA limit.
+The UK investment market just got a patriotic twist. After much anticipation, the **"British ISA"** (officially the UK ISA) is live for the **2026/2027 tax year**, offering savers an extra **£5,000 tax-free allowance** on top of the standard £20,000 ISA limit.
 
 This means savvy investors can now shield up to **£25,000 per year** from Capital Gains Tax and Income Tax. But there is a catch: that extra £5k must be invested exclusively in UK assets.
 

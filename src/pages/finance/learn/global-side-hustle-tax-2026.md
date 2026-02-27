@@ -2,7 +2,7 @@
 
 The "Gig Economy" is no longer a side project—in 2026, it is a primary income source for millions across the US, UK, Canada, and Europe. But with new income comes new complexity, especially as tax authorities globally have ramped up their digital tracking systems.
 
-Whether you are driving for a ride-share app, selling digital products, or consulting across borders, here is your 2026 survival guide for side hustle taxes.
+Whether you are driving for a ride-share app, selling digital products, or consulting across borders, here is your 2026 guide guide for side hustle taxes.
 
 ## US: The 1099-K Threshold and New Brackets
 If you are in the US, the IRS is more automated than ever. 

@@ -1,15 +1,15 @@
----
+,-
 title: "US Child Tax Credit 2026: Reversion Risk & Planning Guide"
 date: "2026-02-20"
 author: "Toolisk Finance Team"
 category: "Tax"
 tags: ["US Tax", "IRS", "Child Tax Credit", "2026"]
-description: "Is the Child Tax Credit going back to $1,000 in 2026? How the TCJA expiration affects your family and strategies to maximize your refund."
----
+description: "Is the Child Tax Credit going back to $1,000 in 2026? How the TCJA expiration affects your family and tips to maximize your refund."
+,-
 
 # The Child Tax Credit Rollercoaster: What to Expect for 2026
 
-For nearly a decade, the Child Tax Credit (CTC) has been a lifeline for American families, offering up to $2,000 per qualifying child. But as we head deeper into 2026, the landscape is shifting. With provisions from the 2017 Tax Cuts and Jobs Act (TCJA) set to expire at the end of 2025, millions of parents could see their tax refunds shrink dramatically unless Congress acts.
+For nearly a decade, the Child Tax Credit (CTC) has been a lifeline for American families, offering up to $2,000 per qualifying child. But as we head deeper into 2026, the market is shifting. With provisions from the 2017 Tax Cuts and Jobs Act (TCJA) set to expire at the end of 2025, millions of parents could see their tax refunds shrink dramatically unless Congress acts.
 
 Here’s the critical breakdown of where the CTC stands for the **2026 tax year** (returns filed in early 2027) and how to prepare your finances now.
 

@@ -1,8 +1,8 @@
----
+,-
 title: "ECB 2026: The Long Interest Rate Pause"
 description: "Why the European Central Bank is holding rates at 2% and what it means for Eurozone savings and mortgages."
 date: "2026-02-24"
----
+,-
 
 The European Central Bank has hit the brakes and kept them there. The deposit rate is stuck at 2.00%, and from where we stand in February 2026, it's not moving anytime soon.
 
