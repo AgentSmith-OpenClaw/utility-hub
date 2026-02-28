@@ -436,3 +436,106 @@ export const exportAmortizationToExcel = (
   const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
   saveAs(blob, filename);
 };
+
+// US Paycheck Calculator Excel Export
+export interface USPaycheckExportData {
+  grossAnnual: number;
+  payFrequency: string;
+  filingStatus: string;
+  state: string;
+  standardDeduction: number;
+  retirement401k: number;
+  hsaContribution: number;
+  traditionalIRA: number;
+  federalTax: number;
+  stateTax: number;
+  socialSecurity: number;
+  medicare: number;
+  totalFICA: number;
+  totalTax: number;
+  netAnnual: number;
+  effectiveTaxRate: number;
+  marginalFederalRate: number;
+  marginalStateRate: number;
+  periodsPerYear: number;
+  perPeriod: {
+    gross: number;
+    federal: number;
+    state: number;
+    socialSecurity: number;
+    medicare: number;
+    retirement401k: number;
+    hsa: number;
+    ira: number;
+    net: number;
+  };
+}
+
+export const exportUSPaycheckToExcel = (
+  data: USPaycheckExportData,
+  filename: string = 'us_paycheck_analysis.xlsx'
+) => {
+  const wb = XLSX.utils.book_new();
+
+  // Sheet 1: Summary
+  const summaryData = [
+    { Parameter: 'Gross Annual Income', Value: `$${data.grossAnnual.toLocaleString()}` },
+    { Parameter: 'Pay Frequency', Value: data.payFrequency },
+    { Parameter: 'Filing Status', Value: data.filingStatus },
+    { Parameter: 'State', Value: data.state },
+    { Parameter: 'Standard Deduction', Value: `$${data.standardDeduction.toLocaleString()}` },
+    { Parameter: '', Value: '' },
+    { Parameter: '401(k) Contribution', Value: `$${data.retirement401k.toLocaleString()}` },
+    { Parameter: 'HSA Contribution', Value: `$${data.hsaContribution.toLocaleString()}` },
+    { Parameter: 'Traditional IRA', Value: `$${data.traditionalIRA.toLocaleString()}` },
+    { Parameter: '', Value: '' },
+    { Parameter: 'Federal Tax', Value: `$${Math.round(data.federalTax).toLocaleString()}` },
+    { Parameter: 'State Tax', Value: `$${Math.round(data.stateTax).toLocaleString()}` },
+    { Parameter: 'Social Security', Value: `$${Math.round(data.socialSecurity).toLocaleString()}` },
+    { Parameter: 'Medicare', Value: `$${Math.round(data.medicare).toLocaleString()}` },
+    { Parameter: 'Total FICA', Value: `$${Math.round(data.totalFICA).toLocaleString()}` },
+    { Parameter: 'Total Tax', Value: `$${Math.round(data.totalTax).toLocaleString()}` },
+    { Parameter: '', Value: '' },
+    { Parameter: 'Net Annual Income', Value: `$${Math.round(data.netAnnual).toLocaleString()}` },
+    { Parameter: 'Effective Tax Rate', Value: `${(data.effectiveTaxRate * 100).toFixed(2)}%` },
+    { Parameter: 'Marginal Federal Rate', Value: `${(data.marginalFederalRate * 100).toFixed(2)}%` },
+    { Parameter: 'Marginal State Rate', Value: `${(data.marginalStateRate * 100).toFixed(2)}%` },
+  ];
+  const ws1 = XLSX.utils.json_to_sheet(summaryData);
+  XLSX.utils.book_append_sheet(wb, ws1, 'Summary');
+
+  // Sheet 2: Per-Paycheck Breakdown
+  const perPeriodData = [
+    { Item: 'Gross Pay', 'Per Period': Math.round(data.perPeriod.gross), Annual: Math.round(data.grossAnnual) },
+    { Item: 'Federal Tax', 'Per Period': -Math.round(data.perPeriod.federal), Annual: -Math.round(data.federalTax) },
+    { Item: 'State Tax', 'Per Period': -Math.round(data.perPeriod.state), Annual: -Math.round(data.stateTax) },
+    { Item: 'Social Security', 'Per Period': -Math.round(data.perPeriod.socialSecurity), Annual: -Math.round(data.socialSecurity) },
+    { Item: 'Medicare', 'Per Period': -Math.round(data.perPeriod.medicare), Annual: -Math.round(data.medicare) },
+    { Item: '401(k)', 'Per Period': -Math.round(data.perPeriod.retirement401k), Annual: -Math.round(data.retirement401k) },
+    { Item: 'HSA', 'Per Period': -Math.round(data.perPeriod.hsa), Annual: -Math.round(data.hsaContribution) },
+    { Item: 'Traditional IRA', 'Per Period': -Math.round(data.perPeriod.ira), Annual: -Math.round(data.traditionalIRA) },
+    { Item: 'Net Take-Home', 'Per Period': Math.round(data.perPeriod.net), Annual: Math.round(data.netAnnual) },
+  ];
+  const ws2 = XLSX.utils.json_to_sheet(perPeriodData);
+  XLSX.utils.book_append_sheet(wb, ws2, 'Per-Paycheck Breakdown');
+
+  // Sheet 3: Tax Breakdown
+  const taxData = [
+    { Category: 'Federal Income Tax', Amount: Math.round(data.federalTax), 'Pct of Gross': `${((data.federalTax / data.grossAnnual) * 100).toFixed(2)}%` },
+    { Category: 'State Income Tax', Amount: Math.round(data.stateTax), 'Pct of Gross': `${((data.stateTax / data.grossAnnual) * 100).toFixed(2)}%` },
+    { Category: 'Social Security', Amount: Math.round(data.socialSecurity), 'Pct of Gross': `${((data.socialSecurity / data.grossAnnual) * 100).toFixed(2)}%` },
+    { Category: 'Medicare', Amount: Math.round(data.medicare), 'Pct of Gross': `${((data.medicare / data.grossAnnual) * 100).toFixed(2)}%` },
+    { Category: 'Total FICA', Amount: Math.round(data.totalFICA), 'Pct of Gross': `${((data.totalFICA / data.grossAnnual) * 100).toFixed(2)}%` },
+    { Category: '', Amount: '', 'Pct of Gross': '' },
+    { Category: 'Total Tax', Amount: Math.round(data.totalTax), 'Pct of Gross': `${((data.totalTax / data.grossAnnual) * 100).toFixed(2)}%` },
+    { Category: 'Effective Tax Rate', Amount: '', 'Pct of Gross': `${(data.effectiveTaxRate * 100).toFixed(2)}%` },
+    { Category: 'Marginal Federal Rate', Amount: '', 'Pct of Gross': `${(data.marginalFederalRate * 100).toFixed(2)}%` },
+    { Category: 'Marginal State Rate', Amount: '', 'Pct of Gross': `${(data.marginalStateRate * 100).toFixed(2)}%` },
+  ];
+  const ws3 = XLSX.utils.json_to_sheet(taxData);
+  XLSX.utils.book_append_sheet(wb, ws3, 'Tax Breakdown');
+
+  const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+  saveAs(blob, filename);
+};

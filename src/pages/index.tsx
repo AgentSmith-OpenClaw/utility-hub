@@ -22,6 +22,15 @@ const tools: Tool[] = [
     isNew: true,
   },
   {
+    name: 'US Paycheck Calculator',
+    description:
+      'Calculate your take-home pay with federal & state tax, FICA, and pre-tax deductions. Covers all 50 states with 2025 tax brackets.',
+    path: '/finance/us-paycheck-calculator',
+    icon: '💵',
+    tags: ['Finance', 'Tax', 'US', 'Paycheck', 'Salary'],
+    isNew: true,
+  },
+  {
     name: 'EMI Calculator',
     description:
       'Advanced EMI calculator for home loan, car loan & personal loan. Compare Reduce EMI vs Reduce Tenure strategies, view 8 interactive charts, prepayment impact analysis, and export to Excel.',
