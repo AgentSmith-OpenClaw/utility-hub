@@ -10,6 +10,7 @@ export const BREADCRUMB_LABELS: Record<string, string> = {
   'buy-vs-rent-calculator': 'Buy vs Rent Calculator',
   'income-tax-calculator': 'Income Tax Calculator',
   'amortization-calculator': 'Amortization Calculator',
+  'us-paycheck-calculator': 'US Paycheck Calculator',
 };
 
 export function generateBreadcrumbs(pathname: string) {
