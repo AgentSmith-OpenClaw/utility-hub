@@ -63,7 +63,43 @@ export default function FIRECalculatorPage() {
       "priceCurrency": "USD"
     },
     "description": "Calculate your Financial Independence Retire Early (FIRE) corpus based on expenses, withdrawal rate, and timeline.",
-    "url": `${SITE_URL}/finance/fire-calculator`
+    "url": `${SITE_URL}/finance/fire-calculator`,
+    "operatingSystem": "All",
+    "featureList": "FIRE number calculation, Lean/Fat/Coast/Barista FIRE comparison, Portfolio projection, Milestone tracking, PDF export, Excel export"
+  };
+
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Calculate Your FIRE Number",
+    "description": "Use the free Toolisk FIRE Calculator to determine how much you need to retire early and compare FIRE strategies.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Enter your monthly expenses",
+        "text": "Input your current monthly living expenses. This is the foundation for calculating your FIRE corpus — the amount needed to sustain your lifestyle without working."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Set your financial details",
+        "text": "Enter your current age, target retirement age, existing savings, monthly investment amount, and expected return rate."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Adjust withdrawal rate",
+        "text": "Choose a safe withdrawal rate (typically 3-4%). A lower rate means a larger corpus but more security. The calculator shows your target FIRE number."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Compare FIRE strategies",
+        "text": "Review and compare Lean FIRE, Fat FIRE, Coast FIRE, and Barista FIRE strategies to find the approach that matches your goals and risk tolerance."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Track milestones and export",
+        "text": "View your projected milestone timeline, review the year-by-year portfolio projection chart, and export your FIRE plan as PDF or Excel."
+      }
+    ]
   };
 
   return (
@@ -88,13 +124,52 @@ export default function FIRECalculatorPage() {
         <meta name="twitter:description" content="Calculate your FIRE number. Compare Lean, Fat, Coast & Barista FIRE with safe withdrawal rate analysis." />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema]) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema, howToSchema]) }}
         />
       </Head>
 
       <FIRECalculator />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-14">
+
+        {/* About This Tool */}
+        <section className="bg-orange-50 rounded-2xl p-8 sm:p-10">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">About This FIRE Calculator</h2>
+          <p className="text-slate-600 mb-6">The free Toolisk FIRE Calculator helps you determine your financial independence number, compare retirement strategies, and plan your path to early retirement with confidence.</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              '🎯 Multiple FIRE strategy comparisons',
+              '📊 4 interactive calculation modes',
+              '💰 Safe withdrawal rate analysis',
+              '📈 Milestone timeline tracking',
+              '💾 Export plans to PDF & Excel',
+              '🔄 Save & share FIRE goals via URL',
+            ].map(f => <div key={f} className="flex gap-3 items-start"><span className="mt-0.5">{f.split(' ')[0]}</span><span className="text-slate-700 text-sm">{f.substring(2)}</span></div>)}
+          </div>
+        </section>
+
+        {/* How to Use */}
+        <section className="bg-slate-50 rounded-2xl p-8 sm:p-10">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">How to Use This Calculator</h2>
+          <p className="text-slate-500 mb-6">Follow these steps to get accurate results in under a minute.</p>
+          <ol className="space-y-5">
+            {[
+              { n: 1, title: 'Enter your monthly expenses', desc: 'Input your current monthly living expenses. This is the foundation for calculating your FIRE corpus — the amount needed to sustain your lifestyle without working.' },
+              { n: 2, title: 'Set your financial details', desc: 'Enter your current age, target retirement age, existing savings, monthly investment amount, and expected return rate.' },
+              { n: 3, title: 'Adjust withdrawal rate', desc: 'Choose a safe withdrawal rate (typically 3–4%). A lower rate means a larger corpus but more security. The calculator shows your target FIRE number.' },
+              { n: 4, title: 'Compare FIRE strategies', desc: 'Review and compare Lean FIRE, Fat FIRE, Coast FIRE, and Barista FIRE strategies to find the approach that matches your goals and risk tolerance.' },
+              { n: 5, title: 'Track milestones and export', desc: 'View your projected milestone timeline, review the year-by-year portfolio projection chart, and export your FIRE plan as PDF or Excel.' },
+            ].map(s => (
+              <li key={s.n} className="flex gap-4 items-start">
+                <span className="flex-shrink-0 w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-sm">{s.n}</span>
+                <div>
+                  <p className="font-semibold text-slate-900">{s.title}</p>
+                  <p className="text-sm text-slate-600 mt-0.5">{s.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
 
         {/* Lead */}
         <div className="bg-gradient-to-br from-orange-500 to-rose-600 rounded-3xl p-8 sm:p-10 text-white">

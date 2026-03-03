@@ -72,7 +72,43 @@ export default function USPaycheckCalculatorPage() {
       "priceCurrency": "USD"
     },
     "description": "Calculate your US take-home pay with federal income tax, state tax, FICA, and pre-tax deductions for all 50 states using 2025 tax brackets.",
+    "operatingSystem": "All",
+    "featureList": "Federal tax calculation, State tax for all 50 states, FICA breakdown, 401(k)/HSA/IRA deductions, Pay frequency support, PDF export, Excel export",
     "url": `${SITE_URL}/finance/us-paycheck-calculator`
+  };
+
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Calculate Your US Take-Home Pay",
+    "description": "Use the free Toolisk US Paycheck Calculator to estimate your net pay after federal tax, state tax, FICA, and pre-tax deductions.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Enter your gross income",
+        "text": "Input your gross salary and select your pay frequency — annual, monthly, biweekly, weekly, or hourly. The calculator converts everything to annual for accurate tax computation."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Select filing status and state",
+        "text": "Choose your tax filing status (Single, Married Filing Jointly, Head of Household, or Married Filing Separately) and select your state to include state income tax."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Add pre-tax deductions",
+        "text": "Enter your annual 401(k), HSA, and Traditional IRA contributions. These pre-tax deductions reduce your taxable income and lower your tax bill."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Review your paycheck breakdown",
+        "text": "View the complete breakdown showing federal tax, state tax, Social Security, Medicare, pre-tax deductions, and net take-home pay per paycheck and annually."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Analyze and export",
+        "text": "Explore tax rate comparisons, monthly cash flow charts, and tax savings from deductions. Export your analysis as PDF or Excel, or share via URL."
+      }
+    ]
   };
 
   return (
@@ -98,13 +134,52 @@ export default function USPaycheckCalculatorPage() {
         <meta name="twitter:description" content="Calculate your US take-home pay with federal tax, state tax, FICA, and pre-tax deductions for all 50 states." />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema]) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema, howToSchema]) }}
         />
       </Head>
 
       <USPaycheckCalculator />
 
       <article className="max-w-5xl mx-auto px-4 py-12 bg-white">
+
+        {/* About This Tool */}
+        <section className="bg-blue-50 rounded-2xl p-8 sm:p-10 mb-10">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">About This US Paycheck Calculator</h2>
+          <p className="text-slate-600 mb-6">The free Toolisk US Paycheck Calculator estimates your take-home pay with federal tax, state tax, FICA, and pre-tax deductions for all 50 states with 2025 tax brackets.</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              '🇺🇸 All 50 states + progressive tax brackets',
+              '💰 FICA tax & deduction breakdowns',
+              '401k HSA & Traditional IRA pre-tax planning',
+              '📊 Effective vs marginal tax rate analysis',
+              '💾 Export paycheck analysis to PDF & Excel',
+              '🔄 Save & share via URL',
+            ].map(f => <div key={f} className="flex gap-3 items-start"><span className="mt-0.5">{f.split(' ')[0]}</span><span className="text-slate-700 text-sm">{f.substring(2)}</span></div>)}
+          </div>
+        </section>
+
+        {/* How to Use */}
+        <section className="bg-slate-50 rounded-2xl p-8 sm:p-10 mb-10">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">How to Use This Calculator</h2>
+          <p className="text-slate-500 mb-6">Follow these steps to estimate your US take-home pay in under a minute.</p>
+          <ol className="space-y-5">
+            {[
+              { n: 1, title: 'Enter your gross income', desc: 'Input your gross salary and select your pay frequency — annual, monthly, biweekly, weekly, or hourly. The calculator converts everything to annual for accurate tax computation.' },
+              { n: 2, title: 'Select filing status and state', desc: 'Choose your tax filing status (Single, Married Filing Jointly, Head of Household, or Married Filing Separately) and select your state to include state income tax.' },
+              { n: 3, title: 'Add pre-tax deductions', desc: 'Enter your annual 401(k), HSA, and Traditional IRA contributions. These pre-tax deductions reduce your taxable income and lower your tax bill.' },
+              { n: 4, title: 'Review your paycheck breakdown', desc: 'View the complete breakdown showing federal tax, state tax, Social Security, Medicare, pre-tax deductions, and net take-home pay per paycheck and annually.' },
+              { n: 5, title: 'Analyze and export', desc: 'Explore tax rate comparisons, monthly cash flow charts, and tax savings from deductions. Export your analysis as PDF or Excel, or share via URL.' },
+            ].map(s => (
+              <li key={s.n} className="flex gap-4 items-start">
+                <span className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">{s.n}</span>
+                <div>
+                  <p className="font-semibold text-slate-900">{s.title}</p>
+                  <p className="text-sm text-slate-600 mt-0.5">{s.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
 
         {/* Section 1: Understanding Your US Paycheck */}
         <h2 className="text-2xl font-bold text-slate-900 mb-4">Understanding Your US Paycheck: A Complete Gross-to-Net Guide</h2>
