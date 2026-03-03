@@ -64,7 +64,43 @@ export default function AmortizationCalculatorPage() {
       "priceCurrency": "USD"
     },
     "description": "Generate detailed amortization schedules showing principal and interest breakdown for every loan payment over the full tenure.",
+    "operatingSystem": "All",
+    "featureList": "Month-by-month amortization schedule, Principal vs interest breakdown, Yearly summary, Prepayment analysis, PDF export, Excel export",
     "url": `${SITE_URL}/finance/amortization-calculator`
+  };
+
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Generate a Loan Amortization Schedule",
+    "description": "Use the free Toolisk Amortization Calculator to create a detailed month-by-month loan repayment schedule showing principal and interest breakdown.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Enter your loan details",
+        "text": "Input your total loan amount, annual interest rate, and loan tenure in years. The calculator instantly generates a complete amortization schedule."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Review monthly breakdown",
+        "text": "View the month-by-month table showing how each payment is split between principal repayment and interest, with running totals and remaining balance."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Analyze yearly summaries",
+        "text": "Check the yearly summary to see annual principal paid, interest paid, and how the ratio shifts over time as more of each payment goes toward principal."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Compare different terms",
+        "text": "Adjust the loan term or interest rate to compare schedules side by side and see how small changes affect total interest and monthly payments."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Export your schedule",
+        "text": "Download the complete amortization table as an Excel spreadsheet or PDF report to share with your lender or financial advisor."
+      }
+    ]
   };
 
   return (
@@ -89,7 +125,7 @@ export default function AmortizationCalculatorPage() {
         <meta name="twitter:description" content="Generate month-by-month amortization schedules. Track principal vs interest and analyze prepayment impact." />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema]) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema, howToSchema]) }}
         />
       </Head>
 

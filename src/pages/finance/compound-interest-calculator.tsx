@@ -63,7 +63,43 @@ export default function CompoundInterestCalculatorPage() {
       "priceCurrency": "USD"
     },
     "description": "Calculate compound interest on lump-sum investments with various compounding frequencies and visualize exponential wealth growth.",
+    "operatingSystem": "All",
+    "featureList": "Compound interest calculation, Multiple compounding frequencies, Monthly contribution support, Inflation adjustment, Growth visualization, PDF export, Excel export",
     "url": `${SITE_URL}/finance/compound-interest-calculator`
+  };
+
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Calculate Compound Interest",
+    "description": "Use the free Toolisk Compound Interest Calculator to project investment growth with flexible compounding frequencies and inflation adjustment.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Enter your initial investment",
+        "text": "Input your starting principal amount — the lump sum you plan to invest or already have invested."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Set contributions and rate",
+        "text": "Enter your monthly contribution amount and expected annual interest rate. Choose a compounding frequency: monthly, quarterly, or annually."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Choose investment duration",
+        "text": "Set the number of years you plan to invest. Longer time horizons dramatically increase the power of compound growth."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Adjust for inflation",
+        "text": "Optionally enter an inflation rate to see the real (inflation-adjusted) value of your future wealth alongside the nominal projection."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Review charts and export",
+        "text": "View growth projections showing invested vs. gained amounts, check the year-by-year breakdown, and export your plan as PDF or Excel."
+      }
+    ]
   };
 
   return (
@@ -88,7 +124,7 @@ export default function CompoundInterestCalculatorPage() {
         <meta name="twitter:description" content="Calculate compound interest with daily, monthly, or yearly compounding. Compare frequencies and see inflation-adjusted returns." />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema]) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema, howToSchema]) }}
         />
       </Head>
 

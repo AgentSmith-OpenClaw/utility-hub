@@ -72,7 +72,43 @@ export default function USPaycheckCalculatorPage() {
       "priceCurrency": "USD"
     },
     "description": "Calculate your US take-home pay with federal income tax, state tax, FICA, and pre-tax deductions for all 50 states using 2025 tax brackets.",
+    "operatingSystem": "All",
+    "featureList": "Federal tax calculation, State tax for all 50 states, FICA breakdown, 401(k)/HSA/IRA deductions, Pay frequency support, PDF export, Excel export",
     "url": `${SITE_URL}/finance/us-paycheck-calculator`
+  };
+
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Calculate Your US Take-Home Pay",
+    "description": "Use the free Toolisk US Paycheck Calculator to estimate your net pay after federal tax, state tax, FICA, and pre-tax deductions.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Enter your gross income",
+        "text": "Input your gross salary and select your pay frequency — annual, monthly, biweekly, weekly, or hourly. The calculator converts everything to annual for accurate tax computation."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Select filing status and state",
+        "text": "Choose your tax filing status (Single, Married Filing Jointly, Head of Household, or Married Filing Separately) and select your state to include state income tax."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Add pre-tax deductions",
+        "text": "Enter your annual 401(k), HSA, and Traditional IRA contributions. These pre-tax deductions reduce your taxable income and lower your tax bill."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Review your paycheck breakdown",
+        "text": "View the complete breakdown showing federal tax, state tax, Social Security, Medicare, pre-tax deductions, and net take-home pay per paycheck and annually."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Analyze and export",
+        "text": "Explore tax rate comparisons, monthly cash flow charts, and tax savings from deductions. Export your analysis as PDF or Excel, or share via URL."
+      }
+    ]
   };
 
   return (
@@ -98,7 +134,7 @@ export default function USPaycheckCalculatorPage() {
         <meta name="twitter:description" content="Calculate your US take-home pay with federal tax, state tax, FICA, and pre-tax deductions for all 50 states." />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema]) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema, howToSchema]) }}
         />
       </Head>
 

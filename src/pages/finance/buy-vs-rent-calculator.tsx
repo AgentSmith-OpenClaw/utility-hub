@@ -64,7 +64,43 @@ export default function BuyVsRentCalculatorPage() {
       "priceCurrency": "USD"
     },
     "description": "Compare the full financial impact of buying versus renting property, including hidden costs, opportunity costs, and wealth accumulation.",
+    "operatingSystem": "All",
+    "featureList": "Buy vs rent comparison, Net worth projections, Opportunity cost analysis, EMI breakdown, Property appreciation, Tax benefit estimation, PDF export, Excel export",
     "url": `${SITE_URL}/finance/buy-vs-rent-calculator`
+  };
+
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Compare Buying vs Renting a Home",
+    "description": "Use the free Toolisk Buy vs Rent Calculator to analyze whether buying or renting makes better financial sense for your situation.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Enter property and rent details",
+        "text": "Input the home price, down payment, loan interest rate, and current monthly rent. Add expected rent increases and property appreciation rates."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Add ownership costs",
+        "text": "Enter property taxes, maintenance costs, home insurance, and any HOA fees. These ongoing costs significantly impact the true cost of ownership."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Set investment assumptions",
+        "text": "Enter the expected return rate on investments if you rent and invest the difference. This determines the opportunity cost of tying capital in a home."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Review the comparison",
+        "text": "View the side-by-side analysis showing total cost of buying vs renting over time, including net worth projections and the breakeven point."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Get your recommendation",
+        "text": "The calculator provides a personalized recommendation based on your inputs, showing which option builds more wealth over your chosen time horizon."
+      }
+    ]
   };
 
   return (
@@ -89,7 +125,7 @@ export default function BuyVsRentCalculatorPage() {
         <meta name="twitter:description" content="Compare buying vs renting with 20+ factors. Net worth projections, opportunity cost, and data-driven recommendations." />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema]) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema, howToSchema]) }}
         />
       </Head>
 

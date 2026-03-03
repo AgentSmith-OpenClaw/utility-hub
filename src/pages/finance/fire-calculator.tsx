@@ -63,7 +63,43 @@ export default function FIRECalculatorPage() {
       "priceCurrency": "USD"
     },
     "description": "Calculate your Financial Independence Retire Early (FIRE) corpus based on expenses, withdrawal rate, and timeline.",
-    "url": `${SITE_URL}/finance/fire-calculator`
+    "url": `${SITE_URL}/finance/fire-calculator`,
+    "operatingSystem": "All",
+    "featureList": "FIRE number calculation, Lean/Fat/Coast/Barista FIRE comparison, Portfolio projection, Milestone tracking, PDF export, Excel export"
+  };
+
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Calculate Your FIRE Number",
+    "description": "Use the free Toolisk FIRE Calculator to determine how much you need to retire early and compare FIRE strategies.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Enter your monthly expenses",
+        "text": "Input your current monthly living expenses. This is the foundation for calculating your FIRE corpus — the amount needed to sustain your lifestyle without working."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Set your financial details",
+        "text": "Enter your current age, target retirement age, existing savings, monthly investment amount, and expected return rate."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Adjust withdrawal rate",
+        "text": "Choose a safe withdrawal rate (typically 3-4%). A lower rate means a larger corpus but more security. The calculator shows your target FIRE number."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Compare FIRE strategies",
+        "text": "Review and compare Lean FIRE, Fat FIRE, Coast FIRE, and Barista FIRE strategies to find the approach that matches your goals and risk tolerance."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Track milestones and export",
+        "text": "View your projected milestone timeline, review the year-by-year portfolio projection chart, and export your FIRE plan as PDF or Excel."
+      }
+    ]
   };
 
   return (
@@ -88,7 +124,7 @@ export default function FIRECalculatorPage() {
         <meta name="twitter:description" content="Calculate your FIRE number. Compare Lean, Fat, Coast & Barista FIRE with safe withdrawal rate analysis." />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema]) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema, howToSchema]) }}
         />
       </Head>
 

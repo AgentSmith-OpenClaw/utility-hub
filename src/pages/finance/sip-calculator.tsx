@@ -64,7 +64,43 @@ export default function SIPCalculatorPage() {
       "priceCurrency": "USD"
     },
     "description": "Calculate systematic investment plan returns with step-up options and visualize wealth accumulation over time.",
-    "url": `${SITE_URL}/finance/sip-calculator`
+    "url": `${SITE_URL}/finance/sip-calculator`,
+    "operatingSystem": "All",
+    "featureList": "SIP return calculation, Annual step-up SIP, Goal-based planning, Wealth growth visualization, PDF export, Excel export"
+  };
+
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Calculate SIP Returns",
+    "description": "Use the free Toolisk SIP Calculator to estimate mutual fund investment growth with step-up SIP and goal planning.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Enter your SIP amount",
+        "text": "Input your monthly SIP investment amount. This is the fixed sum you plan to invest each month in mutual funds or other instruments."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Set investment duration and expected return",
+        "text": "Choose your investment duration in years and expected annual return rate. Historical equity mutual fund returns in India average 12-15% over long periods."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Add annual step-up",
+        "text": "Optionally set an annual step-up percentage to increase your SIP by a fixed percentage each year, reflecting salary growth."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Review growth projection",
+        "text": "View the interactive chart showing invested amount versus wealth gained over time, plus year-by-year breakdown of contributions and returns."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Export your SIP plan",
+        "text": "Download your complete SIP projection as a PDF or Excel file, or share the plan URL with your financial advisor."
+      }
+    ]
   };
 
   return (
@@ -89,7 +125,7 @@ export default function SIPCalculatorPage() {
         <meta name="twitter:description" content="Calculate SIP returns with step-up options. Plan goal-based investments and visualize wealth growth over time." />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema]) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema, howToSchema]) }}
         />
       </Head>
 

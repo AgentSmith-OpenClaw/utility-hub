@@ -64,7 +64,43 @@ export default function IncomeTaxCalculatorPage() {
       "priceCurrency": "USD"
     },
     "description": "Compare old vs new tax regimes and calculate income tax with deductions optimization for Indian taxpayers.",
+    "operatingSystem": "All",
+    "featureList": "Old vs New regime comparison, Slab-wise breakdown, Section 80C/80D deductions, HRA exemption, NPS calculation, PDF export, Excel export",
     "url": `${SITE_URL}/finance/income-tax-calculator`
+  };
+
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Calculate Your Income Tax in India",
+    "description": "Use the free Toolisk Income Tax Calculator to compare Old vs New tax regimes for FY 2025-26 and find which saves you more.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Enter your income details",
+        "text": "Input your annual salary, interest income, rental income, and any other income sources. Specify whether you are a salaried employee or business professional."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Add deductions and exemptions",
+        "text": "Enter your Section 80C investments, 80D medical insurance, NPS contributions, HRA exemption, home loan interest, and other applicable deductions."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Compare Old vs New regime",
+        "text": "The calculator automatically computes tax under both Old and New regimes and recommends which one saves you more money."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Review slab-wise breakdown",
+        "text": "View the detailed slab-by-slab tax computation showing how much of your income falls in each bracket and the tax charged at each rate."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Export your tax summary",
+        "text": "Download your complete tax comparison as a PDF report or Excel spreadsheet for your records or to share with your CA."
+      }
+    ]
   };
 
   return (
@@ -89,7 +125,7 @@ export default function IncomeTaxCalculatorPage() {
         <meta name="twitter:description" content="Compare old vs new tax regime for FY 2025-26. Optimize deductions and find the best regime for your salary." />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema]) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema, howToSchema]) }}
         />
       </Head>
 

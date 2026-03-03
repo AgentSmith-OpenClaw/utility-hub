@@ -64,7 +64,43 @@ export default function MortgageCalculatorPage() {
       "priceCurrency": "USD"
     },
     "description": "Calculate home loan EMI, total interest, and affordability. Understand true cost of property ownership including taxes, insurance, and maintenance.",
+    "operatingSystem": "All",
+    "featureList": "Mortgage payment calculation, Property tax and insurance, PMI calculation, Loan term comparison, Amortization schedule, PDF export, Excel export",
     "url": `${SITE_URL}/finance/mortgage-calculator`
+  };
+
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Calculate Your Monthly Mortgage Payment",
+    "description": "Use the free Toolisk Mortgage Calculator to estimate your total monthly housing payment including principal, interest, taxes, insurance, and PMI.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Enter your home price and down payment",
+        "text": "Input the home purchase price and your planned down payment amount. The calculator automatically determines your loan amount and down payment percentage."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Set loan terms",
+        "text": "Choose your loan term (15 or 30 years) and enter the interest rate. Compare different terms to see the trade-off between monthly payment and total interest."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Add property costs",
+        "text": "Enter your annual property tax rate, home insurance premium, HOA fees, and PMI rate if your down payment is below 20%."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Review total monthly payment",
+        "text": "View the complete breakdown of your monthly payment: principal and interest, property taxes, insurance, PMI, and HOA — all in one clear summary."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Compare and export",
+        "text": "Compare different loan terms side by side, view the full amortization schedule chart, and export your mortgage analysis as PDF or Excel."
+      }
+    ]
   };
 
   return (
@@ -89,7 +125,7 @@ export default function MortgageCalculatorPage() {
         <meta name="twitter:description" content="Calculate full mortgage payment with taxes, insurance & PMI. Compare loan terms and see total homeownership cost." />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema]) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, softwareSchema, howToSchema]) }}
         />
       </Head>
 

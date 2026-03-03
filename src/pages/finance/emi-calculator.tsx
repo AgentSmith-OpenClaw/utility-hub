@@ -61,11 +61,46 @@ export default function EMICalculatorPage() {
     description: 'Free advanced EMI calculator with prepayment simulation, amortization schedule, and tenure vs EMI comparison for home loans, car loans, and personal loans.',
     applicationCategory: 'FinanceApplication',
     operatingSystem: 'All',
+    featureList: 'EMI calculation, Prepayment simulation, Amortization schedule, Reduce EMI vs Reduce Tenure comparison, PDF export, Excel export',
     offers: {
       '@type': 'Offer',
       price: '0',
       priceCurrency: 'USD',
     },
+  };
+
+  const howToSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: 'How to Calculate Your Loan EMI',
+    description: 'Use the free Toolisk EMI Calculator to estimate monthly payments, compare prepayment strategies, and plan your loan repayment.',
+    step: [
+      {
+        '@type': 'HowToStep',
+        name: 'Enter loan details',
+        text: 'Input your loan amount, annual interest rate, and tenure in years. The calculator instantly shows your monthly EMI.',
+      },
+      {
+        '@type': 'HowToStep',
+        name: 'Add prepayments',
+        text: 'Optionally add one-time or recurring prepayments to see how extra payments reduce total interest and shorten tenure.',
+      },
+      {
+        '@type': 'HowToStep',
+        name: 'Compare strategies',
+        text: 'Toggle between Reduce EMI and Reduce Tenure prepayment strategies to see which saves more interest for your situation.',
+      },
+      {
+        '@type': 'HowToStep',
+        name: 'Review amortization schedule',
+        text: 'Scroll through the month-by-month breakdown showing principal, interest, and remaining balance for every payment.',
+      },
+      {
+        '@type': 'HowToStep',
+        name: 'Export your plan',
+        text: 'Download your complete repayment plan as a PDF report or Excel spreadsheet, or share it via WhatsApp or Twitter.',
+      },
+    ],
   };
 
   return (
@@ -93,7 +128,7 @@ export default function EMICalculatorPage() {
         <meta name="twitter:description" content="Free EMI calculator with prepayment analysis, 8 charts, and Excel export. Compare reduce-EMI vs reduce-tenure strategies." />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, softwareSchema, faqSchema]) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, softwareSchema, faqSchema, howToSchema]) }}
         />
       </Head>
 
