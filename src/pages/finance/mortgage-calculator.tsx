@@ -133,6 +133,45 @@ export default function MortgageCalculatorPage() {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-14">
 
+        {/* About This Tool */}
+        <section className="bg-blue-50 rounded-2xl p-8 sm:p-10">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">About This Mortgage Calculator</h2>
+          <p className="text-slate-600 mb-6">The free Toolisk Mortgage Calculator shows your complete monthly housing payment including principal, interest, property taxes, insurance, PMI, and HOA fees.</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              '🏠 Full monthly payment breakdown',
+              '🛡️ PMI & property tax analysis',
+              '📊 Multiple loan term comparisons',
+              '📈 Interactive amortization charts',
+              '💾 Export mortgage analysis to PDF & Excel',
+              '🔄 Share mortgage plans via URL',
+            ].map(f => <div key={f} className="flex gap-3 items-start"><span className="mt-0.5">{f.split(' ')[0]}</span><span className="text-slate-700 text-sm">{f.substring(2)}</span></div>)}
+          </div>
+        </section>
+
+        {/* How to Use */}
+        <section className="bg-slate-50 rounded-2xl p-8 sm:p-10">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">How to Use This Calculator</h2>
+          <p className="text-slate-500 mb-6">Follow these steps to get accurate results in under a minute.</p>
+          <ol className="space-y-5">
+            {[
+              { n: 1, title: 'Enter your home price and down payment', desc: 'Input the home purchase price and your planned down payment. The calculator automatically determines your loan amount and down payment percentage.' },
+              { n: 2, title: 'Set loan terms', desc: 'Choose your loan term (15 or 30 years) and enter the interest rate. Compare different terms to see the trade-off between monthly payment and total interest.' },
+              { n: 3, title: 'Add property costs', desc: 'Enter your annual property tax rate, home insurance premium, HOA fees, and PMI rate if your down payment is below 20%.' },
+              { n: 4, title: 'Review total monthly payment', desc: 'View the complete breakdown: principal and interest, property taxes, insurance, PMI, and HOA — all in one clear summary.' },
+              { n: 5, title: 'Compare and export', desc: 'Compare different loan terms side by side, view the full amortization schedule chart, and export your mortgage analysis as PDF or Excel.' },
+            ].map(s => (
+              <li key={s.n} className="flex gap-4 items-start">
+                <span className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">{s.n}</span>
+                <div>
+                  <p className="font-semibold text-slate-900">{s.title}</p>
+                  <p className="text-sm text-slate-600 mt-0.5">{s.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
         {/* Lead */}
         <div className="bg-gradient-to-br from-blue-600 to-cyan-700 rounded-3xl p-8 sm:p-10 text-white">
           <h2 className="text-3xl font-bold mb-3">Home Loans: The Complete Cost Picture</h2>

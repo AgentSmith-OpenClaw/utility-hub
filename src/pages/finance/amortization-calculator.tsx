@@ -133,6 +133,45 @@ export default function AmortizationCalculatorPage() {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-14">
 
+        {/* About This Tool */}
+        <section className="bg-slate-100 rounded-2xl p-8 sm:p-10">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">About This Amortization Calculator</h2>
+          <p className="text-slate-600 mb-6">The free Toolisk Amortization Calculator generates detailed month-by-month loan repayment schedules showing exactly how much principal and interest you pay with each installment.</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              '📅 Complete month-by-month schedule',
+              '📊 Principal vs interest breakdown',
+              '📈 Interactive amortization charts',
+              '🔍 Yearly summaries & insights',
+              '💾 Export full schedule to PDF & Excel',
+              '🔄 Compare different loan terms',
+            ].map(f => <div key={f} className="flex gap-3 items-start"><span className="mt-0.5">{f.split(' ')[0]}</span><span className="text-slate-700 text-sm">{f.substring(2)}</span></div>)}
+          </div>
+        </section>
+
+        {/* How to Use */}
+        <section className="bg-slate-50 rounded-2xl p-8 sm:p-10">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">How to Use This Calculator</h2>
+          <p className="text-slate-500 mb-6">Follow these steps to get accurate results in under a minute.</p>
+          <ol className="space-y-5">
+            {[
+              { n: 1, title: 'Enter your loan details', desc: 'Input your total loan amount, annual interest rate, and loan tenure in years. The calculator instantly generates a complete amortization schedule.' },
+              { n: 2, title: 'Review monthly breakdown', desc: 'View the month-by-month table showing how each payment is split between principal repayment and interest, with running totals and remaining balance.' },
+              { n: 3, title: 'Analyze yearly summaries', desc: 'Check the yearly summary to see annual principal paid, interest paid, and how the ratio shifts over time as more of each payment goes toward principal.' },
+              { n: 4, title: 'Compare different terms', desc: 'Adjust the loan term or interest rate to compare schedules side by side and see how small changes affect total interest and monthly payments.' },
+              { n: 5, title: 'Export your schedule', desc: 'Download the complete amortization table as an Excel spreadsheet or PDF report to share with your lender or financial advisor.' },
+            ].map(s => (
+              <li key={s.n} className="flex gap-4 items-start">
+                <span className="flex-shrink-0 w-8 h-8 bg-slate-700 text-white rounded-full flex items-center justify-center font-bold text-sm">{s.n}</span>
+                <div>
+                  <p className="font-semibold text-slate-900">{s.title}</p>
+                  <p className="text-sm text-slate-600 mt-0.5">{s.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
         {/* Lead */}
         <div className="bg-gradient-to-br from-slate-700 to-slate-900 rounded-3xl p-8 sm:p-10 text-white">
           <p className="text-slate-400 uppercase tracking-widest text-xs font-semibold mb-3">Amortization Decoded</p>

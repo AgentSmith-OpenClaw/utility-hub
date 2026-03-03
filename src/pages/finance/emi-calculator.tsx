@@ -136,6 +136,45 @@ export default function EMICalculatorPage() {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-14">
 
+        {/* About This Tool */}
+        <section className="bg-blue-50 rounded-2xl p-8 sm:p-10">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">About This EMI Calculator</h2>
+          <p className="text-slate-600 mb-6">The free Toolisk EMI Calculator helps you estimate monthly loan payments with full prepayment impact analysis. Perfect for home loans, car loans, and personal loans.</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              '📊 Prepayment strategy comparison',
+              '📈 8 interactive charts & visualizations',
+              '📅 Complete amortization schedule',
+              '💾 Export to PDF & Excel',
+              '📱 Mobile-friendly & instant results',
+              '🔄 Save & share loan plans via URL',
+            ].map(f => <div key={f} className="flex gap-3 items-start"><span className="mt-0.5">{f.split(' ')[0]}</span><span className="text-slate-700 text-sm">{f.substring(2)}</span></div>)}
+          </div>
+        </section>
+
+        {/* How to Use */}
+        <section className="bg-slate-50 rounded-2xl p-8 sm:p-10">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">How to Use This Calculator</h2>
+          <p className="text-slate-500 mb-6">Follow these steps to get accurate results in under a minute.</p>
+          <ol className="space-y-5">
+            {[
+              { n: 1, title: 'Enter loan details', desc: 'Input your loan amount, annual interest rate, and tenure in years. The calculator instantly shows your monthly EMI.' },
+              { n: 2, title: 'Add prepayments', desc: 'Optionally add one-time or recurring prepayments to see how extra payments reduce total interest and shorten tenure.' },
+              { n: 3, title: 'Compare strategies', desc: 'Toggle between Reduce EMI and Reduce Tenure prepayment strategies to see which saves more interest for your situation.' },
+              { n: 4, title: 'Review amortization schedule', desc: 'Scroll through the month-by-month breakdown showing principal, interest, and remaining balance for every payment.' },
+              { n: 5, title: 'Export your plan', desc: 'Download your complete repayment plan as a PDF report or Excel spreadsheet, or share it via WhatsApp or Twitter.' },
+            ].map(s => (
+              <li key={s.n} className="flex gap-4 items-start">
+                <span className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">{s.n}</span>
+                <div>
+                  <p className="font-semibold text-slate-900">{s.title}</p>
+                  <p className="text-sm text-slate-600 mt-0.5">{s.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
         {/* Lead */}
         <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-8 sm:p-10 text-white">
           <h2 className="text-3xl font-bold mb-3">Plan Your Loan Without Guesswork</h2>

@@ -133,6 +133,45 @@ export default function SIPCalculatorPage() {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-14">
 
+        {/* About This Tool */}
+        <section className="bg-emerald-50 rounded-2xl p-8 sm:p-10">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">About This SIP Calculator</h2>
+          <p className="text-slate-600 mb-6">The free Toolisk SIP Calculator projects your systematic investment growth with annual step-up options. See how regular investments compound into wealth over decades.</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              '📈 Annual step-up SIP growth',
+              '📊 Interactive wealth projection charts',
+              '💹 Year-by-year contribution breakdown',
+              '🎯 Goal-based investment planning',
+              '💾 Export your SIP plan to PDF & Excel',
+              '🔄 Share investment goals via URL',
+            ].map(f => <div key={f} className="flex gap-3 items-start"><span className="mt-0.5">{f.split(' ')[0]}</span><span className="text-slate-700 text-sm">{f.substring(2)}</span></div>)}
+          </div>
+        </section>
+
+        {/* How to Use */}
+        <section className="bg-slate-50 rounded-2xl p-8 sm:p-10">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">How to Use This Calculator</h2>
+          <p className="text-slate-500 mb-6">Follow these steps to get accurate results in under a minute.</p>
+          <ol className="space-y-5">
+            {[
+              { n: 1, title: 'Enter your SIP amount', desc: 'Input your monthly SIP investment amount. This is the fixed sum you plan to invest each month in mutual funds or other instruments.' },
+              { n: 2, title: 'Set investment duration and expected return', desc: 'Choose your investment duration in years and expected annual return rate. Historical equity mutual fund returns in India average 12–15% over long periods.' },
+              { n: 3, title: 'Add annual step-up', desc: 'Optionally set an annual step-up percentage to increase your SIP by a fixed percentage each year, reflecting salary growth.' },
+              { n: 4, title: 'Review growth projection', desc: 'View the interactive chart showing invested amount versus wealth gained over time, plus year-by-year breakdown of contributions and returns.' },
+              { n: 5, title: 'Export your SIP plan', desc: 'Download your complete SIP projection as a PDF or Excel file, or share the plan URL with your financial advisor.' },
+            ].map(s => (
+              <li key={s.n} className="flex gap-4 items-start">
+                <span className="flex-shrink-0 w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold text-sm">{s.n}</span>
+                <div>
+                  <p className="font-semibold text-slate-900">{s.title}</p>
+                  <p className="text-sm text-slate-600 mt-0.5">{s.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
         {/* Lead */}
         <div className="bg-gradient-to-br from-emerald-600 to-teal-700 rounded-3xl p-8 sm:p-10 text-white">
           <h2 className="text-3xl font-bold mb-3">The SIP Strategy Guide</h2>

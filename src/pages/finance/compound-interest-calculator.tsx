@@ -132,6 +132,45 @@ export default function CompoundInterestCalculatorPage() {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-14">
 
+        {/* About This Tool */}
+        <section className="bg-violet-50 rounded-2xl p-8 sm:p-10">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">About This Compound Interest Calculator</h2>
+          <p className="text-slate-600 mb-6">The free Toolisk Compound Interest Calculator projects investment growth with flexible compounding frequencies and inflation adjustment. See how compound growth accelerates over time.</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              '🔁 Multiple compounding frequencies',
+              '💰 Lump sum & recurring contributions',
+              '📊 Growth projections with charts',
+              '🛡️ Inflation-adjusted real returns',
+              '💾 Export investment plans to PDF & Excel',
+              '🔄 Share compound interest analysis',
+            ].map(f => <div key={f} className="flex gap-3 items-start"><span className="mt-0.5">{f.split(' ')[0]}</span><span className="text-slate-700 text-sm">{f.substring(2)}</span></div>)}
+          </div>
+        </section>
+
+        {/* How to Use */}
+        <section className="bg-slate-50 rounded-2xl p-8 sm:p-10">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">How to Use This Calculator</h2>
+          <p className="text-slate-500 mb-6">Follow these steps to get accurate results in under a minute.</p>
+          <ol className="space-y-5">
+            {[
+              { n: 1, title: 'Enter your initial investment', desc: 'Input your starting principal amount — the lump sum you plan to invest or already have invested.' },
+              { n: 2, title: 'Set contributions and rate', desc: 'Enter your monthly contribution amount and expected annual interest rate. Choose a compounding frequency: monthly, quarterly, or annually.' },
+              { n: 3, title: 'Choose investment duration', desc: 'Set the number of years you plan to invest. Longer time horizons dramatically increase the power of compound growth.' },
+              { n: 4, title: 'Adjust for inflation', desc: 'Optionally enter an inflation rate to see the real (inflation-adjusted) value of your future wealth alongside the nominal projection.' },
+              { n: 5, title: 'Review charts and export', desc: 'View growth projections showing invested vs. gained amounts, check the year-by-year breakdown, and export your plan as PDF or Excel.' },
+            ].map(s => (
+              <li key={s.n} className="flex gap-4 items-start">
+                <span className="flex-shrink-0 w-8 h-8 bg-violet-600 text-white rounded-full flex items-center justify-center font-bold text-sm">{s.n}</span>
+                <div>
+                  <p className="font-semibold text-slate-900">{s.title}</p>
+                  <p className="text-sm text-slate-600 mt-0.5">{s.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
         {/* Lead */}
         <div className="bg-gradient-to-br from-violet-600 to-blue-700 rounded-3xl p-8 sm:p-10 text-white">
           <h2 className="text-3xl font-bold mb-3">Compound Interest: The 8th Wonder</h2>

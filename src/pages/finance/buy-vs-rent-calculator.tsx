@@ -133,6 +133,45 @@ export default function BuyVsRentCalculatorPage() {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-14">
 
+        {/* About This Tool */}
+        <section className="bg-teal-50 rounded-2xl p-8 sm:p-10">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">About This Buy vs Rent Calculator</h2>
+          <p className="text-slate-600 mb-6">The free Toolisk Buy vs Rent Calculator analyzes whether buying or renting makes better financial sense for your situation with 20+ cost factors and net worth projections.</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              '🏠 20+ ownership & rental cost factors',
+              '📊 Side-by-side financial comparison',
+              '💹 Net worth projections over time',
+              '📈 Opportunity cost analysis',
+              '💾 Export comparison to PDF & Excel',
+              '🔄 Share buy vs rent analysis',
+            ].map(f => <div key={f} className="flex gap-3 items-start"><span className="mt-0.5">{f.split(' ')[0]}</span><span className="text-slate-700 text-sm">{f.substring(2)}</span></div>)}
+          </div>
+        </section>
+
+        {/* How to Use */}
+        <section className="bg-slate-50 rounded-2xl p-8 sm:p-10">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">How to Use This Calculator</h2>
+          <p className="text-slate-500 mb-6">Follow these steps to get accurate results in under a minute.</p>
+          <ol className="space-y-5">
+            {[
+              { n: 1, title: 'Enter property and rent details', desc: 'Input the home price, down payment, loan interest rate, and current monthly rent. Add expected rent increases and property appreciation rates.' },
+              { n: 2, title: 'Add ownership costs', desc: 'Enter property taxes, maintenance costs, home insurance, and any HOA fees. These ongoing costs significantly impact the true cost of ownership.' },
+              { n: 3, title: 'Set investment assumptions', desc: 'Enter the expected return rate on investments if you rent and invest the difference. This determines the opportunity cost of tying capital in a home.' },
+              { n: 4, title: 'Review the comparison', desc: 'View the side-by-side analysis showing total cost of buying vs renting over time, including net worth projections and the breakeven point.' },
+              { n: 5, title: 'Get your recommendation', desc: 'The calculator provides a personalized recommendation based on your inputs, showing which option builds more wealth over your chosen time horizon.' },
+            ].map(s => (
+              <li key={s.n} className="flex gap-4 items-start">
+                <span className="flex-shrink-0 w-8 h-8 bg-teal-600 text-white rounded-full flex items-center justify-center font-bold text-sm">{s.n}</span>
+                <div>
+                  <p className="font-semibold text-slate-900">{s.title}</p>
+                  <p className="text-sm text-slate-600 mt-0.5">{s.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
         {/* Lead */}
         <div className="bg-gradient-to-br from-teal-600 to-cyan-700 rounded-3xl p-8 sm:p-10 text-white">
           <h2 className="text-3xl font-bold mb-3">Buy vs Rent: The Math May Surprise You</h2>

@@ -133,6 +133,45 @@ export default function IncomeTaxCalculatorPage() {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-14">
 
+        {/* About This Tool */}
+        <section className="bg-indigo-50 rounded-2xl p-8 sm:p-10">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">About This Income Tax Calculator</h2>
+          <p className="text-slate-600 mb-6">The free Toolisk Income Tax Calculator for India helps you compare old vs new tax regimes, optimize deductions, and find the strategy that saves you the most money.</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              '⚖️ Old vs new regime comparison',
+              '📊 Slab-wise tax breakdowns',
+              '💼 Section 80C & 80D deductions',
+              '🏠 HRA & home loan interest',
+              '💾 Export tax analysis to PDF & Excel',
+              '🔄 Share tax strategy via URL',
+            ].map(f => <div key={f} className="flex gap-3 items-start"><span className="mt-0.5">{f.split(' ')[0]}</span><span className="text-slate-700 text-sm">{f.substring(2)}</span></div>)}
+          </div>
+        </section>
+
+        {/* How to Use */}
+        <section className="bg-slate-50 rounded-2xl p-8 sm:p-10">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">How to Use This Calculator</h2>
+          <p className="text-slate-500 mb-6">Follow these steps to get accurate results in under a minute.</p>
+          <ol className="space-y-5">
+            {[
+              { n: 1, title: 'Enter your income details', desc: 'Input your annual salary, interest income, rental income, and any other income sources. Specify whether you are a salaried employee or business professional.' },
+              { n: 2, title: 'Add deductions and exemptions', desc: 'Enter your Section 80C investments, 80D medical insurance, NPS contributions, HRA exemption, home loan interest, and other applicable deductions.' },
+              { n: 3, title: 'Compare Old vs New regime', desc: 'The calculator automatically computes tax under both Old and New regimes and recommends which one saves you more money.' },
+              { n: 4, title: 'Review slab-wise breakdown', desc: 'View the detailed slab-by-slab tax computation showing how much of your income falls in each bracket and the tax charged at each rate.' },
+              { n: 5, title: 'Export your tax summary', desc: 'Download your complete tax comparison as a PDF report or Excel spreadsheet for your records or to share with your CA.' },
+            ].map(s => (
+              <li key={s.n} className="flex gap-4 items-start">
+                <span className="flex-shrink-0 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-sm">{s.n}</span>
+                <div>
+                  <p className="font-semibold text-slate-900">{s.title}</p>
+                  <p className="text-sm text-slate-600 mt-0.5">{s.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
         {/* Lead */}
         <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-3xl p-8 sm:p-10 text-white">
           <h2 className="text-3xl font-bold mb-3">India&apos;s Tax System, Made Clear</h2>
