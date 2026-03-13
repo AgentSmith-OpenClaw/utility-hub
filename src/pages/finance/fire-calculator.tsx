@@ -69,22 +69,22 @@ export default function FIRECalculatorPage() {
   return (
     <>
       <Head>
-        <title>FIRE Calculator — Plan Early Retirement & Financial Freedom | Toolisk</title>
+        <title>FIRE Calculator: Find Your Exact Early Retirement Number</title>
         <meta 
           name="description" 
-          content="Calculate your FIRE number and early retirement timeline. Compare Lean, Fat, Coast & Barista FIRE strategies with safe withdrawal rate analysis and milestone tracking." 
+          content="When can you retire? Use our free FIRE calculator to find your exact early retirement number. Compare Lean, Fat, Coast & Barista FIRE strategies in seconds." 
         />
         <meta 
           name="keywords" 
           content="FIRE calculator, financial independence, early retirement, safe withdrawal rate, Coast FIRE, Barista FIRE, Lean FIRE, retirement corpus" 
         />
         <link rel="canonical" href={`${SITE_URL}/finance/fire-calculator`} />
-        <meta property="og:title" content="FIRE Calculator — Plan Early Retirement & Financial Freedom" />
+        <meta property="og:title" content="FIRE Calculator: Find Your Exact Early Retirement Number" />
         <meta property="og:description" content="Calculate your FIRE number and retirement timeline. Compare Lean, Fat, Coast & Barista FIRE strategies." />
         <meta property="og:url" content={`${SITE_URL}/finance/fire-calculator`} />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="FIRE Calculator — Plan Early Retirement & Financial Freedom | Toolisk" />
+        <meta name="twitter:title" content="FIRE Calculator: Find Your Exact Early Retirement Number" />
         <meta name="twitter:description" content="Calculate your FIRE number. Compare Lean, Fat, Coast & Barista FIRE with safe withdrawal rate analysis." />
         <script
           type="application/ld+json"
