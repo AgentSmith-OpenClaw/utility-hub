@@ -1,9 +1,7 @@
-# Investing for Beginners: A No-Nonsense Guide
+# Investing 101: A Beginner's Guide to Wealth Building
+Start your investing journey with confidence.
 
-Starting to invest doesn't have to be complicated. Stick to the basics:
+## Index Funds vs. Individual Stocks
+For most beginners, broad-market index funds offer the best balance of risk and reward.
 
-- Index funds over individual stocks.
-- Consistent contributions (Dollar Cost Averaging).
-- Long-term mindset.
-
-Plan your portfolio with our [Investment Planner](https://toolisk.com/invest).
+Calculate your retirement goals with our [Retirement Calculator](/finance/retirement).
