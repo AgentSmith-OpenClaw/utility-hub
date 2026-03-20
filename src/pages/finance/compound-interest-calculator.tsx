@@ -105,22 +105,22 @@ export default function CompoundInterestCalculatorPage() {
   return (
     <>
       <Head>
-        <title>Compound Interest Calculator — See How Your Money Grows | Toolisk</title>
+        <title>Compound Interest & Wealth Calculator | Free ROI Estimator</title>
         <meta 
           name="description" 
-          content="Calculate compound interest with daily, monthly, or yearly compounding. Visualize exponential growth, compare frequencies, and see inflation-adjusted returns over decades." 
+          content="Calculate exactly how much your money will grow with our free Compound Interest & Wealth Calculator. See daily, monthly, and yearly exponential growth instantly." 
         />
         <meta 
           name="keywords" 
           content="compound interest calculator, compounding frequency, investment growth, exponential returns, lump sum investment, wealth calculator, inflation adjusted" 
         />
         <link rel="canonical" href={`${SITE_URL}/finance/compound-interest-calculator`} />
-        <meta property="og:title" content="Compound Interest Calculator — See How Your Money Grows" />
+        <meta property="og:title" content="Compound Interest & Wealth Calculator | Free ROI Estimator" />
         <meta property="og:description" content="Calculate compound interest with multiple frequencies. Visualize exponential growth and inflation-adjusted returns." />
         <meta property="og:url" content={`${SITE_URL}/finance/compound-interest-calculator`} />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="Compound Interest Calculator — See How Your Money Grows | Toolisk" />
+        <meta name="twitter:title" content="Compound Interest & Wealth Calculator | Free ROI Estimator" />
         <meta name="twitter:description" content="Calculate compound interest with daily, monthly, or yearly compounding. Compare frequencies and see inflation-adjusted returns." />
         <script
           type="application/ld+json"
