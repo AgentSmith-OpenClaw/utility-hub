@@ -1,4 +1,4 @@
-# Navigating the 2026 US Tax Season: Why Refunds are Up
+# Understanding the 2026 US Tax Season: Why Refunds are Up
 
 The 2026 tax season is here, and it’s bringing some good news for American households. Early IRS data shows that even though they've processed fewer returns so far, the average check is about 11% higher than last year.
 
@@ -18,7 +18,7 @@ The "Where's My Refund?" tool is still the best way to track your status. Most p
 
 If you’re planning to use that money to pay off debt, you can use our [Amortization Calculator](/finance/amortization-calculator) to see how much interest you'll save by making a big one-time payment.
 
----
+,-
 
 # Bank of England Interest Rates: Will They Finally Cut in March?
 
@@ -34,7 +34,7 @@ A cut would be great news if you're on a variable-rate mortgage or need to remor
 
 If you’re thinking about remortgaging, use our [Mortgage Repayment Calculator](/finance/mortgage-calculator) to see how the new rates compare to what you’re paying now.
 
----
+,-
 
 # Canada’s Cold Housing Market: More Houses, Fewer Buyers
 
@@ -50,7 +50,7 @@ While Montreal and Calgary have plenty of new listings, nothing is moving very f
 
 Planning to buy? Use our [Salary Calculator](/finance/salary-calculator) to see how taxes in different provinces affect what you can actually afford each month.
 
----
+,-
 
 # The ECB’s Next Move: New Leadership and Mixed Signals
 
@@ -64,7 +64,7 @@ France has very low inflation right now, which makes their 2% interest rate feel
 ## What should investors do?
 All this uncertainty means the Euro might be a bit jumpy for a while. If you're managing investments or crypto, you can track your gains and taxes with our [Crypto Tax Calculator](/finance/crypto-tax-calculator).
 
----
+,-
 
 # Portfolio Strategy in 2026: Life After the AI Boom
 
@@ -80,14 +80,14 @@ The tech slump that started late last year is hitting other industries too. It�
 2. **Look for dividends:** Stocks that pay you regularly can help when the market is shaky.
 3. **Keep cash handy:** High-yield savings accounts are still a great place for your emergency fund while rates stay up.
 
----
+,-
 
-# Student Loan Strategies for 2026: How to Pay Less
+# Student Loan Tips for 2026: How to Pay Less
 
 Paying back student loans is still a massive headache in the US, UK, and Canada. But the rules have changed for 2026, and your strategy should too.
 
 ## US: New plans, same debt
-In the US, most people are moving to income-driven plans. After all the court battles in 2025, navigating Public Service Loan Forgiveness (PSLF) is still tricky but worth the effort.
+In the US, most people are moving to income-driven plans. After all the court battles in 2025, understanding Public Service Loan Forgiveness (PSLF) is still tricky but worth the effort.
 
 ## UK: The Plan 2 vs Plan 5 trap
 UK graduates are still dealing with high interest on Plan 2 loans. If you're on the newer Plan 5, you'll be paying for longer. You have to think of it like an extra tax on your paycheck.
