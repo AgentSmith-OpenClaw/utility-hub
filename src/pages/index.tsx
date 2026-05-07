@@ -336,6 +336,42 @@ export default function Home() {
           )}
         </section>
 
+        {/* Tools section banner */}
+        {!search.trim() && (
+          <section className="max-w-6xl mx-auto px-4 pb-12">
+            <Link
+              href="/tools"
+              className="group block relative overflow-hidden rounded-2xl bg-gradient-to-r from-teal-600 via-emerald-600 to-green-500 p-8 sm:p-10 text-white shadow-lg hover:shadow-xl transition-all"
+            >
+              <div className="absolute inset-0 opacity-10">
+                <div className="absolute -top-12 -right-12 w-64 h-64 bg-white rounded-full blur-3xl" />
+              </div>
+              <div className="relative flex flex-col sm:flex-row sm:items-center gap-6">
+                <div className="text-5xl sm:text-6xl drop-shadow-lg">🛠️</div>
+                <div className="flex-1">
+                  <div className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest bg-white/20 px-2 py-0.5 rounded-full mb-2">
+                    New section
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-1">
+                    Toolisk Tools — Developer & Productivity Utilities
+                  </h3>
+                  <p className="text-emerald-50 text-sm sm:text-base">
+                    URL encoder, JSON viewer, word counter, Base64, color converter, regex tester, and more — 11 free utilities.
+                  </p>
+                </div>
+                <div className="flex-shrink-0">
+                  <span className="inline-flex items-center gap-2 bg-white text-emerald-700 font-bold px-5 py-2.5 rounded-xl group-hover:translate-x-1 transition-transform shadow-md">
+                    Explore tools
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </Link>
+          </section>
+        )}
+
         {/* SEO Content Section */}
         <article className="max-w-4xl mx-auto px-4 pb-20">
           <div className="bg-white rounded-2xl border border-slate-200/80 p-8 sm:p-10 space-y-10">

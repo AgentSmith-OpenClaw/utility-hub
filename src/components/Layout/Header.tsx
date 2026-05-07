@@ -2,9 +2,39 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-const navLinks = [
-  { label: 'Tools', href: '/' },
-  { label: 'Learn Tips', href: '/finance/learn' },
+interface NavLink {
+  label: string;
+  href: string;
+  /** A pathname prefix that should also count as "active" for this link */
+  match?: (pathname: string) => boolean;
+  /** Tailwind classes for the active state — defaults to indigo */
+  activeClass?: string;
+  /** Tailwind classes for the hover state */
+  hoverClass?: string;
+}
+
+const navLinks: NavLink[] = [
+  {
+    label: 'Finance',
+    href: '/',
+    match: (p) => p === '/' || (p.startsWith('/finance') && !p.startsWith('/finance/learn')),
+    activeClass: 'text-blue-600 bg-blue-50',
+    hoverClass: 'hover:text-blue-600 hover:bg-slate-50',
+  },
+  {
+    label: 'Tools',
+    href: '/tools',
+    match: (p) => p.startsWith('/tools') && !p.startsWith('/tools/learn'),
+    activeClass: 'text-emerald-600 bg-emerald-50',
+    hoverClass: 'hover:text-emerald-600 hover:bg-slate-50',
+  },
+  {
+    label: 'Learn',
+    href: '/finance/learn',
+    match: (p) => p.startsWith('/finance/learn') || p.startsWith('/tools/learn'),
+    activeClass: 'text-violet-600 bg-violet-50',
+    hoverClass: 'hover:text-violet-600 hover:bg-slate-50',
+  },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ];
@@ -13,8 +43,8 @@ export default function Header() {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const isActive = (href: string) =>
-    href === '/' ? router.pathname === '/' : router.pathname.startsWith(href);
+  const isActive = (link: NavLink) =>
+    link.match ? link.match(router.pathname) : router.pathname.startsWith(link.href);
 
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/50 shadow-sm">
@@ -34,19 +64,22 @@ export default function Header() {
 
         {/* Desktop Navigation */}
         <nav className="hidden sm:flex items-center gap-1">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                isActive(link.href)
-                  ? 'text-blue-600 bg-blue-50'
-                  : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50'
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const active = isActive(link);
+            const activeCls = link.activeClass || 'text-blue-600 bg-blue-50';
+            const hoverCls = link.hoverClass || 'hover:text-blue-600 hover:bg-slate-50';
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                  active ? activeCls : `text-slate-600 ${hoverCls}`
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -71,20 +104,23 @@ export default function Header() {
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
         <nav className="sm:hidden border-t border-slate-100 bg-white/95 backdrop-blur-md px-4 py-2 shadow-lg">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setMobileMenuOpen(false)}
-              className={`block px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                isActive(link.href)
-                  ? 'text-blue-600 bg-blue-50'
-                  : 'text-gray-600 hover:text-indigo-600 hover:bg-gray-50'
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const active = isActive(link);
+            const activeCls = link.activeClass || 'text-blue-600 bg-blue-50';
+            const hoverCls = link.hoverClass || 'hover:text-blue-600 hover:bg-gray-50';
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`block px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                  active ? activeCls : `text-gray-600 ${hoverCls}`
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
       )}
     </header>

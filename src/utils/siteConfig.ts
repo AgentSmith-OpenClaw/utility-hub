@@ -11,6 +11,18 @@ export const BREADCRUMB_LABELS: Record<string, string> = {
   'income-tax-calculator': 'Income Tax Calculator',
   'amortization-calculator': 'Amortization Calculator',
   'us-paycheck-calculator': 'US Paycheck Calculator',
+  'tools': 'Tools',
+  'url-encoder': 'URL Encoder / Decoder',
+  'json-viewer': 'JSON Viewer & Formatter',
+  'word-counter': 'Word Counter',
+  'base64': 'Base64 Encoder / Decoder',
+  'color-converter': 'Color Converter',
+  'hash-generator': 'Hash Generator',
+  'lorem-ipsum': 'Lorem Ipsum Generator',
+  'case-converter': 'Case Converter',
+  'regex-tester': 'Regex Tester',
+  'timestamp-converter': 'Timestamp Converter',
+  'uuid-generator': 'UUID Generator',
 };
 
 export function generateBreadcrumbs(pathname: string) {

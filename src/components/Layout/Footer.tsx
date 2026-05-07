@@ -2,29 +2,34 @@ import Link from 'next/link';
 
 const footerSections = [
   {
-    title: 'Tools',
+    title: 'Finance',
     links: [
-      { label: 'Income Tax Calculator', href: '/finance/income-tax-calculator' },
-      { label: 'US Paycheck Calculator', href: '/finance/us-paycheck-calculator' },
       { label: 'EMI Calculator', href: '/finance/emi-calculator' },
       { label: 'FIRE Calculator', href: '/finance/fire-calculator' },
       { label: 'SIP Calculator', href: '/finance/sip-calculator' },
-      { label: 'Compound Interest', href: '/finance/compound-interest-calculator' },
+      { label: 'Income Tax Calculator', href: '/finance/income-tax-calculator' },
+      { label: 'Mortgage Calculator', href: '/finance/mortgage-calculator' },
+      { label: 'All finance calculators', href: '/' },
     ],
   },
   {
-    title: 'Company',
+    title: 'Tools',
     links: [
-      { label: 'About Us', href: '/about' },
-      { label: 'Contact Us', href: '/contact' },
+      { label: 'JSON Viewer & Formatter', href: '/tools/json-viewer' },
+      { label: 'URL Encoder / Decoder', href: '/tools/url-encoder' },
+      { label: 'Word Counter', href: '/tools/word-counter' },
+      { label: 'Base64 Encoder', href: '/tools/base64' },
+      { label: 'Regex Tester', href: '/tools/regex-tester' },
+      { label: 'All utilities', href: '/tools' },
     ],
   },
   {
     title: 'Learn',
     links: [
-      { label: 'Finance Blog Index', href: '/finance/learn' },
-      { label: 'EMI & Loans', href: '/finance/learn/understanding-emi-calculations' },
-      { label: 'FIRE & Retirement', href: '/finance/learn/fire-movement-explained' },
+      { label: 'Finance guides', href: '/finance/learn' },
+      { label: 'Tools guides', href: '/tools/learn' },
+      { label: 'About', href: '/about' },
+      { label: 'Contact', href: '/contact' },
     ],
   },
   {
