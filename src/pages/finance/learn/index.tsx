@@ -65,6 +65,69 @@ const financeArticles = [
     publishedDate: '2026-02-14',
     category: 'Mutual Funds',
   },
+  {
+    slug: 'buy-vs-rent-decision-framework',
+    title: 'Buy vs Rent: The Complete Financial Decision Framework',
+    description:
+      'Stop wondering if renting or buying is better. Learn the financial metrics that matter, real-world scenarios, and how to calculate the right choice for your situation.',
+    readTime: '11 min read',
+    publishedDate: '2026-05-07',
+    category: 'Real Estate',
+  },
+  {
+    slug: 'mortgage-basics-finding-the-best-deal',
+    title: 'Mortgage Basics: How to Find the Best Home Loan Deal',
+    description:
+      'Master the fundamentals of mortgages. Learn how rates, terms, and down payments affect your total cost, and the questions to ask lenders before signing.',
+    readTime: '9 min read',
+    publishedDate: '2026-05-07',
+    category: 'Real Estate',
+  },
+  {
+    slug: 'amortization-explained-why-interest-heavy-early',
+    title: 'Amortization Explained: Why Your Early Payments Go Mostly to Interest',
+    description:
+      'Understand the amortization schedule behind every loan. See why paying interest upfront is inevitable, and how to strategically pay down principal faster.',
+    readTime: '8 min read',
+    publishedDate: '2026-05-07',
+    category: 'Loans',
+  },
+  {
+    slug: 'us-tax-brackets-deductions-take-home-pay',
+    title: 'US Tax Brackets & Deductions: Maximize Your Take-Home Pay',
+    description:
+      'Decode federal and state taxes. Learn how tax brackets work, which deductions matter most, and how to optimize your paycheck before it arrives.',
+    readTime: '10 min read',
+    publishedDate: '2026-05-07',
+    category: 'Tax',
+  },
+  {
+    slug: 'real-estate-investment-vs-stock-market',
+    title: 'Real Estate Investment vs Stock Market: Which Builds More Wealth?',
+    description:
+      'Compare the two wealth-building paths head-to-head. Analyze returns, risks, liquidity, leverage, and tax implications to find the right investment for you.',
+    readTime: '10 min read',
+    publishedDate: '2026-05-07',
+    category: 'Investing',
+  },
+  {
+    slug: 'personal-loan-vs-alternatives',
+    title: 'Personal Loan vs Home Equity Loan vs Credit Card: Which Debt is Cheapest?',
+    description:
+      'Understand your borrowing options. Compare interest rates, terms, and flexibility to find the cheapest debt for your situation and avoid financial traps.',
+    readTime: '8 min read',
+    publishedDate: '2026-05-07',
+    category: 'Loans',
+  },
+  {
+    slug: 'retirement-savings-age-milestones',
+    title: 'Retirement Savings Milestones: Are You On Track?',
+    description:
+      'Know how much you should have saved by 30, 40, and 50. Compare your progress to age-based benchmarks and adjust course before it\'s too late.',
+    readTime: '7 min read',
+    publishedDate: '2026-05-07',
+    category: 'Retirement',
+  },
 ];
 
 export default function FinanceLearnIndexPage() {
