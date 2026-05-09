@@ -2,10 +2,16 @@ import Head from 'next/head';
 import JsonViewer from '../../components/Tools/JsonViewer';
 import ToolShell from '../../components/Tools/ToolShell';
 import ToolSEOContent from '../../components/Tools/ToolSEOContent';
-import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
+import { generateBreadcrumbs, generateSoftwareAppSchema, SITE_URL } from '../../utils/siteConfig';
 
 export default function JsonViewerPage() {
   const breadcrumbSchema = generateBreadcrumbs('/tools/json-viewer');
+  const softwareSchema = generateSoftwareAppSchema({
+    name: 'JSON Viewer & Formatter',
+    slug: '/tools/json-viewer',
+    description: 'Format, validate, minify, and explore JSON with collapsible tree view and syntax highlighting.',
+    featureList: 'Pretty print, Minify, Tree view, Syntax error reporting, Copy to clipboard',
+  });
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -57,7 +63,7 @@ export default function JsonViewerPage() {
         <meta property="og:type" content="website" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema]) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, softwareSchema, faqSchema]) }}
         />
       </Head>
 

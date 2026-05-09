@@ -2,10 +2,24 @@ import Head from 'next/head';
 import TimestampConverter from '../../components/Tools/TimestampConverter';
 import ToolShell from '../../components/Tools/ToolShell';
 import ToolSEOContent from '../../components/Tools/ToolSEOContent';
-import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
+import { generateBreadcrumbs, generateFaqSchema, generateSoftwareAppSchema, SITE_URL } from '../../utils/siteConfig';
+
+const FAQS = [
+  { q: 'Are Unix timestamps in seconds or milliseconds?', a: "It depends on the system. Unix originally measured in seconds (the number of seconds since 1970-01-01 UTC). JavaScript and most modern web APIs use milliseconds. If your number has 13 digits, it's probably milliseconds; 10 digits, probably seconds." },
+  { q: 'What is ISO 8601?', a: "ISO 8601 is a standardized date format like 2026-05-07T08:30:00Z. It's unambiguous (year-month-day order), sortable as a string, and supported by virtually every programming language and database." },
+  { q: 'What is the Year 2038 problem?', a: 'Unix timestamps stored in signed 32-bit integers will overflow on January 19, 2038 at 03:14:08 UTC. Modern systems use 64-bit timestamps to avoid this, but legacy systems and some embedded devices may still need updating.' },
+  { q: 'How accurate is the relative time?', a: "The relative time is rounded to the nearest sensible unit (seconds, minutes, hours, days, months, years). It's intended for human-readable display, not precise measurement." },
+];
 
 export default function TimestampConverterPage() {
   const breadcrumbSchema = generateBreadcrumbs('/tools/timestamp-converter');
+  const softwareSchema = generateSoftwareAppSchema({
+    name: 'Unix Timestamp Converter',
+    slug: '/tools/timestamp-converter',
+    description: 'Convert Unix timestamps to local/UTC/ISO dates and back. Supports seconds, milliseconds, and relative time.',
+    featureList: 'Unix seconds and milliseconds, Local and UTC display, ISO 8601, RFC 2822, Relative time',
+  });
+  const faqSchema = generateFaqSchema(FAQS);
 
   return (
     <>
@@ -26,7 +40,7 @@ export default function TimestampConverterPage() {
         <meta property="og:type" content="website" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, softwareSchema, faqSchema]) }}
         />
       </Head>
 

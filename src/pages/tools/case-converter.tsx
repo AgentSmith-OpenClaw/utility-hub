@@ -2,10 +2,24 @@ import Head from 'next/head';
 import CaseConverter from '../../components/Tools/CaseConverter';
 import ToolShell from '../../components/Tools/ToolShell';
 import ToolSEOContent from '../../components/Tools/ToolSEOContent';
-import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
+import { generateBreadcrumbs, generateFaqSchema, generateSoftwareAppSchema, SITE_URL } from '../../utils/siteConfig';
+
+const FAQS = [
+  { q: 'Where is each case typically used?', a: 'camelCase: JavaScript variables and functions. PascalCase: React components and TypeScript types. snake_case: Python and database columns. CONSTANT_CASE: environment variables and constants. kebab-case: URLs and CSS classes.' },
+  { q: 'Can it handle mixed input like "myVariableName"?', a: 'Yes. The tool splits camelCase and PascalCase input by detecting case transitions (lowercase→uppercase). It also splits on spaces, hyphens, underscores, and dots.' },
+  { q: 'What is Train-Case?', a: 'Train-Case is HTTP-Header-Style — capitalized words joined by hyphens. Used in HTTP headers (Content-Type, X-Forwarded-For) and occasional UI conventions.' },
+  { q: "Why does the tool sometimes lowercase letters that were uppercase in my input?", a: 'Each conversion enforces its own case rules. snake_case is always lowercase. CONSTANT_CASE is always uppercase. To preserve original casing exactly, use one of the formats that matches it (Title Case, lowercase, UPPERCASE, etc.).' },
+];
 
 export default function CaseConverterPage() {
   const breadcrumbSchema = generateBreadcrumbs('/tools/case-converter');
+  const softwareSchema = generateSoftwareAppSchema({
+    name: 'Case Converter',
+    slug: '/tools/case-converter',
+    description: 'Convert text between camelCase, snake_case, kebab-case, PascalCase, CONSTANT_CASE, and other common formats.',
+    featureList: '12 case formats, Smart word splitting, Per-row copy, Real-time conversion',
+  });
+  const faqSchema = generateFaqSchema(FAQS);
 
   return (
     <>
@@ -26,7 +40,7 @@ export default function CaseConverterPage() {
         <meta property="og:type" content="website" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, softwareSchema, faqSchema]) }}
         />
       </Head>
 

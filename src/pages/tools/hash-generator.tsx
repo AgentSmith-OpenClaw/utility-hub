@@ -2,10 +2,26 @@ import Head from 'next/head';
 import HashGenerator from '../../components/Tools/HashGenerator';
 import ToolShell from '../../components/Tools/ToolShell';
 import ToolSEOContent from '../../components/Tools/ToolSEOContent';
-import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
+import { generateBreadcrumbs, generateFaqSchema, generateSoftwareAppSchema, SITE_URL } from '../../utils/siteConfig';
+
+const FAQS = [
+  { q: 'Is my input sent anywhere?', a: "No. All hashing happens in your browser using the Web Crypto API (and a JavaScript implementation for MD5). Nothing is uploaded." },
+  { q: 'Should I use MD5 for passwords?', a: 'No, never. MD5 is cryptographically broken — collisions can be generated easily. For passwords, use a slow, salted, memory-hard algorithm like Argon2, bcrypt, or scrypt. For digital signatures and integrity, use SHA-256 or higher.' },
+  { q: 'When is MD5 still acceptable?', a: 'MD5 is fine for non-adversarial use cases like deduplication, content addressing, and basic file checksums where you only need to detect accidental corruption — not malicious tampering.' },
+  { q: 'What does "salt" mean in hashing?', a: "A salt is a random value added to the input before hashing, so identical inputs produce different hashes. This prevents attackers from precomputing hash tables (rainbow tables) for common passwords. Salts must be unique per-record for full protection." },
+  { q: 'Why is the same input producing the same hash every time?', a: 'That is the defining property of a hash function — it is deterministic. Same input always produces the same output. If you need different outputs for the same input, add a salt (a unique random value) before hashing.' },
+];
 
 export default function HashGeneratorPage() {
   const breadcrumbSchema = generateBreadcrumbs('/tools/hash-generator');
+  const softwareSchema = generateSoftwareAppSchema({
+    name: 'Hash Generator',
+    slug: '/tools/hash-generator',
+    description: 'Generate MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes locally using the Web Crypto API.',
+    category: 'SecurityApplication',
+    featureList: 'MD5, SHA-1, SHA-256, SHA-384, SHA-512, Real-time hashing, Web Crypto API',
+  });
+  const faqSchema = generateFaqSchema(FAQS);
 
   return (
     <>
@@ -26,7 +42,7 @@ export default function HashGeneratorPage() {
         <meta property="og:type" content="website" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, softwareSchema, faqSchema]) }}
         />
       </Head>
 

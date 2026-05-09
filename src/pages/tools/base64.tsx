@@ -2,10 +2,25 @@ import Head from 'next/head';
 import Base64Encoder from '../../components/Tools/Base64Encoder';
 import ToolShell from '../../components/Tools/ToolShell';
 import ToolSEOContent from '../../components/Tools/ToolSEOContent';
-import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
+import { generateBreadcrumbs, generateFaqSchema, generateSoftwareAppSchema, SITE_URL } from '../../utils/siteConfig';
+
+const FAQS = [
+  { q: 'What is Base64 used for?', a: 'Base64 is used to transmit binary data over text-only channels — email attachments (MIME), inline images (data URLs), JSON Web Tokens, HTTP Basic auth headers, and config files. It encodes 3 bytes of binary as 4 ASCII characters, expanding size by ~33%.' },
+  { q: 'When should I use URL-safe Base64?', a: 'When the encoded value will be placed in a URL or filename. Standard Base64 uses + and / which have special meaning in URLs. URL-safe Base64 swaps them for - and _ and removes the trailing = padding.' },
+  { q: 'Is Base64 a form of encryption?', a: "No. Base64 is encoding, not encryption. Anyone who sees a Base64 string can decode it instantly. Use Base64 to transport binary data, never to hide secrets." },
+  { q: 'Why does my Base64 string contain "="?', a: 'The "=" characters at the end are padding. Base64 always works in groups of 4 characters; if your input doesn\'t divide evenly, padding is added so it does. URL-safe variants typically drop the padding.' },
+  { q: 'Does this work with emoji and unicode?', a: 'Yes. The tool encodes input using UTF-8 first, then converts to Base64. This means 🚀, 中文, and any other unicode round-trips correctly.' },
+];
 
 export default function Base64Page() {
   const breadcrumbSchema = generateBreadcrumbs('/tools/base64');
+  const softwareSchema = generateSoftwareAppSchema({
+    name: 'Base64 Encoder & Decoder',
+    slug: '/tools/base64',
+    description: 'Convert text to Base64 and back, with full UTF-8 and URL-safe variants. Free, browser-based.',
+    featureList: 'Encode and decode, UTF-8 support, URL-safe variant, Copy to clipboard',
+  });
+  const faqSchema = generateFaqSchema(FAQS);
 
   return (
     <>
@@ -26,7 +41,7 @@ export default function Base64Page() {
         <meta property="og:type" content="website" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, softwareSchema, faqSchema]) }}
         />
       </Head>
 

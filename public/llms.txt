@@ -2,7 +2,7 @@
 
 > Free, high-performance online tools for daily use — fast, private, and feature-rich. All computation happens client-side in the browser; no data is ever sent to a server.
 
-Toolisk is a collection of financial calculators and utilities built for accuracy and speed. Tools are free, require no sign-up, and work entirely in your browser.
+Toolisk is a collection of finance calculators and developer utilities built for accuracy and speed. Tools are free, require no sign-up, and work entirely in your browser.
 
 ## Finance Calculators
 
@@ -14,16 +14,54 @@ Toolisk is a collection of financial calculators and utilities built for accurac
 - [Mortgage Calculator](https://toolisk.com/finance/mortgage-calculator): Calculate home loan EMI and total housing cost including property tax, insurance, and maintenance.
 - [Amortization Calculator](https://toolisk.com/finance/amortization-calculator): Generate month-by-month amortization schedules showing principal vs interest breakdown for any loan.
 - [Buy vs Rent Calculator](https://toolisk.com/finance/buy-vs-rent-calculator): Compare buying vs renting with full cost analysis including opportunity cost, hidden ownership expenses, and long-term wealth accumulation.
+- [US Paycheck Calculator](https://toolisk.com/finance/us-paycheck-calculator): Calculate federal & state tax, FICA, and pre-tax deductions for take-home pay across all 50 US states.
+- [Credit Card Payoff Calculator](https://toolisk.com/finance/credit-card-payoff-calculator): Compare debt avalanche vs snowball vs minimum-only payoff strategies across multiple credit cards. Per-card schedule with interest saved.
+
+## Developer & Productivity Tools
+
+- [URL Encoder / Decoder](https://toolisk.com/tools/url-encoder): Percent-encode URL components or decode them back.
+- [JSON Viewer & Formatter](https://toolisk.com/tools/json-viewer): Format, validate, and explore JSON with collapsible tree view.
+- [Word Counter](https://toolisk.com/tools/word-counter): Count words, characters, sentences, paragraphs and reading time.
+- [Base64 Encoder / Decoder](https://toolisk.com/tools/base64): Encode/decode standard and URL-safe Base64.
+- [Color Converter](https://toolisk.com/tools/color-converter): Convert between HEX, RGB, HSL, CMYK with WCAG contrast checks.
+- [Hash Generator](https://toolisk.com/tools/hash-generator): Generate MD5, SHA-1, SHA-256, SHA-512 hashes locally.
+- [Lorem Ipsum Generator](https://toolisk.com/tools/lorem-ipsum): Generate placeholder text for designs and mockups.
+- [Case Converter](https://toolisk.com/tools/case-converter): Convert between camelCase, snake_case, kebab-case, PascalCase, etc.
+- [Regex Tester](https://toolisk.com/tools/regex-tester): Test regular expressions live with match highlighting and capture groups.
+- [Timestamp Converter](https://toolisk.com/tools/timestamp-converter): Convert Unix timestamps to/from human-readable dates with timezone support.
+- [UUID Generator](https://toolisk.com/tools/uuid-generator): Generate UUID v4 and UUID v7 identifiers in bulk.
+- [JWT Decoder](https://toolisk.com/tools/jwt-decoder): Decode JSON Web Tokens — header, payload, expiration check.
+- [Password Generator](https://toolisk.com/tools/password-generator): Cryptographically secure random passwords or memorable passphrases.
+- [HTML Entities Encoder/Decoder](https://toolisk.com/tools/html-entities): Encode/decode HTML entities — named, numeric, or hex.
+- [SQL Formatter](https://toolisk.com/tools/sql-formatter): Format and beautify SQL queries with uppercase keywords and clause indentation.
+- [URL Slug Generator](https://toolisk.com/tools/slug-generator): Convert any title into a clean URL slug. Bulk mode supported.
+- [CSS Unit Converter](https://toolisk.com/tools/css-unit-converter): Convert between px, em, rem, pt, pc, %, vw, vh.
+- [Cron Expression Parser](https://toolisk.com/tools/cron-parser): Parse cron expressions to plain English with next 10 runs preview.
+- [Text Diff Checker](https://toolisk.com/tools/text-diff): Compare two pieces of text line by line with add/remove highlighting.
+- [Markdown Preview](https://toolisk.com/tools/markdown-preview): Live markdown editor with side-by-side HTML rendering.
+- [YAML / JSON Converter](https://toolisk.com/tools/yaml-json-converter): Convert YAML to JSON or JSON to YAML with live preview.
 
 ## Finance Guides
 
-- [Understanding Compound Interest](https://toolisk.com/finance/learn/understanding-compound-interest): How compound interest works and why starting early matters.
-- [Understanding EMI Calculations](https://toolisk.com/finance/learn/understanding-emi-calculations): How EMI is calculated and how to plan loan repayment effectively.
-- [Prepayment Strategies Guide](https://toolisk.com/finance/learn/prepayment-strategies-guide): When and how to prepay loans to save maximum interest.
-- [FIRE Movement Explained](https://toolisk.com/finance/learn/fire-movement-explained): Introduction to Financial Independence Retire Early and how to calculate your FIRE number.
-- [Coast FIRE Strategy](https://toolisk.com/finance/learn/coast-fire-strategy): How Coast FIRE works and when it makes sense over full FIRE.
-- [Step-Up SIP vs Flat SIP](https://toolisk.com/finance/learn/step-up-sip-vs-flat-sip): Why increasing SIP contributions annually builds significantly more wealth.
-- [Inflation-Proof Investing Guide](https://toolisk.com/finance/learn/inflation-proof-investing-guide): How to invest such that real purchasing power grows over time.
+- [Finance Learn Hub](https://toolisk.com/finance/learn): Index of all 40+ personal finance guides.
+- [Credit Card Snowball vs Avalanche](https://toolisk.com/finance/learn/credit-card-snowball-vs-avalanche): Real numbers comparing the two payoff strategies.
+- [When Mortgage Refinance Is Worth It](https://toolisk.com/finance/learn/when-mortgage-refinance-is-worth-it): The actual break-even math and amortization-reset trap.
+- [APR vs APY Explained](https://toolisk.com/finance/learn/apr-vs-apy-explained): The one-letter difference and why it hides real money.
+- [Capital Gains Tax Strategies (2026)](https://toolisk.com/finance/learn/capital-gains-tax-strategies): Short vs long-term, brackets, and tax-loss harvesting.
+- [CD Ladders vs Treasury Bills](https://toolisk.com/finance/learn/cd-ladders-vs-treasury-bills): Tax-aware comparison for cash management.
+- [HDHP vs PPO Comparison](https://toolisk.com/finance/learn/hdhp-vs-ppo-comparison): Which health plan saves more, including HSA strategy.
+- [SEP IRA vs Solo 401(k)](https://toolisk.com/finance/learn/sep-ira-vs-solo-401k): The self-employed retirement decision.
+- [FIRE Movement Explained](https://toolisk.com/finance/learn/fire-movement-explained): Introduction to Financial Independence Retire Early.
+
+## Developer Guides
+
+- [Tools Learn Hub](https://toolisk.com/tools/learn): Index of all 25+ developer/web guides.
+- [JWT Security Best Practices](https://toolisk.com/tools/learn/jwt-security-best-practices): The five JWT bugs that keep showing up.
+- [SQL Indexing Fundamentals](https://toolisk.com/tools/learn/sql-indexing-fundamentals): When and what to index — practical decision framework.
+- [CSS Units Explained](https://toolisk.com/tools/learn/css-units-explained): px, em, rem, vw, vh and the rest.
+- [JWT Tokens Explained](https://toolisk.com/tools/learn/jwt-tokens-explained): How JWTs work end-to-end.
+- [Regex Cheatsheet](https://toolisk.com/tools/learn/regex-cheatsheet): Reference for the most-used patterns.
+- [JSON Essentials](https://toolisk.com/tools/learn/json-essentials): Beyond pretty-printing — schemas, validation, pitfalls.
 
 ## About
 

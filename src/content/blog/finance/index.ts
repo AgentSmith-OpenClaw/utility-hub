@@ -35,6 +35,13 @@ import { estatePlanningBasics } from './estate-planning-basics';
 import { socialSecurityOptimization } from './social-security-optimization';
 import { highYieldSavingsVsMoneyMarket } from './high-yield-savings-vs-money-market';
 import { budgetFrameworks503020 } from './budget-frameworks-50-30-20';
+import { whenMortgageRefinanceIsWorthIt } from './when-mortgage-refinance-is-worth-it';
+import { aprVsApyExplained } from './apr-vs-apy-explained';
+import { capitalGainsTaxStrategies } from './capital-gains-tax-strategies';
+import { cdLaddersVsTreasuryBills } from './cd-ladders-vs-treasury-bills';
+import { creditCardSnowballVsAvalanche } from './credit-card-snowball-vs-avalanche';
+import { hdhpVsPpoComparison } from './hdhp-vs-ppo-comparison';
+import { sepIraVsSolo401k } from './sep-ira-vs-solo-401k';
 
 export const articles: BlogArticle[] = [
   understandingCompoundInterest,
@@ -71,6 +78,13 @@ export const articles: BlogArticle[] = [
   socialSecurityOptimization,
   highYieldSavingsVsMoneyMarket,
   budgetFrameworks503020,
+  whenMortgageRefinanceIsWorthIt,
+  aprVsApyExplained,
+  capitalGainsTaxStrategies,
+  cdLaddersVsTreasuryBills,
+  creditCardSnowballVsAvalanche,
+  hdhpVsPpoComparison,
+  sepIraVsSolo401k,
 ];
 
 export const articleMap = toRecord(articles);

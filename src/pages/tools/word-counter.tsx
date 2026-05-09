@@ -2,10 +2,16 @@ import Head from 'next/head';
 import WordCounter from '../../components/Tools/WordCounter';
 import ToolShell from '../../components/Tools/ToolShell';
 import ToolSEOContent from '../../components/Tools/ToolSEOContent';
-import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
+import { generateBreadcrumbs, generateSoftwareAppSchema, SITE_URL } from '../../utils/siteConfig';
 
 export default function WordCounterPage() {
   const breadcrumbSchema = generateBreadcrumbs('/tools/word-counter');
+  const softwareSchema = generateSoftwareAppSchema({
+    name: 'Word Counter',
+    slug: '/tools/word-counter',
+    description: 'Count words, characters, sentences, paragraphs, and reading time. SEO length thresholds for titles, meta, OG, tweets.',
+    featureList: 'Word/char/sentence count, Reading time, Speaking time, SEO length thresholds',
+  });
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -57,7 +63,7 @@ export default function WordCounterPage() {
         <meta property="og:type" content="website" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema]) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, softwareSchema, faqSchema]) }}
         />
       </Head>
 
