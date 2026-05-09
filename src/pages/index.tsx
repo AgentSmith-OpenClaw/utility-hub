@@ -91,6 +91,15 @@ const tools: Tool[] = [
     path: '/finance/mortgage-calculator',
     icon: '🏠',
     tags: ['Finance', 'Real Estate', 'Mortgage', 'Global'],
+    isNew: false,
+  },
+  {
+    name: 'Credit Card Payoff Calculator',
+    description:
+      'Compare debt avalanche vs snowball vs minimum-only strategies for multiple credit cards. See real interest saved, payoff date, per-card schedule, and Excel export.',
+    path: '/finance/credit-card-payoff-calculator',
+    icon: '💳',
+    tags: ['Finance', 'Debt', 'Credit Card', 'US'],
     isNew: true,
   },
 ];
@@ -112,28 +121,28 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Toolisk — Free Online Finance Calculators & Tools</title>
+        <title>Toolisk — Free Finance Calculators &amp; Developer Tools</title>
         <meta
           name="description"
-          content="Free finance calculators with detailed reports and Excel export. EMI, FIRE, SIP, compound interest, income tax, amortization, mortgage & buy-vs-rent — all client-side and private."
+          content="10 free finance calculators (EMI, FIRE, SIP, mortgage, credit card payoff, US paycheck, income tax) and 21 developer tools (JWT decoder, password generator, JSON viewer, regex tester, SQL formatter and more). All client-side, no sign-ups."
         />
         <meta
           name="keywords"
-          content="finance calculators, EMI calculator, FIRE calculator, SIP calculator, compound interest calculator, income tax calculator, amortization schedule, mortgage calculator, buy vs rent, free online tools, Excel export"
+          content="finance calculators, developer tools, EMI calculator, FIRE calculator, SIP calculator, credit card payoff calculator, compound interest calculator, income tax calculator, mortgage calculator, jwt decoder, password generator, sql formatter, free online tools"
         />
         <link rel="canonical" href="https://toolisk.com/" />
-        <meta property="og:title" content="Toolisk — Free Online Finance Calculators & Tools" />
+        <meta property="og:title" content="Toolisk — Free Finance Calculators & Developer Tools" />
         <meta
           property="og:description"
-          content="8 free finance calculators with detailed reports, interactive charts, and Excel export. EMI, FIRE, SIP, tax, mortgage & more — all client-side."
+          content="10 finance calculators + 21 developer tools. EMI, FIRE, SIP, credit card payoff, JWT decoder, JSON viewer, password generator and more — all client-side."
         />
         <meta property="og:url" content="https://toolisk.com/" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="Toolisk — Free Online Finance Calculators & Tools" />
+        <meta name="twitter:title" content="Toolisk — Free Finance Calculators & Developer Tools" />
         <meta
           name="twitter:description"
-          content="8 free finance calculators with detailed reports, charts, and Excel export. Fast, private, no sign-ups."
+          content="10 finance calculators + 21 developer tools. Charts, Excel export, all client-side. No sign-ups."
         />
 
         {/* ItemList schema — helps Google surface tools as a list */}
@@ -356,7 +365,7 @@ export default function Home() {
                     Toolisk Tools — Developer & Productivity Utilities
                   </h3>
                   <p className="text-emerald-50 text-sm sm:text-base">
-                    URL encoder, JSON viewer, word counter, Base64, color converter, regex tester, and more — 11 free utilities.
+                    21 free utilities — JWT decoder, password generator, SQL formatter, JSON viewer, regex tester, cron parser, CSS unit converter, markdown preview and more.
                   </p>
                 </div>
                 <div className="flex-shrink-0">

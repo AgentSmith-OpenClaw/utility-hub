@@ -11,6 +11,7 @@ export const BREADCRUMB_LABELS: Record<string, string> = {
   'income-tax-calculator': 'Income Tax Calculator',
   'amortization-calculator': 'Amortization Calculator',
   'us-paycheck-calculator': 'US Paycheck Calculator',
+  'credit-card-payoff-calculator': 'Credit Card Payoff Calculator',
   'tools': 'Tools',
   'url-encoder': 'URL Encoder / Decoder',
   'json-viewer': 'JSON Viewer & Formatter',
@@ -23,7 +24,58 @@ export const BREADCRUMB_LABELS: Record<string, string> = {
   'regex-tester': 'Regex Tester',
   'timestamp-converter': 'Timestamp Converter',
   'uuid-generator': 'UUID Generator',
+  'jwt-decoder': 'JWT Decoder',
+  'password-generator': 'Password Generator',
+  'html-entities': 'HTML Entities Encoder & Decoder',
+  'sql-formatter': 'SQL Formatter',
+  'slug-generator': 'URL Slug Generator',
+  'css-unit-converter': 'CSS Unit Converter',
+  'cron-parser': 'Cron Expression Parser',
+  'text-diff': 'Text Diff Checker',
+  'markdown-preview': 'Markdown Preview',
+  'yaml-json-converter': 'YAML / JSON Converter',
 };
+
+interface FaqEntry { q: string; a: string }
+
+/**
+ * SoftwareApplication JSON-LD for a tool/calculator page.
+ * Pass `category: 'FinanceApplication'` for finance tools, default is DeveloperApplication.
+ */
+export function generateSoftwareAppSchema(opts: {
+  name: string;
+  slug: string;
+  description: string;
+  category?: 'DeveloperApplication' | 'FinanceApplication' | 'SecurityApplication' | 'UtilitiesApplication';
+  featureList?: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: opts.name,
+    applicationCategory: opts.category ?? 'DeveloperApplication',
+    operatingSystem: 'All',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: opts.description,
+    url: `${SITE_URL}${opts.slug}`,
+    ...(opts.featureList ? { featureList: opts.featureList } : {}),
+  };
+}
+
+/**
+ * FAQPage JSON-LD from a list of {q, a} entries.
+ */
+export function generateFaqSchema(faqs: FaqEntry[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  };
+}
 
 export function generateBreadcrumbs(pathname: string) {
   const segments = pathname.split('/').filter(Boolean);

@@ -2,10 +2,16 @@ import Head from 'next/head';
 import UrlEncoder from '../../components/Tools/UrlEncoder';
 import ToolShell from '../../components/Tools/ToolShell';
 import ToolSEOContent from '../../components/Tools/ToolSEOContent';
-import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
+import { generateBreadcrumbs, generateSoftwareAppSchema, SITE_URL } from '../../utils/siteConfig';
 
 export default function UrlEncoderPage() {
   const breadcrumbSchema = generateBreadcrumbs('/tools/url-encoder');
+  const softwareSchema = generateSoftwareAppSchema({
+    name: 'URL Encoder & Decoder',
+    slug: '/tools/url-encoder',
+    description: 'Percent-encode or decode URL components. Supports encodeURIComponent and encodeURI variants.',
+    featureList: 'encodeURIComponent, encodeURI, Decode, Live preview, Copy to clipboard',
+  });
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -65,7 +71,7 @@ export default function UrlEncoderPage() {
         <meta property="og:type" content="website" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema]) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, softwareSchema, faqSchema]) }}
         />
       </Head>
 

@@ -24,6 +24,9 @@ import { httpCookiesAndSessions } from './http-cookies-and-sessions';
 import { semanticVersioningExplained } from './semantic-versioning-explained';
 import { httpHeadersDeepDive } from './http-headers-deep-dive';
 import { cachingStrategiesAndHeaders } from './caching-strategies-and-headers';
+import { cssUnitsExplained } from './css-units-explained';
+import { jwtSecurityBestPractices } from './jwt-security-best-practices';
+import { sqlIndexingFundamentals } from './sql-indexing-fundamentals';
 
 export const articles: BlogArticle[] = [
   urlEncodingExplained,
@@ -49,6 +52,9 @@ export const articles: BlogArticle[] = [
   semanticVersioningExplained,
   httpHeadersDeepDive,
   cachingStrategiesAndHeaders,
+  cssUnitsExplained,
+  jwtSecurityBestPractices,
+  sqlIndexingFundamentals,
 ];
 
 export const articleMap = toRecord(articles);

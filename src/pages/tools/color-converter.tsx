@@ -2,10 +2,24 @@ import Head from 'next/head';
 import ColorConverter from '../../components/Tools/ColorConverter';
 import ToolShell from '../../components/Tools/ToolShell';
 import ToolSEOContent from '../../components/Tools/ToolSEOContent';
-import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
+import { generateBreadcrumbs, generateFaqSchema, generateSoftwareAppSchema, SITE_URL } from '../../utils/siteConfig';
+
+const FAQS = [
+  { q: 'What WCAG ratings should I aim for?', a: 'WCAG AA requires a contrast ratio of 4.5:1 for normal text and 3:1 for large text (18pt+ or 14pt bold). AAA requires 7:1 and 4.5:1 respectively. AA is the typical legal minimum for accessibility compliance.' },
+  { q: 'When should I use HSL instead of HEX?', a: 'HSL (hue, saturation, lightness) is much easier for humans to reason about. Want a slightly lighter blue? Increase the lightness. Want a less saturated version? Drop the saturation. HEX requires guessing the new RGB values.' },
+  { q: 'What is CMYK for?', a: 'CMYK is the color model used for print (cyan, magenta, yellow, key/black). Designers preparing materials for print need to know roughly how their on-screen RGB color will translate.' },
+  { q: 'Why does my HEX look different on print?', a: 'Screens emit light (additive RGB), printers absorb light (subtractive CMYK). Some bright RGB colors simply cannot be reproduced in print.' },
+];
 
 export default function ColorConverterPage() {
   const breadcrumbSchema = generateBreadcrumbs('/tools/color-converter');
+  const softwareSchema = generateSoftwareAppSchema({
+    name: 'Color Converter',
+    slug: '/tools/color-converter',
+    description: 'Convert HEX, RGB, HSL, CMYK with WCAG contrast checking and tint/shade variations.',
+    featureList: 'HEX/RGB/HSL/CMYK conversion, WCAG contrast check, Tint/shade palette, Color picker',
+  });
+  const faqSchema = generateFaqSchema(FAQS);
 
   return (
     <>
@@ -26,7 +40,7 @@ export default function ColorConverterPage() {
         <meta property="og:type" content="website" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, softwareSchema, faqSchema]) }}
         />
       </Head>
 

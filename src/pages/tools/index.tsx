@@ -109,6 +109,96 @@ const tools: Tool[] = [
     path: '/tools/uuid-generator',
     icon: '🆔',
     tags: ['Developer', 'UUID', 'ID'],
+    isNew: false,
+  },
+  {
+    name: 'JWT Decoder',
+    description:
+      'Decode JSON Web Tokens locally — view header, payload, claims, and expiration. Cryptographically safe in your browser.',
+    path: '/tools/jwt-decoder',
+    icon: '🔑',
+    tags: ['Security', 'JWT', 'Auth'],
+    isNew: true,
+  },
+  {
+    name: 'Password Generator',
+    description:
+      'Generate strong random passwords or memorable passphrases with cryptographic entropy. Customize length, symbols, digits, and ambiguous-char filtering.',
+    path: '/tools/password-generator',
+    icon: '🔒',
+    tags: ['Security', 'Password', 'Crypto'],
+    isNew: true,
+  },
+  {
+    name: 'HTML Entities Encoder/Decoder',
+    description:
+      'Encode special characters to HTML entities (named, numeric, hex) or decode them back. Unicode-safe with smart-quote handling.',
+    path: '/tools/html-entities',
+    icon: '🏷️',
+    tags: ['Web', 'HTML', 'Encoding'],
+    isNew: true,
+  },
+  {
+    name: 'SQL Formatter',
+    description:
+      'Format and beautify any SQL query. Uppercase keywords, indented clauses, JOIN/WHERE splitting. Plus single-line minify mode.',
+    path: '/tools/sql-formatter',
+    icon: '🗃️',
+    tags: ['Developer', 'SQL', 'Database'],
+    isNew: true,
+  },
+  {
+    name: 'URL Slug Generator',
+    description:
+      'Convert any title to a clean, SEO-friendly URL slug. Strip accents, configurable separator and length, bulk mode for many titles at once.',
+    path: '/tools/slug-generator',
+    icon: '🔗',
+    tags: ['SEO', 'URL', 'Web'],
+    isNew: true,
+  },
+  {
+    name: 'CSS Unit Converter',
+    description:
+      'Convert between px, em, rem, pt, pc, %, vw, and vh — with adjustable root font size and viewport context. Built for designers and front-end devs.',
+    path: '/tools/css-unit-converter',
+    icon: '📐',
+    tags: ['Design', 'CSS', 'Web'],
+    isNew: true,
+  },
+  {
+    name: 'Cron Expression Parser',
+    description:
+      'Parse cron expressions into plain English. Preview the next 10 runs in UTC. One-click presets for common schedules.',
+    path: '/tools/cron-parser',
+    icon: '⏰',
+    tags: ['Developer', 'Cron', 'Scheduling'],
+    isNew: true,
+  },
+  {
+    name: 'Text Diff Checker',
+    description:
+      'Compare two pieces of text line by line. Highlights added, removed, and unchanged lines. Ignore case or whitespace toggles.',
+    path: '/tools/text-diff',
+    icon: '🔍',
+    tags: ['Developer', 'Diff', 'Text'],
+    isNew: true,
+  },
+  {
+    name: 'Markdown Preview',
+    description:
+      'Live markdown editor with side-by-side HTML preview. Headings, lists, code blocks, links — copy markdown source or rendered HTML.',
+    path: '/tools/markdown-preview',
+    icon: '📑',
+    tags: ['Writing', 'Markdown', 'Web'],
+    isNew: true,
+  },
+  {
+    name: 'YAML / JSON Converter',
+    description:
+      'Convert YAML to JSON or JSON to YAML in your browser. Live preview, sample data, helpful error messages. Pure client-side.',
+    path: '/tools/yaml-json-converter',
+    icon: '🔄',
+    tags: ['Developer', 'YAML', 'JSON'],
     isNew: true,
   },
 ];
@@ -130,28 +220,28 @@ export default function ToolsHome() {
   return (
     <>
       <Head>
-        <title>Toolisk Tools — Free Online Developer & Productivity Utilities</title>
+        <title>Toolisk Tools — 21 Free Online Developer &amp; Productivity Utilities</title>
         <meta
           name="description"
-          content="Free online utilities for developers, designers, and writers. URL encoder, JSON formatter, word counter, Base64, color converter, hash generator and more — all client-side and private."
+          content="21 free online utilities for developers, designers, and writers. JWT decoder, password generator, SQL formatter, JSON viewer, regex tester, cron parser, CSS unit converter and more — all client-side, private, no sign-ups."
         />
         <meta
           name="keywords"
-          content="online utilities, developer tools, URL encoder, JSON formatter, word counter, base64 encoder, color converter, hash generator, regex tester, free web tools"
+          content="online utilities, developer tools, jwt decoder, password generator, sql formatter, url encoder, JSON formatter, word counter, base64 encoder, color converter, hash generator, regex tester, cron parser, css unit converter, free web tools"
         />
         <link rel="canonical" href="https://toolisk.com/tools" />
-        <meta property="og:title" content="Toolisk Tools — Free Online Developer & Productivity Utilities" />
+        <meta property="og:title" content="Toolisk Tools — 21 Free Online Developer & Productivity Utilities" />
         <meta
           property="og:description"
-          content="11 free online utilities — URL encoder, JSON formatter, word counter, Base64, color converter, hash generator and more. Fast, private, no sign-ups."
+          content="21 free online utilities — JWT decoder, password generator, SQL formatter, JSON viewer, regex tester, cron parser and more. Fast, private, no sign-ups."
         />
         <meta property="og:url" content="https://toolisk.com/tools" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="Toolisk Tools — Free Online Developer & Productivity Utilities" />
+        <meta name="twitter:title" content="Toolisk Tools — 21 Free Online Developer & Productivity Utilities" />
         <meta
           name="twitter:description"
-          content="Free utilities for developers, designers, and writers. All run client-side."
+          content="21 free utilities for developers, designers, and writers. All run client-side."
         />
 
         <script

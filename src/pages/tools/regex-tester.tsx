@@ -2,10 +2,25 @@ import Head from 'next/head';
 import RegexTester from '../../components/Tools/RegexTester';
 import ToolShell from '../../components/Tools/ToolShell';
 import ToolSEOContent from '../../components/Tools/ToolSEOContent';
-import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
+import { generateBreadcrumbs, generateFaqSchema, generateSoftwareAppSchema, SITE_URL } from '../../utils/siteConfig';
+
+const FAQS = [
+  { q: 'What regex flavor does this support?', a: "JavaScript regex (ECMAScript). Most regex syntax is portable across languages, but a few features differ — for example, JavaScript named groups use (?<name>...), while some other languages use (?P<name>...)." },
+  { q: 'Why isn\'t my pattern matching?', a: 'Common reasons: the pattern is case-sensitive but your text is mixed case (add the i flag), or the pattern matches across lines but you forgot the m flag, or you have unescaped special characters.' },
+  { q: 'How do capture groups work?', a: 'Parentheses ( ) create a capture group. The matched text inside is captured separately and can be referenced in the replacement as $1, $2, etc.' },
+  { q: 'Should I use regex to parse HTML?', a: 'No. HTML has nested structures and edge cases that regex cannot reliably handle. Use a real HTML parser like DOMParser in browsers, BeautifulSoup in Python, or jsdom in Node.' },
+  { q: "What's the difference between greedy and lazy matching?", a: "By default, quantifiers like * and + are greedy — they match as much as possible. Adding ? after them (*? or +?) makes them lazy — they match as little as possible." },
+];
 
 export default function RegexTesterPage() {
   const breadcrumbSchema = generateBreadcrumbs('/tools/regex-tester');
+  const softwareSchema = generateSoftwareAppSchema({
+    name: 'Regex Tester',
+    slug: '/tools/regex-tester',
+    description: 'Test JavaScript regular expressions live with match highlighting, capture groups, flags and replace mode.',
+    featureList: 'Live match highlighting, Capture groups, All ECMAScript flags, Replace mode, Preset patterns, Cheatsheet',
+  });
+  const faqSchema = generateFaqSchema(FAQS);
 
   return (
     <>
@@ -26,7 +41,7 @@ export default function RegexTesterPage() {
         <meta property="og:type" content="website" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, softwareSchema, faqSchema]) }}
         />
       </Head>
 

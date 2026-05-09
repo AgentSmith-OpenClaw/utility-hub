@@ -2,10 +2,25 @@ import Head from 'next/head';
 import UuidGenerator from '../../components/Tools/UuidGenerator';
 import ToolShell from '../../components/Tools/ToolShell';
 import ToolSEOContent from '../../components/Tools/ToolSEOContent';
-import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
+import { generateBreadcrumbs, generateFaqSchema, generateSoftwareAppSchema, SITE_URL } from '../../utils/siteConfig';
+
+const FAQS = [
+  { q: "What's the difference between UUID v4 and UUID v7?", a: "UUID v4 is fully random — perfect when you need unpredictability and don't care about ordering. UUID v7 starts with a millisecond timestamp, so identifiers generated later sort after earlier ones. v7 is increasingly recommended for database primary keys because it preserves index locality." },
+  { q: 'Are UUIDs really unique?', a: "For UUID v4, the chance of collision is astronomically small. You'd need to generate billions of UUIDs per second for many years to have a meaningful probability of duplication. In practice, treat them as unique." },
+  { q: 'Can I use UUIDs as database primary keys?', a: "Yes, but be aware of trade-offs. UUID v4's randomness causes B-tree index fragmentation in some databases. UUID v7's time-ordered design avoids this. Both UUIDs are 16 bytes vs 4 or 8 for an integer." },
+  { q: 'Is this generator cryptographically secure?', a: "Yes. The tool uses crypto.randomUUID and crypto.getRandomValues, which are backed by your operating system's secure random number generator." },
+  { q: "What is the 'nil' UUID?", a: "The nil UUID is a special all-zeros value (00000000-0000-0000-0000-000000000000). It's defined in the UUID spec as a placeholder representing 'no UUID'." },
+];
 
 export default function UuidGeneratorPage() {
   const breadcrumbSchema = generateBreadcrumbs('/tools/uuid-generator');
+  const softwareSchema = generateSoftwareAppSchema({
+    name: 'UUID Generator',
+    slug: '/tools/uuid-generator',
+    description: 'Generate UUID v4 and UUID v7 identifiers in bulk. Cryptographically secure via Web Crypto API.',
+    featureList: 'UUID v4, UUID v7, Bulk generation, Uppercase / dash-removal, Web Crypto',
+  });
+  const faqSchema = generateFaqSchema(FAQS);
 
   return (
     <>
@@ -26,7 +41,7 @@ export default function UuidGeneratorPage() {
         <meta property="og:type" content="website" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, softwareSchema, faqSchema]) }}
         />
       </Head>
 
