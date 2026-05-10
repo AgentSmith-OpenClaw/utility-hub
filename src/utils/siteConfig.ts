@@ -34,6 +34,21 @@ export const BREADCRUMB_LABELS: Record<string, string> = {
   'text-diff': 'Text Diff Checker',
   'markdown-preview': 'Markdown Preview',
   'yaml-json-converter': 'YAML / JSON Converter',
+  'number-base-converter': 'Number Base Converter',
+  'image-base64': 'Image to Base64 Converter',
+  'percentage-calculator': 'Percentage Calculator',
+  'age-calculator': 'Age & Date Calculator',
+  'unit-converter': 'Unit Converter',
+  'color-palette': 'Color Palette Generator',
+  'morse-code': 'Morse Code Converter',
+  'text-binary': 'Text to Binary / Hex',
+  'caesar-cipher': 'Caesar Cipher & ROT13',
+  'xml-formatter': 'XML Formatter & Validator',
+  'http-status-codes': 'HTTP Status Codes',
+  'aspect-ratio': 'Aspect Ratio Calculator',
+  'pomodoro-timer': 'Pomodoro Timer',
+  'json-csv': 'JSON ↔ CSV Converter',
+  'chmod-calculator': 'Chmod Calculator',
 };
 
 interface FaqEntry { q: string; a: string }

@@ -201,6 +201,141 @@ const tools: Tool[] = [
     tags: ['Developer', 'YAML', 'JSON'],
     isNew: true,
   },
+  {
+    name: 'Number Base Converter',
+    description:
+      'Convert numbers between binary, octal, decimal, hexadecimal, and any custom base from 2 to 36. Live conversion with per-base breakdown.',
+    path: '/tools/number-base-converter',
+    icon: '🔢',
+    tags: ['Developer', 'Math', 'Binary', 'Hex'],
+    isNew: true,
+  },
+  {
+    name: 'Image to Base64 Converter',
+    description:
+      'Convert any image to a Base64 data URL — or decode Base64 back to an image. Drag-and-drop upload, MIME detection, instant preview.',
+    path: '/tools/image-base64',
+    icon: '🖼️',
+    tags: ['Web', 'Encoding', 'Image'],
+    isNew: true,
+  },
+  {
+    name: 'Percentage Calculator',
+    description:
+      'Calculate X% of Y, find what percent X is of Y, compute percent change, and add or subtract percentages. Four calculators in one.',
+    path: '/tools/percentage-calculator',
+    icon: '%',
+    tags: ['Math', 'Finance', 'Utility'],
+    isNew: true,
+  },
+  {
+    name: 'Age & Date Calculator',
+    description:
+      'Calculate exact age from a birthday, find the number of days between two dates, and add or subtract days for deadline math.',
+    path: '/tools/age-calculator',
+    icon: '📅',
+    tags: ['Utility', 'Date', 'Calendar'],
+    isNew: true,
+  },
+  {
+    name: 'Unit Converter',
+    description:
+      'Convert between 50+ units across length, weight, temperature, volume, area, and speed. Metric and imperial, all in one place.',
+    path: '/tools/unit-converter',
+    icon: '⚖️',
+    tags: ['Utility', 'Math', 'Conversion'],
+    isNew: true,
+  },
+  {
+    name: 'Color Palette Generator',
+    description:
+      'Generate tints, shades, complementary, analogous, and triadic color palettes from any base color. Includes a full 100–900 color scale.',
+    path: '/tools/color-palette',
+    icon: '🎨',
+    tags: ['Design', 'Color', 'CSS'],
+    isNew: true,
+  },
+  {
+    name: 'Morse Code Converter',
+    description:
+      'Translate text to Morse code or decode Morse back to text. Includes audio playback, a reference chart, and support for all letters and digits.',
+    path: '/tools/morse-code',
+    icon: '📡',
+    tags: ['Encoding', 'Fun', 'Audio'],
+    isNew: true,
+  },
+  {
+    name: 'Text to Binary / Hex',
+    description:
+      'Encode text as binary, hexadecimal, decimal (ASCII), or octal bytes — and decode back. UTF-8 aware with per-character breakdown.',
+    path: '/tools/text-binary',
+    icon: '01',
+    tags: ['Developer', 'Encoding', 'Binary'],
+    isNew: true,
+  },
+  {
+    name: 'Caesar Cipher & ROT13',
+    description:
+      'Encrypt and decrypt text with Caesar cipher. Adjustable shift 0–25, one-click ROT13, brute-force all 26 shifts, letter frequency analysis.',
+    path: '/tools/caesar-cipher',
+    icon: '🔒',
+    tags: ['Security', 'Encoding', 'Fun'],
+    isNew: true,
+  },
+  {
+    name: 'XML Formatter & Validator',
+    description:
+      'Format (pretty-print), minify, and validate XML. Choose 2 or 4-space indentation. Browser-based using DOMParser — no upload needed.',
+    path: '/tools/xml-formatter',
+    icon: '📋',
+    tags: ['Developer', 'XML', 'Formatter'],
+    isNew: true,
+  },
+  {
+    name: 'HTTP Status Codes',
+    description:
+      'Searchable reference for all HTTP 1xx–5xx status codes. Plain-English descriptions, usage guidance, and common pitfalls for 38 codes.',
+    path: '/tools/http-status-codes',
+    icon: '🌐',
+    tags: ['Developer', 'HTTP', 'Reference'],
+    isNew: true,
+  },
+  {
+    name: 'Aspect Ratio Calculator',
+    description:
+      'Calculate missing dimensions from any aspect ratio, detect image ratios, and compute contain or cover fit dimensions for any target box.',
+    path: '/tools/aspect-ratio',
+    icon: '📐',
+    tags: ['Design', 'Math', 'Video'],
+    isNew: true,
+  },
+  {
+    name: 'Pomodoro Timer',
+    description:
+      'Stay focused with 25-minute work sessions, 5-minute short breaks, and 15-minute long breaks. Customizable, with browser notifications.',
+    path: '/tools/pomodoro-timer',
+    icon: '🍅',
+    tags: ['Productivity', 'Timer', 'Focus'],
+    isNew: true,
+  },
+  {
+    name: 'JSON ↔ CSV Converter',
+    description:
+      'Convert JSON arrays to CSV or CSV back to JSON. Choose comma, semicolon, tab, or pipe delimiter. Download result or copy to clipboard.',
+    path: '/tools/json-csv',
+    icon: '📊',
+    tags: ['Developer', 'JSON', 'CSV'],
+    isNew: true,
+  },
+  {
+    name: 'Chmod Calculator',
+    description:
+      'Generate Unix file permissions with checkboxes or octal input. Get both octal (chmod 755) and symbolic commands. Common presets included.',
+    path: '/tools/chmod-calculator',
+    icon: '🔐',
+    tags: ['Developer', 'Linux', 'Unix'],
+    isNew: true,
+  },
 ];
 
 export default function ToolsHome() {
@@ -220,28 +355,28 @@ export default function ToolsHome() {
   return (
     <>
       <Head>
-        <title>Toolisk Tools — 21 Free Online Developer &amp; Productivity Utilities</title>
+        <title>Toolisk Tools — 36 Free Online Developer &amp; Productivity Utilities</title>
         <meta
           name="description"
-          content="21 free online utilities for developers, designers, and writers. JWT decoder, password generator, SQL formatter, JSON viewer, regex tester, cron parser, CSS unit converter and more — all client-side, private, no sign-ups."
+          content="36 free online utilities for developers, designers, and writers. Unit converter, percent calculator, pomodoro timer, chmod calculator, JSON to CSV, morse code, caesar cipher, XML formatter, HTTP status codes, and more — all client-side, private, no sign-ups."
         />
         <meta
           name="keywords"
-          content="online utilities, developer tools, jwt decoder, password generator, sql formatter, url encoder, JSON formatter, word counter, base64 encoder, color converter, hash generator, regex tester, cron parser, css unit converter, free web tools"
+          content="online utilities, developer tools, unit converter, percentage calculator, pomodoro timer, chmod calculator, json csv converter, morse code, caesar cipher, xml formatter, http status codes, number base converter, image base64, age calculator, free web tools"
         />
         <link rel="canonical" href="https://toolisk.com/tools" />
-        <meta property="og:title" content="Toolisk Tools — 21 Free Online Developer & Productivity Utilities" />
+        <meta property="og:title" content="Toolisk Tools — 36 Free Online Developer & Productivity Utilities" />
         <meta
           property="og:description"
-          content="21 free online utilities — JWT decoder, password generator, SQL formatter, JSON viewer, regex tester, cron parser and more. Fast, private, no sign-ups."
+          content="36 free online utilities — unit converter, pomodoro timer, JSON to CSV, chmod calculator, morse code, XML formatter and more. Fast, private, no sign-ups."
         />
         <meta property="og:url" content="https://toolisk.com/tools" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="Toolisk Tools — 21 Free Online Developer & Productivity Utilities" />
+        <meta name="twitter:title" content="Toolisk Tools — 36 Free Online Developer & Productivity Utilities" />
         <meta
           name="twitter:description"
-          content="21 free utilities for developers, designers, and writers. All run client-side."
+          content="36 free utilities for developers, designers, and writers. All run client-side."
         />
 
         <script

@@ -40,6 +40,21 @@ Toolisk is a collection of finance calculators and developer utilities built for
 - [Text Diff Checker](https://toolisk.com/tools/text-diff): Compare two pieces of text line by line with add/remove highlighting.
 - [Markdown Preview](https://toolisk.com/tools/markdown-preview): Live markdown editor with side-by-side HTML rendering.
 - [YAML / JSON Converter](https://toolisk.com/tools/yaml-json-converter): Convert YAML to JSON or JSON to YAML with live preview.
+- [Number Base Converter](https://toolisk.com/tools/number-base-converter): Convert numbers between binary, octal, decimal, hex, and any base 2–36.
+- [Image to Base64 Converter](https://toolisk.com/tools/image-base64): Convert images to Base64 data URLs or decode Base64 back to images.
+- [Percentage Calculator](https://toolisk.com/tools/percentage-calculator): Find X% of Y, what percent X is of Y, percent change, and add/subtract percentages.
+- [Age & Date Calculator](https://toolisk.com/tools/age-calculator): Calculate exact age, date differences, and deadline math.
+- [Unit Converter](https://toolisk.com/tools/unit-converter): Convert 50+ units of length, weight, temperature, volume, area, and speed.
+- [Color Palette Generator](https://toolisk.com/tools/color-palette): Generate tints, shades, complementary, analogous, and triadic color palettes.
+- [Morse Code Converter](https://toolisk.com/tools/morse-code): Translate text to Morse code and back, with audio playback.
+- [Text to Binary / Hex](https://toolisk.com/tools/text-binary): Encode text as binary, hex, decimal, or octal bytes — and decode back.
+- [Caesar Cipher & ROT13](https://toolisk.com/tools/caesar-cipher): Encrypt and decrypt with Caesar cipher; brute-force all 26 shifts.
+- [XML Formatter & Validator](https://toolisk.com/tools/xml-formatter): Format, minify, and validate XML in the browser.
+- [HTTP Status Codes](https://toolisk.com/tools/http-status-codes): Searchable reference for all HTTP 1xx–5xx status codes.
+- [Aspect Ratio Calculator](https://toolisk.com/tools/aspect-ratio): Calculate missing dimensions, detect ratios, and compute contain/cover fit.
+- [Pomodoro Timer](https://toolisk.com/tools/pomodoro-timer): 25/5/15 Pomodoro productivity timer with session history.
+- [JSON ↔ CSV Converter](https://toolisk.com/tools/json-csv): Convert JSON arrays to CSV or CSV to JSON with configurable delimiter.
+- [Chmod Calculator](https://toolisk.com/tools/chmod-calculator): Generate Unix file permission commands from checkboxes or octal input.
 
 ## Finance Guides
 
