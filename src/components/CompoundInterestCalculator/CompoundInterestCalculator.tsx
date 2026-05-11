@@ -141,7 +141,11 @@ type ChartTab = 'growth' | 'stacked' | 'annual-interest' | 'real-vs-nominal' | '
 
 // --- Main Component ---
 
-const CompoundInterestCalculator: React.FC = () => {
+interface CompoundInterestCalculatorProps {
+  hideHeader?: boolean;
+}
+
+const CompoundInterestCalculator: React.FC<CompoundInterestCalculatorProps> = ({ hideHeader = false }) => {
   const { inputs, result, updateInputs, reset } = useCompoundInterest();
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<ChartTab>('growth');
@@ -296,6 +300,7 @@ const CompoundInterestCalculator: React.FC = () => {
       <article className="max-w-7xl mx-auto" itemScope itemType="https://schema.org/WebApplication">
         
         {/* Header */}
+        {!hideHeader && (
         <header className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-2">
             Compound Interest Calculator
@@ -305,6 +310,7 @@ const CompoundInterestCalculator: React.FC = () => {
             Account for regular contributions and inflation to see your true future wealth.
           </p>
         </header>
+        )}
 
         {/* Export + Share bar */}
         <div className="flex flex-wrap gap-2 justify-center mb-6">

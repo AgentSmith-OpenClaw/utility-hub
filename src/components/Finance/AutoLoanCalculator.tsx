@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, Legend } from 'recharts';
 import { ToolCard } from '../Tools/ToolShell';
+import ExportShareBar from '../Tools/ExportShareBar';
 import CurrencySelector, { useCurrency } from '../CurrencySelector';
 import { formatCurrency, formatCurrencyCompact } from '../../utils/currency';
 
@@ -50,8 +51,117 @@ export default function AutoLoanCalculator() {
     'Principal paid': Math.round(r.cumPrincipal),
   }));
 
+  const buildPdfConfig = useCallback(() => ({
+    title: 'Auto Loan Calculator Report',
+    subtitle: `${formatCurrency(vehiclePrice, currency)} vehicle · ${apr}% APR · ${termMonths}-month term`,
+    filename: 'Auto_Loan.pdf',
+    sections: [
+      {
+        type: 'inputs' as const,
+        title: 'Inputs',
+        inputs: [
+          { label: 'Vehicle price', value: formatCurrency(vehiclePrice, currency) },
+          { label: 'Down payment', value: formatCurrency(downPayment, currency) },
+          { label: 'Trade-in', value: formatCurrency(tradeIn, currency) },
+          { label: 'Sales tax', value: `${salesTaxPct}%` },
+          { label: 'Fees', value: formatCurrency(fees, currency) },
+          { label: 'APR', value: `${apr}%` },
+          { label: 'Term', value: `${termMonths} months` },
+          { label: 'Loan amount', value: formatCurrency(loanAmount, currency) },
+        ],
+      },
+      {
+        type: 'metrics' as const,
+        title: 'Results',
+        metrics: [
+          { label: 'Monthly payment', value: formatCurrency(monthly, currency) },
+          { label: 'Total interest', value: formatCurrency(totalInterest, currency) },
+          { label: 'Total out of pocket', value: formatCurrency(totalCost, currency) },
+          { label: 'Loan / price', value: `${((loanAmount / Math.max(1, vehiclePrice)) * 100).toFixed(1)}%` },
+        ],
+      },
+      {
+        type: 'table' as const,
+        title: 'Yearly summary',
+        table: {
+          title: '',
+          columns: [
+            { header: 'Year', key: 'year', align: 'left' as const },
+            { header: 'Principal paid', key: 'principal', align: 'right' as const },
+            { header: 'Interest paid', key: 'interest', align: 'right' as const },
+            { header: 'Remaining balance', key: 'balance', align: 'right' as const },
+          ],
+          rows: Array.from({ length: Math.ceil(termMonths / 12) }, (_, y) => {
+            const start = y * 12;
+            const end = Math.min(start + 12, schedule.length) - 1;
+            if (end < 0) return null;
+            const startRow = schedule[start];
+            const endRow = schedule[end];
+            return {
+              year: y + 1,
+              principal: formatCurrency(endRow.cumPrincipal - (start === 0 ? 0 : schedule[start - 1].cumPrincipal), currency),
+              interest: formatCurrency(endRow.cumInterest - (start === 0 ? 0 : schedule[start - 1].cumInterest), currency),
+              balance: formatCurrency(endRow.balance, currency),
+            };
+          }).filter(Boolean) as Record<string, string | number>[],
+        },
+      },
+    ],
+  }), [vehiclePrice, downPayment, tradeIn, salesTaxPct, fees, apr, termMonths, loanAmount, monthly, totalInterest, totalCost, schedule, currency]);
+
+  const buildExcelSheets = useCallback(() => ([
+    {
+      name: 'Summary',
+      rows: [
+        { Field: 'Vehicle price', Value: vehiclePrice },
+        { Field: 'Down payment', Value: downPayment },
+        { Field: 'Trade-in', Value: tradeIn },
+        { Field: 'Sales tax %', Value: salesTaxPct },
+        { Field: 'Fees', Value: fees },
+        { Field: 'APR %', Value: apr },
+        { Field: 'Term (months)', Value: termMonths },
+        { Field: 'Loan amount', Value: Math.round(loanAmount) },
+        { Field: 'Monthly payment', Value: +monthly.toFixed(2) },
+        { Field: 'Total interest', Value: Math.round(totalInterest) },
+        { Field: 'Total out of pocket', Value: Math.round(totalCost) },
+        { Field: 'Currency', Value: currency },
+      ],
+    },
+    {
+      name: 'Amortization',
+      rows: schedule.map((r) => ({
+        Month: r.month,
+        Principal: +r.principal.toFixed(2),
+        Interest: +r.interest.toFixed(2),
+        'Cumulative principal': +r.cumPrincipal.toFixed(2),
+        'Cumulative interest': +r.cumInterest.toFixed(2),
+        'Remaining balance': +r.balance.toFixed(2),
+      })),
+    },
+    {
+      name: 'Term comparison',
+      rows: [36, 48, 60, 72, 84].map((m) => {
+        const sched = buildSchedule(loanAmount, apr, m);
+        const mp = sched[0] ? sched[0].principal + sched[0].interest : 0;
+        const ti = sched.length ? sched[sched.length - 1].cumInterest : 0;
+        return {
+          'Term (months)': m,
+          'Monthly payment': +mp.toFixed(2),
+          'Total interest': Math.round(ti),
+          'Total cost': Math.round(loanAmount + ti),
+        };
+      }),
+    },
+  ]), [vehiclePrice, downPayment, tradeIn, salesTaxPct, fees, apr, termMonths, loanAmount, monthly, totalInterest, totalCost, schedule, currency]);
+
   return (
     <div className="space-y-5">
+      <ExportShareBar
+        filenameBase="Auto_Loan"
+        buildPdfConfig={buildPdfConfig}
+        buildExcelSheets={buildExcelSheets}
+        shareMessage={`Auto loan: ${formatCurrencyCompact(vehiclePrice, currency)} @ ${apr}% for ${termMonths} months = ${formatCurrency(monthly, currency)}/mo (${formatCurrencyCompact(totalInterest, currency)} interest).`}
+      />
       <div className="flex justify-end">
         <CurrencySelector value={currency} onChange={setCurrency} />
       </div>

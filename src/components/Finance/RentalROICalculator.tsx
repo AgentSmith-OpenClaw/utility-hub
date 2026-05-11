@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import { ToolCard } from '../Tools/ToolShell';
+import ExportShareBar from '../Tools/ExportShareBar';
 import CurrencySelector, { useCurrency } from '../CurrencySelector';
 import { formatCurrency, formatCurrencyCompact } from '../../utils/currency';
 
@@ -58,8 +59,120 @@ export default function RentalROICalculator() {
     return { color: 'text-red-700', label: 'Weak — below most market norms' };
   })();
 
+  const buildPdfConfig = useCallback(() => ({
+    title: 'Rental Property ROI Report',
+    subtitle: `${formatCurrency(purchasePrice, currency)} purchase · ${formatCurrency(monthlyRent, currency)}/mo rent · ${verdict.label}`,
+    filename: 'Rental_ROI.pdf',
+    sections: [
+      {
+        type: 'inputs' as const,
+        title: 'Purchase & Financing',
+        inputs: [
+          { label: 'Purchase price', value: formatCurrency(purchasePrice, currency) },
+          { label: 'Down payment', value: `${downPaymentPct}% (${formatCurrency(downPayment, currency)})` },
+          { label: 'Closing costs', value: formatCurrency(closingCosts, currency) },
+          { label: 'Rehab', value: formatCurrency(rehab, currency) },
+          { label: 'Mortgage', value: `${mortgageYears}yr @ ${mortgageRate}%` },
+          { label: 'Total cash in', value: formatCurrency(totalCashIn, currency) },
+        ],
+      },
+      {
+        type: 'metrics' as const,
+        title: 'Returns',
+        metrics: [
+          { label: 'Monthly cash flow', value: formatCurrency(monthlyCashFlow, currency) },
+          { label: 'Cap rate', value: `${capRate.toFixed(2)}%` },
+          { label: 'Cash-on-cash', value: `${cashOnCash.toFixed(2)}%` },
+          { label: 'DSCR', value: dscr.toFixed(2) },
+        ],
+      },
+      {
+        type: 'table' as const,
+        title: 'Annual income & expenses',
+        table: {
+          title: '',
+          columns: [
+            { header: 'Line item', key: 'item', align: 'left' as const },
+            { header: 'Annual', key: 'amount', align: 'right' as const },
+          ],
+          rows: [
+            { item: 'Gross rent', amount: formatCurrency(grossAnnualRent, currency) },
+            { item: 'Vacancy', amount: '-' + formatCurrency(vacancyLoss, currency) },
+            { item: 'Effective rent', amount: formatCurrency(effectiveRent, currency) },
+            { item: 'Property tax', amount: '-' + formatCurrency(propertyTax, currency) },
+            { item: 'Insurance', amount: '-' + formatCurrency(insurance, currency) },
+            { item: 'HOA', amount: '-' + formatCurrency(hoa, currency) },
+            { item: 'Maintenance', amount: '-' + formatCurrency(maintenance, currency) },
+            { item: 'Management', amount: '-' + formatCurrency(mgmt, currency) },
+            { item: 'NOI', amount: formatCurrency(noi, currency) },
+            { item: 'Mortgage', amount: '-' + formatCurrency(debtService, currency) },
+            { item: 'Cash flow', amount: formatCurrency(cashFlow, currency) },
+          ],
+        },
+      },
+      {
+        type: 'message' as const,
+        message: {
+          heading: 'Verdict',
+          text: `${verdict.label}. 1% rule: ${onePctRule.toFixed(2)}% · GRM: ${grm.toFixed(1)}× · Cash needed: ${formatCurrency(totalCashIn, currency)}.`,
+        },
+      },
+    ],
+  }), [purchasePrice, downPaymentPct, downPayment, closingCosts, rehab, mortgageRate, mortgageYears, monthlyRent, totalCashIn, monthlyCashFlow, capRate, cashOnCash, dscr, grossAnnualRent, vacancyLoss, effectiveRent, propertyTax, insurance, hoa, maintenance, mgmt, noi, debtService, cashFlow, verdict, onePctRule, grm, currency]);
+
+  const buildExcelSheets = useCallback(() => ([
+    {
+      name: 'Summary',
+      rows: [
+        { Field: 'Purchase price', Value: purchasePrice },
+        { Field: 'Down payment', Value: downPayment },
+        { Field: 'Closing costs', Value: closingCosts },
+        { Field: 'Rehab', Value: rehab },
+        { Field: 'Loan amount', Value: loanAmount },
+        { Field: 'Mortgage rate %', Value: mortgageRate },
+        { Field: 'Mortgage term (yrs)', Value: mortgageYears },
+        { Field: 'Monthly mortgage P&I', Value: +monthlyMortgage.toFixed(2) },
+        { Field: 'Total cash in', Value: totalCashIn },
+        { Field: 'Monthly rent', Value: monthlyRent },
+        { Field: 'Vacancy %', Value: vacancyPct },
+        { Field: 'NOI (annual)', Value: Math.round(noi) },
+        { Field: 'Cash flow (annual)', Value: Math.round(cashFlow) },
+        { Field: 'Cash flow (monthly)', Value: +monthlyCashFlow.toFixed(2) },
+        { Field: 'Cap rate %', Value: +capRate.toFixed(2) },
+        { Field: 'Cash-on-cash %', Value: +cashOnCash.toFixed(2) },
+        { Field: 'DSCR', Value: +dscr.toFixed(2) },
+        { Field: '1% rule (%)', Value: +onePctRule.toFixed(2) },
+        { Field: 'GRM', Value: +grm.toFixed(2) },
+        { Field: 'Verdict', Value: verdict.label },
+        { Field: 'Currency', Value: currency },
+      ],
+    },
+    {
+      name: 'Income & Expense',
+      rows: [
+        { Item: 'Gross rent', Annual: Math.round(grossAnnualRent) },
+        { Item: 'Vacancy', Annual: -Math.round(vacancyLoss) },
+        { Item: 'Effective rent', Annual: Math.round(effectiveRent) },
+        { Item: 'Property tax', Annual: -Math.round(propertyTax) },
+        { Item: 'Insurance', Annual: -Math.round(insurance) },
+        { Item: 'HOA', Annual: -Math.round(hoa) },
+        { Item: 'Maintenance', Annual: -Math.round(maintenance) },
+        { Item: 'Management', Annual: -Math.round(mgmt) },
+        { Item: 'NOI', Annual: Math.round(noi) },
+        { Item: 'Mortgage (debt service)', Annual: -Math.round(debtService) },
+        { Item: 'Cash flow', Annual: Math.round(cashFlow) },
+      ],
+    },
+  ]), [purchasePrice, downPayment, closingCosts, rehab, loanAmount, mortgageRate, mortgageYears, monthlyMortgage, totalCashIn, monthlyRent, vacancyPct, noi, cashFlow, monthlyCashFlow, capRate, cashOnCash, dscr, onePctRule, grm, verdict, grossAnnualRent, vacancyLoss, effectiveRent, propertyTax, insurance, hoa, maintenance, mgmt, debtService, currency]);
+
   return (
     <div className="space-y-5">
+      <ExportShareBar
+        filenameBase="Rental_ROI"
+        buildPdfConfig={buildPdfConfig}
+        buildExcelSheets={buildExcelSheets}
+        shareMessage={`Rental at ${formatCurrencyCompact(purchasePrice, currency)}: ${formatCurrency(monthlyCashFlow, currency)}/mo cash flow · cap ${capRate.toFixed(1)}% · CoC ${cashOnCash.toFixed(1)}% (${verdict.label}).`}
+      />
       <div className="flex justify-end">
         <CurrencySelector value={currency} onChange={setCurrency} />
       </div>

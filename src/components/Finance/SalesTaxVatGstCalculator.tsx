@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import { ToolCard, CopyButton } from '../Tools/ToolShell';
+import ExportShareBar from '../Tools/ExportShareBar';
 
 type Region = 'US' | 'EU' | 'UK' | 'AU' | 'CA';
 
@@ -90,8 +91,62 @@ export default function SalesTaxVatGstCalculator() {
 
   const fmt = (n: number) => `${cfg.symbol}${n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
+  const buildPdfConfig = useCallback(() => ({
+    title: `${cfg.taxName} Calculator Report`,
+    subtitle: `${cfg.label} · ${rate}% · ${direction === 'add' ? 'Adding' : 'Removing'} ${cfg.taxName}`,
+    filename: 'Sales_Tax_VAT_GST.pdf',
+    sections: [
+      {
+        type: 'inputs' as const,
+        title: 'Inputs',
+        inputs: [
+          { label: 'Region', value: `${cfg.flag} ${cfg.label}` },
+          { label: 'Tax type', value: cfg.taxName },
+          { label: 'Rate', value: `${rate}%` },
+          { label: 'Direction', value: direction === 'add' ? 'Add to net' : 'Remove from gross' },
+          { label: direction === 'add' ? 'Net entered' : 'Gross entered', value: fmt(direction === 'add' ? result.net : result.gross) },
+        ],
+      },
+      {
+        type: 'metrics' as const,
+        title: 'Result',
+        metrics: [
+          { label: 'Net (pre-tax)', value: fmt(result.net) },
+          { label: `${cfg.taxName} amount`, value: fmt(result.tax) },
+          { label: 'Gross (with tax)', value: fmt(result.gross) },
+          { label: 'Rate', value: `${rate}%` },
+        ],
+      },
+    ],
+  }), [cfg, rate, direction, result, fmt]);
+
+  const buildExcelSheets = useCallback(() => ([
+    {
+      name: 'Result',
+      rows: [
+        { Field: 'Region', Value: cfg.label },
+        { Field: 'Tax Type', Value: cfg.taxName },
+        { Field: 'Rate %', Value: rate },
+        { Field: 'Direction', Value: direction === 'add' ? 'Add to net' : 'Remove from gross' },
+        { Field: 'Net (pre-tax)', Value: result.net.toFixed(2) },
+        { Field: `${cfg.taxName} amount`, Value: result.tax.toFixed(2) },
+        { Field: 'Gross (with tax)', Value: result.gross.toFixed(2) },
+      ],
+    },
+    {
+      name: 'Presets',
+      rows: cfg.presets.map((p) => ({ Preset: p.name, 'Rate %': p.rate })),
+    },
+  ]), [cfg, rate, direction, result]);
+
   return (
     <div className="space-y-5">
+      <ExportShareBar
+        filenameBase="Sales_Tax_VAT_GST"
+        buildPdfConfig={buildPdfConfig}
+        buildExcelSheets={buildExcelSheets}
+        shareMessage={`${cfg.taxName} in ${cfg.label} @ ${rate}%: ${fmt(result.net)} + ${fmt(result.tax)} = ${fmt(result.gross)}.`}
+      />
       <ToolCard title="Region">
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
           {REGIONS.map(r => (

@@ -2,8 +2,46 @@
 
 This document provides comprehensive guidelines for developing new calculator tools for Utility Hub. All new tools must follow these standards to ensure consistency, quality, and AdSense eligibility.
 
-**Last Updated:** February 2026  
-**Reference Tools:** EMI Calculator, FIRE Calculator, SIP Wealth Planner, CompoundInterest Calculator
+**Last Updated:** May 2026
+**Reference tools (heavy pattern):** EMI Calculator, FIRE Calculator, SIP Wealth Planner, CompoundInterest Calculator, Income Tax Calculator, Amortization Calculator, Mortgage Calculator, US Paycheck Calculator, Buy vs Rent, Credit Card Payoff
+**Reference tools (lightweight ToolShell pattern):** Tip, Sales Tax/VAT/GST, Auto Loan, Investment, Net Worth, Rental ROI, Roth vs Traditional IRA, 401(k), Student Loan, Inflation
+
+---
+
+## 🧩 Two Acceptable Tool Patterns
+
+A finance calculator may be built using one of two patterns. **Both are first-class — pick based on complexity.**
+
+### A. Heavy pattern (own component folder)
+Used for tools with deep state, multi-sheet exports, animated dashboards, etc.
+
+```
+/src/components/[ToolName]/
+  [ToolName].tsx              # main component
+  [ToolName].types.ts         # type definitions
+  [ToolName].utils.ts         # calculation logic
+/src/hooks/use[ToolName].ts   # state hook with localStorage
+/src/utils/excel.ts           # add tool-specific export fn (exportXToExcel)
+/src/pages/finance/[slug].tsx # thin page wrapper
+```
+
+Use this for: EMI, FIRE, SIP, CompoundInterest, IncomeTax, Mortgage, Amortization, USPaycheck, BuyVsRent, CreditCardPayoff.
+
+### B. Lightweight ToolShell pattern (one file under `Finance/`)
+Used for simpler one-file calculators with a single primary chart and a small handful of inputs.
+
+```
+/src/components/Finance/[ToolName].tsx     # single component with inline state
+/src/pages/finance/[slug].tsx              # uses <ToolShell> + <ToolSEOContent>
+```
+
+Use this for: Tip, SalesTax/VAT/GST, AutoLoan, Investment, NetWorth, RentalROI, RothVsTraditionalIRA, 401k, StudentLoan, Inflation.
+
+**Common contract — both patterns must:**
+- Render `<ExportShareBar>` (see below) as the first child inside the component body.
+- Produce both a `buildPdfConfig()` (returning `PDFReportConfig`) and a `buildExcelSheets()` (returning `GenericExcelSheet[]`).
+- Use Recharts only.
+- Provide proper SEO metadata + JSON-LD schema in the page wrapper.
 
 ---
 
@@ -11,22 +49,22 @@ This document provides comprehensive guidelines for developing new calculator to
 
 **These are NON-NEGOTIABLE REQUIREMENTS. Any tool missing these is considered incomplete:**
 
-### 1. 📊 Export & Share Bar (MANDATORY AT TOP OF PAGE)
-- ✅ **PDF Export** button → Full report with charts using `utils/pdf.ts`
-- ✅ **Excel Export** button → Data tables using `utils/excel.ts`
-- ✅ **Copy Plan URL** button → Shareable link with query params
-- ✅ **WhatsApp Share** button → Pre-filled message with results
-- ✅ **Twitter/X Share** button → Tweet composer with results
-- ⚠️ **MUST be placed at the top**, right after the header, before calculator inputs
-- ⚠️ **Follow exact color scheme**: PDF/Copy=indigo, Excel/WhatsApp=teal, Twitter=sky
+### 1. 📊 Export & Share Bar (MANDATORY)
+**Every calculator must render `ExportShareBar` from `src/components/Tools/ExportShareBar.tsx`** as the first element inside its top-level container. It provides all 5 required buttons in the correct order and color scheme — never recreate this bar by hand.
 
-### 2. 📈 Multiple Charts (MINIMUM 3-4 VISUALIZATIONS)
-- ✅ **Primary Chart**: Main data visualization (Area/Line chart showing growth/balance over time)
-- ✅ **Breakdown Chart**: Component breakdown (Stacked Area or Pie chart)
-- ✅ **Comparison Chart**: Bar chart comparing scenarios or periods
-- ✅ **Additional Chart**: Year-over-year growth, cumulative totals, or other insights
+- ✅ **PDF Export** button → `generatePDFReport` from `utils/pdf.ts`
+- ✅ **Excel Export** button → `exportToolToExcel` (generic) or a tool-specific helper from `utils/excel.ts`
+- ✅ **Copy URL** button → clipboard with textarea fallback
+- ✅ **WhatsApp Share** button → `wa.me/?text=` with pre-filled message
+- ✅ **Twitter/X Share** button → `twitter.com/intent/tweet` composer
+- ⚠️ **MUST be placed at the top** of the component body, before any inputs or results.
+- ⚠️ **Follow exact color scheme**: PDF=indigo, Excel=teal, Copy=slate, WhatsApp=teal, Twitter=sky. (The component already enforces this — do not override.)
+
+### 2. 📈 Charts (count depends on pattern)
+- **Heavy pattern (EMI, FIRE, SIP, …):** 3–4 different visualizations required (primary trend, breakdown pie/stack, comparison bars, an extra insight chart).
+- **Lightweight ToolShell pattern:** at least 1 primary chart that conveys the headline result is required; a second supporting chart or comparison table is recommended.
 - ⚠️ Use **Recharts ONLY** (Chart.js is removed from project)
-- ⚠️ Use **unified CHART_COLORS constant** in every tool
+- ⚠️ Use **unified CHART_COLORS constant** when feasible
 - ⚠️ All charts must have **custom tooltips** with proper formatting
 
 ### 3. 📌 Sticky Calculator (IF SIDE-BY-SIDE LAYOUT)
@@ -64,25 +102,24 @@ This document provides comprehensive guidelines for developing new calculator to
 Copy this checklist and verify EVERY item before considering a tool complete:
 
 ```
-[ ] Export/Share bar at top with ALL 5 buttons (PDF, Excel, Copy, WhatsApp, Twitter)
-[ ] Minimum 3-4 different chart visualizations (not just one pie chart!)
-[ ] Calculator is sticky on scroll (if side-by-side layout with calculator on left)
-[ ] SEO content section with 800+ words in prose format
-[ ] All cards use: rounded-2xl shadow-md border border-slate-100
-[ ] Page uses: bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20
-[ ] Only slate-* colors used (no gray-*)
-[ ] CHART_COLORS constant defined and used
+[ ] <ExportShareBar> is the first child of the component body (PDF, Excel, Copy URL, WhatsApp, Twitter)
+[ ] buildPdfConfig() returns a sensible PDFReportConfig with inputs + metrics + at least one table or message section
+[ ] buildExcelSheets() returns at least a "Summary" sheet (plus per-row data sheets when applicable)
+[ ] shareMessage embeds at least one headline result number
+[ ] Heavy pattern: 3–4 chart visualizations · Lightweight: ≥1 primary chart
+[ ] Calculator is sticky on scroll (heavy side-by-side layouts only)
+[ ] SEO content via ToolSEOContent (lightweight) or inline prose (heavy) — 800+ words
+[ ] All cards use: rounded-2xl shadow-md border border-slate-100/200
+[ ] Heavy pattern page uses: bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20
+[ ] Only slate-* colors used in text (no gray-*)
 [ ] Custom chart tooltips implemented
 [ ] Mobile responsive (tested at 375px, 768px, 1024px)
-[ ] PDF export works (container has id attribute)
-[ ] Excel export works (tool-specific export function created)
-[ ] Copy URL works and includes query params
-[ ] Social share messages are customized with tool results
+[ ] Copy URL works (handled by ExportShareBar)
 [ ] No console errors
-[ ] LocalStorage persistence works
+[ ] LocalStorage persistence (heavy pattern only — optional for lightweight)
 [ ] Input validation prevents invalid states
 [ ] Proper TypeScript types (no 'any')
-[ ] Page metadata complete (title, description, keywords, Open Graph)
+[ ] Page metadata complete (title, description, keywords, Open Graph, JSON-LD)
 [ ] Added to homepage tools array
 [ ] Added to footer navigation
 [ ] Sitemap.xml updated
@@ -1153,12 +1190,100 @@ return (
 
 | Feature | Library/API | Description |
 |---------|------------|-------------|
-| Export PDF | `exportToPDF` from `../../utils/pdf` | Full-page screenshot PDF via html2canvas + jsPDF |
-| Export Excel | `exportToExcel` / `exportSIPToExcel` / `exportFIREToExcel` / `exportCompoundInterestToExcel` / `exportIncomeTaxToExcel` from `../../utils/excel` | XLSX with data sheets (create tool-specific export function if needed) |
-| Copy URL | `navigator.clipboard` (with textarea fallback) | Copies current URL with query params |
-| WhatsApp | `wa.me/?text=` | Opens WhatsApp with pre-filled message + URL |
-| Twitter/X | `twitter.com/intent/tweet` | Opens tweet composer with text + URL |
-| URL Query Params | `URLSearchParams` + `window.history.replaceState` | Syncs key inputs to URL for shareable links (optional but recommended) |
+| **All buttons + handlers** | `ExportShareBar` from `../../components/Tools/ExportShareBar` | **Preferred path.** Drop-in bar that owns all five buttons, copy/share state, and consistent styling. Pass `buildPdfConfig` and `buildExcelSheets` factories. |
+| Export PDF | `generatePDFReport` from `../../utils/pdf` | Structured PDF (header, inputs, metric cards, tables, charts). Drives `ExportShareBar`. |
+| Export Excel (generic) | `exportToolToExcel` from `../../utils/excel` | Multi-sheet XLSX from a `GenericExcelSheet[]`. Use this for lightweight tools. |
+| Export Excel (typed) | `exportToExcel` / `exportSIPToExcel` / `exportFIREToExcel` / `exportCompoundInterestToExcel` / `exportIncomeTaxToExcel` / `exportMortgageToExcel` / `exportAmortizationToExcel` / `exportUSPaycheckToExcel` from `../../utils/excel` | Tool-specific helpers for the heavy-pattern tools. |
+| Copy URL | (handled by `ExportShareBar`) | `navigator.clipboard` with textarea fallback. |
+| WhatsApp | (handled by `ExportShareBar`) | Opens `wa.me/?text=` with `shareMessage` + URL. |
+| Twitter/X | (handled by `ExportShareBar`) | Opens `twitter.com/intent/tweet` with `twitterMessage ?? shareMessage` + URL. |
+| URL Query Params | `URLSearchParams` + `window.history.replaceState` | Syncs key inputs to URL for shareable links (optional but recommended). |
+
+### ✅ Preferred wiring — use `ExportShareBar`
+
+```tsx
+import ExportShareBar from '../Tools/ExportShareBar';
+import { formatCurrency } from '../../utils/currency';
+
+export default function MyCalculator() {
+  // ... existing state + derived results ...
+
+  const buildPdfConfig = useCallback(() => ({
+    title: 'My Calculator Report',
+    subtitle: `${formatCurrency(amount, currency)} · ${rate}% · ${years}y`,
+    filename: 'My_Calculator.pdf',
+    sections: [
+      {
+        type: 'inputs' as const,
+        title: 'Inputs',
+        inputs: [
+          { label: 'Amount', value: formatCurrency(amount, currency) },
+          { label: 'Rate', value: `${rate}%` },
+          { label: 'Years', value: String(years) },
+        ],
+      },
+      {
+        type: 'metrics' as const,
+        title: 'Results',
+        metrics: [
+          { label: 'Final balance', value: formatCurrency(finalBalance, currency) },
+          { label: 'Total interest', value: formatCurrency(totalInterest, currency) },
+        ],
+      },
+      {
+        type: 'table' as const,
+        title: 'Year-by-year',
+        table: {
+          title: '',
+          columns: [
+            { header: 'Year', key: 'year', align: 'left' as const },
+            { header: 'Balance', key: 'balance', align: 'right' as const },
+          ],
+          rows: projection.map(p => ({ year: p.year, balance: formatCurrency(p.balance, currency) })),
+          maxRows: 40,
+        },
+      },
+    ],
+  }), [amount, rate, years, finalBalance, totalInterest, projection, currency]);
+
+  const buildExcelSheets = useCallback(() => ([
+    {
+      name: 'Summary',
+      rows: [
+        { Field: 'Amount', Value: amount },
+        { Field: 'Rate %', Value: rate },
+        { Field: 'Years', Value: years },
+        { Field: 'Final balance', Value: Math.round(finalBalance) },
+        { Field: 'Total interest', Value: Math.round(totalInterest) },
+      ],
+    },
+    {
+      name: 'Projection',
+      rows: projection.map(p => ({ Year: p.year, Balance: Math.round(p.balance) })),
+    },
+  ]), [amount, rate, years, finalBalance, totalInterest, projection]);
+
+  return (
+    <div className="space-y-5">
+      <ExportShareBar
+        filenameBase="My_Calculator"
+        buildPdfConfig={buildPdfConfig}
+        buildExcelSheets={buildExcelSheets}
+        shareMessage={`${formatCurrency(amount, currency)} @ ${rate}% over ${years}y → ${formatCurrency(finalBalance, currency)}.`}
+      />
+      {/* ...rest of the calculator UI... */}
+    </div>
+  );
+}
+```
+
+**Rules:**
+- ✓ Wrap both factories in `useCallback` with the correct dependency array so the captured state is always fresh.
+- ✓ Use `as const` on each section's `type` field and on table column `align` fields (TypeScript will reject plain strings).
+- ✓ `shareMessage` should embed at least one headline number so the social post is meaningful.
+- ✓ `filenameBase` is a base name (no extension) — `ExportShareBar` appends `.pdf` / `.xlsx`.
+- ✗ Do **not** hand-roll the 5 buttons inside a new tool. Use `ExportShareBar`.
+- ✗ Do **not** import `exportToPDF` (legacy alias) in new code — use `generatePDFReport` directly via `buildPdfConfig`.
 
 ### State Variables
 
@@ -2118,28 +2243,28 @@ If something is unclear or a tool has special requirements:
 
 **Every tool must:**
 
-✓ Use Next.js SSG (pre-rendered HTML)  
-✓ Separate: types.ts, utils.ts, hook.ts, component.tsx, page.tsx  
-✓ Unified blue-indigo palette with `slate-*` text (NOT `gray-*`)  
-✓ Unified card style: `rounded-2xl shadow-md border border-slate-100`  
-✓ Page background: `bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20`  
-✓ Charts via Recharts ONLY (Chart.js removed from project)  
-✓ Use the unified `CHART_COLORS` constant in every tool  
-✓ Tailwind CSS only (no scoped styles)  
-✓ localStorage for state persistence  
-✓ URL query-param sync for shareable links  
-✓ Full sharing bar: PDF, Excel, Copy URL, WhatsApp, Twitter  
-✓ 1500+ words content (inputs, results, insights)  
-✓ Educational tooltips on all inputs  
-✓ Animated numbers & smooth transitions  
-✓ Mobile-responsive design  
-✓ 90+ PageSpeed score  
-✓ Proper SEO metadata  
+✓ Use Next.js SSG (pre-rendered HTML)
+✓ Pick one of the two patterns (heavy folder structure, or lightweight `Finance/[ToolName].tsx` with `ToolShell` + `ToolSEOContent`)
+✓ Render `<ExportShareBar>` as the first child of the component body (PDF, Excel, Copy URL, WhatsApp, Twitter — no exceptions)
+✓ Supply `buildPdfConfig` (via `generatePDFReport`) and `buildExcelSheets` (via `exportToolToExcel` or a typed helper)
+✓ Use `slate-*` text (NOT `gray-*`)
+✓ Unified card style: `rounded-2xl shadow-md/sm border border-slate-100/200`
+✓ Heavy pattern page background: `bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20`
+✓ Charts via Recharts ONLY (Chart.js removed from project)
+✓ Tailwind CSS only (no scoped styles)
+✓ URL query-param sync for shareable links (recommended)
+✓ 1500+ words content (inputs, results, insights — via `ToolSEOContent` for lightweight tools)
+✓ Mobile-responsive design
+✓ 90+ PageSpeed score
+✓ Proper SEO metadata + JSON-LD schema
 
 **Before you call it done, run through the 12-phase checklist.** 🎯
 
+> **When you change this guide:** update this footer date, update the reference-tools lists at the top, and add/adjust the appropriate section so the example code stays accurate. The guide is the source of truth — drift between code and guide is a bug.
+
 ---
 
-*Last reviewed: February 2026*  
-*Examples: EMI Calculator, FIRE Calculator*  
+*Last reviewed: May 2026*
+*Heavy-pattern examples: EMI Calculator, FIRE Calculator, Amortization Calculator.*
+*Lightweight-pattern examples: Tip Calculator, Auto Loan Calculator, Net Worth Calculator.*
 *Questions? See Common Patterns section.*

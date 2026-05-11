@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { ToolCard } from '../Tools/ToolShell';
+import ExportShareBar from '../Tools/ExportShareBar';
 import CurrencySelector, { useCurrency } from '../CurrencySelector';
 import { formatCurrency, formatCurrencyCompact } from '../../utils/currency';
 
@@ -71,6 +72,79 @@ export default function NetWorthCalculator() {
 
   const assetPie = assets.filter(a => a.amount > 0).map(a => ({ name: a.name, value: a.amount }));
 
+  const buildPdfConfig = useCallback(() => ({
+    title: 'Net Worth Statement',
+    subtitle: `Age ${age} · Net worth ${formatCurrency(netWorth, currency)}`,
+    filename: 'Net_Worth.pdf',
+    sections: [
+      {
+        type: 'metrics' as const,
+        title: 'Summary',
+        metrics: [
+          { label: 'Net worth', value: formatCurrency(netWorth, currency) },
+          { label: 'Total assets', value: formatCurrency(totalAssets, currency) },
+          { label: 'Total liabilities', value: formatCurrency(totalLiabilities, currency) },
+          { label: 'Age', value: String(age) },
+        ],
+      },
+      {
+        type: 'table' as const,
+        title: 'Assets',
+        table: {
+          title: '',
+          columns: [
+            { header: 'Item', key: 'name', align: 'left' as const },
+            { header: 'Amount', key: 'amount', align: 'right' as const },
+          ],
+          rows: assets.map((a) => ({ name: a.name || '(unnamed)', amount: formatCurrency(a.amount, currency) })),
+        },
+      },
+      {
+        type: 'table' as const,
+        title: 'Liabilities',
+        table: {
+          title: '',
+          columns: [
+            { header: 'Item', key: 'name', align: 'left' as const },
+            { header: 'Amount', key: 'amount', align: 'right' as const },
+          ],
+          rows: liabilities.map((l) => ({ name: l.name || '(unnamed)', amount: formatCurrency(l.amount, currency) })),
+        },
+      },
+      {
+        type: 'message' as const,
+        message: {
+          heading: `US benchmark (age ${benchmark.ageRange})`,
+          text: `Median: ${formatCurrencyCompact(benchmark.median, 'USD')} · Top 10%: ${formatCurrencyCompact(benchmark.top10, 'USD')}. Source: 2024 US Federal Reserve Survey of Consumer Finances.`,
+        },
+      },
+    ],
+  }), [age, netWorth, totalAssets, totalLiabilities, assets, liabilities, benchmark, currency]);
+
+  const buildExcelSheets = useCallback(() => ([
+    {
+      name: 'Summary',
+      rows: [
+        { Field: 'Age', Value: age },
+        { Field: 'Total assets', Value: totalAssets },
+        { Field: 'Total liabilities', Value: totalLiabilities },
+        { Field: 'Net worth', Value: netWorth },
+        { Field: 'Currency', Value: currency },
+        { Field: 'US benchmark age range', Value: benchmark.ageRange },
+        { Field: 'US median net worth (USD)', Value: benchmark.median },
+        { Field: 'US top 10% net worth (USD)', Value: benchmark.top10 },
+      ],
+    },
+    {
+      name: 'Assets',
+      rows: assets.map((a) => ({ Item: a.name || '(unnamed)', Amount: a.amount })),
+    },
+    {
+      name: 'Liabilities',
+      rows: liabilities.map((l) => ({ Item: l.name || '(unnamed)', Amount: l.amount })),
+    },
+  ]), [age, totalAssets, totalLiabilities, netWorth, assets, liabilities, benchmark, currency]);
+
   const renderList = (title: string, list: LineItem[], setList: (i: LineItem[]) => void, accent: string) => (
     <ToolCard title={title}>
       <div className="space-y-2">
@@ -106,6 +180,12 @@ export default function NetWorthCalculator() {
 
   return (
     <div className="space-y-5">
+      <ExportShareBar
+        filenameBase="Net_Worth"
+        buildPdfConfig={buildPdfConfig}
+        buildExcelSheets={buildExcelSheets}
+        shareMessage={`My net worth at age ${age}: ${formatCurrencyCompact(netWorth, currency)} (${formatCurrencyCompact(totalAssets, currency)} assets − ${formatCurrencyCompact(totalLiabilities, currency)} debt).`}
+      />
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div className="flex items-center gap-3">
           <label className="text-xs text-slate-500">Your age:</label>

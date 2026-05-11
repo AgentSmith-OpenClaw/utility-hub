@@ -1,23 +1,28 @@
-import React, { useState, useMemo } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  LineChart, 
-  Line, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
   ResponsiveContainer,
   AreaChart,
   Area
 } from 'recharts';
-import { 
-  calculatePurchasingPower, 
-  US_CPI_DATA 
+import {
+  calculatePurchasingPower,
+  US_CPI_DATA
 } from './InflationCalculator.utils';
 import { CHART_COLORS } from '../../utils/chartColors';
+import ExportShareBar from '../Tools/ExportShareBar';
 
-const InflationCalculator: React.FC = () => {
+interface InflationCalculatorProps {
+  hideHeader?: boolean;
+}
+
+const InflationCalculator: React.FC<InflationCalculatorProps> = ({ hideHeader = false }) => {
   const [amount, setAmount] = useState<number>(100);
   const [startYear, setStartYear] = useState<number>(2000);
   const [endYear, setEndYear] = useState<number>(2026);
@@ -53,8 +58,64 @@ const InflationCalculator: React.FC = () => {
     return data;
   }, [amount, startYear, endYear]);
 
+  const buildPdfConfig = useCallback(() => ({
+    title: 'US Inflation Calculator Report',
+    subtitle: `$${amount.toLocaleString()} from ${startYear} → ${endYear}`,
+    filename: 'Inflation_Report.pdf',
+    sections: [
+      {
+        type: 'inputs' as const,
+        title: 'Inputs',
+        inputs: [
+          { label: 'Starting amount', value: `$${amount.toLocaleString()}` },
+          { label: 'Start year', value: String(startYear) },
+          { label: 'End year', value: String(endYear) },
+        ],
+      },
+      {
+        type: 'metrics' as const,
+        title: 'Result',
+        metrics: results ? [
+          { label: `Value in ${endYear}`, value: `$${results.futureValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}` },
+          { label: 'Cumulative inflation', value: `${results.cumulativeRate.toFixed(2)}%` },
+          { label: 'Buying power', value: results.futureValue > amount ? 'Decreased' : 'Increased' },
+          { label: 'Years', value: String(Math.abs(endYear - startYear)) },
+        ] : [
+          { label: 'Status', value: 'Invalid year range — pick years present in BLS CPI data.' },
+        ],
+      },
+      {
+        type: 'message' as const,
+        message: {
+          heading: 'Methodology',
+          text: 'Uses official Bureau of Labor Statistics Consumer Price Index data. Formula: amount × (CPI_end / CPI_start).',
+        },
+      },
+    ],
+  }), [amount, startYear, endYear, results]);
+
+  const buildExcelSheets = useCallback(() => ([
+    {
+      name: 'Summary',
+      rows: results ? [
+        { Field: 'Starting amount', Value: amount },
+        { Field: 'Start year', Value: startYear },
+        { Field: 'End year', Value: endYear },
+        { Field: `Value in ${endYear}`, Value: +results.futureValue.toFixed(2) },
+        { Field: 'Cumulative inflation %', Value: +results.cumulativeRate.toFixed(2) },
+      ] : [
+        { Field: 'Status', Value: 'Invalid year range' },
+      ],
+    },
+    {
+      name: 'Year-by-year',
+      rows: chartData.map((d) => ({ Year: d.year, Value: d.value })),
+    },
+  ]), [amount, startYear, endYear, results, chartData]);
+
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-8 bg-white dark:bg-slate-900 rounded-2xl shadow-xl">
+      {!hideHeader && (
       <header className="text-center space-y-4">
         <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
           US Inflation Calculator (1913-2026)
@@ -64,6 +125,14 @@ const InflationCalculator: React.FC = () => {
           Updated with **February 2026** projections.
         </p>
       </header>
+      )}
+
+      <ExportShareBar
+        filenameBase="Inflation_Report"
+        buildPdfConfig={buildPdfConfig}
+        buildExcelSheets={buildExcelSheets}
+        shareMessage={results ? `$${amount.toLocaleString()} in ${startYear} = $${results.futureValue.toLocaleString(undefined, { maximumFractionDigits: 2 })} in ${endYear} (${results.cumulativeRate.toFixed(1)}% cumulative inflation).` : `Calculating inflation between ${startYear} and ${endYear}.`}
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="space-y-2">

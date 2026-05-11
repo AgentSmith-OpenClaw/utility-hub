@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, Legend } from 'recharts';
 import { ToolCard } from '../Tools/ToolShell';
+import ExportShareBar from '../Tools/ExportShareBar';
 import { formatCurrency, formatCurrencyCompact } from '../../utils/currency';
 
 const IRA_LIMIT_2026 = 7500;
@@ -62,8 +63,75 @@ export default function RothVsTraditionalIra() {
     { name: 'Traditional + Side Fund', 'After-tax balance': result.traditionalTotalAfterTax },
   ];
 
+  const buildPdfConfig = useCallback(() => ({
+    title: 'Roth vs Traditional IRA Analysis',
+    subtitle: `${formatCurrency(annualContrib, 'USD')}/yr · ${years} yrs · winner: ${result.winner === 'roth' ? 'Roth IRA' : 'Traditional + side fund'}`,
+    filename: 'Roth_vs_Traditional_IRA.pdf',
+    sections: [
+      {
+        type: 'inputs' as const,
+        title: 'Inputs',
+        inputs: [
+          { label: 'Current age', value: String(age) },
+          { label: 'Retirement age', value: String(retirementAge) },
+          { label: 'Years to retirement', value: String(years) },
+          { label: 'Annual contribution', value: formatCurrency(annualContrib, 'USD') },
+          { label: 'Current tax rate', value: `${currentTaxRate}%` },
+          { label: 'Retirement tax rate', value: `${retirementTaxRate}%` },
+          { label: 'Expected return', value: `${returnRate}%` },
+        ],
+      },
+      {
+        type: 'metrics' as const,
+        title: 'After-tax results',
+        metrics: [
+          { label: 'Roth IRA after-tax', value: formatCurrency(result.rothAfterTax, 'USD') },
+          { label: 'Traditional after-tax', value: formatCurrency(result.traditionalAfterTax, 'USD') },
+          { label: 'Side fund after-tax', value: formatCurrency(result.sideFundAfterTax, 'USD') },
+          { label: 'Trad + side total', value: formatCurrency(result.traditionalTotalAfterTax, 'USD') },
+        ],
+      },
+      {
+        type: 'message' as const,
+        message: {
+          heading: `Winner: ${result.winner === 'roth' ? 'Roth IRA' : 'Traditional + side fund'}`,
+          text: `The ${result.winner === 'roth' ? 'Roth' : 'Traditional'} approach wins by ${formatCurrency(result.diff, 'USD')} after taxes, assuming you reinvest the upfront tax savings from Traditional. Your retirement tax rate (${retirementTaxRate}%) vs current (${currentTaxRate}%) is the key driver.`,
+        },
+      },
+    ],
+  }), [age, retirementAge, years, annualContrib, currentTaxRate, retirementTaxRate, returnRate, result]);
+
+  const buildExcelSheets = useCallback(() => ([
+    {
+      name: 'Comparison',
+      rows: [
+        { Field: 'Current age', Value: age },
+        { Field: 'Retirement age', Value: retirementAge },
+        { Field: 'Years', Value: years },
+        { Field: 'Annual contribution', Value: annualContrib },
+        { Field: 'Current tax rate %', Value: currentTaxRate },
+        { Field: 'Retirement tax rate %', Value: retirementTaxRate },
+        { Field: 'Expected return %', Value: returnRate },
+        { Field: 'Roth pre-tax balance', Value: Math.round(result.rothBalance) },
+        { Field: 'Roth after-tax balance', Value: Math.round(result.rothAfterTax) },
+        { Field: 'Traditional pre-tax balance', Value: Math.round(result.traditionalBalance) },
+        { Field: 'Traditional after-tax balance', Value: Math.round(result.traditionalAfterTax) },
+        { Field: 'Side fund after-tax', Value: Math.round(result.sideFundAfterTax) },
+        { Field: 'Traditional + side total', Value: Math.round(result.traditionalTotalAfterTax) },
+        { Field: 'Winner', Value: result.winner },
+        { Field: 'Winner wins by', Value: Math.round(result.diff) },
+      ],
+    },
+  ]), [age, retirementAge, years, annualContrib, currentTaxRate, retirementTaxRate, returnRate, result]);
+
   return (
     <div className="space-y-5">
+      <ExportShareBar
+        filenameBase="Roth_vs_Traditional_IRA"
+        buildPdfConfig={buildPdfConfig}
+        buildExcelSheets={buildExcelSheets}
+        shareMessage={`Roth vs Traditional IRA over ${years} yrs: ${result.winner === 'roth' ? 'Roth' : 'Traditional'} wins by ${formatCurrencyCompact(result.diff, 'USD')} after taxes.`}
+      />
       <ToolCard title="Your Information">
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           <div>

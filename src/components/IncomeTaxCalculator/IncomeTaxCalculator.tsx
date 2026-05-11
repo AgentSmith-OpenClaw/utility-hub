@@ -125,7 +125,11 @@ const ChartTooltip = ({ active, payload, label }: any) => {
 
 // --- Main Component ---
 
-const IncomeTaxCalculator: React.FC = () => {
+interface IncomeTaxCalculatorProps {
+  hideHeader?: boolean;
+}
+
+const IncomeTaxCalculator: React.FC<IncomeTaxCalculatorProps> = ({ hideHeader = false }) => {
   const { inputs, result, updateInputs, reset } = useIncomeTax();
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<'regime' | 'breakdown' | 'slabs' | 'income-curve' | 'monthly'>('regime');
@@ -315,6 +319,7 @@ const IncomeTaxCalculator: React.FC = () => {
       <article className="max-w-7xl mx-auto">
         
         {/* Header */}
+        {!hideHeader && (
         <header className="text-center mb-10">
           <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-4">
             <span className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" />
@@ -328,6 +333,7 @@ const IncomeTaxCalculator: React.FC = () => {
             Includes surcharge, slab-wise breakdown, monthly projections, and tax curve analysis.
           </p>
         </header>
+        )}
 
         {/* Export + Share bar */}
         <div className="flex flex-wrap gap-2 justify-center mb-6">

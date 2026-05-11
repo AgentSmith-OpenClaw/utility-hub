@@ -217,7 +217,11 @@ const SectionCard: React.FC<{
 
 // ── Main Component ────────────────────────────────────────────────
 
-const FIRECalculator: React.FC = () => {
+interface FIRECalculatorProps {
+  hideHeader?: boolean;
+}
+
+const FIRECalculator: React.FC<FIRECalculatorProps> = ({ hideHeader = false }) => {
   const { inputs, result, updateInputs, reset } = useFIRE();
   const [activeChart, setActiveChart] = useState<ChartTab>('projection');
   const [mounted, setMounted] = useState(false);
@@ -464,21 +468,25 @@ const FIRECalculator: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-blue-50/20 py-4 px-4" id="fire-calculator-content">
       <article className="max-w-7xl mx-auto" itemScope itemType="https://schema.org/WebApplication">
 
-        {/* ── Header ──────────────────────────────────────────── */}
-        <header className="text-center mb-6" id="calculator">
-          <h1 className="text-3xl font-bold text-slate-900 mb-1" itemProp="name">
-            FIRE Calculator{' '}
-            <span className="bg-gradient-to-r from-blue-600 to-blue-600 bg-clip-text text-transparent">
-              — Financial Independence
-            </span>
-          </h1>
-          <p className="text-sm text-slate-500 max-w-2xl mx-auto" itemProp="description">
-            Calculate your path to Financial Independence and Early Retirement.
-            Split your expenses, compare all FIRE strategies, and plan in standard or reverse mode.
-          </p>
-          <meta itemProp="applicationCategory" content="FinanceApplication" />
-          <meta itemProp="operatingSystem" content="Any" />
-        </header>
+        {!hideHeader && (
+          <>
+            {/* ── Header ──────────────────────────────────────────── */}
+            <header className="text-center mb-6" id="calculator">
+              <h1 className="text-3xl font-bold text-slate-900 mb-1" itemProp="name">
+                FIRE Calculator{' '}
+                <span className="bg-gradient-to-r from-blue-600 to-blue-600 bg-clip-text text-transparent">
+                  — Financial Independence
+                </span>
+              </h1>
+              <p className="text-sm text-slate-500 max-w-2xl mx-auto" itemProp="description">
+                Calculate your path to Financial Independence and Early Retirement.
+                Split your expenses, compare all FIRE strategies, and plan in standard or reverse mode.
+              </p>
+              <meta itemProp="applicationCategory" content="FinanceApplication" />
+              <meta itemProp="operatingSystem" content="Any" />
+            </header>
+          </>
+        )}
 
         {/* Export + Share bar */}
         <div className="flex flex-wrap gap-2 justify-center mb-6">

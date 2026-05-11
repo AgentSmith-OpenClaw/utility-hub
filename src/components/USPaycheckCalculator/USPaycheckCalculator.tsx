@@ -197,7 +197,11 @@ const ChartTooltip = ({ active, payload, label }: any) => {
 // Main Component
 // ---------------------------------------------------------------------------
 
-const USPaycheckCalculator: React.FC = () => {
+interface USPaycheckCalculatorProps {
+  hideHeader?: boolean;
+}
+
+const USPaycheckCalculator: React.FC<USPaycheckCalculatorProps> = ({ hideHeader = false }) => {
   const { inputs, result, updateInputs, updateDeductions, reset } = useUSPaycheck();
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<ChartTab>('pie');
@@ -320,6 +324,7 @@ const USPaycheckCalculator: React.FC = () => {
       <div className="max-w-7xl mx-auto" id="us-paycheck-content">
 
         {/* Header */}
+        {!hideHeader && (
         <header className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-2">
             US Paycheck &amp; Tax Estimator
@@ -329,6 +334,7 @@ const USPaycheckCalculator: React.FC = () => {
             Adjust your 401(k), HSA, and IRA contributions to see real-time tax savings.
           </p>
         </header>
+        )}
 
         {/* Export + Share bar */}
         <div className="flex flex-wrap gap-2 justify-center mb-6">

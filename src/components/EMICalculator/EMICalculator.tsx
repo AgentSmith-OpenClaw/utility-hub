@@ -65,7 +65,11 @@ interface CalculationHistory {
   actualTenure: number;
 }
 
-const EMICalculator: React.FC = () => {
+interface EMICalculatorProps {
+  hideHeader?: boolean;
+}
+
+const EMICalculator: React.FC<EMICalculatorProps> = ({ hideHeader = false }) => {
   const { emi, schedule, summary, calculate } = useEMI();
   const [loanAmount, setLoanAmount] = useState<string>('5000000');
   const [annualRate, setAnnualRate] = useState<string>('8.5');
@@ -472,16 +476,18 @@ const EMICalculator: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-blue-50/20 py-3 px-4" id="emi-calculator-content">
       <article className="max-w-7xl mx-auto" itemScope itemType="https://schema.org/WebApplication">
-        <header className="text-center mb-4" id="calculator">
-          <h1 className="text-3xl font-bold text-slate-900 mb-1" itemProp="name">
-            EMI Calculator for Home Loan, Car Loan & Personal Loan
-          </h1>
-          <p className="text-sm text-slate-600" itemProp="description">
-            Free Advanced Loan EMI Calculator with Prepayment Impact Analysis — Reduce EMI vs Reduce Tenure Comparison
-          </p>
-          <meta itemProp="applicationCategory" content="FinanceApplication" />
-          <meta itemProp="operatingSystem" content="Any" />
-        </header>
+        {!hideHeader && (
+          <header className="text-center mb-4" id="calculator">
+            <h1 className="text-3xl font-bold text-slate-900 mb-1" itemProp="name">
+              EMI Calculator for Home Loan, Car Loan & Personal Loan
+            </h1>
+            <p className="text-sm text-slate-600" itemProp="description">
+              Free Advanced Loan EMI Calculator with Prepayment Impact Analysis — Reduce EMI vs Reduce Tenure Comparison
+            </p>
+            <meta itemProp="applicationCategory" content="FinanceApplication" />
+            <meta itemProp="operatingSystem" content="Any" />
+          </header>
+        )}
 
         {/* Export + Share bar */}
         <div className="flex flex-wrap gap-2 justify-center mb-6">

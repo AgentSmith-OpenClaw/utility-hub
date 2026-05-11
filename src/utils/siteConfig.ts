@@ -1,6 +1,8 @@
+import { VARIANT_BREADCRUMB_LABELS } from '../content/finance-variants/_labels';
+
 export const SITE_URL = 'https://toolisk.com';
 
-export const BREADCRUMB_LABELS: Record<string, string> = {
+const STATIC_BREADCRUMB_LABELS: Record<string, string> = {
   'finance': 'Finance Calculators',
   'emi-calculator': 'EMI Calculator',
   'sip-calculator': 'SIP Calculator',
@@ -59,6 +61,14 @@ export const BREADCRUMB_LABELS: Record<string, string> = {
   'pomodoro-timer': 'Pomodoro Timer',
   'json-csv': 'JSON ↔ CSV Converter',
   'chmod-calculator': 'Chmod Calculator',
+};
+
+// Merged label map: static labels + auto-generated labels from finance variants.
+// Variant labels override static where slugs overlap, but the registry's
+// collision guard prevents that from happening in practice.
+export const BREADCRUMB_LABELS: Record<string, string> = {
+  ...STATIC_BREADCRUMB_LABELS,
+  ...VARIANT_BREADCRUMB_LABELS,
 };
 
 interface FaqEntry { q: string; a: string }

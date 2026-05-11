@@ -26,7 +26,11 @@ const CHART_COLORS = {
   rentingGradient: [BASE_COLORS.secondary, BASE_COLORS.accent],
 };
 
-export const BuyVsRentRedesigned: React.FC = () => {
+export interface BuyVsRentRedesignedProps {
+  hideHeader?: boolean;
+}
+
+const BuyVsRentRedesigned: React.FC<BuyVsRentRedesignedProps> = ({ hideHeader = false }) => {
   const { inputs, result, updateInputs, reset } = useBuyVsRent();
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [activeTab, setActiveTab] = useState<'networth' | 'breakdown'>('networth');

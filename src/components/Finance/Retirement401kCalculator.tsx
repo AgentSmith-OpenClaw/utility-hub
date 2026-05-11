@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, Legend } from 'recharts';
 import { ToolCard } from '../Tools/ToolShell';
+import ExportShareBar from '../Tools/ExportShareBar';
 import { formatCurrency, formatCurrencyCompact } from '../../utils/currency';
 
 const CONTRIBUTION_LIMIT_2026 = 24000;
@@ -95,8 +96,114 @@ export default function Retirement401kCalculator() {
   const annualEmployerMatch = userMatchableContrib * (matchPct / 100);
   const missingMatch = annualEmployerMatch < matchedSalary * (matchPct / 100);
 
+  const buildPdfConfig = useCallback(() => ({
+    title: '401(k) Retirement Projection',
+    subtitle: `Age ${age} → ${retirementAge} · ${formatCurrency(salary, 'USD')} salary · ${contribPct}% contribution`,
+    filename: '401k_Projection.pdf',
+    sections: [
+      {
+        type: 'inputs' as const,
+        title: 'Inputs',
+        inputs: [
+          { label: 'Current age', value: String(age) },
+          { label: 'Retirement age', value: String(retirementAge) },
+          { label: 'Annual salary', value: formatCurrency(salary, 'USD') },
+          { label: 'Salary growth', value: `${salaryGrowth}%/yr` },
+          { label: 'Your contribution', value: `${contribPct}% of salary` },
+          { label: 'Employer match', value: `${matchPct}% up to ${matchUpToPct}%` },
+          { label: 'Current 401(k) balance', value: formatCurrency(currentBalance, 'USD') },
+          { label: 'Expected return', value: `${returnRate}%/yr` },
+        ],
+      },
+      {
+        type: 'metrics' as const,
+        title: 'At retirement',
+        metrics: [
+          { label: 'Balance', value: formatCurrency(final?.balance ?? 0, 'USD') },
+          { label: 'Your contributions', value: formatCurrency(totalContrib, 'USD') },
+          { label: 'Employer match', value: formatCurrency(totalEmployer, 'USD') },
+          { label: 'Investment growth', value: formatCurrency(totalGrowth, 'USD') },
+        ],
+      },
+      {
+        type: 'message' as const,
+        message: {
+          heading: 'Retirement income (4% safe withdrawal rule)',
+          text: `${formatCurrency(monthlyAt4Pct, 'USD')}/month (~${formatCurrency(monthlyAt4Pct * 12, 'USD')}/year). Adjusted for inflation, this has historically lasted 30+ years.`,
+        },
+      },
+      {
+        type: 'table' as const,
+        title: 'Year-by-year projection',
+        table: {
+          title: '',
+          columns: [
+            { header: 'Age', key: 'age', align: 'left' as const },
+            { header: 'Salary', key: 'salary', align: 'right' as const },
+            { header: 'You', key: 'you', align: 'right' as const },
+            { header: 'Employer', key: 'employer', align: 'right' as const },
+            { header: 'Growth', key: 'growth', align: 'right' as const },
+            { header: 'Balance', key: 'balance', align: 'right' as const },
+          ],
+          rows: projections.map((p) => ({
+            age: p.age,
+            salary: formatCurrency(p.salary, 'USD'),
+            you: formatCurrency(p.yourContribution, 'USD'),
+            employer: formatCurrency(p.employerContribution, 'USD'),
+            growth: formatCurrency(p.growth, 'USD'),
+            balance: formatCurrency(p.balance, 'USD'),
+          })),
+          maxRows: 40,
+        },
+      },
+    ],
+  }), [age, retirementAge, salary, salaryGrowth, contribPct, matchPct, matchUpToPct, currentBalance, returnRate, final, totalContrib, totalEmployer, totalGrowth, monthlyAt4Pct, projections]);
+
+  const buildExcelSheets = useCallback(() => ([
+    {
+      name: 'Summary',
+      rows: [
+        { Field: 'Current age', Value: age },
+        { Field: 'Retirement age', Value: retirementAge },
+        { Field: 'Years to retirement', Value: retirementAge - age },
+        { Field: 'Annual salary', Value: salary },
+        { Field: 'Salary growth %', Value: salaryGrowth },
+        { Field: 'Your contribution %', Value: contribPct },
+        { Field: 'Employer match %', Value: matchPct },
+        { Field: 'Match up to %', Value: matchUpToPct },
+        { Field: 'Current balance', Value: currentBalance },
+        { Field: 'Expected return %', Value: returnRate },
+        { Field: 'Balance at retirement', Value: Math.round(final?.balance ?? 0) },
+        { Field: 'Your total contributions', Value: Math.round(totalContrib) },
+        { Field: 'Employer total match', Value: Math.round(totalEmployer) },
+        { Field: 'Investment growth', Value: Math.round(totalGrowth) },
+        { Field: 'Monthly @ 4% rule', Value: +monthlyAt4Pct.toFixed(2) },
+      ],
+    },
+    {
+      name: 'Year-by-year',
+      rows: projections.map((p) => ({
+        Age: p.age,
+        Year: p.year,
+        Salary: p.salary,
+        'Your contribution': p.yourContribution,
+        'Employer match': p.employerContribution,
+        Growth: p.growth,
+        Balance: p.balance,
+        'Cum your contrib': p.cumContrib,
+        'Cum employer': p.cumEmployer,
+      })),
+    },
+  ]), [age, retirementAge, salary, salaryGrowth, contribPct, matchPct, matchUpToPct, currentBalance, returnRate, final, totalContrib, totalEmployer, totalGrowth, monthlyAt4Pct, projections]);
+
   return (
     <div className="space-y-5">
+      <ExportShareBar
+        filenameBase="401k_Projection"
+        buildPdfConfig={buildPdfConfig}
+        buildExcelSheets={buildExcelSheets}
+        shareMessage={`401(k) at age ${retirementAge}: ${formatCurrencyCompact(final?.balance ?? 0, 'USD')} — including ${formatCurrencyCompact(totalEmployer, 'USD')} of free employer match.`}
+      />
       <ToolCard title="Your Information">
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           <div>

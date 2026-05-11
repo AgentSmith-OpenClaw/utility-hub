@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import { ToolCard, CopyButton } from '../Tools/ToolShell';
+import ExportShareBar from '../Tools/ExportShareBar';
 import CurrencySelector, { useCurrency } from '../CurrencySelector';
 import { CurrencyCode } from '../../utils/currency';
 
@@ -36,8 +37,78 @@ export default function TipCalculator() {
   const symbol = currency === 'USD' ? '$' : currency === 'EUR' ? '€' : currency === 'GBP' ? '£' : currency === 'INR' ? '₹' : currency === 'AUD' ? 'A$' : 'C$';
   const fmt = (n: number) => `${symbol}${n.toFixed(2)}`;
 
+  const buildPdfConfig = useCallback(() => ({
+    title: 'Tip Calculator Report',
+    subtitle: `${fmt(result.bill)} bill · ${tipPct}% tip · split ${people} way${people === 1 ? '' : 's'}`,
+    filename: 'Tip_Calculator.pdf',
+    sections: [
+      {
+        type: 'inputs' as const,
+        title: 'Inputs',
+        inputs: [
+          { label: 'Bill', value: fmt(result.bill) },
+          { label: 'Tip %', value: `${tipPct}%` },
+          { label: 'People', value: String(people) },
+          { label: 'Round up', value: roundUp ? 'Yes' : 'No' },
+          { label: 'Currency', value: currency },
+          { label: 'Region', value: norm.region },
+        ],
+      },
+      {
+        type: 'metrics' as const,
+        title: 'Result',
+        metrics: [
+          { label: 'Tip', value: fmt(result.tip) },
+          { label: 'Total', value: fmt(result.total) },
+          { label: 'Per person', value: fmt(result.perPerson), subtitle: `for ${people}` },
+          { label: 'Tip %', value: `${tipPct}%` },
+        ],
+      },
+      {
+        type: 'message' as const,
+        message: {
+          heading: `Tipping etiquette in ${norm.region}`,
+          text: `${norm.norm}. Sit-down: ${norm.sitDown}% typical. Takeout: ${norm.takeout > 0 ? norm.takeout + '%' : 'not expected'}.`,
+        },
+      },
+    ],
+  }), [result, tipPct, people, roundUp, currency, norm, fmt]);
+
+  const buildExcelSheets = useCallback(() => ([
+    {
+      name: 'Result',
+      rows: [
+        { Field: 'Bill', Value: result.bill.toFixed(2) },
+        { Field: 'Tip %', Value: `${tipPct}%` },
+        { Field: 'Tip', Value: result.tip.toFixed(2) },
+        { Field: 'Total', Value: result.total.toFixed(2) },
+        { Field: 'People', Value: String(people) },
+        { Field: 'Per person', Value: result.perPerson.toFixed(2) },
+        { Field: 'Currency', Value: currency },
+        { Field: 'Round up', Value: roundUp ? 'Yes' : 'No' },
+      ],
+    },
+    {
+      name: 'Reference table',
+      rows: [20, 50, 75, 100, 150, 200].map((b) => ({
+        Bill: b,
+        'Tip 15%': +(b * 0.15).toFixed(2),
+        'Tip 18%': +(b * 0.18).toFixed(2),
+        'Tip 20%': +(b * 0.20).toFixed(2),
+        'Tip 25%': +(b * 0.25).toFixed(2),
+        'Total 20%': +(b * 1.20).toFixed(2),
+      })),
+    },
+  ]), [result, tipPct, people, roundUp, currency]);
+
   return (
     <div className="space-y-5">
+      <ExportShareBar
+        filenameBase="Tip_Calculator"
+        buildPdfConfig={buildPdfConfig}
+        buildExcelSheets={buildExcelSheets}
+        shareMessage={`${fmt(result.total)} total (${fmt(result.tip)} tip @ ${tipPct}%) — ${fmt(result.perPerson)} per person.`}
+      />
       <div className="flex justify-end">
         <CurrencySelector value={currency} onChange={setCurrency} />
       </div>

@@ -153,7 +153,11 @@ function simulate(
 
 const COLORS = ['#0d9488', '#7c3aed', '#f59e0b', '#ef4444', '#3b82f6', '#10b981', '#f97316', '#8b5cf6'];
 
-export default function CreditCardPayoffCalculator() {
+interface CreditCardPayoffCalculatorProps {
+  hideHeader?: boolean;
+}
+
+export default function CreditCardPayoffCalculator({ hideHeader = false }: CreditCardPayoffCalculatorProps = {}) {
   const [cards, setCards] = useState<CardInput[]>([
     newCard(0, { name: 'Visa', balance: 5000, apr: 22.99, minPayment: 100 }),
     newCard(1, { name: 'Mastercard', balance: 3500, apr: 18.99, minPayment: 70 }),

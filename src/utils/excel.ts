@@ -539,3 +539,33 @@ export const exportUSPaycheckToExcel = (
   const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
   saveAs(blob, filename);
 };
+
+// ───────────────────────────────────────────────────────────────
+// Generic multi-sheet exporter for lightweight ToolShell-based tools
+// that don't have a dedicated typed export helper.
+// ───────────────────────────────────────────────────────────────
+export interface GenericExcelSheet {
+  name: string;
+  rows: Record<string, string | number>[];
+}
+
+export const exportToolToExcel = (
+  sheets: GenericExcelSheet[],
+  filename: string,
+): void => {
+  const wb = XLSX.utils.book_new();
+  sheets.forEach((sheet) => {
+    if (!sheet.rows || sheet.rows.length === 0) return;
+    const ws = XLSX.utils.json_to_sheet(sheet.rows);
+    const safeName = sheet.name.replace(/[\\/?*[\]:]/g, ' ').slice(0, 31) || 'Sheet';
+    XLSX.utils.book_append_sheet(wb, ws, safeName);
+  });
+  if (wb.SheetNames.length === 0) {
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([['No data']]), 'Empty');
+  }
+  const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  const blob = new Blob([excelBuffer], {
+    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8',
+  });
+  saveAs(blob, filename);
+};

@@ -111,7 +111,11 @@ const SliderField: React.FC<SliderFieldProps> = ({
   );
 };
 
-const SIPWealthPlanner: React.FC = () => {
+interface SIPWealthPlannerProps {
+  hideHeader?: boolean;
+}
+
+const SIPWealthPlanner: React.FC<SIPWealthPlannerProps> = ({ hideHeader = false }) => {
   const router = useRouter();
   const { inputs, result, updateInputs, reset } = useSIPPlanner();
   const [showYearlyTable, setShowYearlyTable] = useState(false);
@@ -420,16 +424,18 @@ const SIPWealthPlanner: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-blue-50/20 py-4 px-4" id="sip-planner-content">
       <article className="max-w-7xl mx-auto" itemScope itemType="https://schema.org/WebApplication">
-        <header className="text-center mb-6" id="calculator">
-          <h1 className="text-3xl font-bold text-slate-900 mb-1" itemProp="name">
-            Advanced SIP & Wealth Planner
-          </h1>
-          <p className="text-sm text-slate-500 max-w-3xl mx-auto" itemProp="description">
-            Plan SIP growth with annual step-up and inflation reality checks. Switch between wealth projection and goal-based planning, compare flat vs step-up SIP, and share your plan URL instantly.
-          </p>
-          <meta itemProp="applicationCategory" content="FinanceApplication" />
-          <meta itemProp="operatingSystem" content="Any" />
-        </header>
+        {!hideHeader && (
+          <header className="text-center mb-6" id="calculator">
+            <h1 className="text-3xl font-bold text-slate-900 mb-1" itemProp="name">
+              Advanced SIP & Wealth Planner
+            </h1>
+            <p className="text-sm text-slate-500 max-w-3xl mx-auto" itemProp="description">
+              Plan SIP growth with annual step-up and inflation reality checks. Switch between wealth projection and goal-based planning, compare flat vs step-up SIP, and share your plan URL instantly.
+            </p>
+            <meta itemProp="applicationCategory" content="FinanceApplication" />
+            <meta itemProp="operatingSystem" content="Any" />
+          </header>
+        )}
 
         {/* Export + Share bar */}
         <div className="flex flex-wrap gap-2 justify-center mb-6">

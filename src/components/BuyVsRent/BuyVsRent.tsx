@@ -21,7 +21,11 @@ import { useBuyVsRent } from '../../hooks/useBuyVsRent';
 import { formatCurrency, formatPercent } from './BuyVsRent.utils';
 import { CHART_COLORS as BASE_COLORS } from '../../utils/chartColors';
 
-export const BuyVsRent: React.FC = () => {
+interface BuyVsRentProps {
+  hideHeader?: boolean;
+}
+
+export const BuyVsRent: React.FC<BuyVsRentProps> = ({ hideHeader = false }) => {
   const { inputs, result, updateInputs, reset } = useBuyVsRent();
   const [activeTab, setActiveTab] = useState<'networth' | 'costs' | 'breakdown'>('networth');
 

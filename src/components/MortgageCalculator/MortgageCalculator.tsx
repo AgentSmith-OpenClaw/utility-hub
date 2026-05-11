@@ -65,7 +65,11 @@ const MortgageInputField: React.FC<{
   );
 };
 
-const MortgageCalculator: React.FC = () => {
+interface MortgageCalculatorProps {
+  hideHeader?: boolean;
+}
+
+const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({ hideHeader = false }) => {
   const [inputs, setInputs] = useState<MortgageInputs>({
     homePrice: 400000,
     downPayment: 80000,
@@ -267,13 +271,15 @@ const MortgageCalculator: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-blue-50/20 py-8 px-4" id="mortgage-calculator-content">
       <div className="max-w-7xl mx-auto">
-        <header className="text-center mb-6">
-          <h1 className="text-4xl font-bold text-slate-900 mb-2">Mortgage Calculator</h1>
-          <p className="text-slate-600 max-w-2xl mx-auto">
-            Estimate your monthly mortgage payments with taxes, insurance, and PMI.  
-            Visualize your payoff schedule and compare interest rates.
-          </p>
-        </header>
+        {!hideHeader && (
+          <header className="text-center mb-6">
+            <h1 className="text-4xl font-bold text-slate-900 mb-2">Mortgage Calculator</h1>
+            <p className="text-slate-600 max-w-2xl mx-auto">
+              Estimate your monthly mortgage payments with taxes, insurance, and PMI.
+              Visualize your payoff schedule and compare interest rates.
+            </p>
+          </header>
+        )}
 
         {/* Export + Share bar */}
         <div className="flex flex-wrap gap-2 justify-center mb-8">

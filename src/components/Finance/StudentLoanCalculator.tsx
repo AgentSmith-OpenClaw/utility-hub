@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, Legend } from 'recharts';
 import { ToolCard } from '../Tools/ToolShell';
+import ExportShareBar from '../Tools/ExportShareBar';
 import CurrencySelector, { useCurrency } from '../CurrencySelector';
 import { formatCurrency, formatCurrencyCompact } from '../../utils/currency';
 
@@ -61,8 +62,105 @@ export default function StudentLoanCalculator() {
 
   const fmtMonths = (m: number) => isFinite(m) ? `${Math.floor(m / 12)}y ${m % 12}mo` : 'Never (payment too low)';
 
+  const buildPdfConfig = useCallback(() => ({
+    title: 'Student Loan Payoff Report',
+    subtitle: `${formatCurrency(balance, currency)} @ ${apr}% · ${formatCurrency(monthlyPayment, currency)}/mo`,
+    filename: 'Student_Loan.pdf',
+    sections: [
+      {
+        type: 'inputs' as const,
+        title: 'Inputs',
+        inputs: [
+          { label: 'Loan balance', value: formatCurrency(balance, currency) },
+          { label: 'Interest rate', value: `${apr}%` },
+          { label: 'Monthly payment', value: formatCurrency(monthlyPayment, currency) },
+          { label: 'Extra/month', value: formatCurrency(extraPayment, currency) },
+          { label: 'Refinance rate', value: `${refinanceApr}%` },
+        ],
+      },
+      {
+        type: 'metrics' as const,
+        title: 'Standard plan',
+        metrics: [
+          { label: 'Payoff time', value: fmtMonths(standard.months) },
+          { label: 'Total interest', value: isFinite(standard.totalInterest) ? formatCurrency(standard.totalInterest, currency) : '—' },
+          { label: 'Payment', value: `${formatCurrency(monthlyPayment, currency)}/mo` },
+          { label: 'Rate', value: `${apr}%` },
+        ],
+      },
+      {
+        type: 'metrics' as const,
+        title: 'With extra payment',
+        metrics: [
+          { label: 'Payoff time', value: fmtMonths(aggressive.months) },
+          { label: 'Total interest', value: isFinite(aggressive.totalInterest) ? formatCurrency(aggressive.totalInterest, currency) : '—' },
+          { label: 'Payment', value: `${formatCurrency(monthlyPayment + extraPayment, currency)}/mo` },
+          {
+            label: 'Interest saved',
+            value: isFinite(standard.totalInterest) && isFinite(aggressive.totalInterest)
+              ? formatCurrency(standard.totalInterest - aggressive.totalInterest, currency)
+              : '—',
+          },
+        ],
+      },
+      {
+        type: 'metrics' as const,
+        title: 'Refinanced',
+        metrics: [
+          { label: 'Payoff time', value: fmtMonths(refinanced.months) },
+          { label: 'Total interest', value: isFinite(refinanced.totalInterest) ? formatCurrency(refinanced.totalInterest, currency) : '—' },
+          { label: 'Rate', value: `${refinanceApr}%` },
+          {
+            label: 'Interest saved',
+            value: isFinite(standard.totalInterest) && isFinite(refinanced.totalInterest)
+              ? formatCurrency(standard.totalInterest - refinanced.totalInterest, currency)
+              : '—',
+          },
+        ],
+      },
+    ],
+  }), [balance, apr, monthlyPayment, extraPayment, refinanceApr, standard, aggressive, refinanced, currency]);
+
+  const buildExcelSheets = useCallback(() => ([
+    {
+      name: 'Summary',
+      rows: [
+        { Field: 'Balance', Value: balance },
+        { Field: 'Rate %', Value: apr },
+        { Field: 'Monthly payment', Value: monthlyPayment },
+        { Field: 'Extra/month', Value: extraPayment },
+        { Field: 'Refinance rate %', Value: refinanceApr },
+        { Field: 'Standard months', Value: isFinite(standard.months) ? standard.months : 'Never' },
+        { Field: 'Standard total interest', Value: isFinite(standard.totalInterest) ? Math.round(standard.totalInterest) : 'Never' },
+        { Field: 'Aggressive months', Value: isFinite(aggressive.months) ? aggressive.months : 'Never' },
+        { Field: 'Aggressive total interest', Value: isFinite(aggressive.totalInterest) ? Math.round(aggressive.totalInterest) : 'Never' },
+        { Field: 'Refinanced months', Value: isFinite(refinanced.months) ? refinanced.months : 'Never' },
+        { Field: 'Refinanced total interest', Value: isFinite(refinanced.totalInterest) ? Math.round(refinanced.totalInterest) : 'Never' },
+        { Field: 'Currency', Value: currency },
+      ],
+    },
+    {
+      name: 'Standard schedule',
+      rows: standard.schedule.map((p) => ({ Month: p.month, Balance: +p.balance.toFixed(2), 'Cumulative interest': +p.cumInterest.toFixed(2) })),
+    },
+    {
+      name: 'Aggressive schedule',
+      rows: aggressive.schedule.map((p) => ({ Month: p.month, Balance: +p.balance.toFixed(2), 'Cumulative interest': +p.cumInterest.toFixed(2) })),
+    },
+    {
+      name: 'Refinanced schedule',
+      rows: refinanced.schedule.map((p) => ({ Month: p.month, Balance: +p.balance.toFixed(2), 'Cumulative interest': +p.cumInterest.toFixed(2) })),
+    },
+  ]), [balance, apr, monthlyPayment, extraPayment, refinanceApr, standard, aggressive, refinanced, currency]);
+
   return (
     <div className="space-y-5">
+      <ExportShareBar
+        filenameBase="Student_Loan"
+        buildPdfConfig={buildPdfConfig}
+        buildExcelSheets={buildExcelSheets}
+        shareMessage={`Student loan: ${formatCurrencyCompact(balance, currency)} @ ${apr}% → payoff in ${fmtMonths(standard.months)} (${formatCurrencyCompact(isFinite(standard.totalInterest) ? standard.totalInterest : 0, currency)} interest).`}
+      />
       <div className="flex justify-end">
         <CurrencySelector value={currency} onChange={setCurrency} />
       </div>

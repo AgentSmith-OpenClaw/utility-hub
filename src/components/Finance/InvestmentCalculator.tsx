@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, Legend, AreaChart, Area } from 'recharts';
 import { ToolCard } from '../Tools/ToolShell';
+import ExportShareBar from '../Tools/ExportShareBar';
 import CurrencySelector, { useCurrency } from '../CurrencySelector';
 import { formatCurrency, formatCurrencyCompact } from '../../utils/currency';
 
@@ -59,8 +60,95 @@ export default function InvestmentCalculator() {
     'Real (inflation-adjusted)': p.realBalance,
   }));
 
+  const buildPdfConfig = useCallback(() => ({
+    title: 'Investment Calculator Report',
+    subtitle: `${formatCurrency(initial, currency)} initial + ${formatCurrency(monthly, currency)}/mo for ${years} years @ ${annualReturn}%`,
+    filename: 'Investment_Calculator.pdf',
+    sections: [
+      {
+        type: 'inputs' as const,
+        title: 'Inputs',
+        inputs: [
+          { label: 'Initial lump sum', value: formatCurrency(initial, currency) },
+          { label: 'Monthly contribution', value: formatCurrency(monthly, currency) },
+          { label: 'Years', value: String(years) },
+          { label: 'Annual return', value: `${annualReturn}%` },
+          { label: 'Inflation', value: `${inflation}%` },
+          { label: 'Annual step-up', value: `${stepUp}%` },
+        ],
+      },
+      {
+        type: 'metrics' as const,
+        title: 'Final results',
+        metrics: [
+          { label: 'Final balance', value: formatCurrency(final?.balance ?? 0, currency) },
+          { label: 'You contributed', value: formatCurrency(final?.contributions ?? 0, currency) },
+          { label: 'Investment growth', value: formatCurrency(final?.interest ?? 0, currency) },
+          { label: `Real (today's ${currency})`, value: formatCurrency(final?.realBalance ?? 0, currency) },
+        ],
+      },
+      {
+        type: 'table' as const,
+        title: 'Year-by-year projection',
+        table: {
+          title: '',
+          columns: [
+            { header: 'Year', key: 'year', align: 'left' as const },
+            { header: 'Contributions', key: 'contributions', align: 'right' as const },
+            { header: 'Growth', key: 'growth', align: 'right' as const },
+            { header: 'Balance', key: 'balance', align: 'right' as const },
+            { header: 'Real', key: 'real', align: 'right' as const },
+          ],
+          rows: projection.map((p) => ({
+            year: p.year,
+            contributions: formatCurrency(p.contributions, currency),
+            growth: formatCurrency(p.interest, currency),
+            balance: formatCurrency(p.balance, currency),
+            real: formatCurrency(p.realBalance, currency),
+          })),
+          maxRows: 40,
+        },
+      },
+    ],
+  }), [initial, monthly, years, annualReturn, inflation, stepUp, final, projection, currency]);
+
+  const buildExcelSheets = useCallback(() => ([
+    {
+      name: 'Summary',
+      rows: [
+        { Field: 'Initial lump sum', Value: initial },
+        { Field: 'Monthly contribution', Value: monthly },
+        { Field: 'Years', Value: years },
+        { Field: 'Annual return %', Value: annualReturn },
+        { Field: 'Inflation %', Value: inflation },
+        { Field: 'Annual step-up %', Value: stepUp },
+        { Field: 'Final balance', Value: final?.balance ?? 0 },
+        { Field: 'Total contributed', Value: final?.contributions ?? 0 },
+        { Field: 'Investment growth', Value: final?.interest ?? 0 },
+        { Field: 'Real (inflation-adjusted)', Value: final?.realBalance ?? 0 },
+        { Field: 'Currency', Value: currency },
+      ],
+    },
+    {
+      name: 'Year-by-year',
+      rows: projection.map((p) => ({
+        Year: p.year,
+        Contributions: p.contributions,
+        Growth: p.interest,
+        Balance: p.balance,
+        'Real balance': p.realBalance,
+      })),
+    },
+  ]), [initial, monthly, years, annualReturn, inflation, stepUp, final, projection, currency]);
+
   return (
     <div className="space-y-5">
+      <ExportShareBar
+        filenameBase="Investment_Calculator"
+        buildPdfConfig={buildPdfConfig}
+        buildExcelSheets={buildExcelSheets}
+        shareMessage={`Investing ${formatCurrency(monthly, currency)}/mo for ${years} years @ ${annualReturn}% grows to ${formatCurrencyCompact(final?.balance ?? 0, currency)}.`}
+      />
       <div className="flex justify-end">
         <CurrencySelector value={currency} onChange={setCurrency} />
       </div>

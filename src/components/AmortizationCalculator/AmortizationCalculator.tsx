@@ -92,7 +92,11 @@ const formatYAxis = (value: number): string => {
 const formatCurrency = (val: number) => 
   `₹${val.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
 
-const AmortizationCalculator: React.FC = () => {
+interface AmortizationCalculatorProps {
+  hideHeader?: boolean;
+}
+
+const AmortizationCalculator: React.FC<AmortizationCalculatorProps> = ({ hideHeader = false }) => {
   const [loanAmount, setLoanAmount] = useState<number>(5000000);
   const [annualRate, setAnnualRate] = useState<number>(8.5);
   const [tenureYears, setTenureYears] = useState<number>(20);
@@ -274,13 +278,15 @@ const AmortizationCalculator: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-blue-50/20 py-8 px-4" id="amortization-calculator-content">
       <div className="max-w-7xl mx-auto">
-        <header className="text-center mb-6">
-          <h1 className="text-4xl font-bold text-slate-900 mb-2">Amortization Calculator</h1>
-          <p className="text-slate-600 max-w-2xl mx-auto">
-            Detailed breakdown of your loan repayment schedule with month-by-month principal and interest allocation.
-            Visualize your payoff journey and explore prepayment strategies.
-          </p>
-        </header>
+        {!hideHeader && (
+          <header className="text-center mb-6">
+            <h1 className="text-4xl font-bold text-slate-900 mb-2">Amortization Calculator</h1>
+            <p className="text-slate-600 max-w-2xl mx-auto">
+              Detailed breakdown of your loan repayment schedule with month-by-month principal and interest allocation.
+              Visualize your payoff journey and explore prepayment strategies.
+            </p>
+          </header>
+        )}
 
         {/* Export + Share bar */}
         <div className="flex flex-wrap gap-2 justify-center mb-8">
