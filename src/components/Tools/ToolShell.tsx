@@ -7,6 +7,10 @@ interface ToolShellProps {
   tagline: string;
   /** Tailwind gradient classes, e.g. 'from-teal-600 via-emerald-600 to-green-500' */
   gradient?: string;
+  /** Top-level section: 'tools' (default) or 'finance' */
+  parent?: 'tools' | 'finance';
+  /** Optional extra header content (e.g. currency selector) */
+  headerActions?: React.ReactNode;
   children: React.ReactNode;
 }
 
@@ -15,8 +19,12 @@ export default function ToolShell({
   title,
   tagline,
   gradient = 'from-teal-600 via-emerald-600 to-green-500',
+  parent = 'tools',
+  headerActions,
   children,
 }: ToolShellProps) {
+  const parentLabel = parent === 'finance' ? 'Finance' : 'Tools';
+  const parentHref = parent === 'finance' ? '/finance' : '/tools';
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50/40 to-teal-50/40">
       <section className="relative overflow-hidden">
@@ -29,18 +37,21 @@ export default function ToolShell({
           <nav className="text-xs text-white/80 mb-3 flex items-center gap-2">
             <Link href="/" className="hover:text-white transition-colors">Home</Link>
             <span>›</span>
-            <Link href="/tools" className="hover:text-white transition-colors">Tools</Link>
+            <Link href={parentHref} className="hover:text-white transition-colors">{parentLabel}</Link>
             <span>›</span>
             <span className="text-white font-medium">{title}</span>
           </nav>
-          <div className="flex items-start sm:items-center gap-3 sm:gap-4">
-            <span className="text-4xl sm:text-5xl drop-shadow-lg">{icon}</span>
-            <div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">
-                {title}
-              </h1>
-              <p className="text-white/90 text-sm sm:text-base mt-1 max-w-2xl">{tagline}</p>
+          <div className="flex items-start sm:items-center justify-between gap-4 flex-wrap">
+            <div className="flex items-start sm:items-center gap-3 sm:gap-4">
+              <span className="text-4xl sm:text-5xl drop-shadow-lg">{icon}</span>
+              <div>
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">
+                  {title}
+                </h1>
+                <p className="text-white/90 text-sm sm:text-base mt-1 max-w-2xl">{tagline}</p>
+              </div>
             </div>
+            {headerActions && <div className="shrink-0">{headerActions}</div>}
           </div>
         </div>
       </section>

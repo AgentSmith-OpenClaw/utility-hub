@@ -42,6 +42,12 @@ import { cdLaddersVsTreasuryBills } from './cd-ladders-vs-treasury-bills';
 import { creditCardSnowballVsAvalanche } from './credit-card-snowball-vs-avalanche';
 import { hdhpVsPpoComparison } from './hdhp-vs-ppo-comparison';
 import { sepIraVsSolo401k } from './sep-ira-vs-solo-401k';
+import { rentalPropertyCapRateGuide } from './rental-property-cap-rate-guide';
+import { autoLoanVsCashDecision } from './auto-loan-vs-cash-decision';
+import { netWorthByAgeBenchmarks } from './net-worth-by-age-benchmarks';
+import { vatGstSalesTaxExplained } from './vat-gst-sales-tax-explained';
+import { studentLoanRefinanceDecision } from './student-loan-refinance-decision';
+import { inflationProtectSavings } from './inflation-protect-savings';
 
 export const articles: BlogArticle[] = [
   understandingCompoundInterest,
@@ -85,6 +91,12 @@ export const articles: BlogArticle[] = [
   creditCardSnowballVsAvalanche,
   hdhpVsPpoComparison,
   sepIraVsSolo401k,
+  rentalPropertyCapRateGuide,
+  autoLoanVsCashDecision,
+  netWorthByAgeBenchmarks,
+  vatGstSalesTaxExplained,
+  studentLoanRefinanceDecision,
+  inflationProtectSavings,
 ];
 
 export const articleMap = toRecord(articles);

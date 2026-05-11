@@ -16,6 +16,16 @@ Toolisk is a collection of finance calculators and developer utilities built for
 - [Buy vs Rent Calculator](https://toolisk.com/finance/buy-vs-rent-calculator): Compare buying vs renting with full cost analysis including opportunity cost, hidden ownership expenses, and long-term wealth accumulation.
 - [US Paycheck Calculator](https://toolisk.com/finance/us-paycheck-calculator): Calculate federal & state tax, FICA, and pre-tax deductions for take-home pay across all 50 US states.
 - [Credit Card Payoff Calculator](https://toolisk.com/finance/credit-card-payoff-calculator): Compare debt avalanche vs snowball vs minimum-only payoff strategies across multiple credit cards. Per-card schedule with interest saved.
+- [401(k) Calculator](https://toolisk.com/finance/401k-calculator): Project US 401(k) retirement balance with employer match modeling, salary growth, 2026 contribution limits, and the 4% safe withdrawal rule.
+- [Roth vs Traditional IRA Calculator](https://toolisk.com/finance/roth-vs-traditional-ira): True after-tax comparison including side-fund modeling for the Traditional tax savings. 2026 limits and RMD impact.
+- [Auto Loan Calculator](https://toolisk.com/finance/auto-loan-calculator): Car loan payment with sales tax, trade-in, and dealer fees. Multi-currency (USD/EUR/GBP/AUD/CAD/INR) with side-by-side term comparison.
+- [Student Loan Calculator](https://toolisk.com/finance/student-loan-calculator): Compare standard payoff, extra-payment, and refinance scenarios. Multi-currency with US federal-vs-private decision guide.
+- [Investment Calculator](https://toolisk.com/finance/investment-calculator): Lump-sum + monthly contributions with inflation adjustment, annual step-up, and DCA vs lump-sum comparison. Multi-currency.
+- [Rental Property ROI Calculator](https://toolisk.com/finance/rental-roi-calculator): Cap rate, cash flow, cash-on-cash return, DSCR, 1% rule, and GRM in one view. Multi-currency.
+- [Net Worth Calculator](https://toolisk.com/finance/net-worth-calculator): Editable assets and liabilities with allocation pie chart and US Federal Reserve benchmark comparison by age.
+- [US Inflation Calculator](https://toolisk.com/finance/inflation-calculator): 113 years of US Consumer Price Index data (1913–2026) for purchasing-power calculations.
+- [Sales Tax / VAT / GST Calculator](https://toolisk.com/finance/sales-tax-vat-gst-calculator): Unified calculator for US sales tax, EU/UK VAT, Australian and Canadian GST/HST. Add or back out tax with regional rate presets.
+- [Tip Calculator](https://toolisk.com/finance/tip-calculator): Calculate tips, split bills, and learn regional tipping etiquette across US/UK/EU/AU/CA/IN. Multi-currency with round-up option.
 
 ## Developer & Productivity Tools
 

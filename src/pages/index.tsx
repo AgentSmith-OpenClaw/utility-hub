@@ -102,6 +102,96 @@ const tools: Tool[] = [
     tags: ['Finance', 'Debt', 'Credit Card', 'US'],
     isNew: true,
   },
+  {
+    name: '401(k) Calculator',
+    description:
+      'Project your retirement balance with employer match, salary growth, 2026 contribution limits, and the 4% safe withdrawal rule. The single most important number for US retirement planning.',
+    path: '/finance/401k-calculator',
+    icon: '🏦',
+    tags: ['Finance', 'Retirement', 'US'],
+    isNew: true,
+  },
+  {
+    name: 'Roth vs Traditional IRA',
+    description:
+      'After-tax comparison of Roth IRA vs Traditional IRA + side fund. Side-by-side bar chart, 2026 contribution limits, RMD vs no-RMD, and the structural differences that decide it.',
+    path: '/finance/roth-vs-traditional-ira',
+    icon: '⚖️',
+    tags: ['Finance', 'Retirement', 'US', 'Tax'],
+    isNew: true,
+  },
+  {
+    name: 'Auto Loan Calculator',
+    description:
+      'Calculate car loan payment with sales tax, trade-in, and dealer fees. Multi-currency (USD/EUR/GBP/AUD/CAD/INR). Side-by-side term comparison from 36 to 84 months.',
+    path: '/finance/auto-loan-calculator',
+    icon: '🚗',
+    tags: ['Finance', 'Loan', 'Multi-currency'],
+    isNew: true,
+  },
+  {
+    name: 'Student Loan Calculator',
+    description:
+      'Compare standard payoff, extra-payment, and refinance scenarios side-by-side. Multi-currency. Includes federal-vs-private decision guide for US borrowers.',
+    path: '/finance/student-loan-calculator',
+    icon: '🎓',
+    tags: ['Finance', 'Loan', 'Multi-currency'],
+    isNew: true,
+  },
+  {
+    name: 'Investment Calculator',
+    description:
+      'Project lump-sum + monthly contributions with inflation adjustment, annual step-up, and DCA vs lump-sum comparison. Multi-currency support.',
+    path: '/finance/investment-calculator',
+    icon: '📈',
+    tags: ['Finance', 'Investing', 'Multi-currency'],
+    isNew: true,
+  },
+  {
+    name: 'Rental Property ROI',
+    description:
+      'Cap rate, cash flow, cash-on-cash return, DSCR, 1% rule, and GRM in one view. Includes vacancy, maintenance, and management — the expenses beginners forget. Multi-currency.',
+    path: '/finance/rental-roi-calculator',
+    icon: '🏘️',
+    tags: ['Finance', 'Real Estate', 'Multi-currency'],
+    isNew: true,
+  },
+  {
+    name: 'Net Worth Calculator',
+    description:
+      'Editable assets and liabilities with allocation pie chart and US Federal Reserve benchmark comparison by age. Multi-currency. Track financial health over time.',
+    path: '/finance/net-worth-calculator',
+    icon: '📊',
+    tags: ['Finance', 'Tracking', 'Multi-currency'],
+    isNew: true,
+  },
+  {
+    name: 'US Inflation Calculator',
+    description:
+      '113 years of US Consumer Price Index data (1913–2026). See how the dollar\'s purchasing power has changed between any two years.',
+    path: '/finance/inflation-calculator',
+    icon: '💵',
+    tags: ['Finance', 'Inflation', 'US', 'CPI'],
+    isNew: true,
+  },
+  {
+    name: 'Sales Tax / VAT / GST',
+    description:
+      'Unified calculator for US sales tax, EU/UK VAT, Australian and Canadian GST/HST. Add to a price or back it out. Includes regional rate presets.',
+    path: '/finance/sales-tax-vat-gst-calculator',
+    icon: '🧾',
+    tags: ['Finance', 'Tax', 'EU', 'UK', 'AU', 'CA'],
+    isNew: true,
+  },
+  {
+    name: 'Tip Calculator',
+    description:
+      'Calculate tips, split bills, and learn regional tipping etiquette across the US, UK, Europe, Australia, Canada, and India. Multi-currency with round-up option.',
+    path: '/finance/tip-calculator',
+    icon: '🧮',
+    tags: ['Finance', 'Travel', 'Multi-currency'],
+    isNew: true,
+  },
 ];
 
 export default function Home() {
@@ -121,28 +211,28 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Toolisk — Free Finance Calculators &amp; Developer Tools</title>
+        <title>Toolisk — 20 Free Finance Calculators &amp; 36 Developer Tools</title>
         <meta
           name="description"
-          content="10 free finance calculators (EMI, FIRE, SIP, mortgage, credit card payoff, US paycheck, income tax) and 21 developer tools (JWT decoder, password generator, JSON viewer, regex tester, SQL formatter and more). All client-side, no sign-ups."
+          content="20 free finance calculators (401k, Roth IRA, mortgage, auto loan, student loan, rental ROI, net worth, inflation, VAT/GST, tip) plus 36 developer tools — all client-side. Multi-currency support for US, EU, UK, AU, CA."
         />
         <meta
           name="keywords"
-          content="finance calculators, developer tools, EMI calculator, FIRE calculator, SIP calculator, credit card payoff calculator, compound interest calculator, income tax calculator, mortgage calculator, jwt decoder, password generator, sql formatter, free online tools"
+          content="finance calculators, 401k calculator, roth ira calculator, auto loan calculator, student loan calculator, rental property roi, net worth calculator, inflation calculator, vat gst calculator, tip calculator, developer tools, multi-currency, free online tools"
         />
         <link rel="canonical" href="https://toolisk.com/" />
-        <meta property="og:title" content="Toolisk — Free Finance Calculators & Developer Tools" />
+        <meta property="og:title" content="Toolisk — 20 Free Finance Calculators & 36 Developer Tools" />
         <meta
           property="og:description"
-          content="10 finance calculators + 21 developer tools. EMI, FIRE, SIP, credit card payoff, JWT decoder, JSON viewer, password generator and more — all client-side."
+          content="20 finance calculators + 36 developer tools. 401k, Roth IRA, mortgage, auto loan, student loan, rental ROI, net worth, VAT/GST, plus a 36-tool developer suite. Multi-currency for US, EU, UK, AU, CA."
         />
         <meta property="og:url" content="https://toolisk.com/" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="Toolisk — Free Finance Calculators & Developer Tools" />
+        <meta name="twitter:title" content="Toolisk — 20 Free Finance Calculators & 36 Developer Tools" />
         <meta
           name="twitter:description"
-          content="10 finance calculators + 21 developer tools. Charts, Excel export, all client-side. No sign-ups."
+          content="20 finance calculators + 36 developer tools. Multi-currency for US, EU, UK, AU, CA. All client-side."
         />
 
         {/* ItemList schema — helps Google surface tools as a list */}
