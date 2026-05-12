@@ -190,6 +190,60 @@ const tools: Tool[] = [
     path: '/finance/tip-calculator',
     icon: '🧮',
     tags: ['Finance', 'Travel', 'Multi-currency'],
+    isNew: false,
+  },
+  {
+    name: 'FD Calculator',
+    description:
+      'Fixed Deposit calculator with quarterly compounding, senior citizen rates, TDS modeling, and full post-tax maturity. The Indian banking standard.',
+    path: '/finance/fd-calculator',
+    icon: '🏦',
+    tags: ['Finance', 'Savings', 'India', 'FD'],
+    isNew: true,
+  },
+  {
+    name: 'RD Calculator',
+    description:
+      'Recurring Deposit calculator with month-by-month growth chart, quarterly compounding, and senior citizen rates. Plan a monthly savings habit toward any goal.',
+    path: '/finance/rd-calculator',
+    icon: '💰',
+    tags: ['Finance', 'Savings', 'India', 'RD'],
+    isNew: true,
+  },
+  {
+    name: 'Salary Hike Calculator',
+    description:
+      'Salary increment / hike calculator. Compute new salary from a hike %, or back out the hike % from a new offer. Annual or monthly, multi-currency.',
+    path: '/finance/salary-hike-calculator',
+    icon: '📈',
+    tags: ['Finance', 'Salary', 'Career'],
+    isNew: true,
+  },
+  {
+    name: 'Discount Calculator',
+    description:
+      'Sale price calculator. Compute final price after any percentage or flat-amount discount, with optional tax. Universal shopping math, in seconds.',
+    path: '/finance/discount-calculator',
+    icon: '🏷️',
+    tags: ['Finance', 'Shopping', 'Multi-currency'],
+    isNew: true,
+  },
+  {
+    name: 'House Affordability Calculator',
+    description:
+      'How much home can you afford? Max home price from income, debts, and down payment — with PITI breakdown, front/back DTI color-flagging, and conservative vs FHA stretch scenarios.',
+    path: '/finance/house-affordability-calculator',
+    icon: '🏠',
+    tags: ['Finance', 'Real Estate', 'US', 'Mortgage'],
+    isNew: true,
+  },
+  {
+    name: 'Social Security Calculator',
+    description:
+      'When should you claim Social Security? Compare monthly benefits and lifetime totals at 62, 65, 67, and 70. Break-even analysis, cumulative chart, and spousal benefit modeling.',
+    path: '/finance/social-security-calculator',
+    icon: '🏛️',
+    tags: ['Finance', 'Retirement', 'US', 'Social Security'],
     isNew: true,
   },
 ];

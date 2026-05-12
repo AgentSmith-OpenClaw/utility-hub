@@ -25,7 +25,9 @@ export type CalculatorId =
   | 'net-worth'
   | 'inflation'
   | 'sales-tax-vat-gst'
-  | 'tip';
+  | 'tip'
+  | 'house-affordability'
+  | 'social-security';
 
 export type LongformBlock =
   | { type: 'h2'; text: string }

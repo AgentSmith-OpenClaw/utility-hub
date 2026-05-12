@@ -34,6 +34,8 @@ export const CALCULATORS: Record<CalculatorId, ComponentType<any>> = {
   inflation: dyn(() => import('../../components/InflationCalculator/InflationCalculator')),
   'sales-tax-vat-gst': dyn(() => import('../../components/Finance/SalesTaxVatGstCalculator')),
   tip: dyn(() => import('../../components/Finance/TipCalculator')),
+  'house-affordability': dyn(() => import('../../components/Finance/HouseAffordabilityCalculator')),
+  'social-security': dyn(() => import('../../components/Finance/SocialSecurityCalculator')),
 };
 
 /** Canonical (primary) finance page path for each calculatorId. Used for
@@ -60,4 +62,6 @@ export const CANONICAL_PATHS: Record<CalculatorId, string> = {
   inflation: '/finance/inflation-calculator',
   'sales-tax-vat-gst': '/finance/sales-tax-vat-gst-calculator',
   tip: '/finance/tip-calculator',
+  'house-affordability': '/finance/house-affordability-calculator',
+  'social-security': '/finance/social-security-calculator',
 };

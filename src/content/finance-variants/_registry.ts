@@ -33,25 +33,91 @@ const CONCRETE_FINANCE_PAGES = new Set<string>([
   'student-loan-calculator',
   'tip-calculator',
   'us-paycheck-calculator',
+  'house-affordability-calculator',
+  'social-security-calculator',
+  'fd-calculator',
+  'rd-calculator',
+  'salary-hike-calculator',
+  'discount-calculator',
 ]);
 
 // ---- variant imports (alphabetical by slug) ----
+import fifteenVsThirtyYearMortgage from './15-year-vs-30-year-mortgage-calculator';
+import fourOhOneKEmployerMatch from './401k-employer-match-calculator';
+import airbnbRoi from './airbnb-roi-calculator';
+import baristaFire from './barista-fire-calculator';
+import bikeLoanEmi from './bike-loan-emi-calculator';
+import biweeklyMortgagePayment from './biweekly-mortgage-payment-calculator';
+import businessLoanEmi from './business-loan-emi-calculator';
 import carLoanEmi from './car-loan-emi-calculator';
+import coastFire from './coast-fire-calculator';
+import creditCardDebtSnowball from './credit-card-debt-snowball-calculator';
+import croreSip from './crore-sip-calculator';
+import dailyCompoundInterest from './daily-compound-interest-calculator';
+import educationLoanEmi from './education-loan-emi-calculator';
 import emiPrepayment from './emi-prepayment-calculator';
+import fatFire from './fat-fire-calculator';
+import goldLoanEmi from './gold-loan-emi-calculator';
+import gstCalculatorIndia from './gst-calculator-india';
 import homeLoanEmi from './home-loan-emi-calculator';
+import interestOnlyLoan from './interest-only-loan-calculator';
+import leanFire from './lean-fire-calculator';
+import loanAgainstPropertyEmi from './loan-against-property-emi-calculator';
+import lumpsumVsSip from './lumpsum-vs-sip-calculator';
 import mortgagePrepayment from './mortgage-prepayment-calculator';
 import mortgageRefinance from './mortgage-refinance-calculator';
 import personalLoanEmi from './personal-loan-emi-calculator';
 import sipStepUp from './sip-step-up-calculator';
+import sipVsFd from './sip-vs-fd-calculator';
+import studentLoanPayoff from './student-loan-payoff-calculator';
+import takeHomePay from './take-home-pay-calculator';
+import howMuchHouseOn100k from './how-much-house-can-i-afford-on-100k-calculator';
+import fhaLoanAffordability from './fha-loan-affordability-calculator';
+import firstTimeHomebuyerAffordability from './first-time-homebuyer-affordability-calculator';
+import dtiHomeLoan from './dti-home-loan-calculator';
+import socialSecurityBreakEven from './social-security-break-even-calculator';
+import socialSecurity62vs67 from './social-security-62-vs-67-calculator';
+import delayedRetirementCredit from './delayed-retirement-credit-calculator';
+import socialSecuritySpousalBenefits from './social-security-spousal-benefits-calculator';
 
 export const ALL_VARIANTS: FinanceVariant[] = [
+  fifteenVsThirtyYearMortgage,
+  fourOhOneKEmployerMatch,
+  airbnbRoi,
+  baristaFire,
+  bikeLoanEmi,
+  biweeklyMortgagePayment,
+  businessLoanEmi,
   carLoanEmi,
+  coastFire,
+  creditCardDebtSnowball,
+  croreSip,
+  dailyCompoundInterest,
+  educationLoanEmi,
   emiPrepayment,
+  fatFire,
+  goldLoanEmi,
+  gstCalculatorIndia,
   homeLoanEmi,
+  interestOnlyLoan,
+  leanFire,
+  loanAgainstPropertyEmi,
+  lumpsumVsSip,
   mortgagePrepayment,
   mortgageRefinance,
   personalLoanEmi,
   sipStepUp,
+  sipVsFd,
+  studentLoanPayoff,
+  takeHomePay,
+  howMuchHouseOn100k,
+  fhaLoanAffordability,
+  firstTimeHomebuyerAffordability,
+  dtiHomeLoan,
+  socialSecurityBreakEven,
+  socialSecurity62vs67,
+  delayedRetirementCredit,
+  socialSecuritySpousalBenefits,
 ];
 
 // ---- integrity checks (run at import/build time) ----
