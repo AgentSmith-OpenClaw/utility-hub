@@ -80,7 +80,7 @@ export default function TextDiff() {
 
   return (
     <div className="space-y-5">
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-3 flex flex-wrap items-center gap-3">
+      <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-3 flex flex-wrap items-center gap-3">
         <label className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700 cursor-pointer">
           <input
             type="checkbox"
@@ -131,7 +131,7 @@ export default function TextDiff() {
           label="Copy diff"
         />
       }>
-        <div className="font-mono text-[12px] sm:text-[13px] overflow-x-auto max-h-[32rem] overflow-y-auto">
+        <div className="font-mono text-[12px] sm:text-[13px] overflow-x-auto max-h-[42rem] overflow-y-auto">
           {diff.map((d, i) => {
             const cls =
               d.op === 'add'

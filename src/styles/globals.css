@@ -212,6 +212,26 @@ input[type='range'].fire-range::-moz-range-track {
   transition: all 0.2s ease;
 }
 
+/* Tool workspace defaults keep utilities spacious on desktop without hurting mobile. */
+.tool-workspace > .space-y-5 {
+  row-gap: 1.5rem;
+}
+
+.tool-workspace textarea,
+.tool-workspace pre {
+  line-height: 1.65;
+}
+
+@media (min-width: 1024px) {
+  .tool-workspace textarea.h-72,
+  .tool-workspace textarea.h-96,
+  .tool-workspace pre.h-72,
+  .tool-workspace pre.h-96 {
+    height: min(68vh, 44rem);
+    min-height: 34rem;
+  }
+}
+
 /* scrollbar thin */
 .scrollbar-thin::-webkit-scrollbar { width: 4px; height: 4px; }
 .scrollbar-thin::-webkit-scrollbar-thumb { background: var(--color-neutral-300); border-radius: 4px; }

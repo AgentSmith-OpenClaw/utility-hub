@@ -88,7 +88,7 @@ export default function JsonCsvConverter() {
 
   return (
     <div className="space-y-5">
-      <div className="flex flex-wrap items-center gap-3 bg-white rounded-2xl border border-slate-200 p-3 shadow-sm">
+      <div className="flex flex-wrap items-center gap-3 bg-white rounded-lg border border-slate-200 p-3 shadow-sm">
         <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-1">
           {([['json-to-csv', 'JSON → CSV'], ['csv-to-json', 'CSV → JSON']] as const).map(([m, label]) => (
             <button
@@ -123,7 +123,7 @@ export default function JsonCsvConverter() {
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className={`w-full h-80 lg:h-[28rem] px-4 py-3 text-[13px] sm:text-sm font-mono rounded-lg border focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none ${error ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'}`}
+            className={`w-full h-80 lg:h-[38rem] px-4 py-3 text-[13px] sm:text-sm font-mono rounded-lg border focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none ${error ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'}`}
             placeholder={mode === 'json-to-csv' ? 'Paste JSON array of objects…' : 'Paste CSV data…'}
           />
           {error && <p className="text-xs text-red-600 mt-2 font-mono">{error}</p>}
@@ -140,7 +140,7 @@ export default function JsonCsvConverter() {
             <CopyButton value={output} disabled={!output} />
           </div>
         }>
-          <pre className="h-80 lg:h-[28rem] px-4 py-3 text-[13px] sm:text-sm font-mono text-slate-800 bg-slate-50 border border-slate-200 rounded-lg whitespace-pre-wrap break-all overflow-auto">
+          <pre className="h-80 lg:h-[38rem] px-4 py-3 text-[13px] sm:text-sm font-mono text-slate-800 bg-slate-50 border border-slate-200 rounded-lg whitespace-pre-wrap break-all overflow-auto">
             {output || <span className="text-slate-400">Output will appear here…</span>}
           </pre>
         </ToolCard>

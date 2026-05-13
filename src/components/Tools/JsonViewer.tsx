@@ -208,10 +208,10 @@ export default function JsonViewer() {
   const isValid = !parsed.error && parsed.data !== undefined;
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       {/* Controls */}
-      <div className="flex flex-wrap items-center gap-3 bg-white rounded-2xl border border-slate-200 p-3 shadow-sm">
-        <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-1">
+      <div className="flex flex-wrap items-center gap-3 bg-white rounded-lg border border-slate-200 p-3 shadow-sm">
+        <div className="inline-flex rounded-md border border-slate-200 bg-slate-100 p-1">
           {(['pretty', 'minify', 'tree'] as Mode[]).map((m) => (
             <button
               key={m}
@@ -231,7 +231,7 @@ export default function JsonViewer() {
         {mode === 'pretty' && (
           <div className="inline-flex items-center gap-2">
             <span className="text-xs text-slate-500 font-medium">Indent</span>
-            <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-1">
+            <div className="inline-flex rounded-md border border-slate-200 bg-slate-100 p-1">
               {[2, 4].map((n) => (
                 <button
                   key={n}
@@ -270,7 +270,7 @@ export default function JsonViewer() {
       </div>
 
       {/* Status row */}
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2 -mt-2">
         {input.trim() && isValid && (
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-semibold rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Valid JSON
@@ -296,7 +296,7 @@ export default function JsonViewer() {
       </div>
 
       {/* Input/Output */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 xl:gap-6">
         <ToolCard
           title="Input JSON"
           action={
@@ -309,7 +309,7 @@ export default function JsonViewer() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder='Paste JSON here, e.g. {"hello": "world"}'
-            className="w-full h-96 lg:h-[32rem] px-3 py-2.5 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
+            className="w-full h-[32rem] lg:h-[44rem] xl:h-[calc(100vh-18rem)] xl:min-h-[42rem] px-4 py-3 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
             spellCheck={false}
           />
           {parsed.error && (
@@ -328,18 +328,18 @@ export default function JsonViewer() {
           }
         >
           {!isValid ? (
-            <div className="h-96 lg:h-[32rem] flex items-center justify-center text-sm text-slate-400 bg-slate-50 border border-dashed border-slate-200 rounded-lg">
+            <div className="h-[32rem] lg:h-[44rem] xl:h-[calc(100vh-18rem)] xl:min-h-[42rem] flex items-center justify-center text-sm text-slate-400 bg-slate-50 border border-dashed border-slate-200 rounded-md">
               {input.trim() ? 'Fix the JSON above to see output' : 'Paste JSON to see output here'}
             </div>
           ) : mode === 'tree' ? (
-            <div className="h-96 lg:h-[32rem] overflow-auto bg-slate-50 border border-slate-200 rounded-lg p-3">
+            <div className="h-[32rem] lg:h-[44rem] xl:h-[calc(100vh-18rem)] xl:min-h-[42rem] overflow-auto bg-slate-50 border border-slate-200 rounded-md p-4">
               <JsonNode data={parsed.data} depth={0} isLast />
             </div>
           ) : (
             <textarea
               value={formatted}
               readOnly
-              className="w-full h-96 lg:h-[32rem] px-3 py-2.5 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg resize-none text-slate-800"
+              className="w-full h-[32rem] lg:h-[44rem] xl:h-[calc(100vh-18rem)] xl:min-h-[42rem] px-4 py-3 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-md resize-none text-slate-800"
               spellCheck={false}
             />
           )}

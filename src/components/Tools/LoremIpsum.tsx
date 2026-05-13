@@ -199,7 +199,7 @@ export default function LoremIpsum() {
         <textarea
           value={output}
           readOnly
-          className="w-full h-96 lg:h-[28rem] px-4 py-3 text-[15px] bg-slate-50 border border-slate-200 rounded-lg resize-none text-slate-800 leading-relaxed"
+          className="w-full h-96 lg:h-[38rem] px-4 py-3 text-[15px] bg-slate-50 border border-slate-200 rounded-lg resize-none text-slate-800 leading-relaxed"
           spellCheck={false}
         />
       </ToolCard>

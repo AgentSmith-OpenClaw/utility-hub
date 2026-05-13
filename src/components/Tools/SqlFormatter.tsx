@@ -103,7 +103,7 @@ export default function SqlFormatter() {
 
   return (
     <div className="space-y-5">
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-3 flex flex-wrap items-center gap-3">
+      <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-3 flex flex-wrap items-center gap-3">
         <label className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700">
           Indent
           <select

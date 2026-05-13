@@ -52,7 +52,7 @@ export default function ImageBase64() {
 
   return (
     <div className="space-y-5">
-      <div className="flex flex-wrap items-center gap-3 bg-white rounded-2xl border border-slate-200 p-3 shadow-sm">
+      <div className="flex flex-wrap items-center gap-3 bg-white rounded-lg border border-slate-200 p-3 shadow-sm">
         <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-1">
           {(['encode', 'decode'] as const).map((m) => (
             <button

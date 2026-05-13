@@ -90,7 +90,7 @@ export default function JwtDecoder() {
 
   return (
     <div className="space-y-5">
-      <div className="flex flex-wrap items-center gap-3 bg-white rounded-2xl border border-slate-200 p-3 shadow-sm">
+      <div className="flex flex-wrap items-center gap-3 bg-white rounded-lg border border-slate-200 p-3 shadow-sm">
         <button
           type="button"
           onClick={() => setToken(SAMPLE)}

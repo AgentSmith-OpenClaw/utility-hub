@@ -435,16 +435,11 @@ export default function ToolsHome() {
           }}
         />
       </Head>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-teal-50">
+      <div className="min-h-screen bg-slate-50">
         {/* Hero */}
         <section className="relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-teal-600 via-emerald-600 to-green-500" />
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute -top-20 -left-20 w-80 h-80 bg-white rounded-full blur-3xl" />
-            <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-white rounded-full blur-3xl" />
-          </div>
-
-          <div className="relative max-w-4xl mx-auto px-4 pt-10 pb-14 sm:pt-14 sm:pb-16 text-center">
+          <div className="relative max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12 sm:pt-12 sm:pb-14 text-center">
             <div className="flex items-center justify-center gap-3 mb-3">
               <span className="text-4xl sm:text-5xl drop-shadow-lg">🛠️</span>
               <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
@@ -465,7 +460,7 @@ export default function ToolsHome() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search tools… e.g. JSON, base64, regex"
-                  className="w-full pl-13 pr-12 py-4 rounded-2xl border-2 border-white/20 bg-white text-base text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-white/30 focus:border-white shadow-xl shadow-emerald-900/20 transition-all"
+                  className="w-full pl-13 pr-12 py-4 rounded-lg border-2 border-white/20 bg-white text-base text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-white/30 focus:border-white shadow-xl shadow-emerald-900/20 transition-all"
                   style={{ paddingLeft: '3.25rem' }}
                   aria-label="Search utilities"
                   autoComplete="off"
@@ -493,7 +488,7 @@ export default function ToolsHome() {
         </section>
 
         {/* Tools Grid */}
-        <section id="tools" className="max-w-6xl mx-auto px-4 pt-10 pb-16">
+        <section id="tools" className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">
           {search.trim() && filteredTools.length > 0 && (
             <p className="text-sm text-slate-500 mb-6 text-center">
               {filteredTools.length} result{filteredTools.length !== 1 ? 's' : ''} for &ldquo;{search}&rdquo;
@@ -507,12 +502,12 @@ export default function ToolsHome() {
               <button onClick={() => setSearch('')} className="mt-4 text-sm font-medium text-emerald-600 hover:text-emerald-700 hover:underline transition-colors">Clear search</button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-5">
               {filteredTools.map((tool) => (
                 <Link
                   key={tool.name}
                   href={tool.path}
-                  className="group relative bg-white rounded-2xl border border-slate-200/80 p-5 flex flex-col transition-all duration-200 hover:shadow-lg hover:shadow-emerald-100/50 hover:border-emerald-200 hover:-translate-y-0.5"
+                  className="group relative bg-white rounded-lg border border-slate-200 p-5 flex flex-col min-h-[13.5rem] transition-all duration-200 hover:shadow-lg hover:shadow-emerald-100/50 hover:border-emerald-200 hover:-translate-y-0.5"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <span className="text-3xl leading-none">{tool.icon}</span>
@@ -534,7 +529,7 @@ export default function ToolsHome() {
                     {tool.name}
                   </h3>
 
-                  <p className="text-sm text-slate-500 leading-relaxed mb-4 line-clamp-2">
+                  <p className="text-sm text-slate-500 leading-relaxed mb-4 line-clamp-3">
                     {tool.description}
                   </p>
 
@@ -564,7 +559,7 @@ export default function ToolsHome() {
 
         {/* SEO Content Section */}
         <article className="max-w-4xl mx-auto px-4 pb-20">
-          <div className="bg-white rounded-2xl border border-slate-200/80 p-8 sm:p-10 space-y-10">
+          <div className="bg-white rounded-lg border border-slate-200/80 p-8 sm:p-10 space-y-10">
 
             <section>
               <h2 className="text-2xl font-bold text-slate-900 mb-4">Why Use Toolisk Tools?</h2>

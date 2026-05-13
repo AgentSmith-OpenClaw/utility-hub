@@ -129,7 +129,7 @@ export default function CaseConverter() {
         {CONVERSIONS.map((c) => {
           const result = words.length ? c.fn(words) : '';
           return (
-            <div key={c.label} className="bg-white rounded-2xl border border-slate-200 p-4 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_-12px_rgba(15,23,42,0.08)]">
+            <div key={c.label} className="bg-white rounded-lg border border-slate-200 p-4 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_-12px_rgba(15,23,42,0.08)]">
               <div className="flex items-center justify-between mb-2.5">
                 <div>
                   <div className="text-sm font-bold text-slate-900">{c.label}</div>

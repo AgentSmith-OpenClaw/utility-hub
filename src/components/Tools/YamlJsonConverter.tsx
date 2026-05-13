@@ -188,7 +188,7 @@ export default function YamlJsonConverter() {
 
   return (
     <div className="space-y-5">
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-3 flex flex-wrap items-center gap-3">
+      <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-3 flex flex-wrap items-center gap-3">
         <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-1">
           {(['json2yaml', 'yaml2json'] as Direction[]).map((d) => (
             <button
@@ -232,7 +232,7 @@ export default function YamlJsonConverter() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             spellCheck={false}
-            className="w-full h-96 lg:h-[28rem] px-4 py-3 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
+            className="w-full h-96 lg:h-[38rem] px-4 py-3 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
           />
         </ToolCard>
         <ToolCard
@@ -240,11 +240,11 @@ export default function YamlJsonConverter() {
           action={result.ok ? <CopyButton value={result.output} disabled={!result.output} /> : null}
         >
           {result.ok ? (
-            <pre className="text-[13px] sm:text-sm font-mono text-slate-800 whitespace-pre overflow-auto h-96 lg:h-[28rem] px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg">
+            <pre className="text-[13px] sm:text-sm font-mono text-slate-800 whitespace-pre overflow-auto h-96 lg:h-[38rem] px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg">
               {result.output || <span className="text-slate-400">—</span>}
             </pre>
           ) : (
-            <div className="h-96 lg:h-[28rem] flex items-center justify-center bg-rose-50 border border-rose-200 rounded-lg p-4 text-sm text-rose-700">
+            <div className="h-96 lg:h-[38rem] flex items-center justify-center bg-rose-50 border border-rose-200 rounded-lg p-4 text-sm text-rose-700">
               {result.error}
             </div>
           )}

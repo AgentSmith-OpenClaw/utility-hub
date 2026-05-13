@@ -72,7 +72,7 @@ export default function Base64Encoder() {
 
   return (
     <div className="space-y-5">
-      <div className="flex flex-wrap items-center gap-3 bg-white rounded-2xl border border-slate-200 p-3 shadow-sm">
+      <div className="flex flex-wrap items-center gap-3 bg-white rounded-lg border border-slate-200 p-3 shadow-sm">
         <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-1">
           {(['encode', 'decode'] as Mode[]).map((m) => (
             <button
@@ -136,7 +136,7 @@ export default function Base64Encoder() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={mode === 'encode' ? 'Type or paste text…' : 'Paste a Base64 string…'}
-            className="w-full h-72 sm:h-96 lg:h-[28rem] px-3 py-2.5 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
+            className="w-full h-72 sm:h-96 lg:h-[38rem] px-3 py-2.5 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
             spellCheck={false}
           />
         </ToolCard>
@@ -161,7 +161,7 @@ export default function Base64Encoder() {
           }
         >
           {error ? (
-            <div className="h-72 sm:h-96 lg:h-[28rem] flex items-center justify-center text-sm text-red-600 bg-red-50 border border-red-100 rounded-lg p-4">
+            <div className="h-72 sm:h-96 lg:h-[38rem] flex items-center justify-center text-sm text-red-600 bg-red-50 border border-red-100 rounded-lg p-4">
               <div>
                 <div className="font-semibold mb-1">Error</div>
                 <div className="text-xs">{error}</div>
@@ -172,7 +172,7 @@ export default function Base64Encoder() {
               value={output}
               readOnly
               placeholder="Output will appear here…"
-              className="w-full h-72 sm:h-96 lg:h-[28rem] px-3 py-2.5 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg resize-none text-slate-800"
+              className="w-full h-72 sm:h-96 lg:h-[38rem] px-3 py-2.5 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg resize-none text-slate-800"
               spellCheck={false}
             />
           )}

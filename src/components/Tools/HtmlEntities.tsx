@@ -102,7 +102,7 @@ export default function HtmlEntities() {
 
   return (
     <div className="space-y-5">
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-3 flex flex-wrap items-center gap-3">
+      <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-3 flex flex-wrap items-center gap-3">
         <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-1">
           {(['encode', 'decode'] as Mode[]).map((m) => (
             <button

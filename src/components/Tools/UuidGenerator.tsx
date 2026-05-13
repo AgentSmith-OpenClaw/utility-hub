@@ -159,7 +159,7 @@ export default function UuidGenerator() {
         title={`${uuids.length} UUID${uuids.length === 1 ? '' : 's'}`}
         action={<CopyButton value={allText} label="Copy all" disabled={!uuids.length} />}
       >
-        <div className="space-y-2 max-h-[32rem] overflow-auto">
+        <div className="space-y-2 max-h-[42rem] overflow-auto">
           {uuids.map((id, i) => {
             const display = transform(id);
             return (

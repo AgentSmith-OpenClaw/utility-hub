@@ -140,7 +140,7 @@ export default function PasswordGenerator() {
 
   return (
     <div className="space-y-5">
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-3">
+      <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-3">
         <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-1">
           {(['random', 'passphrase'] as const).map((m) => (
             <button
