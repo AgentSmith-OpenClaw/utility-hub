@@ -9,7 +9,7 @@ const footerSections = [
       { label: 'SIP Calculator', href: '/finance/sip-calculator' },
       { label: 'Income Tax Calculator', href: '/finance/income-tax-calculator' },
       { label: 'Mortgage Calculator', href: '/finance/mortgage-calculator' },
-      { label: 'All finance calculators', href: '/' },
+      { label: 'All finance calculators', href: '/finance' },
     ],
   },
   {

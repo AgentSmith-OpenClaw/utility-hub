@@ -346,9 +346,9 @@ export default function AmortizationCalculatorPage() {
         <div>
           <h2 className="text-2xl font-bold text-slate-900 mb-6">Related Financial Tools</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Link href="/finance/mortgage-calculator" className="block p-5 bg-white border border-slate-200 rounded-2xl hover:border-slate-500 hover:shadow-md transition-all">
-              <p className="font-semibold text-slate-800 mb-1">🏠 Mortgage Calculator</p>
-              <p className="text-slate-500 text-sm">Calculate home loan EMI and understand total interest costs over your loan tenure.</p>
+            <Link href="/finance/emi-calculator" className="block p-5 bg-white border border-slate-200 rounded-2xl hover:border-slate-500 hover:shadow-md transition-all">
+              <p className="font-semibold text-slate-800 mb-1">🏦 EMI Calculator</p>
+              <p className="text-slate-500 text-sm">Calculate loan EMI and compare reduce-EMI vs reduce-tenure prepayment strategies.</p>
             </Link>
             <Link href="/finance/buy-vs-rent-calculator" className="block p-5 bg-white border border-slate-200 rounded-2xl hover:border-slate-500 hover:shadow-md transition-all">
               <p className="font-semibold text-slate-800 mb-1">🏡 Buy vs Rent Calculator</p>

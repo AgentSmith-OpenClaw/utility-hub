@@ -2,10 +2,12 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useState, useMemo } from 'react';
 import { articleList } from '../../../content/blog/finance';
+import { generateBreadcrumbs, SITE_URL } from '../../../utils/siteConfig';
 
 const ALL = 'All';
 
 export default function FinanceLearnIndexPage() {
+  const breadcrumbSchema = generateBreadcrumbs('/finance/learn');
   const categories = useMemo(() => {
     const set = new Set<string>(articleList.map((a) => a.category));
     return [ALL, ...Array.from(set)];
@@ -47,6 +49,28 @@ export default function FinanceLearnIndexPage() {
         />
         <meta property="og:url" content="https://toolisk.com/finance/learn" />
         <meta property="og:type" content="website" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([
+              breadcrumbSchema,
+              {
+                '@context': 'https://schema.org',
+                '@type': 'ItemList',
+                name: 'Toolisk Finance Guides',
+                description: 'Personal finance guides and tutorials from Toolisk.',
+                numberOfItems: articleList.length,
+                itemListElement: articleList.map((article, index) => ({
+                  '@type': 'ListItem',
+                  position: index + 1,
+                  name: article.title,
+                  url: `${SITE_URL}/finance/learn/${article.slug}`,
+                  description: article.description,
+                })),
+              },
+            ]),
+          }}
+        />
       </Head>
 
       <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 min-h-screen">

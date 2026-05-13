@@ -54,6 +54,7 @@ export default function ToolsLearnArticle() {
         publishedDate={article.publishedDate}
         readTime={article.readTime}
         keywords={article.keywords}
+        section="tools"
       />
       <BreadcrumbSchema
         items={[

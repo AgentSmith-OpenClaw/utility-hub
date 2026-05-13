@@ -10,8 +10,9 @@ export const fireMovementExplained: BlogArticle = {
     readTime: '10 min read',
     keywords: 'FIRE movement, financial independence, early retirement, FI/RE, retire early, financial freedom',
     relatedTools: [
+      { name: 'Financial Independence Retire Early Calculator', href: '/finance/financial-independence-retire-early-calculator' },
+      { name: 'FIRE Number Calculator', href: '/finance/fire-number-calculator' },
       { name: 'FIRE Calculator', href: '/finance/fire-calculator' },
-      { name: 'EMI Calculator', href: '/finance/emi-calculator' },
     ],
     content: (
       <div className="prose prose-lg max-w-none">

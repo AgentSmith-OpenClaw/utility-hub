@@ -16,7 +16,7 @@ interface NavLink {
 const navLinks: NavLink[] = [
   {
     label: 'Finance',
-    href: '/',
+    href: '/finance',
     match: (p) => p === '/' || (p.startsWith('/finance') && !p.startsWith('/finance/learn')),
     activeClass: 'text-blue-600 bg-blue-50',
     hoverClass: 'hover:text-blue-600 hover:bg-slate-50',

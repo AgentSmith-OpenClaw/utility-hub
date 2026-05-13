@@ -1,25 +1,54 @@
-// Slug → human-readable breadcrumb label, derived from variant data only.
-// This file deliberately imports only pure-data variant configs — no React
-// components — so siteConfig (used by every page) can include it cheaply.
+// Lightweight slug -> breadcrumb label map.
+// Keep this file data-only; importing full variant configs would pull longform
+// page content into shared client bundles through siteConfig.
 
-import carLoanEmi from './car-loan-emi-calculator';
-import emiPrepayment from './emi-prepayment-calculator';
-import homeLoanEmi from './home-loan-emi-calculator';
-import mortgagePrepayment from './mortgage-prepayment-calculator';
-import mortgageRefinance from './mortgage-refinance-calculator';
-import personalLoanEmi from './personal-loan-emi-calculator';
-import sipStepUp from './sip-step-up-calculator';
-
-const ALL = [
-  carLoanEmi,
-  emiPrepayment,
-  homeLoanEmi,
-  mortgagePrepayment,
-  mortgageRefinance,
-  personalLoanEmi,
-  sipStepUp,
-];
-
-export const VARIANT_BREADCRUMB_LABELS: Record<string, string> = Object.fromEntries(
-  ALL.map((v) => [v.slug, v.hero.breadcrumbLabel]),
-);
+export const VARIANT_BREADCRUMB_LABELS: Record<string, string> = {
+  '15-year-vs-30-year-mortgage-calculator': '15-Year vs 30-Year Mortgage Calculator',
+  '401k-employer-match-calculator': '401(k) Employer Match Calculator',
+  'airbnb-roi-calculator': 'Airbnb ROI Calculator',
+  'after-tax-income-calculator': 'After-Tax Income Calculator',
+  'barista-fire-calculator': 'Barista FIRE Calculator',
+  'bike-loan-emi-calculator': 'Bike Loan EMI Calculator',
+  'biweekly-mortgage-payment-calculator': 'Biweekly Mortgage Payment Calculator',
+  'business-loan-emi-calculator': 'Business Loan EMI Calculator',
+  'car-loan-emi-calculator': 'Car Loan EMI Calculator',
+  'coast-fire-calculator': 'Coast FIRE Calculator',
+  'cost-of-living-inflation-calculator': 'Cost of Living Inflation Calculator',
+  'credit-card-debt-snowball-calculator': 'Credit Card Debt Snowball Calculator',
+  'crore-sip-calculator': 'Crore SIP Calculator',
+  'daily-compound-interest-calculator': 'Daily Compound Interest Calculator',
+  'delayed-retirement-credit-calculator': 'Delayed Retirement Credit Calculator',
+  'dti-home-loan-calculator': 'DTI Home Loan Calculator',
+  'education-loan-emi-calculator': 'Education Loan EMI Calculator',
+  'emi-prepayment-calculator': 'EMI Prepayment Calculator',
+  'extra-mortgage-payment-calculator': 'Extra Mortgage Payment Calculator',
+  'fat-fire-calculator': 'Fat FIRE Calculator',
+  'fha-loan-affordability-calculator': 'FHA Loan Affordability Calculator',
+  'financial-independence-retire-early-calculator': 'Financial Independence Retire Early Calculator',
+  'fire-number-calculator': 'FIRE Number Calculator',
+  'first-time-homebuyer-affordability-calculator': 'First-Time Homebuyer Affordability Calculator',
+  'gold-loan-emi-calculator': 'Gold Loan EMI Calculator',
+  'gross-to-net-salary-calculator': 'Gross to Net Salary Calculator',
+  'gst-calculator-india': 'GST Calculator India',
+  'home-loan-emi-calculator': 'Home Loan EMI Calculator',
+  'home-loan-prepayment-calculator': 'Home Loan Prepayment Calculator',
+  'how-much-house-can-i-afford-on-100k-calculator': 'How Much House Can I Afford on 100k Calculator',
+  'how-much-money-do-i-need-to-retire-calculator': 'How Much Money Do I Need to Retire Calculator',
+  'interest-only-loan-calculator': 'Interest-Only Loan Calculator',
+  'lean-fire-calculator': 'Lean FIRE Calculator',
+  'loan-against-property-emi-calculator': 'Loan Against Property EMI Calculator',
+  'lumpsum-vs-sip-calculator': 'Lumpsum vs SIP Calculator',
+  'mortgage-payoff-calculator': 'Mortgage Payoff Calculator',
+  'mortgage-prepayment-calculator': 'Mortgage Prepayment Calculator',
+  'mortgage-refinance-calculator': 'Mortgage Refinance Calculator',
+  'personal-loan-emi-calculator': 'Personal Loan EMI Calculator',
+  'purchasing-power-calculator': 'Purchasing Power Calculator',
+  'reduce-emi-vs-reduce-tenure-calculator': 'Reduce EMI vs Reduce Tenure Calculator',
+  'sip-step-up-calculator': 'SIP Step-Up Calculator',
+  'sip-vs-fd-calculator': 'SIP vs FD Calculator',
+  'social-security-62-vs-67-calculator': 'Social Security 62 vs 67 Calculator',
+  'social-security-break-even-calculator': 'Social Security Break-Even Calculator',
+  'social-security-spousal-benefits-calculator': 'Social Security Spousal Benefits Calculator',
+  'student-loan-payoff-calculator': 'Student Loan Payoff Calculator',
+  'take-home-pay-calculator': 'Take-Home Pay Calculator',
+};

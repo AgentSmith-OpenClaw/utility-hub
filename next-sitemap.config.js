@@ -14,6 +14,7 @@ module.exports = {
   transform: async (_config, loc) => {
     const lastmod = new Date().toISOString();
     if (loc === '/') return { loc, priority: 1.0, changefreq: 'daily', lastmod };
+    if (loc === '/finance') return { loc, priority: 0.9, changefreq: 'weekly', lastmod };
     if (loc === '/tools') return { loc, priority: 0.9, changefreq: 'weekly', lastmod };
     if (loc.startsWith('/finance/') && !loc.includes('/learn'))
       return { loc, priority: 0.9, changefreq: 'weekly', lastmod };

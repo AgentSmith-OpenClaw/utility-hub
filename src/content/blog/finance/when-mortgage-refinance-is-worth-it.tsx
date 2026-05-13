@@ -12,8 +12,9 @@ export const whenMortgageRefinanceIsWorthIt: BlogArticle = {
   keywords:
     'mortgage refinance, refinance calculator, mortgage refinance break-even, cash-out refinance, rate-and-term refinance, when to refinance mortgage',
   relatedTools: [
-    { name: 'Mortgage Calculator', href: '/finance/mortgage-calculator' },
-    { name: 'Amortization Calculator', href: '/finance/amortization-calculator' },
+    { name: 'Mortgage Refinance Calculator', href: '/finance/mortgage-refinance-calculator' },
+    { name: 'Mortgage Payoff Calculator', href: '/finance/mortgage-payoff-calculator' },
+    { name: 'Extra Mortgage Payment Calculator', href: '/finance/extra-mortgage-payment-calculator' },
   ],
   content: (
     <div className="prose prose-lg max-w-none">

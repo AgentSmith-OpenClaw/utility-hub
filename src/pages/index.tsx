@@ -265,28 +265,28 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Toolisk — 20 Free Finance Calculators &amp; 36 Developer Tools</title>
+        <title>Toolisk — 26 Free Finance Calculators &amp; 36 Developer Tools</title>
         <meta
           name="description"
-          content="20 free finance calculators (401k, Roth IRA, mortgage, auto loan, student loan, rental ROI, net worth, inflation, VAT/GST, tip) plus 36 developer tools — all client-side. Multi-currency support for US, EU, UK, AU, CA."
+          content="26 free finance calculators (401k, Roth IRA, mortgage, auto loan, student loan, rental ROI, net worth, inflation, VAT/GST, tip) plus 36 developer tools — all client-side. Multi-currency support for US, EU, UK, AU, CA."
         />
         <meta
           name="keywords"
           content="finance calculators, 401k calculator, roth ira calculator, auto loan calculator, student loan calculator, rental property roi, net worth calculator, inflation calculator, vat gst calculator, tip calculator, developer tools, multi-currency, free online tools"
         />
         <link rel="canonical" href="https://toolisk.com/" />
-        <meta property="og:title" content="Toolisk — 20 Free Finance Calculators & 36 Developer Tools" />
+        <meta property="og:title" content="Toolisk — 26 Free Finance Calculators & 36 Developer Tools" />
         <meta
           property="og:description"
-          content="20 finance calculators + 36 developer tools. 401k, Roth IRA, mortgage, auto loan, student loan, rental ROI, net worth, VAT/GST, plus a 36-tool developer suite. Multi-currency for US, EU, UK, AU, CA."
+          content="26 finance calculators + 36 developer tools. 401k, Roth IRA, mortgage, auto loan, student loan, rental ROI, net worth, VAT/GST, plus a 36-tool developer suite. Multi-currency for US, EU, UK, AU, CA."
         />
         <meta property="og:url" content="https://toolisk.com/" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="Toolisk — 20 Free Finance Calculators & 36 Developer Tools" />
+        <meta name="twitter:title" content="Toolisk — 26 Free Finance Calculators & 36 Developer Tools" />
         <meta
           name="twitter:description"
-          content="20 finance calculators + 36 developer tools. Multi-currency for US, EU, UK, AU, CA. All client-side."
+          content="26 finance calculators + 36 developer tools. Multi-currency for US, EU, UK, AU, CA. All client-side."
         />
 
         {/* ItemList schema — helps Google surface tools as a list */}

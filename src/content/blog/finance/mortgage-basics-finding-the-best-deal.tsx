@@ -10,9 +10,9 @@ export const mortgageBasicsFindingTheBestDeal: BlogArticle = {
     readTime: '9 min read',
     keywords: 'mortgage, home loan, mortgage rates, mortgage terms, down payment, APR, fixed vs variable',
     relatedTools: [
-      { name: 'Mortgage Calculator', href: '/finance/mortgage-calculator' },
-      { name: 'Amortization Calculator', href: '/finance/amortization-calculator' },
-      { name: 'Buy vs Rent Calculator', href: '/finance/buy-vs-rent-calculator' },
+    { name: 'Mortgage Calculator', href: '/finance/mortgage-calculator' },
+    { name: '15 vs 30 Year Mortgage Calculator', href: '/finance/15-year-vs-30-year-mortgage-calculator' },
+    { name: 'Mortgage Payoff Calculator', href: '/finance/mortgage-payoff-calculator' },
     ],
     content: (
       <div className="prose prose-lg max-w-none">

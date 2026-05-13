@@ -48,8 +48,28 @@ import { netWorthByAgeBenchmarks } from './net-worth-by-age-benchmarks';
 import { vatGstSalesTaxExplained } from './vat-gst-sales-tax-explained';
 import { studentLoanRefinanceDecision } from './student-loan-refinance-decision';
 import { inflationProtectSavings } from './inflation-protect-savings';
+import { howToCalculateFireNumber } from './how-to-calculate-fire-number';
+import { reduceEmiVsReduceTenure } from './reduce-emi-vs-reduce-tenure';
+import { homeLoanPrepaymentStrategy } from './home-loan-prepayment-strategy';
+import { extraMortgagePaymentsVsInvesting } from './extra-mortgage-payments-vs-investing';
+import { grossPayVsNetPay } from './gross-pay-vs-net-pay';
+import { socialSecurity62Vs67Vs70 } from './social-security-62-vs-67-vs-70';
+import { fireNumberByAge } from './fire-number-by-age';
+import { fourPercentRuleExplained } from './four-percent-rule-explained';
+import { howMuchEmiIsSafe } from './how-much-emi-is-safe';
+import { mortgageRefinanceBreakEven } from './mortgage-refinance-break-even';
 
 export const articles: BlogArticle[] = [
+  howToCalculateFireNumber,
+  reduceEmiVsReduceTenure,
+  homeLoanPrepaymentStrategy,
+  extraMortgagePaymentsVsInvesting,
+  grossPayVsNetPay,
+  socialSecurity62Vs67Vs70,
+  fireNumberByAge,
+  fourPercentRuleExplained,
+  howMuchEmiIsSafe,
+  mortgageRefinanceBreakEven,
   understandingCompoundInterest,
   understandingEmiCalculations,
   prepaymentStrategiesGuide,

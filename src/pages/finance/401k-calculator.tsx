@@ -79,7 +79,7 @@ export default function Retirement401kCalculatorPage() {
         ]}
         relatedArticles={[
           { title: 'Get the Full 401(k) Match', href: '/finance/learn/401k-employer-match-strategy' },
-          { title: 'Roth IRA vs Traditional IRA', href: '/finance/learn/roth-vs-traditional-ira-decision' },
+          { title: 'Roth IRA vs Traditional IRA', href: '/finance/learn/roth-vs-traditional-ira' },
         ]}
       />
     </>

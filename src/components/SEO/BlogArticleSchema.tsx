@@ -9,6 +9,7 @@ interface BlogArticleSchemaProps {
   readTime: string;
   keywords: string;
   baseUrl?: string;
+  section?: 'finance' | 'tools';
 }
 
 export const BlogArticleSchema = ({
@@ -20,9 +21,8 @@ export const BlogArticleSchema = ({
   readTime,
   keywords,
   baseUrl = 'https://toolisk.com',
+  section = 'finance',
 }: BlogArticleSchemaProps) => {
-  const isBlogPath = slug.includes('/');
-  const section = isBlogPath ? slug.split('/')[0] : 'blog';
   const url = `${baseUrl}/${section}/learn/${slug}`;
 
   const readingTimeMinutes = parseInt(readTime);

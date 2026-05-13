@@ -11,9 +11,9 @@ export const inflationProtectSavings: BlogArticle = {
   readTime: '12 min read',
   keywords: 'inflation hedge, inflation protect savings, tips bonds, i bonds, real assets, inflation 2026, purchasing power, real return',
   relatedTools: [
-    { name: 'US Inflation Calculator', href: '/finance/inflation-calculator' },
+    { name: 'Purchasing Power Calculator', href: '/finance/purchasing-power-calculator' },
+    { name: 'Cost of Living Inflation Calculator', href: '/finance/cost-of-living-inflation-calculator' },
     { name: 'Investment Calculator', href: '/finance/investment-calculator' },
-    { name: 'Compound Interest Calculator', href: '/finance/compound-interest-calculator' },
   ],
   content: (
     <div className="prose prose-lg max-w-none">

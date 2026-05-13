@@ -5,10 +5,26 @@ import Head from 'next/head';
 import Clarity from '@microsoft/clarity';
 import Header from '../components/Layout/Header';
 import Footer from '../components/Layout/Footer';
+import BreadcrumbTrail from '../components/SEO/BreadcrumbTrail';
 import '../styles/globals.css';
 
 const GA_ID = 'G-8ZXGEHK3C0';
 const CLARITY_ID = 'vgegy4bksa';
+
+const FINANCE_PAGES_WITHOUT_TOOL_SHELL = new Set([
+  '/finance',
+  '/finance/learn',
+  '/finance/amortization-calculator',
+  '/finance/buy-vs-rent-calculator',
+  '/finance/compound-interest-calculator',
+  '/finance/credit-card-payoff-calculator',
+  '/finance/emi-calculator',
+  '/finance/fire-calculator',
+  '/finance/income-tax-calculator',
+  '/finance/mortgage-calculator',
+  '/finance/sip-calculator',
+  '/finance/us-paycheck-calculator',
+]);
 
 function trackPageView(path: string) {
   if (typeof window !== 'undefined' && (window as any).gtag) {
@@ -18,6 +34,7 @@ function trackPageView(path: string) {
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  const showFinanceBreadcrumb = FINANCE_PAGES_WITHOUT_TOOL_SHELL.has(router.pathname);
 
   // Initialize Microsoft Clarity
   useEffect(() => {
@@ -45,6 +62,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="twitter:site" content="@toolisk" />
       </Head>
       <Header />
+      {showFinanceBreadcrumb && <BreadcrumbTrail pathname={router.asPath} />}
       <main className="flex-1">
         <Component {...pageProps} />
       </main>

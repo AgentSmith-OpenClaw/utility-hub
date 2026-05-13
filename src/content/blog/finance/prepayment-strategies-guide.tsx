@@ -10,7 +10,9 @@ export const prepaymentStrategiesGuide: BlogArticle = {
     readTime: '7 min read',
     keywords: 'loan prepayment, reduce EMI, reduce tenure, prepayment strategy, home loan tips',
     relatedTools: [
-      { name: 'EMI Calculator', href: '/finance/emi-calculator' },
+      { name: 'EMI Prepayment Calculator', href: '/finance/emi-prepayment-calculator' },
+      { name: 'Reduce EMI vs Reduce Tenure Calculator', href: '/finance/reduce-emi-vs-reduce-tenure-calculator' },
+      { name: 'Home Loan Prepayment Calculator', href: '/finance/home-loan-prepayment-calculator' },
     ],
     content: (
       <div className="prose prose-lg max-w-none">

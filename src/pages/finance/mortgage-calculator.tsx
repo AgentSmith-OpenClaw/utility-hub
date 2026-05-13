@@ -307,7 +307,7 @@ export default function MortgageCalculatorPage() {
           <h2 className="text-xl font-bold text-slate-900 mb-4">Related Finance Tools</h2>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
-              { href: '/finance/buy-vs-rent-calculator', title: 'Buy vs Rent Calculator', desc: 'Compare true total cost of owning vs renting with opportunity cost.' },
+              { href: '/finance/emi-calculator', title: 'EMI Calculator', desc: 'Calculate loan EMI and compare prepayment strategies before choosing a mortgage.' },
               { href: '/finance/amortization-calculator', title: 'Amortization Calculator', desc: 'Month-by-month principal vs interest breakdown for your loan.' },
               { href: '/finance/income-tax-calculator', title: 'Income Tax Calculator', desc: 'Calculate tax savings from Section 24 and 80C home loan deductions.' },
               { href: '/finance/compound-interest-calculator', title: 'Compound Interest Calculator', desc: 'Compare investing your down payment vs using it for a property purchase.' },
@@ -324,4 +324,3 @@ export default function MortgageCalculatorPage() {
     </>
   );
 }
-
