@@ -223,7 +223,7 @@ export default function YamlJsonConverter() {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <ToolCard
           title={direction === 'json2yaml' ? 'JSON input' : 'YAML input'}
           action={<CopyButton value={input} disabled={!input} />}
@@ -232,7 +232,7 @@ export default function YamlJsonConverter() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             spellCheck={false}
-            className="w-full h-[55vh] px-3 py-2.5 text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
+            className="w-full h-96 lg:h-[28rem] px-4 py-3 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
           />
         </ToolCard>
         <ToolCard
@@ -240,11 +240,11 @@ export default function YamlJsonConverter() {
           action={result.ok ? <CopyButton value={result.output} disabled={!result.output} /> : null}
         >
           {result.ok ? (
-            <pre className="text-sm font-mono text-slate-800 whitespace-pre overflow-auto h-[55vh] px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg">
+            <pre className="text-[13px] sm:text-sm font-mono text-slate-800 whitespace-pre overflow-auto h-96 lg:h-[28rem] px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg">
               {result.output || <span className="text-slate-400">—</span>}
             </pre>
           ) : (
-            <div className="h-[55vh] flex items-center justify-center bg-rose-50 border border-rose-200 rounded-lg p-4 text-sm text-rose-700">
+            <div className="h-96 lg:h-[28rem] flex items-center justify-center bg-rose-50 border border-rose-200 rounded-lg p-4 text-sm text-rose-700">
               {result.error}
             </div>
           )}

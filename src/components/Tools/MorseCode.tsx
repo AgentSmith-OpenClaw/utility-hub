@@ -77,49 +77,70 @@ export default function MorseCode() {
 
   return (
     <div className="space-y-5">
-      <div className="flex items-center gap-3 flex-wrap">
-        <div className="flex gap-2">
+      <div className="flex flex-wrap items-center gap-3 bg-white rounded-2xl border border-slate-200 p-3 shadow-sm">
+        <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-1">
           {(['encode', 'decode'] as const).map((m) => (
-            <button key={m} onClick={() => { setMode(m); setInput(''); }} className={`px-4 py-1.5 text-sm rounded-lg border font-medium transition-colors ${mode === m ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-700 border-slate-200 hover:border-emerald-400'}`}>
+            <button
+              key={m}
+              type="button"
+              onClick={() => { setMode(m); setInput(''); }}
+              className={`px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-md transition-all ${mode === m ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+            >
               {m === 'encode' ? 'Text → Morse' : 'Morse → Text'}
             </button>
           ))}
         </div>
-        <div className="flex gap-2">
+        <div className="inline-flex gap-1.5">
           {EXAMPLES.map((ex) => (
-            <button key={ex.label} onClick={() => setInput(ex.value)} className="px-3 py-1.5 text-xs rounded-lg border border-slate-200 text-slate-600 hover:border-emerald-400 transition-colors">
+            <button
+              key={ex.label}
+              type="button"
+              onClick={() => setInput(ex.value)}
+              className="text-xs font-semibold text-emerald-700 hover:text-emerald-800 px-2 py-1 rounded-md hover:bg-emerald-50 transition-colors"
+            >
               {ex.label}
             </button>
           ))}
         </div>
       </div>
 
-      <ToolCard title={mode === 'encode' ? 'Text Input' : 'Morse Input'} action={<CopyButton value={input} disabled={!input} />}>
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder={mode === 'encode' ? 'Type text to encode to Morse code…' : 'Enter Morse code (use spaces between letters, / between words)…'}
-          className="w-full h-28 px-3 py-2.5 text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
-        />
-      </ToolCard>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <ToolCard title={mode === 'encode' ? 'Text Input' : 'Morse Input'} action={<CopyButton value={input} disabled={!input} />}>
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder={mode === 'encode' ? 'Type text to encode to Morse code…' : 'Enter Morse code (use spaces between letters, / between words)…'}
+            className="w-full h-56 lg:h-72 px-4 py-3 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
+          />
+        </ToolCard>
 
-      <ToolCard title={mode === 'encode' ? 'Morse Output' : 'Decoded Text'} action={
-        <div className="flex gap-2">
-          {mode === 'encode' && (
-            <button onClick={playMorse} disabled={!output} title="Play audio" className="px-3 py-1.5 text-xs rounded-lg border border-slate-200 text-slate-600 hover:border-emerald-400 disabled:opacity-40 transition-colors">
-              ▶ Play
-            </button>
-          )}
-          <CopyButton value={output} disabled={!output} />
-        </div>
-      }>
-        <pre className="text-sm font-mono text-slate-800 whitespace-pre-wrap break-all min-h-[80px]">
-          {output || <span className="text-slate-400">—</span>}
-        </pre>
-      </ToolCard>
+        <ToolCard title={mode === 'encode' ? 'Morse Output' : 'Decoded Text'} action={
+          <div className="flex gap-2">
+            {mode === 'encode' && (
+              <button
+                type="button"
+                onClick={playMorse}
+                disabled={!output}
+                title="Play audio"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              >
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+                Play
+              </button>
+            )}
+            <CopyButton value={output} disabled={!output} />
+          </div>
+        }>
+          <pre className="h-56 lg:h-72 px-4 py-3 text-[13px] sm:text-sm font-mono text-slate-800 bg-slate-50 border border-slate-200 rounded-lg whitespace-pre-wrap break-all overflow-auto">
+            {output || <span className="text-slate-400">Output will appear here…</span>}
+          </pre>
+        </ToolCard>
+      </div>
 
       <ToolCard title="Morse Code Reference">
-        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-1 text-xs font-mono">
+        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-9 gap-2 text-xs font-mono">
           {Object.entries(MORSE_MAP).filter(([k]) => /[A-Z0-9]/.test(k)).map(([char, code]) => (
             <div key={char} className="flex flex-col items-center bg-slate-50 rounded p-1.5 border border-slate-100">
               <span className="font-bold text-slate-800">{char}</span>

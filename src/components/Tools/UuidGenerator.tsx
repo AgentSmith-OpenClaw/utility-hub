@@ -159,15 +159,15 @@ export default function UuidGenerator() {
         title={`${uuids.length} UUID${uuids.length === 1 ? '' : 's'}`}
         action={<CopyButton value={allText} label="Copy all" disabled={!uuids.length} />}
       >
-        <div className="space-y-1.5 max-h-96 overflow-auto">
+        <div className="space-y-2 max-h-[32rem] overflow-auto">
           {uuids.map((id, i) => {
             const display = transform(id);
             return (
               <div
                 key={i}
-                className="flex items-center gap-2 px-3 py-2 bg-slate-50 rounded-lg border border-slate-100 text-sm font-mono group"
+                className="flex items-center gap-3 px-4 py-2.5 bg-slate-50 rounded-lg border border-slate-100 text-[13px] sm:text-sm font-mono hover:border-slate-200 transition-colors"
               >
-                <span className="text-[10px] text-slate-400 w-8 flex-shrink-0">{i + 1}</span>
+                <span className="text-[11px] text-slate-400 w-7 flex-shrink-0 font-semibold">{i + 1}</span>
                 <code className="flex-1 text-slate-800 break-all">{display}</code>
                 <CopyButton value={display} />
               </div>

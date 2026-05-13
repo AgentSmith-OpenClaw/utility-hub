@@ -90,23 +90,25 @@ export default function XmlFormatter() {
         </button>
       </div>
 
-      <ToolCard title="XML Input" action={<CopyButton value={input} disabled={!input} />}>
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Paste XML here…"
-          className={`w-full h-48 px-3 py-2.5 text-sm font-mono rounded-lg border focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none ${
-            error ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'
-          }`}
-        />
-        {error && <p className="text-xs text-red-600 mt-1 font-mono">{error}</p>}
-      </ToolCard>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <ToolCard title="XML Input" action={<CopyButton value={input} disabled={!input} />}>
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Paste XML here…"
+            className={`w-full h-72 lg:h-96 px-4 py-3 text-[13px] sm:text-sm font-mono rounded-lg border focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none ${
+              error ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'
+            }`}
+          />
+          {error && <p className="text-xs text-red-600 mt-2 font-mono">{error}</p>}
+        </ToolCard>
 
-      <ToolCard title="Output" action={<CopyButton value={output} disabled={!output} />}>
-        <pre className={`text-sm font-mono whitespace-pre-wrap break-all min-h-[120px] max-h-72 overflow-auto ${mode === 'validate' && !error ? 'text-emerald-700 font-semibold' : 'text-slate-800'}`}>
-          {output || <span className="text-slate-400">—</span>}
-        </pre>
-      </ToolCard>
+        <ToolCard title="Output" action={<CopyButton value={output} disabled={!output} />}>
+          <pre className={`h-72 lg:h-96 px-4 py-3 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg whitespace-pre-wrap break-all overflow-auto ${mode === 'validate' && !error ? 'text-emerald-700 font-semibold' : 'text-slate-800'}`}>
+            {output || <span className="text-slate-400">Output will appear here…</span>}
+          </pre>
+        </ToolCard>
+      </div>
     </div>
   );
 }

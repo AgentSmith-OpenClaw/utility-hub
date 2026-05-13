@@ -142,25 +142,27 @@ export default function SqlFormatter() {
         </button>
       </div>
 
-      <ToolCard title="SQL input" action={<span className="text-[11px] text-slate-400">{input.length} chars</span>}>
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Paste your SQL query…"
-          spellCheck={false}
-          className="w-full h-40 px-3 py-2.5 text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
-        />
-      </ToolCard>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <ToolCard title="SQL input" action={<span className="text-[11px] text-slate-400 font-medium">{input.length} chars</span>}>
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Paste your SQL query…"
+            spellCheck={false}
+            className="w-full h-72 lg:h-96 px-4 py-3 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
+          />
+        </ToolCard>
 
-      <ToolCard title="Formatted" action={<CopyButton value={formatted} disabled={!formatted} />}>
-        <pre className="text-sm font-mono text-slate-800 whitespace-pre overflow-x-auto min-h-[120px]">
-          {formatted || <span className="text-slate-400">—</span>}
-        </pre>
-      </ToolCard>
+        <ToolCard title="Formatted" action={<CopyButton value={formatted} disabled={!formatted} />}>
+          <pre className="h-72 lg:h-96 px-4 py-3 text-[13px] sm:text-sm font-mono text-slate-800 bg-slate-50 border border-slate-200 rounded-lg whitespace-pre overflow-auto">
+            {formatted || <span className="text-slate-400">Formatted SQL will appear here…</span>}
+          </pre>
+        </ToolCard>
+      </div>
 
       <ToolCard title="Minified (single line)" action={<CopyButton value={minified} disabled={!minified} />}>
-        <code className="text-sm font-mono text-slate-700 break-all block min-h-[40px]">
-          {minified || <span className="text-slate-400">—</span>}
+        <code className="block min-h-[56px] px-4 py-3 text-[13px] sm:text-sm font-mono text-slate-700 bg-slate-50 border border-slate-200 rounded-lg break-all">
+          {minified || <span className="text-slate-400">Single-line output will appear here…</span>}
         </code>
       </ToolCard>
     </div>

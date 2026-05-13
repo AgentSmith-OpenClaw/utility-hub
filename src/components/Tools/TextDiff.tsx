@@ -106,13 +106,13 @@ export default function TextDiff() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <ToolCard title="Original">
           <textarea
             value={left}
             onChange={(e) => setLeft(e.target.value)}
             spellCheck={false}
-            className="w-full h-48 px-3 py-2.5 text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
+            className="w-full h-72 lg:h-96 px-4 py-3 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
           />
         </ToolCard>
         <ToolCard title="Modified">
@@ -120,7 +120,7 @@ export default function TextDiff() {
             value={right}
             onChange={(e) => setRight(e.target.value)}
             spellCheck={false}
-            className="w-full h-48 px-3 py-2.5 text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
+            className="w-full h-72 lg:h-96 px-4 py-3 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
           />
         </ToolCard>
       </div>
@@ -131,7 +131,7 @@ export default function TextDiff() {
           label="Copy diff"
         />
       }>
-        <div className="font-mono text-xs overflow-x-auto">
+        <div className="font-mono text-[12px] sm:text-[13px] overflow-x-auto max-h-[32rem] overflow-y-auto">
           {diff.map((d, i) => {
             const cls =
               d.op === 'add'

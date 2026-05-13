@@ -117,7 +117,7 @@ export default function JwtDecoder() {
           onChange={(e) => setToken(e.target.value)}
           placeholder="Paste a JWT (eyJ…)"
           spellCheck={false}
-          className="w-full h-36 px-3 py-2.5 text-xs font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none break-all"
+          className="w-full h-48 sm:h-56 px-4 py-3 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none break-all"
         />
       </ToolCard>
 
@@ -128,12 +128,12 @@ export default function JwtDecoder() {
       )}
 
       {decoded.header && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <ToolCard
             title="Header"
             action={<CopyButton value={decoded.header} />}
           >
-            <pre className="text-xs font-mono text-slate-800 whitespace-pre-wrap break-all">
+            <pre className="min-h-[10rem] px-4 py-3 text-[13px] sm:text-sm font-mono text-slate-800 bg-slate-50 border border-slate-200 rounded-lg whitespace-pre-wrap break-all overflow-auto">
               {decoded.header}
             </pre>
           </ToolCard>
@@ -141,7 +141,7 @@ export default function JwtDecoder() {
             title="Payload"
             action={<CopyButton value={decoded.payload} />}
           >
-            <pre className="text-xs font-mono text-slate-800 whitespace-pre-wrap break-all">
+            <pre className="min-h-[10rem] px-4 py-3 text-[13px] sm:text-sm font-mono text-slate-800 bg-slate-50 border border-slate-200 rounded-lg whitespace-pre-wrap break-all overflow-auto">
               {decoded.payload}
             </pre>
           </ToolCard>
@@ -186,8 +186,8 @@ export default function JwtDecoder() {
           title="Signature (Base64URL)"
           action={<CopyButton value={decoded.signature} />}
         >
-          <code className="text-xs font-mono text-slate-700 break-all">{decoded.signature}</code>
-          <p className="text-[11px] text-slate-400 mt-2">
+          <code className="block px-4 py-3 text-[13px] sm:text-sm font-mono text-slate-700 break-all bg-slate-50 border border-slate-200 rounded-lg">{decoded.signature}</code>
+          <p className="text-[11px] text-slate-400 mt-2.5">
             Verifying the signature requires the issuer&apos;s secret or public key — that&apos;s a server-side step.
           </p>
         </ToolCard>

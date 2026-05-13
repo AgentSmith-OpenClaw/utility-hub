@@ -41,6 +41,7 @@ const AdSlot: React.FC<AdSlotProps> = ({ slotId, format, className = '', label }
 
   return (
     <div
+      aria-hidden="true"
       className={`ad-slot ${className}`}
       style={{
         ...getAdStyle(),
@@ -49,8 +50,6 @@ const AdSlot: React.FC<AdSlotProps> = ({ slotId, format, className = '', label }
         justifyContent: 'center',
         margin: '0 auto',
       }}
-      aria-label="Advertisement"
-      role="complementary"
     >
       {/* 
         PRODUCTION: Replace this placeholder with actual AdSense code:
@@ -68,16 +67,7 @@ const AdSlot: React.FC<AdSlotProps> = ({ slotId, format, className = '', label }
           try { (window as any).adsbygoogle = (window as any).adsbygoogle || []; (window as any).adsbygoogle.push({}); } catch (e) {}
         }, []);
       */}
-      <div
-        className="bg-gradient-to-b from-gray-100 to-gray-200 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center text-gray-400 text-xs"
-        style={getAdStyle()}
-      >
-        <span className="text-lg mb-1">📢</span>
-        <span className="font-semibold">{label || 'Ad Space'}</span>
-        <span className="text-[10px] mt-1 opacity-70">
-          {format === 'vertical' ? '160×600' : format === 'horizontal' ? '728×90' : format === 'rectangle' ? '300×250' : 'Responsive'}
-        </span>
-      </div>
+      <div style={getAdStyle()} />
     </div>
   );
 };

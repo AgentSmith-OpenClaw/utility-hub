@@ -52,18 +52,21 @@ export default function ImageBase64() {
 
   return (
     <div className="space-y-5">
-      <div className="flex gap-2">
-        {(['encode', 'decode'] as const).map((m) => (
-          <button
-            key={m}
-            onClick={() => setMode(m)}
-            className={`px-4 py-1.5 text-sm rounded-lg border font-medium transition-colors capitalize ${
-              mode === m ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-700 border-slate-200 hover:border-emerald-400'
-            }`}
-          >
-            {m === 'encode' ? 'Image → Base64' : 'Base64 → Image'}
-          </button>
-        ))}
+      <div className="flex flex-wrap items-center gap-3 bg-white rounded-2xl border border-slate-200 p-3 shadow-sm">
+        <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-1">
+          {(['encode', 'decode'] as const).map((m) => (
+            <button
+              key={m}
+              type="button"
+              onClick={() => setMode(m)}
+              className={`px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-md transition-all ${
+                mode === m ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+              }`}
+            >
+              {m === 'encode' ? 'Image → Base64' : 'Base64 → Image'}
+            </button>
+          ))}
+        </div>
       </div>
 
       {mode === 'encode' ? (
@@ -74,11 +77,14 @@ export default function ImageBase64() {
               onDragLeave={() => setDragging(false)}
               onDrop={handleDrop}
               onClick={() => fileRef.current?.click()}
-              className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors ${
-                dragging ? 'border-emerald-400 bg-emerald-50' : 'border-slate-200 bg-slate-50 hover:border-emerald-300'
+              className={`border-2 border-dashed rounded-xl p-10 sm:p-14 text-center cursor-pointer transition-colors ${
+                dragging ? 'border-emerald-400 bg-emerald-50' : 'border-slate-200 bg-slate-50 hover:border-emerald-300 hover:bg-emerald-50/30'
               }`}
             >
-              <p className="text-slate-500 text-sm">Drag & drop an image here, or click to browse</p>
+              <svg className="w-10 h-10 mx-auto mb-3 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+              <p className="text-slate-600 text-sm font-semibold">Drag &amp; drop an image here, or click to browse</p>
               <p className="text-xs text-slate-400 mt-1">PNG, JPEG, GIF, WebP, SVG supported</p>
               <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) processFile(f); }} />
             </div>
@@ -86,29 +92,31 @@ export default function ImageBase64() {
 
           {dataUrl && (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                 <ToolCard title="Preview">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={dataUrl} alt="preview" className="max-h-48 object-contain mx-auto rounded" />
-                  <p className="text-xs text-slate-500 mt-2 text-center">{fileName} · {fmtSize(fileSize)} · {mimeType}</p>
+                  <div className="flex items-center justify-center min-h-[16rem] bg-slate-50 rounded-lg border border-slate-200 p-4">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={dataUrl} alt="preview" className="max-h-72 object-contain rounded" />
+                  </div>
+                  <p className="text-xs text-slate-500 mt-3 text-center">{fileName} · {fmtSize(fileSize)} · {mimeType}</p>
                 </ToolCard>
                 <ToolCard title="Info">
-                  <dl className="space-y-1 text-sm">
-                    <div className="flex justify-between"><dt className="text-slate-500">File</dt><dd className="font-mono text-slate-800 truncate max-w-[160px]">{fileName}</dd></div>
-                    <div className="flex justify-between"><dt className="text-slate-500">Size</dt><dd className="font-mono text-slate-800">{fmtSize(fileSize)}</dd></div>
-                    <div className="flex justify-between"><dt className="text-slate-500">Base64 size</dt><dd className="font-mono text-slate-800">{fmtSize(base64Only.length)}</dd></div>
-                    <div className="flex justify-between"><dt className="text-slate-500">Overhead</dt><dd className="font-mono text-slate-800">{fileSize ? `+${Math.round((base64Only.length / fileSize - 1) * 100)}%` : '—'}</dd></div>
-                    <div className="flex justify-between"><dt className="text-slate-500">MIME type</dt><dd className="font-mono text-slate-800">{mimeType}</dd></div>
+                  <dl className="divide-y divide-slate-100 text-sm">
+                    <div className="flex justify-between py-2"><dt className="text-slate-500">File</dt><dd className="font-mono text-slate-800 truncate max-w-[160px]">{fileName}</dd></div>
+                    <div className="flex justify-between py-2"><dt className="text-slate-500">Original size</dt><dd className="font-mono text-slate-800">{fmtSize(fileSize)}</dd></div>
+                    <div className="flex justify-between py-2"><dt className="text-slate-500">Base64 size</dt><dd className="font-mono text-slate-800">{fmtSize(base64Only.length)}</dd></div>
+                    <div className="flex justify-between py-2"><dt className="text-slate-500">Overhead</dt><dd className="font-mono text-slate-800">{fileSize ? `+${Math.round((base64Only.length / fileSize - 1) * 100)}%` : '—'}</dd></div>
+                    <div className="flex justify-between py-2"><dt className="text-slate-500">MIME type</dt><dd className="font-mono text-slate-800">{mimeType}</dd></div>
                   </dl>
                 </ToolCard>
               </div>
 
               <ToolCard title="Data URL (full)" action={<CopyButton value={dataUrl} />}>
-                <textarea readOnly value={dataUrl} className="w-full h-24 px-3 py-2 text-xs font-mono bg-slate-50 border border-slate-200 rounded-lg resize-none" />
+                <textarea readOnly value={dataUrl} className="w-full h-48 sm:h-56 px-4 py-3 text-[13px] font-mono bg-slate-50 border border-slate-200 rounded-lg resize-none" />
               </ToolCard>
 
               <ToolCard title="Base64 only" action={<CopyButton value={base64Only} />}>
-                <textarea readOnly value={base64Only} className="w-full h-24 px-3 py-2 text-xs font-mono bg-slate-50 border border-slate-200 rounded-lg resize-none" />
+                <textarea readOnly value={base64Only} className="w-full h-48 sm:h-56 px-4 py-3 text-[13px] font-mono bg-slate-50 border border-slate-200 rounded-lg resize-none" />
               </ToolCard>
             </>
           )}
@@ -120,13 +128,13 @@ export default function ImageBase64() {
               value={decodeInput}
               onChange={(e) => setDecodeInput(e.target.value)}
               placeholder="Paste base64 string or data:image/png;base64,... here"
-              className="w-full h-32 px-3 py-2.5 text-xs font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
+              className="w-full h-56 sm:h-72 px-4 py-3 text-[13px] font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
             />
-            {decodeError && <p className="text-xs text-red-600 mt-1">{decodeError}</p>}
+            {decodeError && <p className="text-xs text-red-600 mt-2 font-mono">{decodeError}</p>}
             <button
               onClick={handleDecode}
               disabled={!decodeInput.trim()}
-              className="mt-2 px-4 py-1.5 text-sm bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:opacity-40 transition-colors"
+              className="mt-3 px-4 py-2 text-sm font-semibold bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
             >
               Decode
             </button>
@@ -134,16 +142,23 @@ export default function ImageBase64() {
 
           {dataUrl && fileName === 'decoded-image' && (
             <ToolCard title="Decoded Image">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={dataUrl} alt="decoded" className="max-h-64 object-contain mx-auto rounded" />
-              <p className="text-xs text-slate-500 mt-2 text-center">{fmtSize(fileSize)} decoded · {mimeType}</p>
-              <a
-                href={dataUrl}
-                download="decoded-image"
-                className="mt-2 inline-block px-4 py-1.5 text-sm bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-colors"
-              >
-                Download
-              </a>
+              <div className="flex items-center justify-center min-h-[18rem] bg-slate-50 rounded-lg border border-slate-200 p-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={dataUrl} alt="decoded" className="max-h-80 object-contain rounded" />
+              </div>
+              <div className="mt-4 flex items-center justify-between gap-3 flex-wrap">
+                <p className="text-xs text-slate-500">{fmtSize(fileSize)} decoded · {mimeType}</p>
+                <a
+                  href={dataUrl}
+                  download="decoded-image"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-colors"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  Download
+                </a>
+              </div>
             </ToolCard>
           )}
         </>

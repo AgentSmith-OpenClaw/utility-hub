@@ -64,7 +64,7 @@ export default function SlugGenerator() {
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type a title (or one per line for bulk)…"
           spellCheck={false}
-          className="w-full h-32 px-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
+          className="w-full h-48 sm:h-56 px-4 py-3 text-[14px] sm:text-[15px] bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
         />
       </ToolCard>
 
@@ -132,7 +132,7 @@ export default function SlugGenerator() {
 
       <ToolCard title="URL slug" action={<CopyButton value={slug} disabled={!slug} />}>
         <code
-          className={`block w-full px-3 py-3 text-base font-mono bg-slate-50 border border-slate-200 rounded-lg break-all ${
+          className={`block w-full px-4 py-4 text-base sm:text-lg font-mono bg-slate-50 border border-slate-200 rounded-lg break-all ${
             slug ? 'text-emerald-700' : 'text-slate-400'
           }`}
         >

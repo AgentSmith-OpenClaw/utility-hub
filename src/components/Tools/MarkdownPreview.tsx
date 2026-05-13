@@ -218,7 +218,7 @@ export default function MarkdownPreview() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             spellCheck={false}
-            className="w-full h-[60vh] px-3 py-2.5 text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
+            className="w-full h-96 lg:h-[32rem] px-4 py-3 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
           />
         </ToolCard>
 
@@ -227,7 +227,7 @@ export default function MarkdownPreview() {
           action={<CopyButton value={html} disabled={!html} label="Copy HTML" />}
         >
           <div
-            className="h-[60vh] overflow-auto px-3 py-2.5 bg-white border border-slate-200 rounded-lg"
+            className="h-96 lg:h-[32rem] overflow-auto px-3 py-2.5 bg-white border border-slate-200 rounded-lg"
             dangerouslySetInnerHTML={{ __html: html }}
           />
         </ToolCard>

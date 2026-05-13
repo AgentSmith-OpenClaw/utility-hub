@@ -309,7 +309,7 @@ export default function JsonViewer() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder='Paste JSON here, e.g. {"hello": "world"}'
-            className="w-full h-72 lg:h-96 px-3 py-2.5 text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
+            className="w-full h-96 lg:h-[32rem] px-3 py-2.5 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
             spellCheck={false}
           />
           {parsed.error && (
@@ -328,18 +328,18 @@ export default function JsonViewer() {
           }
         >
           {!isValid ? (
-            <div className="h-72 lg:h-96 flex items-center justify-center text-sm text-slate-400 bg-slate-50 border border-dashed border-slate-200 rounded-lg">
+            <div className="h-96 lg:h-[32rem] flex items-center justify-center text-sm text-slate-400 bg-slate-50 border border-dashed border-slate-200 rounded-lg">
               {input.trim() ? 'Fix the JSON above to see output' : 'Paste JSON to see output here'}
             </div>
           ) : mode === 'tree' ? (
-            <div className="h-72 lg:h-96 overflow-auto bg-slate-50 border border-slate-200 rounded-lg p-3">
+            <div className="h-96 lg:h-[32rem] overflow-auto bg-slate-50 border border-slate-200 rounded-lg p-3">
               <JsonNode data={parsed.data} depth={0} isLast />
             </div>
           ) : (
             <textarea
               value={formatted}
               readOnly
-              className="w-full h-72 lg:h-96 px-3 py-2.5 text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg resize-none text-slate-800"
+              className="w-full h-96 lg:h-[32rem] px-3 py-2.5 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg resize-none text-slate-800"
               spellCheck={false}
             />
           )}

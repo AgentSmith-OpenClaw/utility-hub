@@ -88,46 +88,63 @@ export default function JsonCsvConverter() {
 
   return (
     <div className="space-y-5">
-      <div className="flex items-center gap-3 flex-wrap">
-        <div className="flex gap-2">
+      <div className="flex flex-wrap items-center gap-3 bg-white rounded-2xl border border-slate-200 p-3 shadow-sm">
+        <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-1">
           {([['json-to-csv', 'JSON → CSV'], ['csv-to-json', 'CSV → JSON']] as const).map(([m, label]) => (
-            <button key={m} onClick={() => { setMode(m); setInput(m === 'json-to-csv' ? SAMPLE_JSON : SAMPLE_CSV); }} className={`px-4 py-1.5 text-sm rounded-lg border font-medium transition-colors ${mode === m ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-700 border-slate-200 hover:border-emerald-400'}`}>
+            <button
+              key={m}
+              type="button"
+              onClick={() => { setMode(m); setInput(m === 'json-to-csv' ? SAMPLE_JSON : SAMPLE_CSV); }}
+              className={`px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-md transition-all ${mode === m ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+            >
               {label}
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2">
-          <label className="text-xs text-slate-500">Delimiter:</label>
-          {[',', ';', '\t', '|'].map((d) => (
-            <button key={d} onClick={() => setDelimiter(d)} className={`px-2 py-1 text-xs rounded border font-mono ${delimiter === d ? 'bg-emerald-600 text-white border-emerald-600' : 'border-slate-200 text-slate-600 hover:border-emerald-400'}`}>
-              {d === '\t' ? 'tab' : d === ',' ? 'comma' : d === ';' ? 'semi' : d}
-            </button>
-          ))}
+        <div className="inline-flex items-center gap-2">
+          <span className="text-xs text-slate-500 font-medium">Delimiter</span>
+          <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-1">
+            {[',', ';', '\t', '|'].map((d) => (
+              <button
+                key={d}
+                type="button"
+                onClick={() => setDelimiter(d)}
+                className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all font-mono ${delimiter === d ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+              >
+                {d === '\t' ? 'tab' : d === ',' ? 'comma' : d === ';' ? 'semi' : d}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
-      <ToolCard title={mode === 'json-to-csv' ? 'JSON Input' : 'CSV Input'} action={<CopyButton value={input} disabled={!input} />}>
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          className={`w-full h-48 px-3 py-2.5 text-sm font-mono rounded-lg border focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none ${error ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'}`}
-          placeholder={mode === 'json-to-csv' ? 'Paste JSON array of objects…' : 'Paste CSV data…'}
-        />
-        {error && <p className="text-xs text-red-600 mt-1 font-mono">{error}</p>}
-      </ToolCard>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <ToolCard title={mode === 'json-to-csv' ? 'JSON Input' : 'CSV Input'} action={<CopyButton value={input} disabled={!input} />}>
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className={`w-full h-80 lg:h-[28rem] px-4 py-3 text-[13px] sm:text-sm font-mono rounded-lg border focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none ${error ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'}`}
+            placeholder={mode === 'json-to-csv' ? 'Paste JSON array of objects…' : 'Paste CSV data…'}
+          />
+          {error && <p className="text-xs text-red-600 mt-2 font-mono">{error}</p>}
+        </ToolCard>
 
-      <ToolCard title={`${mode === 'json-to-csv' ? 'CSV' : 'JSON'} Output${rowCount > 0 ? ` (${rowCount} rows)` : ''}`} action={
-        <div className="flex gap-2">
-          <button onClick={downloadFile} disabled={!output} className="px-3 py-1.5 text-xs rounded-lg border border-slate-200 text-slate-600 hover:border-emerald-400 disabled:opacity-40 transition-colors">
-            Download
-          </button>
-          <CopyButton value={output} disabled={!output} />
-        </div>
-      }>
-        <pre className="text-sm font-mono text-slate-800 whitespace-pre-wrap break-all min-h-[120px] max-h-72 overflow-auto">
-          {output || <span className="text-slate-400">—</span>}
-        </pre>
-      </ToolCard>
+        <ToolCard title={`${mode === 'json-to-csv' ? 'CSV' : 'JSON'} Output${rowCount > 0 ? ` · ${rowCount} rows` : ''}`} action={
+          <div className="flex gap-2">
+            <button onClick={downloadFile} disabled={!output} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Download
+            </button>
+            <CopyButton value={output} disabled={!output} />
+          </div>
+        }>
+          <pre className="h-80 lg:h-[28rem] px-4 py-3 text-[13px] sm:text-sm font-mono text-slate-800 bg-slate-50 border border-slate-200 rounded-lg whitespace-pre-wrap break-all overflow-auto">
+            {output || <span className="text-slate-400">Output will appear here…</span>}
+          </pre>
+        </ToolCard>
+      </div>
     </div>
   );
 }

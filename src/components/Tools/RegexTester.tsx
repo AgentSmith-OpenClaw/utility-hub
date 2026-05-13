@@ -212,11 +212,11 @@ export default function RegexTester() {
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Paste text to test against the pattern…"
-          className="w-full h-40 px-3 py-2.5 text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
+          className="w-full h-64 sm:h-80 px-4 py-3 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
           spellCheck={false}
         />
         {highlighted && (
-          <div className="mt-3 p-3 bg-slate-50 border border-slate-200 rounded-lg max-h-60 overflow-auto whitespace-pre-wrap font-mono text-sm leading-relaxed">
+          <div className="mt-3 p-4 bg-slate-50 border border-slate-200 rounded-lg max-h-80 overflow-auto whitespace-pre-wrap font-mono text-[13px] sm:text-sm leading-relaxed">
             {highlighted}
           </div>
         )}
@@ -249,7 +249,7 @@ export default function RegexTester() {
               <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Output</span>
               <CopyButton value={replaced} disabled={!replaced} />
             </div>
-            <pre className="text-xs font-mono bg-slate-50 border border-slate-200 rounded-lg p-3 whitespace-pre-wrap max-h-40 overflow-auto">
+            <pre className="text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg p-4 whitespace-pre-wrap max-h-72 overflow-auto">
               {replaced || <span className="text-slate-400">—</span>}
             </pre>
           </>
@@ -261,7 +261,7 @@ export default function RegexTester() {
       {/* Match details */}
       {result.matches.length > 0 && (
         <ToolCard title={`All matches (${result.matches.length})`}>
-          <div className="space-y-2 max-h-72 overflow-auto">
+          <div className="space-y-2 max-h-96 overflow-auto">
             {result.matches.slice(0, 50).map((m, i) => (
               <div key={i} className="flex items-start gap-2 px-3 py-2 bg-slate-50 rounded-lg border border-slate-100 text-xs font-mono">
                 <span className="text-slate-400 w-12 flex-shrink-0">#{i + 1}</span>
@@ -284,7 +284,7 @@ export default function RegexTester() {
       )}
 
       <ToolCard title="Cheatsheet">
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 text-xs">
           {CHEATSHEET.map((c) => (
             <div key={c.sym} className="flex items-start gap-2 px-2 py-1">
               <code className="bg-slate-100 text-slate-800 rounded px-1.5 py-0.5 font-mono min-w-[3.5rem] text-center">

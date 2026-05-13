@@ -196,15 +196,15 @@ export default function CronParser() {
           value={expr}
           onChange={(e) => setExpr(e.target.value)}
           spellCheck={false}
-          className="w-full px-3 py-3 text-lg font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400"
+          className="w-full px-4 py-4 text-xl sm:text-2xl font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 tracking-wider"
           placeholder="* * * * *"
         />
-        <div className="mt-3 grid grid-cols-5 gap-2 text-[10px] font-bold uppercase text-slate-400">
-          <div>min (0-59)</div>
-          <div>hour (0-23)</div>
-          <div>day (1-31)</div>
-          <div>month (1-12)</div>
-          <div>weekday (0-6)</div>
+        <div className="mt-3 grid grid-cols-5 gap-2 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400">
+          <div>min · 0-59</div>
+          <div>hour · 0-23</div>
+          <div>day · 1-31</div>
+          <div>month · 1-12</div>
+          <div>weekday · 0-6</div>
         </div>
       </ToolCard>
 
@@ -229,19 +229,19 @@ export default function CronParser() {
 
       {result.ok ? (
         <>
-          <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-sm text-emerald-900">
-            <strong>{result.description}</strong>
+          <div className="bg-gradient-to-r from-emerald-50 via-emerald-50/80 to-teal-50/60 border border-emerald-200 rounded-2xl px-5 py-4 sm:px-6 sm:py-5 text-base sm:text-lg text-emerald-900">
+            <strong className="font-bold">{result.description}</strong>
           </div>
           <ToolCard title="Next 10 runs (UTC)">
-            <div className="space-y-1">
+            <div className="space-y-1.5">
               {upcoming.map((d, i) => (
                 <div
                   key={i}
-                  className="flex items-center gap-3 px-3 py-2 bg-slate-50 rounded-lg text-sm font-mono"
+                  className="flex items-center gap-3 px-4 py-2.5 bg-slate-50 rounded-lg text-sm font-mono"
                 >
-                  <span className="text-[10px] text-slate-400 w-6">{i + 1}</span>
+                  <span className="text-[11px] text-slate-400 w-6 font-semibold">{i + 1}</span>
                   <span className="text-slate-800">{d.toUTCString()}</span>
-                  <span className="ml-auto text-[11px] text-slate-400">{d.toISOString()}</span>
+                  <span className="ml-auto text-[11px] text-slate-400 hidden sm:inline">{d.toISOString()}</span>
                 </div>
               ))}
             </div>

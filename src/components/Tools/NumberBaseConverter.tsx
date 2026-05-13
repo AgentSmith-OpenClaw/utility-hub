@@ -36,18 +36,17 @@ export default function NumberBaseConverter() {
     <div className="space-y-5">
       <ToolCard title="Input">
         <div className="space-y-3">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <div className="inline-flex flex-wrap rounded-lg border border-slate-200 bg-slate-50 p-1 gap-1">
             {BASES.map(({ label, base }) => (
               <button
                 key={base}
+                type="button"
                 onClick={() => setFromBase(base)}
-                className={`px-3 py-1.5 text-sm rounded-lg border font-medium transition-colors ${
-                  fromBase === base
-                    ? 'bg-emerald-600 text-white border-emerald-600'
-                    : 'bg-white text-slate-700 border-slate-200 hover:border-emerald-400'
+                className={`px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-md transition-all ${
+                  fromBase === base ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'
                 }`}
               >
-                {label} (Base {base})
+                {label} <span className="opacity-60">· {base}</span>
               </button>
             ))}
           </div>
@@ -56,34 +55,37 @@ export default function NumberBaseConverter() {
             value={input}
             onChange={(e) => handleInput(e.target.value, fromBase)}
             placeholder={`Enter ${BASES.find(b => b.base === fromBase)?.label.toLowerCase()} number…`}
-            className={`w-full px-3 py-2.5 text-sm font-mono rounded-lg border focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 ${
+            className={`w-full px-4 py-4 text-xl sm:text-2xl font-mono rounded-lg border focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 tracking-wider ${
               !isValid && input ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'
             }`}
           />
           {!isValid && input && (
-            <p className="text-xs text-red-600">Invalid {BASES.find(b => b.base === fromBase)?.label.toLowerCase()} number.</p>
+            <p className="text-xs text-red-600 font-mono">Invalid {BASES.find(b => b.base === fromBase)?.label.toLowerCase()} number.</p>
           )}
         </div>
       </ToolCard>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         {BASES.map(({ label, base, prefix }) => {
           const value = results.get(base) ?? '';
           const display = value ? `${prefix}${value}` : '';
+          const isInputBase = base === fromBase && !!value;
           return (
-            <ToolCard key={base} title={`${label} (Base ${base})`} action={<CopyButton value={display} disabled={!display} />}>
-              <p className={`text-sm font-mono break-all min-h-[2rem] ${value ? 'text-slate-800' : 'text-slate-400'}`}>
+            <ToolCard
+              key={base}
+              title={`${label} · Base ${base}${isInputBase ? ' (input)' : ''}`}
+              action={<CopyButton value={display} disabled={!display} />}
+              className={isInputBase ? 'ring-1 ring-emerald-200' : ''}
+            >
+              <p className={`px-4 py-3 text-base sm:text-lg font-mono break-all min-h-[3rem] bg-slate-50 border border-slate-200 rounded-lg ${value ? 'text-slate-800' : 'text-slate-400'}`}>
                 {display || '—'}
               </p>
-              {base === fromBase && value && (
-                <span className="text-xs text-emerald-600 mt-1 inline-block">← input base</span>
-              )}
             </ToolCard>
           );
         })}
       </div>
 
-      <ToolCard title="Custom Base">
+      <ToolCard title="Custom Base (2–36)">
         <CustomBase input={input} fromBase={fromBase} />
       </ToolCard>
     </div>
@@ -98,16 +100,16 @@ function CustomBase({ input, fromBase }: { input: string; fromBase: number }) {
 
   return (
     <div className="flex items-center gap-3 flex-wrap">
-      <label className="text-sm text-slate-600">To base:</label>
+      <label className="text-sm font-semibold text-slate-600">To base</label>
       <input
         type="number"
         min={2}
         max={36}
         value={toBase}
         onChange={(e) => setToBase(Math.min(36, Math.max(2, parseInt(e.target.value) || 2)))}
-        className="w-20 px-2 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
+        className="w-20 px-3 py-2 text-sm font-mono text-center border border-slate-200 rounded-lg bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400"
       />
-      <span className="text-sm font-mono text-slate-800 flex-1">{result || '—'}</span>
+      <code className="flex-1 px-4 py-3 text-base font-mono text-slate-800 bg-slate-50 border border-slate-200 rounded-lg break-all min-h-[2.75rem]">{result || <span className="text-slate-400">—</span>}</code>
       {result && <CopyButton value={result} />}
     </div>
   );

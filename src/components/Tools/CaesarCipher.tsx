@@ -39,17 +39,28 @@ export default function CaesarCipher() {
 
   return (
     <div className="space-y-5">
-      <div className="flex gap-2 flex-wrap">
-        {(['encrypt', 'decrypt'] as const).map((m) => (
-          <button key={m} onClick={() => setMode(m)} className={`px-4 py-1.5 text-sm rounded-lg border font-medium transition-colors capitalize ${mode === m ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-700 border-slate-200 hover:border-emerald-400'}`}>
-            {m}
-          </button>
-        ))}
+      <div className="flex flex-wrap items-center gap-3 bg-white rounded-2xl border border-slate-200 p-3 shadow-sm">
+        <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-1">
+          {(['encrypt', 'decrypt'] as const).map((m) => (
+            <button
+              key={m}
+              type="button"
+              onClick={() => setMode(m)}
+              className={`px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-md transition-all capitalize ${mode === m ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+            >
+              {m}
+            </button>
+          ))}
+        </div>
         <button
-          onClick={() => { const tmp = input; setInput(output); }}
-          className="px-4 py-1.5 text-sm rounded-lg border border-slate-200 text-slate-600 hover:border-emerald-400 transition-colors"
+          type="button"
+          onClick={() => { setInput(output); }}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-colors"
         >
-          ⇄ Swap
+          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+          </svg>
+          Swap
         </button>
       </div>
 
@@ -80,20 +91,22 @@ export default function CaesarCipher() {
         </div>
       </ToolCard>
 
-      <ToolCard title="Input" action={<CopyButton value={input} disabled={!input} />}>
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          className="w-full h-28 px-3 py-2.5 text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
-          placeholder="Enter text to encrypt or decrypt…"
-        />
-      </ToolCard>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <ToolCard title="Input" action={<CopyButton value={input} disabled={!input} />}>
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="w-full h-56 lg:h-72 px-4 py-3 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
+            placeholder="Enter text to encrypt or decrypt…"
+          />
+        </ToolCard>
 
-      <ToolCard title={`Output (shift ${shift}${mode === 'decrypt' ? ' reversed' : ''})`} action={<CopyButton value={output} disabled={!output} />}>
-        <pre className="text-sm font-mono text-slate-800 whitespace-pre-wrap break-all min-h-[80px]">
-          {output || <span className="text-slate-400">—</span>}
-        </pre>
-      </ToolCard>
+        <ToolCard title={`Output · shift ${shift}${mode === 'decrypt' ? ' reversed' : ''}`} action={<CopyButton value={output} disabled={!output} />}>
+          <pre className="h-56 lg:h-72 px-4 py-3 text-[13px] sm:text-sm font-mono text-slate-800 bg-slate-50 border border-slate-200 rounded-lg whitespace-pre-wrap break-all overflow-auto">
+            {output || <span className="text-slate-400">Output will appear here…</span>}
+          </pre>
+        </ToolCard>
+      </div>
 
       <ToolCard title="Brute Force (all 26 shifts)" action={
         <button onClick={() => setShowAnalysis(!showAnalysis)} className="px-3 py-1.5 text-xs rounded-lg border border-slate-200 text-slate-600 hover:border-emerald-400 transition-colors">

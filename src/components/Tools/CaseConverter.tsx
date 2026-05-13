@@ -120,24 +120,24 @@ export default function CaseConverter() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type or paste text in any case…"
-          className="w-full h-32 px-3 py-2.5 text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
+          className="w-full h-48 sm:h-56 px-4 py-3 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
           spellCheck={false}
         />
       </ToolCard>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {CONVERSIONS.map((c) => {
           const result = words.length ? c.fn(words) : '';
           return (
-            <div key={c.label} className="bg-white rounded-xl border border-slate-200 p-3 shadow-sm">
-              <div className="flex items-center justify-between mb-2">
+            <div key={c.label} className="bg-white rounded-2xl border border-slate-200 p-4 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_-12px_rgba(15,23,42,0.08)]">
+              <div className="flex items-center justify-between mb-2.5">
                 <div>
                   <div className="text-sm font-bold text-slate-900">{c.label}</div>
                   <div className="text-[11px] text-slate-400">{c.description}</div>
                 </div>
                 <CopyButton value={result} disabled={!result} />
               </div>
-              <code className="block text-sm font-mono text-emerald-700 break-all bg-slate-50 rounded-lg px-3 py-2 min-h-[2.5rem]">
+              <code className="block text-[13px] sm:text-sm font-mono text-emerald-700 break-all bg-slate-50 rounded-lg px-3 py-2.5 min-h-[3rem]">
                 {result || <span className="text-slate-300">—</span>}
               </code>
             </div>

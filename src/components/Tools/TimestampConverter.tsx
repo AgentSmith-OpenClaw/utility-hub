@@ -79,7 +79,7 @@ export default function TimestampConverter() {
             value={tsInput}
             onChange={(e) => setTsInput(e.target.value)}
             placeholder={unit === 'seconds' ? 'e.g. 1782518400' : 'e.g. 1782518400000'}
-            className="flex-1 min-w-[200px] px-3 py-2.5 text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400"
+            className="flex-1 min-w-[200px] px-4 py-3 text-base font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400"
             spellCheck={false}
           />
           <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-1">
@@ -126,7 +126,7 @@ export default function TimestampConverter() {
             value={dateInput}
             onChange={(e) => setDateInput(e.target.value)}
             placeholder="2026-05-07T08:30:00Z, 2026-05-07, May 7 2026"
-            className="flex-1 min-w-[200px] px-3 py-2.5 text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400"
+            className="flex-1 min-w-[200px] px-4 py-3 text-base font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400"
             spellCheck={false}
           />
           <button
@@ -157,16 +157,16 @@ export default function TimestampConverter() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100 rounded-xl p-3">
-      <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 mb-1">{label}</div>
-      <code className="text-base font-mono font-bold text-slate-900 break-all">{value}</code>
+    <div className="bg-gradient-to-br from-emerald-50 to-teal-50/70 border border-emerald-100 rounded-xl p-4">
+      <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 mb-1.5">{label}</div>
+      <code className="text-base sm:text-lg font-mono font-bold text-slate-900 break-all">{value}</code>
     </div>
   );
 }
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between gap-3 px-3 py-2 bg-slate-50 rounded-lg border border-slate-100">
+    <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-slate-50 rounded-lg border border-slate-100">
       <span className="text-xs font-bold uppercase tracking-wider text-slate-500 w-24 flex-shrink-0">{label}</span>
       <code className="flex-1 text-sm font-mono text-slate-800 break-all">{value}</code>
       <CopyButton value={value} />

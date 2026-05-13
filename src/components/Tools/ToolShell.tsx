@@ -30,25 +30,26 @@ export default function ToolShell({
       <section className="relative overflow-hidden">
         <div className={`absolute inset-0 bg-gradient-to-r ${gradient}`} />
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute -top-20 -left-20 w-72 h-72 bg-white rounded-full blur-3xl" />
-          <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-white rounded-full blur-3xl" />
+          <div className="absolute -top-24 -left-24 w-80 h-80 bg-white rounded-full blur-3xl" />
+          <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-white rounded-full blur-3xl" />
         </div>
-        <div className="relative max-w-5xl mx-auto px-4 pt-8 pb-10 sm:pt-12 sm:pb-12">
-          <nav className="text-xs text-white/80 mb-3 flex items-center gap-2">
+        <div className="absolute inset-x-0 bottom-0 h-px bg-white/10" />
+        <div className="relative max-w-[1100px] mx-auto px-4 sm:px-6 pt-9 pb-12 sm:pt-12 sm:pb-14">
+          <nav className="text-xs text-white/80 mb-4 flex items-center gap-2">
             <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <span>›</span>
+            <span aria-hidden>›</span>
             <Link href={parentHref} className="hover:text-white transition-colors">{parentLabel}</Link>
-            <span>›</span>
+            <span aria-hidden>›</span>
             <span className="text-white font-medium">{title}</span>
           </nav>
           <div className="flex items-start sm:items-center justify-between gap-4 flex-wrap">
-            <div className="flex items-start sm:items-center gap-3 sm:gap-4">
+            <div className="flex items-start sm:items-center gap-3 sm:gap-5">
               <span className="text-4xl sm:text-5xl drop-shadow-lg">{icon}</span>
               <div>
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">
                   {title}
                 </h1>
-                <p className="text-white/90 text-sm sm:text-base mt-1 max-w-2xl">{tagline}</p>
+                <p className="text-white/90 text-sm sm:text-base mt-1.5 max-w-2xl leading-relaxed">{tagline}</p>
               </div>
             </div>
             {headerActions && <div className="shrink-0">{headerActions}</div>}
@@ -56,7 +57,9 @@ export default function ToolShell({
         </div>
       </section>
 
-      <div className="max-w-5xl mx-auto px-4 py-8">{children}</div>
+      <div className="max-w-[1100px] mx-auto px-4 sm:px-6 py-8 sm:py-10">
+        <main>{children}</main>
+      </div>
     </div>
   );
 }
@@ -95,9 +98,9 @@ export function CopyButton({
       disabled={disabled}
       className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border transition-all ${
         copied
-          ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
-          : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300'
-      } ${disabled ? 'opacity-40 cursor-not-allowed' : ''} ${className}`}
+          ? 'bg-emerald-50 border-emerald-200 text-emerald-700 shadow-sm'
+          : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 hover:shadow-sm'
+      } ${disabled ? 'opacity-40 cursor-not-allowed hover:shadow-none' : ''} ${className}`}
       aria-label={copied ? 'Copied!' : label}
     >
       {copied ? (
@@ -134,14 +137,46 @@ export function ToolCard({
   className?: string;
 }) {
   return (
-    <div className={`bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden ${className}`}>
+    <div
+      className={`bg-white rounded-2xl border border-slate-200/80 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_-12px_rgba(15,23,42,0.08)] overflow-hidden ${className}`}
+    >
       {(title || action) && (
-        <div className="flex items-center justify-between gap-3 px-4 sm:px-5 py-3 border-b border-slate-100 bg-slate-50/40">
-          {title && <h2 className="text-sm font-bold text-slate-800">{title}</h2>}
-          {action && <div className="flex items-center gap-2">{action}</div>}
+        <div className="flex items-center justify-between gap-3 px-5 sm:px-6 py-3.5 border-b border-slate-100 bg-gradient-to-r from-slate-50/80 via-white to-white">
+          {title && (
+            <h2 className="text-sm sm:text-[15px] font-bold text-slate-800 tracking-tight">
+              {title}
+            </h2>
+          )}
+          {action && <div className="flex items-center gap-2 flex-wrap justify-end">{action}</div>}
         </div>
       )}
-      <div className="p-4 sm:p-5">{children}</div>
+      <div className="p-5 sm:p-6">{children}</div>
     </div>
+  );
+}
+
+/**
+ * Ad rail slot placeholder. Reserves real estate for future AdSense integration.
+ * Visual is intentionally quiet so it doesn't dominate the page while empty.
+ */
+export function AdRailSlot({
+  format,
+  className = '',
+}: {
+  format: 'skyscraper' | 'banner' | 'rectangle';
+  className?: string;
+}) {
+  const sizeClass =
+    format === 'skyscraper'
+      ? 'w-[300px] h-[600px]'
+      : format === 'rectangle'
+      ? 'w-[300px] h-[250px]'
+      : 'w-full max-w-[728px] h-[90px]';
+
+  return (
+    <div
+      aria-hidden="true"
+      className={`${sizeClass} ${className}`}
+    />
   );
 }

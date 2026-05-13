@@ -84,7 +84,7 @@ export default function WordCounter() {
 
   return (
     <div className="space-y-5">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         {/* Editor */}
         <div className="lg:col-span-2">
           <ToolCard
@@ -113,7 +113,7 @@ export default function WordCounter() {
               value={text}
               onChange={(e) => setText(e.target.value)}
               placeholder="Start typing or paste your text here…"
-              className="w-full h-96 px-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none leading-relaxed"
+              className="w-full h-96 lg:h-[32rem] px-4 py-3 text-[15px] bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none leading-relaxed"
             />
           </ToolCard>
         </div>

@@ -239,9 +239,9 @@ export default function ColorConverter() {
   return (
     <div className="space-y-5">
       <ToolCard>
-        <div className="grid grid-cols-1 md:grid-cols-[200px,1fr] gap-5 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-[260px,1fr] gap-6 items-stretch">
           <div
-            className="rounded-2xl shadow-inner border-2 border-slate-200 h-32 md:h-44 relative overflow-hidden"
+            className="rounded-2xl shadow-inner border-2 border-slate-200 h-40 md:h-56 relative overflow-hidden"
             style={{
               backgroundImage:
                 'linear-gradient(45deg, #e2e8f0 25%, transparent 25%), linear-gradient(-45deg, #e2e8f0 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e2e8f0 75%), linear-gradient(-45deg, transparent 75%, #e2e8f0 75%)',
@@ -251,13 +251,13 @@ export default function ColorConverter() {
           >
             <div className="absolute inset-0" style={swatchStyle} />
           </div>
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
+          <div className="space-y-3 flex flex-col justify-center">
+            <div className="flex items-center gap-3">
               <input
                 type="color"
                 value={parsed ? rgbToHex({ ...parsed, a: 1 }).slice(0, 7) : '#10b981'}
                 onChange={(e) => setInput(e.target.value)}
-                className="w-12 h-12 rounded-lg border-2 border-slate-200 cursor-pointer"
+                className="w-14 h-14 rounded-lg border-2 border-slate-200 cursor-pointer flex-shrink-0"
                 aria-label="Pick a color"
               />
               <input
@@ -265,12 +265,12 @@ export default function ColorConverter() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="#10b981, rgb(16, 185, 129), hsl(160, 84%, 39%)"
-                className="flex-1 px-3 py-2.5 text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400"
+                className="flex-1 px-4 py-3.5 text-base sm:text-lg font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400"
                 spellCheck={false}
               />
             </div>
             {!parseColor(input) && input.trim() && (
-              <div className="text-xs text-red-600">Could not parse — try a HEX, RGB, or HSL value.</div>
+              <div className="text-xs text-red-600 font-mono">Could not parse — try a HEX, RGB, or HSL value.</div>
             )}
           </div>
         </div>
@@ -278,7 +278,7 @@ export default function ColorConverter() {
 
       {formats && (
         <ToolCard title="All formats">
-          <div className="space-y-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {[
               { label: 'HEX', value: formats.hex },
               { label: 'RGB', value: formats.rgb },
@@ -287,12 +287,12 @@ export default function ColorConverter() {
             ].map((f) => (
               <div
                 key={f.label}
-                className="flex items-center justify-between gap-3 px-3 py-2.5 bg-slate-50 rounded-lg border border-slate-100"
+                className="flex items-center justify-between gap-3 px-4 py-3 bg-slate-50 rounded-lg border border-slate-100"
               >
-                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider w-14">
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider w-14 flex-shrink-0">
                   {f.label}
                 </span>
-                <code className="flex-1 text-sm font-mono text-slate-800">{f.value}</code>
+                <code className="flex-1 text-sm font-mono text-slate-800 break-all">{f.value}</code>
                 <CopyButton value={f.value} />
               </div>
             ))}

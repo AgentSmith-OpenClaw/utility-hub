@@ -71,41 +71,46 @@ export default function HttpStatusCodes() {
   return (
     <div className="space-y-5">
       <ToolCard title="Search Status Codes">
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search by code, name, or description… e.g. 404, redirect, auth"
-          className="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-lg bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400"
-          autoFocus
-        />
-        <p className="text-xs text-slate-400 mt-1">{filtered.length} of {STATUS_CODES.length} codes</p>
+        <div className="relative">
+          <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
+          </svg>
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by code, name, or description… e.g. 404, redirect, auth"
+            className="w-full pl-10 pr-4 py-3 text-sm sm:text-base border border-slate-200 rounded-lg bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400"
+            autoFocus
+          />
+        </div>
+        <p className="text-xs text-slate-400 mt-2 font-medium">{filtered.length} of {STATUS_CODES.length} codes</p>
       </ToolCard>
 
       {selected && (
         <ToolCard title={`${selected.code} ${selected.name}`} action={
-          <button onClick={() => setSelected(null)} className="text-xs text-slate-400 hover:text-slate-600">✕ Close</button>
+          <button onClick={() => setSelected(null)} className="text-xs font-semibold text-slate-500 hover:text-slate-700 px-2 py-1 rounded-md hover:bg-slate-100 transition-colors">Close</button>
         }>
-          <span className={`inline-block px-2 py-0.5 text-xs font-semibold rounded mb-2 ${badgeColor(selected.code)}`}>{selected.category}</span>
-          <p className="text-sm text-slate-700 leading-relaxed">{selected.desc}</p>
+          <span className={`inline-block px-2.5 py-1 text-xs font-bold rounded-full mb-3 ${badgeColor(selected.code)}`}>{selected.category}</span>
+          <p className="text-[15px] text-slate-700 leading-relaxed">{selected.desc}</p>
         </ToolCard>
       )}
 
       <div className="space-y-4">
         {Object.entries(grouped).map(([category, codes]) => (
           <ToolCard key={category} title={category}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {codes.map((s) => (
                 <button
                   key={s.code}
                   onClick={() => setSelected(selected?.code === s.code ? null : s)}
-                  className={`text-left p-2.5 rounded-lg border transition-colors ${selected?.code === s.code ? 'border-emerald-400 bg-emerald-50' : 'border-slate-100 bg-slate-50 hover:border-slate-300'}`}
+                  className={`text-left p-3.5 rounded-xl border transition-all ${selected?.code === s.code ? 'border-emerald-400 bg-emerald-50 shadow-sm' : 'border-slate-100 bg-slate-50 hover:border-slate-300 hover:bg-white hover:shadow-sm'}`}
                 >
-                  <div className="flex items-start gap-2">
-                    <span className={`text-xs font-bold px-1.5 py-0.5 rounded ${badgeColor(s.code)}`}>{s.code}</span>
-                    <div>
+                  <div className="flex items-start gap-2.5">
+                    <span className={`text-xs font-bold px-2 py-1 rounded-md ${badgeColor(s.code)} font-mono`}>{s.code}</span>
+                    <div className="min-w-0">
                       <p className="text-sm font-semibold text-slate-800">{s.name}</p>
-                      <p className="text-xs text-slate-500 line-clamp-2">{s.desc}</p>
+                      <p className="text-xs text-slate-500 line-clamp-2 mt-0.5 leading-relaxed">{s.desc}</p>
                     </div>
                   </div>
                 </button>

@@ -153,21 +153,23 @@ export default function HtmlEntities() {
         </button>
       </div>
 
-      <ToolCard title="Input" action={<span className="text-[11px] text-slate-400">{input.length} chars</span>}>
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder={mode === 'encode' ? 'Paste raw text…' : 'Paste HTML-encoded text…'}
-          spellCheck={false}
-          className="w-full h-40 px-3 py-2.5 text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
-        />
-      </ToolCard>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <ToolCard title="Input" action={<span className="text-[11px] text-slate-400 font-medium">{input.length} chars</span>}>
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder={mode === 'encode' ? 'Paste raw text…' : 'Paste HTML-encoded text…'}
+            spellCheck={false}
+            className="w-full h-72 lg:h-96 px-4 py-3 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
+          />
+        </ToolCard>
 
-      <ToolCard title="Output" action={<CopyButton value={output} disabled={!output} />}>
-        <pre className="text-sm font-mono text-slate-800 whitespace-pre-wrap break-all min-h-[100px]">
-          {output || <span className="text-slate-400">—</span>}
-        </pre>
-      </ToolCard>
+        <ToolCard title="Output" action={<CopyButton value={output} disabled={!output} />}>
+          <pre className="h-72 lg:h-96 px-4 py-3 text-[13px] sm:text-sm font-mono text-slate-800 bg-slate-50 border border-slate-200 rounded-lg whitespace-pre-wrap break-all overflow-auto">
+            {output || <span className="text-slate-400">Output will appear here…</span>}
+          </pre>
+        </ToolCard>
+      </div>
     </div>
   );
 }

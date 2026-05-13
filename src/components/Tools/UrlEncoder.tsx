@@ -101,7 +101,7 @@ export default function UrlEncoder() {
       </div>
 
       {/* Input/Output */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <ToolCard
           title={mode === 'encode' ? 'Plain text' : 'Encoded text'}
           action={
@@ -118,7 +118,7 @@ export default function UrlEncoder() {
                 ? 'Paste text or a URL to encode…'
                 : 'Paste an encoded URL to decode…'
             }
-            className="w-full h-56 sm:h-64 px-3 py-2.5 text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
+            className="w-full h-72 sm:h-96 lg:h-[28rem] px-3 py-2.5 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
             spellCheck={false}
           />
         </ToolCard>
@@ -144,7 +144,7 @@ export default function UrlEncoder() {
           }
         >
           {error ? (
-            <div className="h-56 sm:h-64 flex items-center justify-center text-sm text-red-600 bg-red-50 border border-red-100 rounded-lg p-4">
+            <div className="h-72 sm:h-96 lg:h-[28rem] flex items-center justify-center text-sm text-red-600 bg-red-50 border border-red-100 rounded-lg p-4">
               <div>
                 <div className="font-semibold mb-1">Decoding error</div>
                 <div className="text-xs">{error}</div>
@@ -155,7 +155,7 @@ export default function UrlEncoder() {
               value={output}
               readOnly
               placeholder="Output will appear here…"
-              className="w-full h-56 sm:h-64 px-3 py-2.5 text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg resize-none text-slate-800"
+              className="w-full h-72 sm:h-96 lg:h-[28rem] px-3 py-2.5 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg resize-none text-slate-800"
               spellCheck={false}
             />
           )}

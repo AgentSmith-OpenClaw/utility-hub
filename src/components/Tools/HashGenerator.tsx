@@ -218,7 +218,7 @@ export default function HashGenerator() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type or paste anything to hash…"
-          className="w-full h-40 px-3 py-2.5 text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
+          className="w-full h-56 sm:h-72 px-4 py-3 text-[13px] sm:text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
           spellCheck={false}
         />
       </ToolCard>
