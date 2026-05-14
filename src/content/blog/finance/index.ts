@@ -3,7 +3,6 @@ import { toMetaList, toRecord } from '../types';
 
 import { understandingCompoundInterest } from './understanding-compound-interest';
 import { understandingEmiCalculations } from './understanding-emi-calculations';
-import { prepaymentStrategiesGuide } from './prepayment-strategies-guide';
 import { fireMovementExplained } from './fire-movement-explained';
 import { coastFireStrategy } from './coast-fire-strategy';
 import { stepUpSipVsFlatSip } from './step-up-sip-vs-flat-sip';
@@ -72,7 +71,6 @@ export const articles: BlogArticle[] = [
   mortgageRefinanceBreakEven,
   understandingCompoundInterest,
   understandingEmiCalculations,
-  prepaymentStrategiesGuide,
   fireMovementExplained,
   coastFireStrategy,
   stepUpSipVsFlatSip,

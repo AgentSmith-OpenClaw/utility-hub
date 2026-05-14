@@ -688,7 +688,7 @@ export default function Home() {
                   <Link href="/finance/learn/understanding-emi-calculations" className="text-indigo-600 hover:underline font-medium">Understanding EMI Calculations</Link> — How EMI formulas work and what affects your monthly payment.
                 </li>
                 <li>
-                  <Link href="/finance/learn/prepayment-strategies-guide" className="text-indigo-600 hover:underline font-medium">Prepayment Strategies Guide</Link> — When to prepay, how much to prepay, and which strategy saves the most.
+                  <Link href="/finance/learn/home-loan-prepayment-strategy" className="text-indigo-600 hover:underline font-medium">Home Loan Prepayment Strategy</Link> — When to prepay, how much to prepay, and which strategy saves the most.
                 </li>
                 <li>
                   <Link href="/finance/learn/fire-movement-explained" className="text-indigo-600 hover:underline font-medium">FIRE Movement Explained</Link> — A practical introduction to financial independence and early retirement.
