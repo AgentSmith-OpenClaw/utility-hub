@@ -9,6 +9,8 @@ import { generateAmortizationSchedule, calculateAmortizationSummary } from './Am
 import { generatePDFReport, fmtCurrency as pdfFmtCurrency, type PDFReportConfig } from '../../utils/pdf';
 import { exportAmortizationToExcel, type AmortizationExportData } from '../../utils/excel';
 import { CHART_COLORS } from '../../utils/chartColors';
+import CurrencySelector, { useCurrency } from '../CurrencySelector';
+import { CurrencyCode, CURRENCIES, formatCurrency as sharedFmt, formatCurrencyCompact } from '../../utils/currency';
 
 // --- Shared Sub-components (matching IncomeTax reference) ---
 
@@ -28,7 +30,7 @@ const AmortInputField: React.FC<{
   decimals?: number;
 }> = ({ label, value, onChange, min, max, step, prefix, suffix, tooltip, decimals = 0 }) => {
   const [focused, setFocused] = useState(false);
-  const fmt = (v: number) => decimals > 0 ? v.toFixed(decimals) : v.toLocaleString('en-IN');
+  const fmt = (v: number) => decimals > 0 ? v.toFixed(decimals) : v.toLocaleString();
   const [displayValue, setDisplayValue] = useState(fmt(value));
 
   useEffect(() => {
@@ -66,7 +68,7 @@ const AmortInputField: React.FC<{
   );
 };
 
-const ChartTooltip = ({ active, payload, label }: any) => {
+const ChartTooltip = ({ active, payload, label, currency = 'USD' }: any) => {
   if (!active || !payload?.length) return null;
   return (
     <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-slate-100 px-4 py-3">
@@ -75,33 +77,27 @@ const ChartTooltip = ({ active, payload, label }: any) => {
         <div key={entry.name} className="flex items-center gap-2 text-xs">
           <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: entry.color || entry.stroke || entry.fill }} />
           <span className="text-slate-500">{entry.name}:</span>
-          <span className="font-semibold text-slate-800">₹{Number(entry.value).toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+          <span className="font-semibold text-slate-800">{sharedFmt(Number(entry.value), currency as CurrencyCode)}</span>
         </div>
       ))}
     </div>
   );
 };
 
-const formatYAxis = (value: number): string => {
-  if (value >= 10_000_000) return `₹${(value / 10_000_000).toFixed(1)}Cr`;
-  if (value >= 100_000) return `₹${(value / 100_000).toFixed(1)}L`;
-  if (value >= 1_000) return `₹${(value / 1_000).toFixed(0)}K`;
-  return `₹${value}`;
-};
-
-const formatCurrency = (val: number) => 
-  `₹${val.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
-
 interface AmortizationCalculatorProps {
   hideHeader?: boolean;
 }
 
 const AmortizationCalculator: React.FC<AmortizationCalculatorProps> = ({ hideHeader = false }) => {
+  const [currency, setCurrency] = useCurrency();
   const [loanAmount, setLoanAmount] = useState<number>(5000000);
   const [annualRate, setAnnualRate] = useState<number>(8.5);
   const [tenureYears, setTenureYears] = useState<number>(20);
   const [copied, setCopied] = useState(false);
   const [exporting, setExporting] = useState<'pdf' | 'excel' | null>(null);
+
+  const formatCurrency = useCallback((val: number) => sharedFmt(val, currency), [currency]);
+  const formatYAxis = useCallback((value: number): string => formatCurrencyCompact(value, currency), [currency]);
 
   const schedule = useMemo(() => 
     generateAmortizationSchedule(loanAmount, annualRate, tenureYears * 12),
@@ -180,7 +176,7 @@ const AmortizationCalculator: React.FC<AmortizationCalculatorProps> = ({ hideHea
       }
 
       return {
-        label: extra === 0 ? 'Regular' : `+₹${(extra / 1000).toFixed(0)}K`,
+        label: extra === 0 ? 'Regular' : `+${CURRENCIES[currency].symbol}${(extra / 1000).toFixed(0)}K`,
         months,
         years: (months / 12).toFixed(1),
         totalInterest: Math.round(totalInterest),
@@ -289,7 +285,7 @@ const AmortizationCalculator: React.FC<AmortizationCalculatorProps> = ({ hideHea
         )}
 
         {/* Export + Share bar */}
-        <div className="flex flex-wrap gap-2 justify-center mb-8">
+        <div className="flex flex-wrap gap-2 justify-center mb-4">
           <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-blue-50 border border-slate-100 hover:border-blue-200 text-slate-600 hover:text-blue-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
             {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
           </button>
@@ -305,6 +301,9 @@ const AmortizationCalculator: React.FC<AmortizationCalculatorProps> = ({ hideHea
           <button onClick={handleShareTwitter} className="flex items-center gap-2 bg-white hover:bg-sky-50 border border-slate-100 hover:border-sky-200 text-slate-600 hover:text-sky-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
             🐦 Twitter
           </button>
+        </div>
+        <div className="flex justify-end mb-6">
+          <CurrencySelector value={currency} onChange={setCurrency} />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6 items-start">
@@ -324,7 +323,7 @@ const AmortizationCalculator: React.FC<AmortizationCalculatorProps> = ({ hideHea
             <AmortInputField
               label="Loan Amount" value={loanAmount}
               onChange={(v) => setLoanAmount(v)}
-              min={10000} max={100000000} step={50000} prefix="₹"
+              min={10000} max={100000000} step={50000} prefix={CURRENCIES[currency].symbol}
               tooltip="Total loan principal amount."
             />
             <AmortInputField
@@ -406,7 +405,7 @@ const AmortizationCalculator: React.FC<AmortizationCalculatorProps> = ({ hideHea
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={CHART_COLORS.grid} />
                     <XAxis dataKey="month" fontSize={10} tickLine={false} axisLine={false} />
                     <YAxis tickFormatter={formatYAxis} fontSize={10} tickLine={false} axisLine={false} />
-                    <RechartsTooltip content={<ChartTooltip />} />
+                    <RechartsTooltip content={(props) => <ChartTooltip {...props} currency={currency} />} />
                     <Area type="monotone" dataKey="balance" name="Remaining Balance" stroke={CHART_COLORS.primary} fill="url(#balGrad)" strokeWidth={2} />
                   </AreaChart>
                 </ResponsiveContainer>
@@ -425,7 +424,7 @@ const AmortizationCalculator: React.FC<AmortizationCalculatorProps> = ({ hideHea
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={CHART_COLORS.grid} />
                     <XAxis dataKey="year" fontSize={11} tickLine={false} axisLine={false} />
                     <YAxis tickFormatter={formatYAxis} fontSize={12} tickLine={false} axisLine={false} />
-                    <RechartsTooltip content={<ChartTooltip />} />
+                    <RechartsTooltip content={(props) => <ChartTooltip {...props} currency={currency} />} />
                     <Legend />
                     <Bar dataKey="principal" name="Principal" stackId="a" fill={CHART_COLORS.primary} />
                     <Bar dataKey="interest" name="Interest" stackId="a" fill={CHART_COLORS.secondary} />

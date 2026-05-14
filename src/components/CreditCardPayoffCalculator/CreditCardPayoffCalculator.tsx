@@ -17,6 +17,8 @@ import {
 } from 'recharts';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import CurrencySelector, { useCurrency } from '../CurrencySelector';
+import { CurrencyCode, CURRENCIES, formatCurrency as sharedFmt, formatCurrencyCompact } from '../../utils/currency';
 
 interface CardInput {
   id: string;
@@ -44,9 +46,7 @@ interface PayoffResult {
   perCardSummary: Array<{ id: string; name: string; payoffMonth: number; interest: number }>;
 }
 
-const fmt = (n: number) =>
-  '$' +
-  Math.round(n).toLocaleString('en-US', { maximumFractionDigits: 0 });
+// fmt is defined inside component to close over currency state
 
 const newCard = (i: number, defaults?: Partial<CardInput>): CardInput => ({
   id: `c-${Date.now()}-${i}-${Math.random().toString(36).slice(2, 6)}`,
@@ -158,6 +158,8 @@ interface CreditCardPayoffCalculatorProps {
 }
 
 export default function CreditCardPayoffCalculator({ hideHeader = false }: CreditCardPayoffCalculatorProps = {}) {
+  const [currency, setCurrency] = useCurrency();
+  const fmt = (n: number) => sharedFmt(Math.round(n), currency);
   const [cards, setCards] = useState<CardInput[]>([
     newCard(0, { name: 'Visa', balance: 5000, apr: 22.99, minPayment: 100 }),
     newCard(1, { name: 'Mastercard', balance: 3500, apr: 18.99, minPayment: 70 }),
@@ -313,11 +315,18 @@ export default function CreditCardPayoffCalculator({ hideHeader = false }: Credi
         </div>
       </section>
 
-      <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-5 gap-6">
+      <div className="max-w-6xl mx-auto px-4 pt-4">
+        <div className="flex justify-end mb-4">
+          <CurrencySelector value={currency} onChange={setCurrency} />
+        </div>
+      </div>
+      <div className="max-w-6xl mx-auto px-4 pb-8 grid grid-cols-1 lg:grid-cols-5 gap-6">
         {/* Inputs */}
         <div className="lg:col-span-2 space-y-5">
           <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
-            <h2 className="text-sm font-bold text-slate-800 mb-4">Your cards</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-sm font-bold text-slate-800">Your cards</h2>
+            </div>
             <div className="space-y-4">
               {cards.map((c, idx) => (
                 <div key={c.id} className="rounded-xl border border-slate-200 p-3 bg-slate-50/40">
@@ -347,7 +356,7 @@ export default function CreditCardPayoffCalculator({ hideHeader = false }: Credi
                     <label className="block">
                       <span className="block text-[10px] font-semibold uppercase text-slate-500 mb-0.5">Balance</span>
                       <div className="flex items-center bg-white border border-slate-200 rounded-md px-2 py-1.5">
-                        <span className="text-slate-400 mr-1">$</span>
+                        <span className="text-slate-400 mr-1">{CURRENCIES[currency].symbol}</span>
                         <input
                           type="number"
                           min={0}
@@ -373,7 +382,7 @@ export default function CreditCardPayoffCalculator({ hideHeader = false }: Credi
                     <label className="block">
                       <span className="block text-[10px] font-semibold uppercase text-slate-500 mb-0.5">Min pmt</span>
                       <div className="flex items-center bg-white border border-slate-200 rounded-md px-2 py-1.5">
-                        <span className="text-slate-400 mr-1">$</span>
+                        <span className="text-slate-400 mr-1">{CURRENCIES[currency].symbol}</span>
                         <input
                           type="number"
                           min={0}
@@ -493,7 +502,7 @@ export default function CreditCardPayoffCalculator({ hideHeader = false }: Credi
                     <AreaChart data={balanceChartData} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                       <XAxis dataKey="month" tick={{ fontSize: 11 }} label={{ value: 'Month', position: 'insideBottom', offset: -2, fontSize: 11 }} />
-                      <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => `$${(v / 1000).toFixed(1)}k`} />
+                      <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => formatCurrencyCompact(v, currency)} />
                       <Tooltip formatter={(v: number | undefined) => fmt(v ?? 0)} />
                       <Legend wrapperStyle={{ fontSize: 11 }} />
                       {cards.map((c, i) => (
@@ -521,7 +530,7 @@ export default function CreditCardPayoffCalculator({ hideHeader = false }: Credi
                       <BarChart data={strategyCompareData}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                         <XAxis dataKey="strategy" tick={{ fontSize: 11 }} />
-                        <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
+                        <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => formatCurrencyCompact(v, currency)} />
                         <Tooltip formatter={(v: number | undefined) => fmt(v ?? 0)} />
                         <Bar dataKey="interest" fill="#ef4444" radius={[4, 4, 0, 0]} name="Total interest" />
                       </BarChart>

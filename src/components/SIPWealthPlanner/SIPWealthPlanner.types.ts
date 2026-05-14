@@ -1,4 +1,5 @@
-export type Currency = 'USD' | 'INR';
+import { CurrencyCode } from '../../utils/currency';
+export type Currency = CurrencyCode;
 export type StepUpMode = 'percent' | 'fixed';
 export type PlannerMode = 'wealth' | 'goal';
 

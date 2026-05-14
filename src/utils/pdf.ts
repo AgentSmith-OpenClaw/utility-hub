@@ -1,5 +1,6 @@
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { CURRENCIES, CurrencyCode } from './currency';
 
 // ─── Types ──────────────────────────────────────────────────────────
 export interface PDFInputItem {
@@ -417,8 +418,9 @@ export const generatePDFReport = async (config: PDFReportConfig): Promise<void> 
 
 // ─── Currency / number formatters ──────────────────────────────────
 export function fmtCurrency(value: number, currency: string = 'INR'): string {
-  if (currency === 'INR') return '₹' + value.toLocaleString('en-IN', { maximumFractionDigits: 0 });
-  return '$' + value.toLocaleString('en-US', { maximumFractionDigits: 0 });
+  const cur = currency as CurrencyCode;
+  const { symbol, locale } = CURRENCIES[cur] ?? CURRENCIES['INR'];
+  return symbol + Math.round(value).toLocaleString(locale, { maximumFractionDigits: 0 });
 }
 export function fmtPercent(value: number, decimals: number = 1): string {
   return value.toFixed(decimals) + '%';

@@ -11,22 +11,27 @@ import { exportToExcel } from '../../utils/excel';
 import { generatePDFReport, fmtCurrency, type PDFReportConfig } from '../../utils/pdf';
 import AdSlot from '../AdSlot/AdSlot';
 import { CHART_COLORS, PIE_COLORS } from '../../utils/chartColors';
+import CurrencySelector, { useCurrency } from '../CurrencySelector';
+import { CurrencyCode, CURRENCIES, formatCurrency as sharedFmtCurrency, formatCurrencyCompact } from '../../utils/currency';
 
 // Custom tooltip matching FIRE/SIP pattern
-const ChartTooltip = ({ active, payload, label }: any) => {
-  if (!active || !payload?.length) return null;
-  return (
-    <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-slate-100 px-4 py-3">
-      <p className="text-sm font-bold text-slate-900 mb-1.5">{label}</p>
-      {payload.map((entry: any) => (
-        <div key={entry.name} className="flex items-center gap-2 text-xs">
-          <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: entry.color || entry.stroke || entry.fill }} />
-          <span className="text-slate-500">{entry.name}:</span>
-          <span className="font-semibold text-slate-800">₹{Number(entry.value).toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
-        </div>
-      ))}
-    </div>
-  );
+const createChartTooltip = (currency: CurrencyCode) => {
+  const ChartTooltip = ({ active, payload, label }: any) => {
+    if (!active || !payload?.length) return null;
+    return (
+      <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-slate-100 px-4 py-3">
+        <p className="text-sm font-bold text-slate-900 mb-1.5">{label}</p>
+        {payload.map((entry: any) => (
+          <div key={entry.name} className="flex items-center gap-2 text-xs">
+            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: entry.color || entry.stroke || entry.fill }} />
+            <span className="text-slate-500">{entry.name}:</span>
+            <span className="font-semibold text-slate-800">{sharedFmtCurrency(Math.round(Number(entry.value)), currency)}</span>
+          </div>
+        ))}
+      </div>
+    );
+  };
+  return ChartTooltip;
 };
 
 const PctTooltip = ({ active, payload, label }: any) => {
@@ -45,12 +50,8 @@ const PctTooltip = ({ active, payload, label }: any) => {
   );
 };
 
-const formatYAxis = (value: number): string => {
-  if (value >= 10_000_000) return `₹${(value / 10_000_000).toFixed(1)}Cr`;
-  if (value >= 100_000) return `₹${(value / 100_000).toFixed(1)}L`;
-  if (value >= 1_000) return `₹${(value / 1_000).toFixed(0)}K`;
-  return `₹${value}`;
-};
+const createFormatYAxis = (currency: CurrencyCode) => (value: number): string =>
+  formatCurrencyCompact(value, currency);
 
 interface CalculationHistory {
   id: string;
@@ -71,6 +72,11 @@ interface EMICalculatorProps {
 
 const EMICalculator: React.FC<EMICalculatorProps> = ({ hideHeader = false }) => {
   const { emi, schedule, summary, calculate } = useEMI();
+  const [currency, setCurrency] = useCurrency();
+  const fmt = useCallback((n: number) => sharedFmtCurrency(Math.round(n), currency), [currency]);
+  const ChartTooltip = useMemo(() => createChartTooltip(currency), [currency]);
+  const formatYAxis = useMemo(() => createFormatYAxis(currency), [currency]);
+  const sym = CURRENCIES[currency]?.symbol ?? '$';
   const [loanAmount, setLoanAmount] = useState<string>('5000000');
   const [annualRate, setAnnualRate] = useState<string>('8.5');
   const [tenureYears, setTenureYears] = useState<string>('20');
@@ -288,16 +294,17 @@ const EMICalculator: React.FC<EMICalculatorProps> = ({ hideHeader = false }) => 
       const la = parseFloat(loanAmount) || 0;
       const ar = parseFloat(annualRate) || 0;
       const ty = parseFloat(tenureYears) || 0;
+      const pdfFmt = (v: number) => fmtCurrency(v, currency);
       const config: PDFReportConfig = {
         title: 'EMI Calculator Report',
-        subtitle: `Loan of ${fmtCurrency(la)} at ${ar}% for ${ty} years`,
+        subtitle: `Loan of ${pdfFmt(la)} at ${ar}% for ${ty} years`,
         filename: 'EMI_Amortization_Schedule.pdf',
         sections: [
           {
             type: 'inputs',
             title: 'Loan Parameters',
             inputs: [
-              { label: 'Loan Amount', value: fmtCurrency(la) },
+              { label: 'Loan Amount', value: pdfFmt(la) },
               { label: 'Annual Interest Rate', value: `${ar}%` },
               { label: 'Tenure', value: `${ty} years (${ty * 12} months)` },
               { label: 'Prepayments', value: prepayments.length > 0 ? `${prepayments.length} configured` : 'None' },
@@ -307,17 +314,17 @@ const EMICalculator: React.FC<EMICalculatorProps> = ({ hideHeader = false }) => 
             type: 'metrics',
             title: 'Loan Summary',
             metrics: [
-              { label: 'Monthly EMI', value: fmtCurrency(emi) },
-              { label: 'Total Interest', value: fmtCurrency(summary?.totalInterest || 0) },
-              { label: 'Total Amount', value: fmtCurrency(summary?.totalAmount || 0) },
-              { label: 'Interest Saved', value: fmtCurrency(summary?.interestSaved || 0), subtitle: summary ? `Actual tenure: ${summary.actualTenure} months` : undefined },
+              { label: 'Monthly EMI', value: pdfFmt(emi) },
+              { label: 'Total Interest', value: pdfFmt(summary?.totalInterest || 0) },
+              { label: 'Total Amount', value: pdfFmt(summary?.totalAmount || 0) },
+              { label: 'Interest Saved', value: pdfFmt(summary?.interestSaved || 0), subtitle: summary ? `Actual tenure: ${summary.actualTenure} months` : undefined },
             ],
           },
           ...(summary && summary.interestSaved > 0 ? [{
             type: 'message' as const,
             message: {
               heading: 'Prepayment Impact',
-              text: `You save ${fmtCurrency(summary.interestSaved)} in interest and reduce tenure by ${(ty * 12) - summary.actualTenure} months through prepayments.`,
+              text: `You save ${pdfFmt(summary.interestSaved)} in interest and reduce tenure by ${(ty * 12) - summary.actualTenure} months through prepayments.`,
             },
           }] : []),
           {
@@ -344,10 +351,10 @@ const EMICalculator: React.FC<EMICalculatorProps> = ({ hideHeader = false }) => 
               ],
               rows: schedule.map(p => ({
                 month: String(p.month),
-                emi: fmtCurrency(p.totalPayment),
-                principal: fmtCurrency(p.principal),
-                interest: fmtCurrency(p.interest),
-                balance: fmtCurrency(p.remainingBalance),
+                emi: pdfFmt(p.totalPayment),
+                principal: pdfFmt(p.principal),
+                interest: pdfFmt(p.interest),
+                balance: pdfFmt(p.remainingBalance),
               })),
               maxRows: 60,
             },
@@ -393,14 +400,14 @@ const EMICalculator: React.FC<EMICalculatorProps> = ({ hideHeader = false }) => 
   }, []);
 
   const handleShareWhatsApp = useCallback(() => {
-    const text = `Check out my EMI calculation: ₹${Number(loanAmount).toLocaleString('en-IN')} loan at ${annualRate}% for ${tenureYears} years = ₹${emi.toLocaleString('en-IN', { maximumFractionDigits: 0 })} EMI/month!\n\n${window.location.href}`;
+    const text = `Check out my EMI calculation: ${fmt(Number(loanAmount))} loan at ${annualRate}% for ${tenureYears} years = ${fmt(emi)} EMI/month!\n\n${window.location.href}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
-  }, [loanAmount, annualRate, tenureYears, emi]);
+  }, [loanAmount, annualRate, tenureYears, emi, fmt]);
 
   const handleShareTwitter = useCallback(() => {
-    const text = `My loan EMI: ₹${Number(loanAmount).toLocaleString('en-IN')} at ${annualRate}% for ${tenureYears} yrs = ₹${emi.toLocaleString('en-IN', { maximumFractionDigits: 0 })}/month. Calculate yours:`;
+    const text = `My loan EMI: ${fmt(Number(loanAmount))} at ${annualRate}% for ${tenureYears} yrs = ${fmt(emi)}/month. Calculate yours:`;
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`, '_blank');
-  }, [loanAmount, annualRate, tenureYears, emi]);
+  }, [loanAmount, annualRate, tenureYears, emi, fmt]);
 
   // Chart data preparation (Recharts format)
   const chartData = useMemo(() => {
@@ -507,6 +514,9 @@ const EMICalculator: React.FC<EMICalculatorProps> = ({ hideHeader = false }) => 
             🐦 Twitter
           </button>
         </div>
+        <div className="flex justify-end mb-6">
+          <CurrencySelector value={currency} onChange={setCurrency} />
+        </div>
 
         {/* Compact Input Sections in Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
@@ -531,7 +541,7 @@ const EMICalculator: React.FC<EMICalculatorProps> = ({ hideHeader = false }) => 
             <div className="grid grid-cols-3 gap-4 mb-4">
               <div>
                 <label className="block text-slate-700 font-semibold mb-1 text-sm">
-                  Loan Amount (₹)
+                  Loan Amount
                 </label>
                 <input
                   type="number"
@@ -541,7 +551,7 @@ const EMICalculator: React.FC<EMICalculatorProps> = ({ hideHeader = false }) => 
                   placeholder="5000000"
                 />
                 <p className="text-xs text-slate-500 mt-1">
-                  ₹{parseFloat(loanAmount || '0').toLocaleString('en-IN')}
+                  {fmt(parseFloat(loanAmount || '0'))}
                 </p>
               </div>
 
@@ -669,7 +679,7 @@ const EMICalculator: React.FC<EMICalculatorProps> = ({ hideHeader = false }) => 
               )}
 
               <div>
-                <label className="block text-slate-700 font-semibold mb-1 text-xs">Amount (₹)</label>
+                <label className="block text-slate-700 font-semibold mb-1 text-xs">Amount ({sym})</label>
                 <input
                   type="number"
                   value={newPrepaymentAmount}
@@ -698,7 +708,7 @@ const EMICalculator: React.FC<EMICalculatorProps> = ({ hideHeader = false }) => 
                     <div key={prep.id} className="flex items-center justify-between bg-teal-50 p-2 rounded-lg border border-teal-200 text-xs">
                       <div className="flex-1">
                         <span className="font-semibold text-slate-800">
-                          M{prep.month}: ₹{prep.amount.toLocaleString('en-IN')}
+                          M{prep.month}: {fmt(prep.amount)}
                         </span>
                         <span className="ml-2 text-slate-600 text-xs">
                           {prep.strategy === 'reduce-tenure' ? '🎯' : '💰'}
@@ -728,22 +738,22 @@ const EMICalculator: React.FC<EMICalculatorProps> = ({ hideHeader = false }) => 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
               <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-md p-4 text-white">
                 <p className="text-blue-100 mb-1 text-xs font-semibold">Monthly EMI</p>
-                <p className="text-3xl font-bold">₹{emi.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
+                <p className="text-3xl font-bold">{fmt(emi)}</p>
               </div>
-              
+
               <div className="bg-gradient-to-br from-teal-500 to-teal-600 rounded-2xl shadow-md p-4 text-white">
                 <p className="text-teal-100 mb-1 text-xs font-semibold">Total Interest</p>
-                <p className="text-3xl font-bold">₹{summary.totalInterest.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
+                <p className="text-3xl font-bold">{fmt(summary.totalInterest)}</p>
               </div>
-              
+
               <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-md p-4 text-white">
                 <p className="text-blue-100 mb-1 text-xs font-semibold">Total Amount</p>
-                <p className="text-3xl font-bold">₹{summary.totalAmount.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
+                <p className="text-3xl font-bold">{fmt(summary.totalAmount)}</p>
               </div>
-              
+
               <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl shadow-md p-4 text-white">
                 <p className="text-teal-100 mb-1 text-xs font-semibold">Interest Saved</p>
-                <p className="text-3xl font-bold">₹{summary.interestSaved.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
+                <p className="text-3xl font-bold">{fmt(summary.interestSaved)}</p>
                 {summary.interestSaved > 0 && (
                   <p className="text-teal-100 text-xs mt-1">
                     Loan done in {summary.actualTenure} months (saved {(parseInt(tenureYears) * 12) - summary.actualTenure})
@@ -769,7 +779,7 @@ const EMICalculator: React.FC<EMICalculatorProps> = ({ hideHeader = false }) => 
                   <div className="text-center">
                     <p className="text-white/80 text-xs mb-1">Total Interest Saved</p>
                     <p className="text-2xl font-bold">
-                      ₹{summary.interestSaved.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
+                      {fmt(summary.interestSaved)}
                     </p>
                     <p className="text-white/80 text-xs">exact savings</p>
                   </div>
@@ -826,7 +836,7 @@ const EMICalculator: React.FC<EMICalculatorProps> = ({ hideHeader = false }) => 
                             <>
                               {allReduceEMI ? (
                                 <>
-                                  💰 <strong>EMI Reduction Strategy:</strong> With this approach, your <span className="font-bold">monthly EMI burden is reduced from ₹{fromEmi.toLocaleString('en-IN', { maximumFractionDigits: 0 })} to ₹{toEmi.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span> as you make prepayments.
+                                  💰 <strong>EMI Reduction Strategy:</strong> With this approach, your <span className="font-bold">monthly EMI burden is reduced from {fmt(fromEmi)} to {fmt(toEmi)}</span> as you make prepayments.
                                   <br />
                                   The loan tenure remains at {parseInt(tenureYears)} years, but you enjoy <span className="font-bold">lower monthly payments</span> throughout, giving you more cash flow flexibility!
                                 </>
@@ -864,33 +874,31 @@ const EMICalculator: React.FC<EMICalculatorProps> = ({ hideHeader = false }) => 
                         <tr key={impact.prepaymentId} className="border-b border-white/10 hover:bg-white/5">
                           <td className="px-3 py-2 font-semibold">{index + 1}</td>
                           <td className="px-3 py-2">M{impact.prepaymentMonth}</td>
-                          <td className="px-3 py-2 font-semibold">₹{impact.prepaymentAmount.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</td>
+                          <td className="px-3 py-2 font-semibold">{fmt(impact.prepaymentAmount)}</td>
                           <td className="px-3 py-2">
                             <span className={`px-2 py-0.5 rounded text-xs font-semibold ${
-                              impact.strategy === 'reduce-tenure' 
-                                ? 'bg-blue-500/30 text-blue-100' 
+                              impact.strategy === 'reduce-tenure'
+                                ? 'bg-blue-500/30 text-blue-100'
                                 : 'bg-teal-500/30 text-teal-100'
                             }`}>
                               {impact.strategy === 'reduce-tenure' ? '🎯 Tenure' : '💰 EMI'}
                             </span>
                           </td>
                           <td className="px-3 py-2 text-white/80">
-                            ₹{impact.oldEMI.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
+                            {fmt(impact.oldEMI)}
                           </td>
                           <td className="px-3 py-2 font-semibold">
-                            {impact.newEMI > 0
-                              ? `₹${impact.newEMI.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`
-                              : '✅ Paid off'}
+                            {impact.newEMI > 0 ? fmt(impact.newEMI) : '✅ Paid off'}
                           </td>
                           <td className="px-3 py-2 text-white/80">{impact.oldRemainingMonths}</td>
                           <td className="px-3 py-2 font-semibold">
                             {impact.newRemainingMonths === 0 ? '✅ Done' : impact.newRemainingMonths}
                           </td>
                           <td className="px-3 py-2 text-teal-200 font-semibold">
-                            ₹{impact.interestSaved.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
+                            {fmt(impact.interestSaved)}
                           </td>
                           <td className="px-3 py-2 font-bold text-yellow-200">
-                            ₹{impact.cumulativeInterestSaved.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
+                            {fmt(impact.cumulativeInterestSaved)}
                           </td>
                         </tr>
                       ))}
@@ -1117,19 +1125,19 @@ const EMICalculator: React.FC<EMICalculatorProps> = ({ hideHeader = false }) => 
                       >
                         <td className="px-4 py-2 whitespace-nowrap font-semibold text-slate-900">{payment.month}</td>
                         <td className="px-4 py-2 whitespace-nowrap text-slate-900">
-                          ₹{(payment.principal + payment.interest).toLocaleString('en-IN', { maximumFractionDigits: 0 })}
+                          {fmt(payment.principal + payment.interest)}
                         </td>
                         <td className="px-4 py-2 whitespace-nowrap text-teal-600 font-semibold">
-                          ₹{payment.principal.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
+                          {fmt(payment.principal)}
                         </td>
                         <td className="px-4 py-2 whitespace-nowrap text-orange-600">
-                          ₹{payment.interest.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
+                          {fmt(payment.interest)}
                         </td>
                         <td className="px-4 py-2 whitespace-nowrap font-bold text-teal-700">
-                          {payment.prepaymentAmount ? `₹${payment.prepaymentAmount.toLocaleString('en-IN', { maximumFractionDigits: 0 })}` : '-'}
+                          {payment.prepaymentAmount ? fmt(payment.prepaymentAmount) : '-'}
                         </td>
                         <td className="px-4 py-2 whitespace-nowrap text-slate-900 font-semibold">
-                          ₹{payment.remainingBalance.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
+                          {fmt(payment.remainingBalance)}
                         </td>
                       </tr>
                     ))}
@@ -1194,7 +1202,7 @@ const EMICalculator: React.FC<EMICalculatorProps> = ({ hideHeader = false }) => 
                               })}
                             </p>
                             <p className="text-lg font-bold text-slate-800">
-                              ₹{item.loanAmount.toLocaleString('en-IN')} @ {item.annualRate}% for {item.tenureYears} years
+                              {fmt(item.loanAmount)} @ {item.annualRate}% for {item.tenureYears} years
                             </p>
                           </div>
                           <span className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-semibold">
@@ -1204,15 +1212,15 @@ const EMICalculator: React.FC<EMICalculatorProps> = ({ hideHeader = false }) => 
                         <div className="grid grid-cols-4 gap-4 text-sm">
                           <div>
                             <p className="text-slate-600 text-xs">Monthly EMI</p>
-                            <p className="font-bold text-blue-600">₹{item.emi.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
+                            <p className="font-bold text-blue-600">{fmt(item.emi)}</p>
                           </div>
                           <div>
                             <p className="text-slate-600 text-xs">Total Interest</p>
-                            <p className="font-bold text-teal-600">₹{item.totalInterest.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
+                            <p className="font-bold text-teal-600">{fmt(item.totalInterest)}</p>
                           </div>
                           <div>
                             <p className="text-slate-600 text-xs">Interest Saved</p>
-                            <p className="font-bold text-teal-600">₹{item.interestSaved.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
+                            <p className="font-bold text-teal-600">{fmt(item.interestSaved)}</p>
                           </div>
                           <div>
                             <p className="text-slate-600 text-xs">Actual Tenure</p>

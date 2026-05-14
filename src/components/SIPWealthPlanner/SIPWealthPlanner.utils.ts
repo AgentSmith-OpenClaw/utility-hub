@@ -1,4 +1,5 @@
 import { Currency, DelayCostEntry, SIPInputs, SIPResult, SIPYearProjection, StepUpMode } from './SIPWealthPlanner.types';
+import { CURRENCIES } from '../../utils/currency';
 
 const MAX_BINARY_SEARCH_SIP = 50_000_000;
 
@@ -233,8 +234,7 @@ export function calculateSIP(inputs: SIPInputs): SIPResult {
 }
 
 export function formatCurrency(value: number, currency: Currency = 'INR', short = false): string {
-  const symbol = currency === 'INR' ? '\u20B9' : '$';
-  const locale = currency === 'INR' ? 'en-IN' : 'en-US';
+  const { symbol, locale } = CURRENCIES[currency] ?? CURRENCIES['INR'];
 
   if (!isFinite(value)) return `${symbol}\u221E`;
 

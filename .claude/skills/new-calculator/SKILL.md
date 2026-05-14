@@ -43,6 +43,51 @@ src/pages/finance/[slug].tsx     # uses <ToolShell> + <ToolSEOContent>
 
 **Every calculator — heavy or lightweight — MUST:**
 
+0. **Currency selection rule** — decide before writing any formatting code:
+
+   | Calculator type | Currency handling |
+   |---|---|
+   | Country-specific (India income tax, US 401k, US paycheck, SIP, FD, RD, EMI, Social Security, Roth IRA) | Hardcode the country's currency; no `CurrencySelector` |
+   | Generic / multi-region (loans, investments, compound interest, mortgage, buy-vs-rent, credit card payoff, tip, salary, net worth) | **Must include `CurrencySelector`** |
+   | Region-selector already present (Sales Tax/VAT/GST) | Currency symbol comes from the region config; no separate `CurrencySelector` |
+
+   **For generic calculators**, use this exact pattern — no inventing alternatives:
+
+   ```tsx
+   // Imports
+   import CurrencySelector, { useCurrency } from '../CurrencySelector';
+   import { CurrencyCode, CURRENCIES, formatCurrency, formatCurrencyCompact } from '../../utils/currency';
+
+   // Inside component
+   const [currency, setCurrency] = useCurrency();
+
+   // Placement: add as first item in the export/share bar (flex-wrap row)
+   <div className="flex flex-wrap gap-2 justify-center mb-6">
+     <CurrencySelector value={currency} onChange={setCurrency} />
+     {/* … export/share buttons … */}
+   </div>
+
+   // For compact placement (inside an input card header):
+   <CurrencySelector value={currency} onChange={setCurrency} compact />
+
+   // Formatting
+   formatCurrency(value, currency)          // full format: "$1,234"
+   formatCurrencyCompact(value, currency)   // compact:  "$1.2K"
+   CURRENCIES[currency].symbol              // raw symbol: "$"
+
+   // Chart tooltip — pass currency as a prop so it closes over the right value
+   const MyTooltip = ({ active, payload, currency = 'USD' }: any) => { … };
+   <Tooltip content={(props) => <MyTooltip {...props} currency={currency} />} />
+
+   // Y-axis compact formatter
+   tickFormatter={(v) => formatCurrencyCompact(v, currency)}
+
+   // Input field prefix
+   prefix={CURRENCIES[currency].symbol}
+   ```
+
+   `useCurrency()` reads/writes the user's choice to `localStorage` key `toolisk_currency` — the preference persists across all generic calculators automatically.
+
 1. **`<ExportShareBar>`** is the first child in the component body (never recreate it).
    - Import from `src/components/Tools/ExportShareBar.tsx`
    - Provide `buildPdfConfig()` → `PDFReportConfig` and `buildExcelSheets()` → `GenericExcelSheet[]`
@@ -190,6 +235,7 @@ Fix all errors. Re-run after each fix until both pass cleanly. Report final page
 
 ## Checklist (verify every item)
 
+- [ ] Currency rule applied: generic calcs have `CurrencySelector` (pattern from Step 2); country-specific calcs do not
 - [ ] `<ExportShareBar>` is first child; PDF/Excel/Copy/WhatsApp/Twitter all wired
 - [ ] `buildPdfConfig()` and `buildExcelSheets()` implemented
 - [ ] Charts: correct count for pattern; custom tooltips; CHART_COLORS used

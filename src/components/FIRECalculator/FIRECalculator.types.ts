@@ -1,5 +1,6 @@
+import { CurrencyCode } from '../../utils/currency';
 export type FIREType = 'lean' | 'regular' | 'fat' | 'coast' | 'barista';
-export type Currency = 'USD' | 'INR';
+export type Currency = CurrencyCode;
 export type CalculationMode = 'standard' | 'reverse'; // standard = calculate years; reverse = "I want to retire in X years"
 
 export interface FIRETypeInfo {

@@ -22,6 +22,8 @@ import { SIPInputs } from './SIPWealthPlanner.types';
 import { generatePDFReport, fmtCurrency as pdfFmtCurrency, fmtPercent, type PDFReportConfig } from '../../utils/pdf';
 import { exportSIPToExcel } from '../../utils/excel';
 import { CHART_COLORS } from '../../utils/chartColors';
+import CurrencySelector from '../CurrencySelector';
+import { CurrencyCode, CURRENCIES } from '../../utils/currency';
 
 // Color palette
 const SIP_COLORS = {
@@ -162,7 +164,7 @@ const SIPWealthPlanner: React.FC<SIPWealthPlannerProps> = ({ hideHeader = false 
     if (inf !== null) nextInputs.inflationRate = Math.min(12, Math.max(0, inf));
     if (typeof query.mode === 'string') nextInputs.mode = query.mode === 'goal' ? 'goal' : 'wealth';
     if (goal !== null) nextInputs.targetCorpus = Math.max(0, goal);
-    if (typeof query.cur === 'string') nextInputs.currency = query.cur === 'USD' ? 'USD' : 'INR';
+    if (typeof query.cur === 'string' && query.cur in CURRENCIES) nextInputs.currency = query.cur as CurrencyCode;
     if (typeof query.cmp === 'string') nextInputs.compareWithFlat = query.cmp === '1';
 
     if (Object.keys(nextInputs).length > 0) updateInputs(nextInputs);
@@ -455,6 +457,9 @@ const SIPWealthPlanner: React.FC<SIPWealthPlannerProps> = ({ hideHeader = false 
             🐦 Twitter
           </button>
         </div>
+        <div className="flex justify-end mb-6">
+          <CurrencySelector value={inputs.currency as CurrencyCode} onChange={(code) => updateInputs({ currency: code })} />
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-6 items-start">
           <section className="bg-white rounded-2xl border border-slate-100 shadow-md p-5">
@@ -477,23 +482,6 @@ const SIPWealthPlanner: React.FC<SIPWealthPlannerProps> = ({ hideHeader = false 
               </div>
             </div>
 
-            <div className="mb-4">
-              <div className="inline-flex rounded-xl border border-slate-200 p-1 bg-slate-50 w-full">
-                <button
-                  onClick={() => updateInputs({ currency: 'INR' })}
-                  className={`w-1/2 rounded-lg px-3 py-2 text-sm font-semibold transition ${inputs.currency === 'INR' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500'}`}
-                >
-                  ₹ INR (L/Cr)
-                </button>
-                <button
-                  onClick={() => updateInputs({ currency: 'USD' })}
-                  className={`w-1/2 rounded-lg px-3 py-2 text-sm font-semibold transition ${inputs.currency === 'USD' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500'}`}
-                >
-                  $ USD
-                </button>
-              </div>
-            </div>
-
             <SliderField
               label="Monthly Investment"
               value={inputs.monthlyInvestment}
@@ -501,7 +489,7 @@ const SIPWealthPlanner: React.FC<SIPWealthPlannerProps> = ({ hideHeader = false 
               min={500}
               max={2_000_000}
               step={500}
-              prefix={inputs.currency === 'INR' ? '₹' : '$'}
+              prefix={CURRENCIES[inputs.currency]?.symbol ?? '$'}
             />
 
             <SliderField
@@ -531,7 +519,7 @@ const SIPWealthPlanner: React.FC<SIPWealthPlannerProps> = ({ hideHeader = false 
               min={0}
               max={20_000_000}
               step={1000}
-              prefix={inputs.currency === 'INR' ? '₹' : '$'}
+              prefix={CURRENCIES[inputs.currency]?.symbol ?? '$'}
             />
 
             <div className="mb-4">
@@ -560,7 +548,7 @@ const SIPWealthPlanner: React.FC<SIPWealthPlannerProps> = ({ hideHeader = false 
               max={inputs.stepUpMode === 'percent' ? 50 : 200_000}
               step={inputs.stepUpMode === 'percent' ? 0.5 : 500}
               suffix={inputs.stepUpMode === 'percent' ? '%' : ''}
-              prefix={inputs.stepUpMode === 'fixed' ? (inputs.currency === 'INR' ? '₹' : '$') : undefined}
+              prefix={inputs.stepUpMode === 'fixed' ? (CURRENCIES[inputs.currency]?.symbol ?? '$') : undefined}
             />
 
             <div className="mb-4 flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-3">
@@ -596,7 +584,7 @@ const SIPWealthPlanner: React.FC<SIPWealthPlannerProps> = ({ hideHeader = false 
                 min={100_000}
                 max={500_000_000}
                 step={50_000}
-                prefix={inputs.currency === 'INR' ? '₹' : '$'}
+                prefix={CURRENCIES[inputs.currency]?.symbol ?? '$'}
               />
             )}
 

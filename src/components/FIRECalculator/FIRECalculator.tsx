@@ -26,6 +26,8 @@ import { useFIRE } from '../../hooks/useFIRE';
 import { exportFIREToExcel } from '../../utils/excel';
 import { generatePDFReport, fmtCurrency as pdfFmtCurrency, fmtPercent, type PDFReportConfig } from '../../utils/pdf';
 import { CHART_COLORS, PIE_COLORS } from '../../utils/chartColors';
+import CurrencySelector from '../CurrencySelector';
+import { CurrencyCode, CURRENCIES } from '../../utils/currency';
 
 const FIRE_BAR_COLORS = [
   CHART_COLORS.primary,
@@ -148,7 +150,7 @@ const SliderInput: React.FC<SliderInputProps> = ({
 
 // ── Chart Tooltip ─────────────────────────────────────────────────
 
-const createChartTooltip = (currency: 'USD' | 'INR') => ({ active, payload, label }: any) => {
+const createChartTooltip = (currency: CurrencyCode) => ({ active, payload, label }: any) => {
   if (!active || !payload?.length) return null;
   return (
     <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-slate-100 px-4 py-3 text-left">
@@ -164,13 +166,14 @@ const createChartTooltip = (currency: 'USD' | 'INR') => ({ active, payload, labe
   );
 };
 
-const createFormatYAxis = (currency: 'USD' | 'INR') => (value: number): string => {
-  const symbol = currency === 'INR' ? '₹' : '$';
+const createFormatYAxis = (currency: CurrencyCode) => (value: number): string => {
+  const { symbol } = CURRENCIES[currency];
   if (currency === 'INR') {
     if (value >= 10_000_000) return `${symbol}${(value / 10_000_000).toFixed(1)}Cr`;
     if (value >= 100_000) return `${symbol}${(value / 100_000).toFixed(1)}L`;
     if (value >= 1_000) return `${symbol}${(value / 1_000).toFixed(0)}K`;
   } else {
+    if (value >= 1_000_000_000) return `${symbol}${(value / 1_000_000_000).toFixed(1)}B`;
     if (value >= 1_000_000) return `${symbol}${(value / 1_000_000).toFixed(1)}M`;
     if (value >= 1_000) return `${symbol}${(value / 1_000).toFixed(0)}K`;
   }
@@ -257,7 +260,7 @@ const FIRECalculator: React.FC<FIRECalculatorProps> = ({ hideHeader = false }) =
 
   const ChartTooltip = useMemo(() => createChartTooltip(inputs.currency), [inputs.currency]);
   const formatYAxis = useMemo(() => createFormatYAxis(inputs.currency), [inputs.currency]);
-  const sym = '';
+  const sym = CURRENCIES[inputs.currency]?.symbol ?? '$';
 
   // Progress
   const progressPercent = Math.min((inputs.currentSavings / Math.max(result.fireNumber, 1)) * 100, 100);
@@ -277,11 +280,6 @@ const FIRECalculator: React.FC<FIRECalculatorProps> = ({ hideHeader = false }) =
   ], [inputs.monthlyFixedExpenses, inputs.monthlyLifestyleExpenses, inputs.monthlyContribution, result.monthlyMisc]);
 
   const currentFireTypeInfo = FIRE_TYPES.find(f => f.type === inputs.fireType) || FIRE_TYPES[1];
-  const currencyOptions = [
-    { value: 'USD' as const, label: 'USD ($)', icon: '💵' },
-    { value: 'INR' as const, label: 'INR (₹)', icon: '₹' },
-  ];
-
   const handleExportToExcel = useCallback(() => {
     setExporting('excel');
     try {
@@ -505,6 +503,9 @@ const FIRECalculator: React.FC<FIRECalculatorProps> = ({ hideHeader = false }) =
           <button onClick={handleShareTwitter} className="flex items-center gap-2 bg-white hover:bg-sky-50 border border-slate-100 hover:border-sky-200 text-slate-600 hover:text-sky-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
             🐦 Twitter
           </button>
+        </div>
+        <div className="flex justify-end mb-6">
+          <CurrencySelector value={inputs.currency as CurrencyCode} onChange={(code) => updateInputs({ currency: code })} />
         </div>
 
         {/* ── Already FIRE'd Banner ───────────────────────────── */}

@@ -20,9 +20,11 @@ import {
 } from 'recharts';
 import { useCompoundInterest } from '../../hooks/useCompoundInterest';
 import { CompoundingFrequency } from './CompoundInterestCalculator.types';
-import { formatCurrency, CHART_COLORS } from './CompoundInterestCalculator.utils';
+import { CHART_COLORS } from './CompoundInterestCalculator.utils';
 import { generatePDFReport, fmtCurrency as pdfFmtCurrency, fmtPercent, type PDFReportConfig } from '../../utils/pdf';
 import { exportCompoundInterestToExcel } from '../../utils/excel';
+import CurrencySelector, { useCurrency } from '../CurrencySelector';
+import { CurrencyCode, CURRENCIES, formatCurrency as sharedFmt, formatCurrencyCompact } from '../../utils/currency';
 
 // --- Sub-components ---
 
@@ -47,7 +49,7 @@ const AnimatedNumber: React.FC<{ value: number; prefix?: string; suffix?: string
     frame = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(frame);
   }, [value]);
-  return <span className={className}>{prefix}{Math.round(display).toLocaleString('en-IN')}{suffix}</span>;
+  return <span className={className}>{prefix}{Math.round(display).toLocaleString()}{suffix}</span>;
 };
 
 const HelpTooltip: React.FC<{ text: string }> = ({ text }) => (
@@ -66,11 +68,11 @@ const InputField: React.FC<{
   accentColor?: string;
 }> = ({ label, value, onChange, min, max, step, prefix, suffix, tooltip, accentColor = CHART_COLORS.primary }) => {
   const [focused, setFocused] = useState(false);
-  const [displayValue, setDisplayValue] = useState(value.toLocaleString('en-IN'));
+  const [displayValue, setDisplayValue] = useState(value.toLocaleString());
   const pct = ((value - min) / (max - min)) * 100;
 
   useEffect(() => {
-    if (!focused) setDisplayValue(value.toLocaleString('en-IN'));
+    if (!focused) setDisplayValue(value.toLocaleString());
   }, [value, focused]);
 
   return (
@@ -117,7 +119,7 @@ const InputField: React.FC<{
   );
 };
 
-const ChartTooltip = ({ active, payload, label }: any) => {
+const ChartTooltip = ({ active, payload, label, currency = 'USD' }: any) => {
   if (!active || !payload?.length) return null;
   return (
     <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-slate-100 px-4 py-3">
@@ -129,7 +131,7 @@ const ChartTooltip = ({ active, payload, label }: any) => {
             style={{ backgroundColor: entry.color || entry.stroke || entry.fill }}
           />
           <span className="text-slate-500">{entry.name}:</span>
-          <span className="font-semibold text-slate-800">{formatCurrency(entry.value)}</span>
+          <span className="font-semibold text-slate-800">{sharedFmt(entry.value, currency as CurrencyCode)}</span>
         </div>
       ))}
     </div>
@@ -146,11 +148,15 @@ interface CompoundInterestCalculatorProps {
 }
 
 const CompoundInterestCalculator: React.FC<CompoundInterestCalculatorProps> = ({ hideHeader = false }) => {
+  const [currency, setCurrency] = useCurrency();
   const { inputs, result, updateInputs, reset } = useCompoundInterest();
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<ChartTab>('growth');
   const [exporting, setExporting] = useState<'pdf' | 'excel' | null>(null);
   const [copied, setCopied] = useState(false);
+
+  const formatCurrency = React.useCallback((v: number, compact = false) =>
+    compact ? formatCurrencyCompact(v, currency) : sharedFmt(v, currency), [currency]);
 
   useEffect(() => setMounted(true), []);
 
@@ -175,7 +181,7 @@ const CompoundInterestCalculator: React.FC<CompoundInterestCalculatorProps> = ({
   const handleExportPDF = useCallback(async () => {
     setExporting('pdf');
     try {
-      const fmt = (v: number) => pdfFmtCurrency(v, 'INR');
+      const fmt = (v: number) => pdfFmtCurrency(v, currency);
       const rule72 = inputs.annualRate > 0 ? (72 / inputs.annualRate).toFixed(1) : 'N/A';
       const interestPct = result.finalBalance > 0 ? ((result.totalInterest / result.finalBalance) * 100).toFixed(1) : '0';
       const inflationLoss = result.finalBalance > 0 ? (((result.finalBalance - result.realValue) / result.finalBalance) * 100).toFixed(1) : '0';
@@ -313,7 +319,7 @@ const CompoundInterestCalculator: React.FC<CompoundInterestCalculatorProps> = ({
         )}
 
         {/* Export + Share bar */}
-        <div className="flex flex-wrap gap-2 justify-center mb-6">
+        <div className="flex flex-wrap gap-2 justify-center mb-4">
           <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-blue-50 border border-slate-100 hover:border-blue-200 text-slate-600 hover:text-blue-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
             {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
           </button>
@@ -329,6 +335,9 @@ const CompoundInterestCalculator: React.FC<CompoundInterestCalculatorProps> = ({
           <button onClick={handleShareTwitter} className="flex items-center gap-2 bg-white hover:bg-sky-50 border border-slate-100 hover:border-sky-200 text-slate-600 hover:text-sky-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
             🐦 Twitter
           </button>
+        </div>
+        <div className="flex justify-end mb-6">
+          <CurrencySelector value={currency} onChange={setCurrency} />
         </div>
 
         <div id="compound-calculator-content">
@@ -350,14 +359,14 @@ const CompoundInterestCalculator: React.FC<CompoundInterestCalculatorProps> = ({
                   label="Initial Principal"
                   value={inputs.initialPrincipal}
                   onChange={(v) => updateInputs({ initialPrincipal: v })}
-                  min={0} max={10000000} step={5000} prefix="₹"
+                  min={0} max={10000000} step={5000} prefix={CURRENCIES[currency].symbol}
                   tooltip="The starting amount of money you have to invest."
                 />
                 <InputField
                   label="Monthly Contribution"
                   value={inputs.monthlyContribution}
                   onChange={(v) => updateInputs({ monthlyContribution: v })}
-                  min={0} max={1000000} step={500} prefix="₹"
+                  min={0} max={1000000} step={500} prefix={CURRENCIES[currency].symbol}
                   tooltip="Additional money added to the investment every month."
                 />
                 <InputField
@@ -416,10 +425,10 @@ const CompoundInterestCalculator: React.FC<CompoundInterestCalculatorProps> = ({
               {/* Summary Metrics */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
-                  { label: 'Final Balance', value: result.finalBalance, prefix: '₹', color: 'from-blue-600 to-blue-700' },
-                  { label: 'Total Principal', value: result.totalPrincipal, prefix: '₹', color: 'from-blue-500 to-blue-600' },
-                  { label: 'Total Interest', value: result.totalInterest, prefix: '₹', color: 'from-cyan-500 to-teal-600' },
-                  { label: 'Real Value', value: result.realValue, prefix: '₹', color: 'from-amber-500 to-orange-600' },
+                  { label: 'Final Balance', value: result.finalBalance, prefix: CURRENCIES[currency].symbol, color: 'from-blue-600 to-blue-700' },
+                  { label: 'Total Principal', value: result.totalPrincipal, prefix: CURRENCIES[currency].symbol, color: 'from-blue-500 to-blue-600' },
+                  { label: 'Total Interest', value: result.totalInterest, prefix: CURRENCIES[currency].symbol, color: 'from-cyan-500 to-teal-600' },
+                  { label: 'Real Value', value: result.realValue, prefix: CURRENCIES[currency].symbol, color: 'from-amber-500 to-orange-600' },
                 ].map((stat, i) => (
                   <motion.div
                     key={stat.label}
@@ -487,7 +496,7 @@ const CompoundInterestCalculator: React.FC<CompoundInterestCalculatorProps> = ({
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={CHART_COLORS.grid} />
                         <XAxis dataKey="year" stroke={CHART_COLORS.axis} fontSize={12} tickLine={false} axisLine={false} />
                         <YAxis stroke={CHART_COLORS.axis} fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v) => formatCurrency(v, true)} />
-                        <Tooltip content={<ChartTooltip />} />
+                        <Tooltip content={(props) => <ChartTooltip {...props} currency={currency} />} />
                         <Legend verticalAlign="top" height={36} />
                         <Area type="monotone" dataKey="balance" name="Total Balance" stroke={CHART_COLORS.primary} strokeWidth={3} fillOpacity={1} fill="url(#colorBalance)" />
                         <Area type="monotone" dataKey="totalPrincipal" name="Principal Invested" stroke={CHART_COLORS.secondary} fill="transparent" strokeWidth={2} strokeDasharray="5 5" />
@@ -508,7 +517,7 @@ const CompoundInterestCalculator: React.FC<CompoundInterestCalculatorProps> = ({
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={CHART_COLORS.grid} />
                         <XAxis dataKey="year" stroke={CHART_COLORS.axis} fontSize={12} tickLine={false} axisLine={false} />
                         <YAxis stroke={CHART_COLORS.axis} fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v) => formatCurrency(v, true)} />
-                        <Tooltip content={<ChartTooltip />} />
+                        <Tooltip content={(props) => <ChartTooltip {...props} currency={currency} />} />
                         <Legend verticalAlign="top" height={36} />
                         <Area type="monotone" dataKey="totalPrincipal" name="Total Principal" stackId="1" stroke={CHART_COLORS.primary} fill="url(#gradPrincipal)" strokeWidth={2} />
                         <Area type="monotone" dataKey="totalInterest" name="Total Interest" stackId="1" stroke={CHART_COLORS.secondary} fill="url(#gradInterest)" strokeWidth={2} />
@@ -519,7 +528,7 @@ const CompoundInterestCalculator: React.FC<CompoundInterestCalculatorProps> = ({
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={CHART_COLORS.grid} />
                         <XAxis dataKey="year" stroke={CHART_COLORS.axis} fontSize={12} tickLine={false} axisLine={false} />
                         <YAxis stroke={CHART_COLORS.axis} fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v) => formatCurrency(v, true)} />
-                        <Tooltip content={<ChartTooltip />} />
+                        <Tooltip content={(props) => <ChartTooltip {...props} currency={currency} />} />
                         <Legend verticalAlign="top" height={36} />
                         <Bar dataKey="annualInterest" name="Interest Earned This Year" fill={CHART_COLORS.primary} radius={[4, 4, 0, 0]} />
                       </BarChart>
@@ -539,7 +548,7 @@ const CompoundInterestCalculator: React.FC<CompoundInterestCalculatorProps> = ({
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={CHART_COLORS.grid} />
                         <XAxis dataKey="year" stroke={CHART_COLORS.axis} fontSize={12} tickLine={false} axisLine={false} />
                         <YAxis stroke={CHART_COLORS.axis} fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v) => formatCurrency(v, true)} />
-                        <Tooltip content={<ChartTooltip />} />
+                        <Tooltip content={(props) => <ChartTooltip {...props} currency={currency} />} />
                         <Legend verticalAlign="top" height={36} />
                         <Area type="monotone" dataKey="nominal" name="Nominal Value" stroke={CHART_COLORS.primary} fill="url(#gradNominal)" strokeWidth={2} />
                         <Area type="monotone" dataKey="real" name="Real Value (after inflation)" stroke={CHART_COLORS.secondary} fill="url(#gradReal)" strokeWidth={2} />
@@ -561,7 +570,7 @@ const CompoundInterestCalculator: React.FC<CompoundInterestCalculatorProps> = ({
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={CHART_COLORS.grid} />
                         <XAxis dataKey="year" stroke={CHART_COLORS.axis} fontSize={12} tickLine={false} axisLine={false} />
                         <YAxis stroke={CHART_COLORS.axis} fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v) => formatCurrency(v, true)} />
-                        <Tooltip content={<ChartTooltip />} />
+                        <Tooltip content={(props) => <ChartTooltip {...props} currency={currency} />} />
                         <Legend verticalAlign="top" height={36} />
                         <Bar dataKey="totalPrincipal" name="Total Principal" stackId="stack" fill={CHART_COLORS.primary} radius={[0, 0, 0, 0]} />
                         <Bar dataKey="totalInterest" name="Total Interest" stackId="stack" fill={CHART_COLORS.secondary} radius={[4, 4, 0, 0]} />
@@ -584,7 +593,7 @@ const CompoundInterestCalculator: React.FC<CompoundInterestCalculatorProps> = ({
                           <Cell fill={CHART_COLORS.secondary} />
                           <Cell fill={CHART_COLORS.accent} />
                         </Pie>
-                        <Tooltip formatter={(v: any) => formatCurrency(v)} />
+                        <Tooltip formatter={(v: any) => sharedFmt(v, currency)} />
                         <Legend verticalAlign="bottom" height={36} />
                       </PieChart>
                     )}

@@ -14,10 +14,12 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { useBuyVsRent } from '../../hooks/useBuyVsRent';
-import { formatCurrency, formatPercent } from './BuyVsRent.utils';
+import { formatPercent } from './BuyVsRent.utils';
 import { exportToExcel } from '../../utils/excel';
 import { generatePDFReport, fmtCurrency as pdfFmtCurrency, fmtPercent, type PDFReportConfig } from '../../utils/pdf';
 import { CHART_COLORS as BASE_COLORS, PIE_COLORS } from '../../utils/chartColors';
+import CurrencySelector, { useCurrency } from '../CurrencySelector';
+import { CurrencyCode, CURRENCIES, formatCurrency, formatCurrencyCompact } from '../../utils/currency';
 
 const CHART_COLORS = {
   buying: BASE_COLORS.primary,
@@ -31,6 +33,7 @@ export interface BuyVsRentRedesignedProps {
 }
 
 const BuyVsRentRedesigned: React.FC<BuyVsRentRedesignedProps> = ({ hideHeader = false }) => {
+  const [currency, setCurrency] = useCurrency();
   const { inputs, result, updateInputs, reset } = useBuyVsRent();
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [activeTab, setActiveTab] = useState<'networth' | 'breakdown'>('networth');
@@ -47,7 +50,7 @@ const BuyVsRentRedesigned: React.FC<BuyVsRentRedesignedProps> = ({ hideHeader = 
   const handleExportPDF = useCallback(async () => {
     setExporting('pdf');
     try {
-      const fmt = (v: number) => '$' + Math.round(v).toLocaleString('en-US');
+      const fmt = (v: number) => formatCurrency(Math.round(v), currency);
       const lastData = result.monthlyData[result.monthlyData.length - 1];
       const config: PDFReportConfig = {
         title: 'Buy vs Rent Analysis Report',
@@ -165,12 +168,12 @@ const BuyVsRentRedesigned: React.FC<BuyVsRentRedesignedProps> = ({ hideHeader = 
   }, []);
 
   const handleShareWhatsApp = useCallback(() => {
-    const text = `Check out my Buy vs Rent analysis: ${result.recommendation === 'buy' ? 'Buying' : 'Renting'} is better for me with a ${formatCurrency(Math.abs(result.netWorthDifference))} advantage over ${inputs.yearsToAnalyze} years!\n\n${window.location.href}`;
+    const text = `Check out my Buy vs Rent analysis: ${result.recommendation === 'buy' ? 'Buying' : 'Renting'} is better for me with a ${formatCurrency(Math.abs(result.netWorthDifference), currency)} advantage over ${inputs.yearsToAnalyze} years!\n\n${window.location.href}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
   }, [result.recommendation, result.netWorthDifference, inputs.yearsToAnalyze]);
 
   const handleShareTwitter = useCallback(() => {
-    const text = `${result.recommendation === 'buy' ? '🏠 Buying' : '🏢 Renting'} is the smarter choice for me! Net worth difference: ${formatCurrency(Math.abs(result.netWorthDifference))} over ${inputs.yearsToAnalyze} years. Analyze your decision:`;
+    const text = `${result.recommendation === 'buy' ? '🏠 Buying' : '🏢 Renting'} is the smarter choice for me! Net worth difference: ${formatCurrency(Math.abs(result.netWorthDifference), currency)} over ${inputs.yearsToAnalyze} years. Analyze your decision:`;
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`, '_blank');
   }, [result.recommendation, result.netWorthDifference, inputs.yearsToAnalyze]);
 
@@ -188,7 +191,7 @@ const BuyVsRentRedesigned: React.FC<BuyVsRentRedesignedProps> = ({ hideHeader = 
         </header>
 
         {/* Export + Share bar */}
-        <div className="flex flex-wrap gap-2 justify-center mb-6">
+        <div className="flex flex-wrap gap-2 justify-center mb-4">
           <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-indigo-50 border border-slate-100 hover:border-indigo-200 text-slate-600 hover:text-indigo-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
             {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
           </button>
@@ -204,6 +207,9 @@ const BuyVsRentRedesigned: React.FC<BuyVsRentRedesignedProps> = ({ hideHeader = 
           <button onClick={handleShareTwitter} className="flex items-center gap-2 bg-white hover:bg-sky-50 border border-slate-100 hover:border-sky-200 text-slate-600 hover:text-sky-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
             🐦 Twitter
           </button>
+        </div>
+        <div className="flex justify-end mb-6">
+          <CurrencySelector value={currency} onChange={setCurrency} />
         </div>
 
         <div id="buy-vs-rent-content">
@@ -229,7 +235,7 @@ const BuyVsRentRedesigned: React.FC<BuyVsRentRedesignedProps> = ({ hideHeader = 
                   placeholder="500000"
                 />
                 <p className="text-xs text-slate-500 mt-1">
-                  {formatCurrency(inputs.homePrice)}
+                  {formatCurrency(inputs.homePrice, currency)}
                 </p>
               </div>
 
@@ -248,7 +254,7 @@ const BuyVsRentRedesigned: React.FC<BuyVsRentRedesignedProps> = ({ hideHeader = 
 
               <div>
                 <label className="block text-slate-700 font-semibold mb-1 text-sm">
-                  Monthly Rent ($)
+                  Monthly Rent
                 </label>
                 <input
                   type="number"
@@ -258,7 +264,7 @@ const BuyVsRentRedesigned: React.FC<BuyVsRentRedesignedProps> = ({ hideHeader = 
                   placeholder="2500"
                 />
                 <p className="text-xs text-slate-500 mt-1">
-                  {formatCurrency(inputs.monthlyRent)}/mo
+                  {formatCurrency(inputs.monthlyRent, currency)}/mo
                 </p>
               </div>
 
@@ -303,17 +309,17 @@ const BuyVsRentRedesigned: React.FC<BuyVsRentRedesignedProps> = ({ hideHeader = 
             <div className="space-y-3">
               <div className="flex justify-between items-center">
                 <span className="text-sm text-slate-600">Monthly Mortgage:</span>
-                <span className="text-lg font-bold text-blue-600">{formatCurrency(result.monthlyMortgage)}</span>
+                <span className="text-lg font-bold text-blue-600">{formatCurrency(result.monthlyMortgage, currency)}</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-slate-600">Monthly Rent:</span>
-                <span className="text-lg font-bold text-green-600">{formatCurrency(inputs.monthlyRent)}</span>
+                <span className="text-lg font-bold text-green-600">{formatCurrency(inputs.monthlyRent, currency)}</span>
               </div>
               <div className="border-t border-slate-200 pt-3">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-sm text-slate-600">Upfront Cost to Buy:</span>
                   <span className="text-lg font-bold text-slate-800">
-                    {formatCurrency(result.downPayment + result.closingCosts)}
+                    {formatCurrency(result.downPayment + result.closingCosts, currency)}
                   </span>
                 </div>
               </div>
@@ -421,13 +427,13 @@ const BuyVsRentRedesigned: React.FC<BuyVsRentRedesignedProps> = ({ hideHeader = 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl shadow-md p-5 text-white">
               <p className="text-blue-100 mb-1 text-xs font-semibold">Buying Net Worth</p>
-              <p className="text-3xl font-bold mb-2">{formatCurrency(result.finalBuyingNetWorth)}</p>
+              <p className="text-3xl font-bold mb-2">{formatCurrency(result.finalBuyingNetWorth, currency)}</p>
               <p className="text-blue-100 text-xs">after {inputs.yearsToAnalyze} years</p>
             </div>
 
             <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl shadow-md p-5 text-white">
               <p className="text-emerald-100 mb-1 text-xs font-semibold">Renting Net Worth</p>
-              <p className="text-3xl font-bold mb-2">{formatCurrency(result.finalRentingNetWorth)}</p>
+              <p className="text-3xl font-bold mb-2">{formatCurrency(result.finalRentingNetWorth, currency)}</p>
               <p className="text-emerald-100 text-xs">after {inputs.yearsToAnalyze} years</p>
             </div>
 
@@ -446,7 +452,7 @@ const BuyVsRentRedesigned: React.FC<BuyVsRentRedesignedProps> = ({ hideHeader = 
               </p>
               <p className="text-xs opacity-90">
                 {result.netWorthDifference >= 0 ? '+' : ''}
-                {formatCurrency(Math.abs(result.netWorthDifference))} difference
+                {formatCurrency(Math.abs(result.netWorthDifference), currency)} difference
               </p>
             </div>
           </div>
@@ -518,12 +524,12 @@ const BuyVsRentRedesigned: React.FC<BuyVsRentRedesignedProps> = ({ hideHeader = 
                     stroke={BASE_COLORS.axis} axisLine={false} tickLine={false}
                   />
                   <YAxis
-                    tickFormatter={(value) => formatCurrency(value)}
+                    tickFormatter={(value) => formatCurrencyCompact(value, currency)}
                     label={{ value: 'Net Worth', angle: -90, position: 'insideLeft' }}
                     stroke={BASE_COLORS.axis} axisLine={false} tickLine={false}
                   />
                   <Tooltip
-                    formatter={(value) => formatCurrency(value as number)}
+                    formatter={(value) => formatCurrency(value as number, currency)}
                     contentStyle={{
                       backgroundColor: 'white',
                       border: `1px solid ${BASE_COLORS.grid}`,
@@ -596,7 +602,7 @@ const BuyVsRentRedesigned: React.FC<BuyVsRentRedesignedProps> = ({ hideHeader = 
                           <Cell key={`cell-${index}`} fill={color} />
                         ))}
                       </Pie>
-                      <Tooltip formatter={(value) => formatCurrency(value as number)} />
+                      <Tooltip formatter={(value) => formatCurrency(value as number, currency)} />
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
@@ -632,7 +638,7 @@ const BuyVsRentRedesigned: React.FC<BuyVsRentRedesignedProps> = ({ hideHeader = 
                           <Cell key={`cell-${index}`} fill={color} />
                         ))}
                       </Pie>
-                      <Tooltip formatter={(value) => formatCurrency(value as number)} />
+                      <Tooltip formatter={(value) => formatCurrency(value as number, currency)} />
                     </PieChart>
                   </ResponsiveContainer>
                 </div>

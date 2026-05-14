@@ -1,4 +1,6 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import CurrencySelector, { useCurrency } from '../CurrencySelector';
+import { CurrencyCode, CURRENCIES, formatCurrency as sharedFmt, formatCurrencyCompact } from '../../utils/currency';
 import { motion } from 'framer-motion';
 import {
   PieChart, Pie, Cell,
@@ -70,6 +72,7 @@ interface MortgageCalculatorProps {
 }
 
 const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({ hideHeader = false }) => {
+  const [currency, setCurrency] = useCurrency();
   const [inputs, setInputs] = useState<MortgageInputs>({
     homePrice: 400000,
     downPayment: 80000,
@@ -143,14 +146,8 @@ const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({ hideHeader = fa
     });
   }, [inputs]);
 
-  const formatCurrency = (val: number) => 
-    new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
-
-  const formatYAxis = (value: number): string => {
-    if (value >= 1_000_000) return `$${(value / 1_000_000).toFixed(1)}M`;
-    if (value >= 1_000) return `$${(value / 1_000).toFixed(0)}K`;
-    return `$${value}`;
-  };
+  const formatCurrency = (val: number) => sharedFmt(val, currency);
+  const formatYAxis = (value: number): string => formatCurrencyCompact(value, currency);
 
   const ChartTooltip = ({ active, payload, label }: any) => {
     if (!active || !payload?.length) return null;
@@ -282,7 +279,7 @@ const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({ hideHeader = fa
         )}
 
         {/* Export + Share bar */}
-        <div className="flex flex-wrap gap-2 justify-center mb-8">
+        <div className="flex flex-wrap gap-2 justify-center mb-4">
           <button onClick={handleExportPDF} disabled={exporting !== null} className="flex items-center gap-2 bg-white hover:bg-blue-50 border border-slate-100 hover:border-blue-200 text-slate-600 hover:text-blue-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50">
             {exporting === 'pdf' ? '⏳ Generating…' : '📄 Export PDF'}
           </button>
@@ -298,6 +295,9 @@ const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({ hideHeader = fa
           <button onClick={handleShareTwitter} className="flex items-center gap-2 bg-white hover:bg-sky-50 border border-slate-100 hover:border-sky-200 text-slate-600 hover:text-sky-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm">
             🐦 Twitter
           </button>
+        </div>
+        <div className="flex justify-end mb-6">
+          <CurrencySelector value={currency} onChange={setCurrency} />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6 items-start">
@@ -317,13 +317,13 @@ const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({ hideHeader = fa
             <MortgageInputField
               label="Home Price" value={inputs.homePrice}
               onChange={(v) => setInputs({ ...inputs, homePrice: v })}
-              min={10000} max={10000000} step={10000} prefix="$"
+              min={10000} max={10000000} step={10000} prefix={CURRENCIES[currency].symbol}
               tooltip="Total purchase price of the home."
             />
             <MortgageInputField
               label="Down Payment" value={inputs.downPayment}
               onChange={(v) => setInputs({ ...inputs, downPayment: v })}
-              min={0} max={inputs.homePrice} step={5000} prefix="$"
+              min={0} max={inputs.homePrice} step={5000} prefix={CURRENCIES[currency].symbol}
               tooltip={`Down payment (${result.downPaymentPercentage.toFixed(1)}% of home price).`}
             />
             <div className="grid grid-cols-2 gap-3">
@@ -358,13 +358,13 @@ const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({ hideHeader = fa
               <MortgageInputField
                 label="Insurance" value={inputs.homeInsurance}
                 onChange={(v) => setInputs({ ...inputs, homeInsurance: v })}
-                min={0} max={5000} step={10} prefix="$" suffix="/mo"
+                min={0} max={5000} step={10} prefix={CURRENCIES[currency].symbol} suffix="/mo"
                 tooltip="Monthly homeowner's insurance premium."
               />
               <MortgageInputField
                 label="HOA Fees" value={inputs.hoaFees}
                 onChange={(v) => setInputs({ ...inputs, hoaFees: v })}
-                min={0} max={5000} step={10} prefix="$" suffix="/mo"
+                min={0} max={5000} step={10} prefix={CURRENCIES[currency].symbol} suffix="/mo"
                 tooltip="Monthly homeowners association fees."
               />
             </div>

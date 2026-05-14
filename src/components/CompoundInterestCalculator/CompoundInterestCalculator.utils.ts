@@ -89,12 +89,11 @@ export const calculateForFrequency = (
   return balance;
 };
 
-export const formatCurrency = (value: number, compact = false): string => {
-  return new Intl.NumberFormat('en-IN', {
+export const formatCurrency = (value: number, _compact = false): string => {
+  return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'INR',
+    currency: 'USD',
     maximumFractionDigits: 0,
-    notation: compact ? 'compact' : 'standard',
   }).format(value);
 };
 

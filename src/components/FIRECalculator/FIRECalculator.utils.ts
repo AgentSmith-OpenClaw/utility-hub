@@ -9,6 +9,7 @@ import {
   FIREType,
   Currency,
 } from './FIRECalculator.types';
+import { CURRENCIES } from '../../utils/currency';
 
 // ── FIRE Type Definitions ─────────────────────────────────────────
 
@@ -109,9 +110,8 @@ export function formatCurrency(
   currency: Currency = 'USD',
   short: boolean = false
 ): string {
-  const symbol = currency === 'INR' ? '₹' : '$';
-  const locale = currency === 'INR' ? 'en-IN' : 'en-US';
-  
+  const { symbol, locale } = CURRENCIES[currency] ?? CURRENCIES['USD'];
+
   if (!isFinite(value)) return `${symbol}∞`;
   if (short) {
     if (currency === 'INR') {
@@ -122,6 +122,8 @@ export function formatCurrency(
       if (Math.abs(value) >= 1_000)
         return `${symbol}${(value / 1_000).toFixed(0)}K`;
     } else {
+      if (Math.abs(value) >= 1_000_000_000)
+        return `${symbol}${(value / 1_000_000_000).toFixed(1)}B`;
       if (Math.abs(value) >= 1_000_000)
         return `${symbol}${(value / 1_000_000).toFixed(1)}M`;
       if (Math.abs(value) >= 1_000)
