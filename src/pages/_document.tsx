@@ -6,6 +6,11 @@ export default function Document() {
       <Head>
         <meta name="theme-color" content="#4f46e5" />
         <meta name="format-detection" content="telephone=no" />
+        <meta property="og:image" content="https://toolisk.com/og-default.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content="https://toolisk.com/og-default.png" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <link rel="icon" type="image/svg+xml" href="/logo.svg" />
         <link rel="manifest" href="/manifest.json" />
