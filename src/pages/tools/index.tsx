@@ -487,19 +487,40 @@ export default function ToolsHome() {
           </div>
         </section>
 
-        {/* Intro — unique content for Google, explains who the tools are for */}
-        <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-4 text-center">
-          <h2 className="text-xl font-bold text-slate-900 mb-3">Developer and productivity tools that work in your browser</h2>
-          <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-4">
-            Toolisk&apos;s developer utilities cover the everyday tasks that interrupt real work: formatting a JSON blob, decoding a JWT, testing a regex, converting between base64 and raw bytes, generating a secure password, or parsing a cron expression. Every tool runs entirely in your browser — nothing leaves your machine, no account required.
-          </p>
-          <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-4">
-            The collection is built specifically for software engineers and technical teams: a <strong>JSON Viewer</strong> with collapsible tree rendering and search, a <strong>Regex Tester</strong> with live match highlighting, a <strong>JWT Decoder</strong> that surfaces expiry and claims without sending tokens to a third party, and utilities for common web tasks like URL encoding, CSS unit conversion, HTML entity lookup, and Lorem Ipsum generation.
-          </p>
-          <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-            New tools ship regularly. Use the search below to find what you need, or browse all <strong>36 tools</strong> across categories — <strong>Text</strong>, <strong>Dev</strong>, <strong>Conversion</strong>, <strong>Security</strong>, and <strong>Productivity</strong>.
-          </p>
-        </section>
+        {/* Feature strip */}
+        <div className="bg-white border-b border-slate-100">
+          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+              <div className="flex gap-4">
+                <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center text-xl">🛠️</div>
+                <div>
+                  <h2 className="text-sm font-bold text-slate-900 mb-1">Built for developers</h2>
+                  <p className="text-sm text-slate-500 leading-relaxed">
+                    JSON viewer, regex tester, JWT decoder, base64, hash generator, SQL formatter, cron parser — the tools that interrupt real work, solved in one place.
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center text-xl">🔒</div>
+                <div>
+                  <h2 className="text-sm font-bold text-slate-900 mb-1">Zero uploads, ever</h2>
+                  <p className="text-sm text-slate-500 leading-relaxed">
+                    Every tool runs in your browser using Web APIs. Paste credentials, tokens, or private JSON without worrying — nothing is sent to a server or logged.
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center text-xl">⚡</div>
+                <div>
+                  <h2 className="text-sm font-bold text-slate-900 mb-1">36 tools, no friction</h2>
+                  <p className="text-sm text-slate-500 leading-relaxed">
+                    Text, encoding, security, conversion, and productivity. Open the page, use the tool — no sign-up, no install, no extension. Works on any browser.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* Tools Grid */}
         <section id="tools" className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">

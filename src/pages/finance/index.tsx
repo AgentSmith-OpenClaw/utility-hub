@@ -413,19 +413,40 @@ export default function FinanceHome() {
           </div>
         </section>
 
-        {/* Intro — unique content for Google, explains who the tools are for */}
-        <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-4 text-center">
-          <h2 className="text-xl font-bold text-slate-900 mb-3">Free finance tools that go beyond the basics</h2>
-          <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-4">
-            Toolisk covers the full spectrum of personal finance decisions — from choosing between Old and New tax regimes in India, to running 401(k) projections for US retirement, to comparing loan prepayment strategies for EMI borrowers. Each calculator is designed for depth: you&apos;ll find multiple chart types, step-by-step breakdowns, and export options that paid software typically locks behind a subscription.
-          </p>
-          <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-4">
-            Every tool is <strong>fully client-side</strong> — nothing is sent to a server, no account is required, and no data is stored. Multi-currency support covers India (₹), US ($), EU (€), UK (£), Australia (A$), and Canada (C$) so the same calculator works whether you&apos;re comparing mortgage costs in Mumbai or retirement timelines in San Francisco.
-          </p>
-          <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-            Looking for a specific tool? Use the search below or browse by category — <strong>Loans</strong> (EMI, mortgage, auto, student), <strong>Retirement</strong> (FIRE, 401k, Roth vs Traditional IRA, SIP), <strong>Real Estate</strong> (buy vs rent, house affordability, rental ROI), <strong>Tax</strong> (income tax India, US paycheck, capital gains), and <strong>Investing</strong> (compound interest, net worth, inflation).
-          </p>
-        </section>
+        {/* Feature strip */}
+        <div className="bg-white border-b border-slate-100">
+          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+              <div className="flex gap-4">
+                <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-xl">🌍</div>
+                <div>
+                  <h2 className="text-sm font-bold text-slate-900 mb-1">India &amp; US finance</h2>
+                  <p className="text-sm text-slate-500 leading-relaxed">
+                    Old vs New tax, EMI, SIP, FD for India — plus 401(k), Roth IRA, mortgage, FIRE, and Social Security for the US. Multi-currency: ₹ $ € £ A$ C$.
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-xl">🔒</div>
+                <div>
+                  <h2 className="text-sm font-bold text-slate-900 mb-1">100% private, client-side</h2>
+                  <p className="text-sm text-slate-500 leading-relaxed">
+                    Salary, loan, and investment data never leaves your browser. No server calls, no sign-up required, and no data stored anywhere.
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-xl">📊</div>
+                <div>
+                  <h2 className="text-sm font-bold text-slate-900 mb-1">Depth beyond the basics</h2>
+                  <p className="text-sm text-slate-500 leading-relaxed">
+                    Amortization schedules, prepayment strategies, multi-scenario FIRE comparisons, and Excel export — features most paid tools charge for.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">
           <div className="flex flex-wrap justify-center gap-2 mb-8">

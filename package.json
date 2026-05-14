@@ -9,6 +9,8 @@
     "start": "npx serve build -l 3000",
     "serve": "npx serve build -l 3000",
     "preview": "npm run build && npm run serve",
+    "indexnow": "node scripts/indexnow.js",
+    "build-and-indexnow": "npm run build && npm run indexnow",
     "sitemap": "next-sitemap --config next-sitemap.config.js"
   },
   "dependencies": {
