@@ -108,7 +108,7 @@ export default function CompoundInterestCalculatorPage() {
         <title>Compound Interest Calculator — See How Your Money Grows | Toolisk</title>
         <meta 
           name="description" 
-          content="Calculate compound interest with daily, monthly, or yearly compounding. Visualize exponential growth, compare frequencies, and see inflation-adjusted returns over decades." 
+          content="Calculate compound interest with daily, monthly, or yearly compounding. Compare frequencies, visualize growth, and see real inflation-adjusted returns."
         />
         <meta 
           name="keywords" 

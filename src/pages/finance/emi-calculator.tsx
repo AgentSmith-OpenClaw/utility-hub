@@ -109,7 +109,7 @@ export default function EMICalculatorPage() {
         <title>EMI Calculator — Loan Repayment & Prepayment Planner | Toolisk</title>
         <meta
           name="description"
-          content="Free EMI calculator for home, car & personal loans. Compare reduce-EMI vs reduce-tenure prepayment strategies, view 8 interactive charts, and export amortization schedule to Excel."
+          content="Free EMI calculator for home, car & personal loans. Compare reduce-EMI vs reduce-tenure prepayment. Full amortization schedule, 8 charts, Excel export."
         />
         <meta
           name="keywords"

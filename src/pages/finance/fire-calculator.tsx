@@ -108,7 +108,7 @@ export default function FIRECalculatorPage() {
         <title>FIRE Calculator — Plan Early Retirement | Toolisk</title>
         <meta 
           name="description" 
-          content="Calculate your FIRE number and early retirement timeline. Compare Lean, Fat, Coast & Barista FIRE strategies with safe withdrawal rate analysis and milestone tracking." 
+          content="Calculate your FIRE number and retirement age. Compare Lean, Fat, Coast & Barista FIRE. Inflation-adjusted projections with India and US support."
         />
         <meta 
           name="keywords" 

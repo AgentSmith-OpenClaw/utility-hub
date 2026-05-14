@@ -268,7 +268,7 @@ export default function Home() {
         <title>Toolisk — 26 Free Finance Calculators &amp; 36 Developer Tools</title>
         <meta
           name="description"
-          content="26 free finance calculators (401k, Roth IRA, mortgage, auto loan, student loan, rental ROI, net worth, inflation, VAT/GST, tip) plus 36 developer tools — all client-side. Multi-currency support for US, EU, UK, AU, CA."
+          content="Free finance calculators (401k, Roth IRA, mortgage, EMI, SIP, FIRE) + 36 developer tools. All client-side, no sign-up. Multi-currency: US, EU, UK, AU, CA."
         />
         <meta
           name="keywords"
