@@ -487,6 +487,20 @@ export default function ToolsHome() {
           </div>
         </section>
 
+        {/* Intro — unique content for Google, explains who the tools are for */}
+        <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-4 text-center">
+          <h2 className="text-xl font-bold text-slate-900 mb-3">Developer and productivity tools that work in your browser</h2>
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-4">
+            Toolisk&apos;s developer utilities cover the everyday tasks that interrupt real work: formatting a JSON blob, decoding a JWT, testing a regex, converting between base64 and raw bytes, generating a secure password, or parsing a cron expression. Every tool runs entirely in your browser — nothing leaves your machine, no account required.
+          </p>
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-4">
+            The collection is built specifically for software engineers and technical teams: a <strong>JSON Viewer</strong> with collapsible tree rendering and search, a <strong>Regex Tester</strong> with live match highlighting, a <strong>JWT Decoder</strong> that surfaces expiry and claims without sending tokens to a third party, and utilities for common web tasks like URL encoding, CSS unit conversion, HTML entity lookup, and Lorem Ipsum generation.
+          </p>
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+            New tools ship regularly. Use the search below to find what you need, or browse all <strong>36 tools</strong> across categories — <strong>Text</strong>, <strong>Dev</strong>, <strong>Conversion</strong>, <strong>Security</strong>, and <strong>Productivity</strong>.
+          </p>
+        </section>
+
         {/* Tools Grid */}
         <section id="tools" className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">
           {search.trim() && filteredTools.length > 0 && (

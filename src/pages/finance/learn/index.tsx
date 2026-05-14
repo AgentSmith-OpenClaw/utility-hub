@@ -82,9 +82,15 @@ export default function FinanceLearnIndexPage() {
             <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mb-3">
               Personal Finance Blogs &amp; Guides
             </h1>
-            <p className="text-slate-600 max-w-3xl leading-relaxed">
+            <p className="text-slate-600 max-w-3xl leading-relaxed mb-3">
               Explore practical, plain-English finance articles to make better money decisions. Every guide
               links to the relevant calculator so you can apply what you learn immediately.
+            </p>
+            <p className="text-slate-600 max-w-3xl leading-relaxed mb-3">
+              The guides cover both <strong>India-focused topics</strong> — EMI strategies, Old vs New tax regime comparison, SIP step-up planning, home loan prepayment timing — and <strong>US personal finance</strong> — Roth vs Traditional IRA, 401(k) employer match optimisation, Social Security claiming strategies, FIRE number calculation, and debt payoff methods like snowball vs avalanche.
+            </p>
+            <p className="text-slate-600 max-w-3xl leading-relaxed mb-3">
+              Each article is built around a specific decision: not &ldquo;what is compound interest&rdquo; but &ldquo;when does compounding work for you and when does your loan rate win?&rdquo; The goal is one concrete takeaway per article — something you can act on the same day with the linked calculator.
             </p>
             <p className="text-slate-500 text-sm mt-2">{articleList.length} articles and growing.</p>
           </header>
