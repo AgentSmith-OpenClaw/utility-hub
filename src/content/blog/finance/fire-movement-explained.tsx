@@ -4,7 +4,7 @@ import type { BlogArticle } from '../types';
 export const fireMovementExplained: BlogArticle = {
   slug: 'fire-movement-explained',
   category: 'Retirement',
-    title: 'The FIRE Movement Explained: Financial Independence, Retire Early',
+    title: 'FIRE Movement: Reach Financial Independence Early',
     description: 'A comprehensive guide to achieving financial independence and retiring early. Learn the core principles, strategies, and variations of the FIRE movement.',
     publishedDate: '2026-02-13',
     readTime: '10 min read',

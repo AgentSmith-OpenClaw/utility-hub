@@ -45,7 +45,7 @@ export default function BlogPost() {
     );
   }
 
-  const pageTitle = `${article.title} | Toolisk Finance`;
+  const pageTitle = `${article.title} | Toolisk`;
   const slugStr = typeof slug === 'string' ? slug : '';
 
   return (

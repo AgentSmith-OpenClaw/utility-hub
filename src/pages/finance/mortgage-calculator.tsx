@@ -106,7 +106,7 @@ export default function MortgageCalculatorPage() {
   return (
     <>
       <Head>
-        <title>Mortgage Calculator — Monthly Payment with Taxes & Insurance | Toolisk</title>
+        <title>Mortgage Calculator — PITI with PMI Breakdown | Toolisk</title>
         <meta 
           name="description" 
           content="Calculate your full monthly mortgage payment including principal, interest, property taxes, insurance, and PMI. Compare loan terms and see the total cost of homeownership." 

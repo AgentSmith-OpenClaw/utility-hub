@@ -106,7 +106,7 @@ export default function AmortizationCalculatorPage() {
   return (
     <>
       <Head>
-        <title>Amortization Calculator — Loan Schedule & Interest Breakdown | Toolisk</title>
+        <title>Amortization Calculator — Loan Schedule | Toolisk</title>
         <meta 
           name="description" 
           content="Generate month-by-month amortization schedules. Track principal vs interest for every payment, see cumulative interest, and analyze how prepayments shorten your loan." 

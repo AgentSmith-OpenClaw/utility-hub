@@ -4,7 +4,7 @@ import type { BlogArticle } from '../types';
 export const coastFireStrategy: BlogArticle = {
   slug: 'coast-fire-strategy',
   category: 'Retirement',
-    title: 'Coast FIRE vs Traditional Retirement: Which Strategy is Right for You?',
+    title: 'Coast FIRE vs Traditional Retirement: Which Wins?',
     description: 'Explore Coast FIRE, a strategy that lets you quit the grind decades early while still reaching your retirement goals. Learn if Coast FIRE is right for you.',
     publishedDate: '2026-02-13',
     readTime: '9 min read',
