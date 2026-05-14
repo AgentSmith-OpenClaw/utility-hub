@@ -282,10 +282,12 @@ export default function FIRECalculatorPage() {
           <h2 className="text-xl font-bold text-slate-900 mb-4">Related Finance Tools</h2>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
+              { href: '/finance/401k-calculator', title: '401(k) Calculator', desc: 'Model employer match and tax-deferred growth to hit your FIRE corpus faster.' },
+              { href: '/finance/roth-vs-traditional-ira', title: 'Roth vs Traditional IRA', desc: 'Choose the IRA type that minimises lifetime taxes on your FIRE withdrawals.' },
+              { href: '/finance/us-paycheck-calculator', title: 'US Paycheck Calculator', desc: 'See your real take-home pay to set an accurate FIRE savings rate.' },
+              { href: '/finance/inflation-calculator', title: 'Inflation Calculator', desc: 'Adjust your FIRE number for inflation to avoid undershooting your corpus.' },
               { href: '/finance/sip-calculator', title: 'SIP Calculator', desc: 'Build your FIRE corpus with disciplined monthly SIPs and step-ups.' },
               { href: '/finance/compound-interest-calculator', title: 'Compound Interest Calculator', desc: 'See how your corpus grows during the withdrawal phase.' },
-              { href: '/finance/income-tax-calculator', title: 'Income Tax Calculator', desc: 'Optimise taxes during accumulation to accelerate your FIRE date.' },
-              { href: '/finance/mortgage-calculator', title: 'Mortgage Calculator', desc: 'Owning your home debt-free significantly lowers your FIRE corpus requirement.' },
             ].map(t => (
               <Link key={t.href} href={t.href} className="block p-5 bg-white border border-slate-200 rounded-2xl hover:border-orange-400 hover:shadow-md transition-all">
                 <div className="font-semibold text-slate-900 mb-1">{t.title}</div>

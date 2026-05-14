@@ -236,10 +236,12 @@ export default function CreditCardPayoffCalculatorPage() {
           <h2 className="text-xl font-bold text-slate-900 mb-4">Related finance tools &amp; reading</h2>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
+              { href: '/finance/student-loan-calculator', title: 'Student Loan Calculator', desc: 'Tackle student debt alongside credit cards with the right payoff order.' },
+              { href: '/finance/auto-loan-calculator', title: 'Auto Loan Calculator', desc: 'See total interest cost so you can prioritise which debt to eliminate first.' },
+              { href: '/finance/buy-vs-rent-calculator', title: 'Buy vs Rent Calculator', desc: 'Find out when your debt payoff puts you in a position to buy a home.' },
               { href: '/finance/us-paycheck-calculator', title: 'US Paycheck Calculator', desc: 'Find out exactly how much budget you can free up each month for debt payoff.' },
               { href: '/finance/amortization-calculator', title: 'Amortization Calculator', desc: 'See how interest-vs-principal split changes over the life of any loan.' },
               { href: '/finance/learn/debt-snowball-vs-avalanche', title: 'Debt Snowball vs Avalanche — Article', desc: 'A deep dive into when each strategy genuinely wins.' },
-              { href: '/finance/learn/credit-score-fundamentals', title: 'Credit Score Fundamentals', desc: 'Why paying off cards (without closing them) helps your FICO score.' },
             ].map((t) => (
               <Link
                 key={t.href}

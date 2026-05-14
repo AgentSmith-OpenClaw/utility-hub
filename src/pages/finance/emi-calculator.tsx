@@ -303,10 +303,12 @@ export default function EMICalculatorPage() {
           <h2 className="text-xl font-bold text-slate-900 mb-4">Related Finance Tools</h2>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
+              { href: '/finance/auto-loan-calculator', title: 'Auto Loan Calculator', desc: 'Apply the same EMI logic to a car loan with total interest breakdown.' },
+              { href: '/finance/student-loan-calculator', title: 'Student Loan Calculator', desc: 'Compare EMI on student loans with different tenures and rates.' },
+              { href: '/finance/buy-vs-rent-calculator', title: 'Buy vs Rent Calculator', desc: 'Compare total cost of owning vs renting once your EMI is clear.' },
               { href: '/finance/mortgage-calculator', title: 'Mortgage Calculator', desc: 'Full housing cost with taxes, insurance, and PMI.' },
               { href: '/finance/amortization-calculator', title: 'Amortization Schedule', desc: 'Month-by-month principal vs interest breakdown.' },
               { href: '/finance/compound-interest-calculator', title: 'Compound Interest Calculator', desc: 'Model how investing your surplus grows over time.' },
-              { href: '/finance/buy-vs-rent-calculator', title: 'Buy vs Rent Calculator', desc: 'Compare total cost of owning vs renting.' },
             ].map(t => (
               <Link key={t.href} href={t.href} className="block p-5 bg-white border border-slate-200 rounded-2xl hover:border-blue-400 hover:shadow-md transition-all">
                 <div className="font-semibold text-slate-900 mb-1">{t.title}</div>

@@ -311,10 +311,12 @@ export default function CompoundInterestCalculatorPage() {
           <h2 className="text-xl font-bold text-slate-900 mb-4">Related Finance Tools</h2>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
+              { href: '/finance/401k-calculator', title: '401(k) Calculator', desc: 'See compounding with employer match and tax-deferred growth side by side.' },
+              { href: '/finance/roth-vs-traditional-ira', title: 'Roth vs Traditional IRA', desc: 'Compare after-tax compounding for Roth vs pre-tax growth in a traditional IRA.' },
+              { href: '/finance/inflation-calculator', title: 'Inflation Calculator', desc: 'Find out whether your compound returns are outpacing inflation.' },
+              { href: '/finance/rental-roi-calculator', title: 'Rental ROI Calculator', desc: 'Compare compound returns from investing vs rental property.' },
               { href: '/finance/sip-calculator', title: 'SIP Calculator', desc: 'Combine monthly SIPs with lump-sum compounding for maximum growth.' },
               { href: '/finance/fire-calculator', title: 'FIRE Calculator', desc: 'See how your compounding corpus funds decades of retirement.' },
-              { href: '/finance/income-tax-calculator', title: 'Income Tax Calculator', desc: 'Maximise after-tax compound returns with the right deductions.' },
-              { href: '/finance/mortgage-calculator', title: 'Mortgage Calculator', desc: 'Compare compound growth of investments vs paying down a home loan.' },
             ].map(t => (
               <Link key={t.href} href={t.href} className="block p-5 bg-white border border-slate-200 rounded-2xl hover:border-violet-400 hover:shadow-md transition-all">
                 <div className="font-semibold text-slate-900 mb-1">{t.title}</div>
