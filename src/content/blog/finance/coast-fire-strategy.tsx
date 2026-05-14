@@ -10,6 +10,7 @@ export const coastFireStrategy: BlogArticle = {
     readTime: '9 min read',
     keywords: 'Coast FIRE, semi-retirement, financial independence, retirement planning, early retirement',
     relatedTools: [
+      { name: 'Coast FIRE Calculator', href: '/finance/coast-fire-calculator' },
       { name: 'FIRE Calculator', href: '/finance/fire-calculator' },
     ],
     content: (
@@ -64,25 +65,50 @@ export const coastFireStrategy: BlogArticle = {
           </ul>
         </div>
 
-        <h3 className="text-xl font-bold text-gray-800 mt-8 mb-3">Real Example</h3>
+        <h3 className="text-xl font-bold text-gray-800 mt-8 mb-3">Worked Example — India (₹)</h3>
         <p>
-          Let's say you're 30 years old and want to retire at 60:
+          Age 30, target retirement at 60:
         </p>
         <ul className="list-none pl-0 space-y-1 my-4 bg-gray-50 p-4 rounded-lg border border-gray-200">
           <li><strong>Annual Expenses at Retirement:</strong> ₹12 lakh/year</li>
           <li><strong>Full FIRE Number:</strong> ₹12 lakh × 25 = ₹3 crore</li>
           <li><strong>Expected Return:</strong> 7% per year</li>
-          <li><strong>Years to Retirement:</strong> 60 - 30 = 30 years</li>
+          <li><strong>Years to Retirement:</strong> 30 years</li>
         </ul>
-        <p className="font-semibold mt-4">Calculation:</p>
         <p className="font-mono bg-white p-4 rounded border border-gray-200 my-4">
-          Coast FIRE Number = ₹3 crore ÷ (1.07)^30<br />
-          = ₹3 crore ÷ 7.61<br />
-          = <strong className="text-green-600">₹39.4 lakh</strong>
+          Coast FIRE Number = ₹3 crore ÷ (1.07)^30 = ₹3 crore ÷ 7.61 = <strong className="text-green-600">₹39.4 lakh</strong>
         </p>
         <p>
-          This means if you save ₹39.4 lakh by age 30 and never add another rupee, you'll have ₹3 crore at age 60 (assuming 7% returns). That's the power of Coast FIRE!
+          Save ₹39.4 lakh by age 30 and contribute nothing more — your portfolio does the rest, reaching ₹3 crore at 60 at a 7% return.
         </p>
+
+        <h3 className="text-xl font-bold text-gray-800 mt-8 mb-3">Worked Example — US ($)</h3>
+        <p>
+          Age 28, target retirement at 65, spending $60,000/year in today's dollars (inflated to ~$141,000 at retirement assuming 3% inflation):
+        </p>
+        <ul className="list-none pl-0 space-y-1 my-4 bg-gray-50 p-4 rounded-lg border border-gray-200">
+          <li><strong>Full FIRE Number:</strong> $141,000 × 25 = <strong>$3.53 million</strong></li>
+          <li><strong>Expected Real Return:</strong> 7% nominal / ~4% real</li>
+          <li><strong>Years to Retirement:</strong> 65 − 28 = 37 years</li>
+        </ul>
+        <p className="font-mono bg-white p-4 rounded border border-gray-200 my-4">
+          Coast FIRE Number = $3,530,000 ÷ (1.07)^37 = $3,530,000 ÷ 12.22 = <strong className="text-green-600">$289,000</strong>
+        </p>
+        <p>
+          A 28-year-old who has already saved $289,000 — say, from a high-earning first job combined with aggressive 401(k) + Roth IRA contributions — can stop all retirement saving and coast to a $3.5 million portfolio by 65. That frees up several thousand dollars per month to spend or invest in lower-stress work.
+        </p>
+
+        <div className="my-8 bg-indigo-50 border-l-4 border-indigo-600 rounded-lg p-6">
+          <p className="text-sm text-gray-700 mb-3">
+            <strong>Try the Coast FIRE Calculator:</strong> Enter your current savings, age, and target retirement to get your exact Coast FI number and the age at which you can stop contributing:
+          </p>
+          <Link
+            href="/finance/coast-fire-calculator"
+            className="inline-flex items-center gap-2 bg-indigo-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
+          >
+            Open Coast FIRE Calculator →
+          </Link>
+        </div>
 
         <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">Coast FIRE vs Traditional Path vs Full FIRE</h2>
         
@@ -286,7 +312,7 @@ export const coastFireStrategy: BlogArticle = {
           It's not about quitting work entirely—it's about having the <em>option</em> to work on your own terms. That freedom is priceless.
         </p>
         <p>
-          Ready to see your Coast FIRE timeline? Use our <Link href="/finance/fire-calculator" className="text-blue-600 font-semibold hover:underline">FIRE Calculator</Link> to calculate your personalized Coast FI number and visualize your path to financial freedom.
+          Ready to see your Coast FIRE timeline? Use the <Link href="/finance/coast-fire-calculator" className="text-indigo-600 font-semibold hover:underline">Coast FIRE Calculator</Link> for a dedicated Coast FI number and the age at which you can stop contributing, or the broader <Link href="/finance/fire-calculator" className="text-blue-600 font-semibold hover:underline">FIRE Calculator</Link> to compare Coast, Lean, Fat, and Barista FIRE side by side.
         </p>
       </div>
     ),
