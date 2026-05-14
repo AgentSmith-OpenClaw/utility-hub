@@ -59,12 +59,29 @@ src/pages/finance/[slug].tsx     # uses <ToolShell> + <ToolSEOContent>
 5. **SEO content** — 800+ words below the calculator, in `<article className="prose prose-slate max-w-none">`:
    - What it calculates (200–300 words)
    - How it works (200–300 words)
-   - Use cases (200–300 words)
+   - Use cases (200–300 words) — include at least one **worked numeric example** (concrete inputs → concrete outputs) so the page has unique computational value vs. prose-only competitors
    - FAQs or tips (200+ words)
+   - Content must be unique — do not paraphrase a sibling page. If a related explainer exists at `/finance/learn/*`, cross-link it (and add a link back from there to this calculator).
 
-6. **Page wrapper** (`src/pages/finance/[slug].tsx`):
-   - Full metadata: title, description, keywords, Open Graph, JSON-LD schema
-   - Dynamic import with `ssr: false` if the component uses any browser API
+6. **`<RelatedCalculators>` footer** (MANDATORY, above the page footer):
+   - Import `src/components/RelatedCalculators.tsx`; pass 4–6 contextual links.
+   - Routing rule: from an indexed/established calc → link to less-indexed peers in the same intent cluster (loans → loans, retirement → retirement). This funnels link equity. Anchor text = the target calculator's H1, never "click here".
+   - For brand-new calcs with no obvious peers, link to 4 same-category siblings from `_calculators.ts`.
+
+7. **Page wrapper** (`src/pages/finance/[slug].tsx`) — **SEO baked in from day 1**:
+   - `<title>` — **≤ 60 chars total** including the ` | Toolisk` suffix (so the unique part is ≤ 50 chars). Format: `"<Headline> | Toolisk"`. Test in built HTML.
+   - `<meta name="description">` — **≤ 155 chars**, includes a result-oriented verb and 1 distinguishing feature (multi-currency, India + US, PITI, etc.).
+   - `<meta name="keywords">` — 6–10 terms, comma-separated, lowercase.
+   - `<link rel="canonical" href="https://toolisk.com/finance/[slug]" />` — **explicit, never rely on Google to infer self-canonical**.
+   - Open Graph: `og:title`, `og:description`, `og:url`, `og:type="website"`. The site-wide default `og:image` is set in `_document.tsx` — **do not duplicate** unless shipping a page-specific OG image.
+   - Twitter: `twitter:card="summary_large_image"`, `twitter:title`, `twitter:description` (inherits `twitter:image` from `_document.tsx`).
+   - JSON-LD: emit both `BreadcrumbList` (via `generateBreadcrumbs()`) and a `SoftwareApplication` or `WebApplication` schema for the calculator. For `/finance/learn/*` pages, emit `Article` schema with `datePublished`, `dateModified`, `author`.
+   - **No `noindex`** unless the page is intentionally private (it isn't).
+   - Dynamic import with `ssr: false` if the component uses any browser API.
+
+8. **For `/finance/learn/[slug]` content articles** — same rules plus:
+   - Title template appends `| Toolisk` automatically — so `article.title` field must be ≤ 50 chars.
+   - Article must have a calculator anchor: either a worked example with numbers, or a prominent CTA linking to the relevant calculator. Pure prose without a numeric/computational hook frequently lands in "Crawled – currently not indexed".
 
 ---
 
@@ -126,9 +143,10 @@ Chart series order: primary → secondary → accent → teal → rose → purpl
 - Add `calculatorId` to `_types.ts` (the `CalculatorId` union)
 - Add entry to `_calculators.ts` (canonical path map)
 - Add slug to `CONCRETE_FINANCE_PAGES` set in `_registry.ts`
-- Add to homepage tools array
+- Add to **`/finance` hub page** tool grid (`src/pages/finance/index.tsx`) — required so the new page has at least one indexed inbound link
+- Add to **at least 2 existing calculator pages'** `<RelatedCalculators>` arrays — choose calculators in the same intent cluster. This is the highest-leverage internal-link signal; skipping it is the reason pages sit in "Discovered – not indexed".
 - Add to footer navigation
-- Update sitemap if not auto-generated
+- Sitemap auto-regenerates from `next-sitemap.config.js`; the per-page `lastmod` is read from `git log` of the source file — **no manual sitemap edits needed**, just commit the new page.
 
 ---
 
@@ -176,17 +194,27 @@ Fix all errors. Re-run after each fix until both pass cleanly. Report final page
 - [ ] `buildPdfConfig()` and `buildExcelSheets()` implemented
 - [ ] Charts: correct count for pattern; custom tooltips; CHART_COLORS used
 - [ ] Sticky calculator (heavy side-by-side only)
-- [ ] SEO content 800+ words, full paragraphs, below the fold
+- [ ] SEO content 800+ words, full paragraphs, below the fold; includes ≥1 worked numeric example
+- [ ] Content is unique — not a paraphrase of any sibling page (run a quick diff if unsure)
+- [ ] `<RelatedCalculators>` footer present with 4–6 contextual links
+- [ ] Added to ≥2 existing calc pages' `<RelatedCalculators>` (inbound links)
 - [ ] Cards: `rounded-2xl shadow-md border border-slate-100`; inputs/buttons `rounded-lg`
 - [ ] Only `slate-*` colors (no `gray-*`); typography scale correct (900/700/600)
 - [ ] CHART_COLORS constant used; series order correct; no legacy hex colors
 - [ ] Touch targets ≥ 44px; tested at 375px, 768px, 1024px
 - [ ] Input validation: no invalid state can trigger a calculation
 - [ ] No `any` types; LocalStorage wired (heavy only)
-- [ ] Page metadata complete (title, desc, keywords, OG, JSON-LD)
+- [ ] `<title>` ≤ 60 chars total (including ` | Toolisk`); verified in built HTML
+- [ ] `<meta name="description">` ≤ 155 chars
+- [ ] Explicit `<link rel="canonical">` set — not relying on Google to infer
+- [ ] OG tags (title, description, url, type) present; `og:image` NOT duplicated (inherited from `_document.tsx`)
+- [ ] `twitter:card="summary_large_image"` + title/description present
+- [ ] JSON-LD: `BreadcrumbList` + (`SoftwareApplication`|`WebApplication`); `Article` schema for `/finance/learn/*`
+- [ ] No `noindex`, no `robots: 'noindex'` on the page
 - [ ] `ssr: false` on dynamic import if any browser API used
+- [ ] For `/finance/learn/*`: `article.title` ≤ 50 chars; calculator CTA or worked example present
 - [ ] `calculatorId` registered in `_types.ts`, `_calculators.ts`, `_registry.ts`
-- [ ] Added to homepage + footer nav
+- [ ] Added to `/finance` hub grid + footer nav
 - [ ] 3–5 variants created and wired into `ALL_VARIANTS`
 - [ ] `tsc --noEmit && npm run build` passes cleanly
 - [ ] No console errors
