@@ -781,6 +781,15 @@ const PDFS: MasterItem[] = [
     type: 'pdf',
     isNew: true,
   },
+  {
+    name: 'PDF to JPG',
+    description: 'Render PDF pages as JPG images at 72/150/300 DPI. Pick pages, set quality, download as zip — all in your browser.',
+    path: '/pdf/pdf-to-jpg',
+    icon: '🖼️',
+    tags: ['PDF', 'Convert', 'Image'],
+    type: 'pdf',
+    isNew: true,
+  },
 ];
 
 export { CALCULATORS, TOOLS, PDFS };
