@@ -32,28 +32,28 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Toolisk — {CALCULATOR_COUNT} Finance Calculators &amp; {TOOL_COUNT} Developer Tools</title>
+        <title>Toolisk — Free Finance Calculators &amp; Developer Tools</title>
         <meta
           name="description"
-          content={`Free finance calculators (401k, Roth IRA, mortgage, EMI, SIP, FIRE, capital gains, HSA, RMD) + ${TOOL_COUNT} developer tools. All client-side, no sign-up. Multi-currency: US, EU, UK, AU, CA.`}
+          content="Free finance calculators for 401k, mortgage, capital gains tax, HSA, RMD, FIRE, SIP, and more — plus developer tools like JSON formatter, JWT decoder, and regex tester. All client-side, no sign-up."
         />
         <meta
           name="keywords"
-          content="finance calculators, 401k calculator, roth ira calculator, auto loan calculator, student loan calculator, rental property roi, net worth calculator, inflation calculator, vat gst calculator, tip calculator, developer tools, multi-currency, free online tools"
+          content="finance calculators, 401k calculator, roth ira calculator, capital gains tax calculator, mortgage calculator, hsa calculator, rmd calculator, fire calculator, developer tools, json formatter, jwt decoder, free online tools"
         />
         <link rel="canonical" href="https://toolisk.com/" />
-        <meta property="og:title" content={`Toolisk — ${CALCULATOR_COUNT} Finance Calculators & ${TOOL_COUNT} Developer Tools`} />
+        <meta property="og:title" content="Toolisk — Free Finance Calculators & Developer Tools" />
         <meta
           property="og:description"
-          content={`${CALCULATOR_COUNT} finance calculators + ${TOOL_COUNT} developer tools. 401k, Roth IRA, mortgage, capital gains, HSA, RMD, plus a full developer suite. Multi-currency for US, EU, UK, AU, CA.`}
+          content="Finance calculators for 401k, mortgage, capital gains, HSA, RMD, FIRE and more — plus a full suite of developer utilities. All client-side, multi-currency, no sign-up."
         />
         <meta property="og:url" content="https://toolisk.com/" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content={`Toolisk — ${CALCULATOR_COUNT} Finance Calculators & ${TOOL_COUNT} Developer Tools`} />
+        <meta name="twitter:title" content="Toolisk — Free Finance Calculators & Developer Tools" />
         <meta
           name="twitter:description"
-          content={`${CALCULATOR_COUNT} finance calculators + ${TOOL_COUNT} developer tools. Multi-currency for US, EU, UK, AU, CA. All client-side.`}
+          content="Finance calculators for 401k, mortgage, capital gains, HSA, RMD, FIRE and more — plus developer tools. All client-side, no sign-up."
         />
 
         <script
