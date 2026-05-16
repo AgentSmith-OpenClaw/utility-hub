@@ -36,6 +36,15 @@ export const CALCULATORS: Record<CalculatorId, ComponentType<any>> = {
   tip: dyn(() => import('../../components/Finance/TipCalculator')),
   'house-affordability': dyn(() => import('../../components/Finance/HouseAffordabilityCalculator')),
   'social-security': dyn(() => import('../../components/Finance/SocialSecurityCalculator')),
+  'mortgage-refinance-breakeven': dyn(() => import('../../components/MortgageRefinanceBreakeven/MortgageRefinanceBreakeven')),
+  'heloc': dyn(() => import('../../components/HELOC/HELOCCalculator')),
+  'rmd': dyn(() => import('../../components/RMDCalculator/RMDCalculator')),
+  'hsa': dyn(() => import('../../components/HSACalculator/HSACalculator')),
+  'annuity': dyn(() => import('../../components/AnnuityCalculator/AnnuityCalculator')),
+  'roth-conversion': dyn(() => import('../../components/RothConversion/RothConversionCalculator')),
+  'college-savings-529': dyn(() => import('../../components/CollegeSavings529/CollegeSavings529Calculator')),
+  'capital-gains-tax-us': dyn(() => import('../../components/CapitalGainsTax/CapitalGainsTaxCalculator')),
+  'reverse-mortgage': dyn(() => import('../../components/ReverseMortgage/ReverseMortgageCalculator')),
 };
 
 /** Canonical (primary) finance page path for each calculatorId. Used for
@@ -64,4 +73,13 @@ export const CANONICAL_PATHS: Record<CalculatorId, string> = {
   tip: '/finance/tip-calculator',
   'house-affordability': '/finance/house-affordability-calculator',
   'social-security': '/finance/social-security-calculator',
+  'mortgage-refinance-breakeven': '/finance/mortgage-refinance-breakeven-calculator',
+  'heloc': '/finance/heloc-calculator',
+  'rmd': '/finance/rmd-calculator',
+  'hsa': '/finance/hsa-calculator',
+  'annuity': '/finance/annuity-calculator',
+  'roth-conversion': '/finance/roth-conversion-calculator',
+  'college-savings-529': '/finance/529-college-savings-calculator',
+  'capital-gains-tax-us': '/finance/capital-gains-tax-calculator',
+  'reverse-mortgage': '/finance/reverse-mortgage-calculator',
 };

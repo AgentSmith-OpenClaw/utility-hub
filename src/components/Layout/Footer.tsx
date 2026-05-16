@@ -9,6 +9,8 @@ const footerSections = [
       { label: 'SIP Calculator', href: '/finance/sip-calculator' },
       { label: 'Income Tax Calculator', href: '/finance/income-tax-calculator' },
       { label: 'Mortgage Calculator', href: '/finance/mortgage-calculator' },
+      { label: 'Refi Break-Even Calculator', href: '/finance/mortgage-refinance-breakeven-calculator' },
+      { label: 'Capital Gains Tax Calculator', href: '/finance/capital-gains-tax-calculator' },
       { label: 'All finance calculators', href: '/finance' },
     ],
   },
