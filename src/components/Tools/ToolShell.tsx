@@ -7,8 +7,8 @@ interface ToolShellProps {
   tagline: string;
   /** Tailwind gradient classes, e.g. 'from-teal-600 via-emerald-600 to-green-500' */
   gradient?: string;
-  /** Top-level section: 'tools' (default) or 'finance' */
-  parent?: 'tools' | 'finance';
+  /** Top-level section: 'tools' (default), 'finance', or 'pdf' */
+  parent?: 'tools' | 'finance' | 'pdf';
   /** Optional extra header content (e.g. currency selector) */
   headerActions?: React.ReactNode;
   children: React.ReactNode;
@@ -23,8 +23,8 @@ export default function ToolShell({
   headerActions,
   children,
 }: ToolShellProps) {
-  const parentLabel = parent === 'finance' ? 'Finance' : 'Tools';
-  const parentHref = parent === 'finance' ? '/finance' : '/tools';
+  const parentLabel = parent === 'finance' ? 'Finance' : parent === 'pdf' ? 'PDF Tools' : 'Tools';
+  const parentHref = parent === 'finance' ? '/finance' : parent === 'pdf' ? '/pdf' : '/tools';
   return (
     <div className="tool-page min-h-screen bg-slate-50">
       <section className="relative overflow-hidden">

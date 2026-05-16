@@ -2,7 +2,7 @@
 // The home page, /tools, and /finance pages all import from here so the
 // item lists stay in sync — add new entries here only.
 
-export type ItemType = 'calculator' | 'tool';
+export type ItemType = 'calculator' | 'tool' | 'pdf';
 
 export interface MasterItem {
   name: string;
@@ -744,9 +744,12 @@ const TOOLS: MasterItem[] = [
   },
 ];
 
-export { CALCULATORS, TOOLS };
+const PDFS: MasterItem[] = [];
 
-export const ALL_ITEMS: MasterItem[] = [...CALCULATORS, ...TOOLS];
+export { CALCULATORS, TOOLS, PDFS };
+
+export const ALL_ITEMS: MasterItem[] = [...CALCULATORS, ...TOOLS, ...PDFS];
 
 export const CALCULATOR_COUNT = CALCULATORS.length;
 export const TOOL_COUNT = TOOLS.length;
+export const PDF_COUNT = PDFS.length;

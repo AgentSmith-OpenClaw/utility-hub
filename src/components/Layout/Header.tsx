@@ -29,6 +29,13 @@ const navLinks: NavLink[] = [
     hoverClass: 'hover:text-emerald-600 hover:bg-slate-50',
   },
   {
+    label: 'PDF',
+    href: '/pdf',
+    match: (p) => p.startsWith('/pdf'),
+    activeClass: 'text-rose-600 bg-rose-50',
+    hoverClass: 'hover:text-rose-600 hover:bg-slate-50',
+  },
+  {
     label: 'Learn',
     href: '/finance/learn',
     match: (p) => p.startsWith('/finance/learn') || p.startsWith('/tools/learn'),
