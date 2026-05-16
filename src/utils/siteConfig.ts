@@ -26,6 +26,7 @@ const STATIC_BREADCRUMB_LABELS: Record<string, string> = {
   'tip-calculator': 'Tip Calculator',
   'pdf': 'PDF Tools',
   'merge-pdf': 'Merge PDF',
+  'split-pdf': 'Split PDF',
   'tools': 'Tools',
   'url-encoder': 'URL Encoder / Decoder',
   'json-viewer': 'JSON Viewer & Formatter',

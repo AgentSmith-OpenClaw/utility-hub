@@ -754,6 +754,15 @@ const PDFS: MasterItem[] = [
     type: 'pdf',
     isNew: true,
   },
+  {
+    name: 'Split PDF',
+    description: 'Split a PDF by page ranges, every page, or fixed chunks. Runs entirely in your browser — no upload, no sign-up.',
+    path: '/pdf/split-pdf',
+    icon: '✂️',
+    tags: ['PDF', 'Split', 'Extract'],
+    type: 'pdf',
+    isNew: true,
+  },
 ];
 
 export { CALCULATORS, TOOLS, PDFS };
