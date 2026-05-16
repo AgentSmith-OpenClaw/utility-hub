@@ -97,7 +97,7 @@ async function downloadAllAsZip(files: OutputFile[], baseName: string) {
 
 export default function SplitPdf() {
   const { lib: pdfLib, error: pdfLibError } = usePdfLib();
-  const { lib: pdfJs } = usePdfJs();
+  const { lib: pdfJs, error: pdfJsError } = usePdfJs();
 
   const [file, setFile] = useState<File | null>(null);
   const [pageCount, setPageCount] = useState<number>(0);
@@ -290,7 +290,11 @@ export default function SplitPdf() {
   const handleDownloadZip = async () => {
     if (!file) return;
     const baseName = file.name.replace(/\.pdf$/i, '');
-    await downloadAllAsZip(outputFiles, baseName);
+    try {
+      await downloadAllAsZip(outputFiles, baseName);
+    } catch {
+      setErrorMsg('Failed to create zip. Please try downloading files individually.');
+    }
   };
 
   if (pdfLibError) {
@@ -442,6 +446,9 @@ export default function SplitPdf() {
             <div className="overflow-x-auto">
               <PdfPageGrid pages={thumbs} mode="display" />
             </div>
+          )}
+          {pdfJsError && thumbs.length === 0 && (
+            <p className="text-xs text-amber-600">Thumbnails unavailable.</p>
           )}
 
           {/* Progress bar */}
