@@ -25,6 +25,7 @@ const STATIC_BREADCRUMB_LABELS: Record<string, string> = {
   'sales-tax-vat-gst-calculator': 'Sales Tax / VAT / GST Calculator',
   'tip-calculator': 'Tip Calculator',
   'pdf': 'PDF Tools',
+  'merge-pdf': 'Merge PDF',
   'tools': 'Tools',
   'url-encoder': 'URL Encoder / Decoder',
   'json-viewer': 'JSON Viewer & Formatter',

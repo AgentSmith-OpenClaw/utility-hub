@@ -744,7 +744,17 @@ const TOOLS: MasterItem[] = [
   },
 ];
 
-const PDFS: MasterItem[] = [];
+const PDFS: MasterItem[] = [
+  {
+    name: 'Merge PDF',
+    description: 'Combine multiple PDFs into one file with drag-to-reorder. Runs entirely in your browser — files are never uploaded.',
+    path: '/pdf/merge-pdf',
+    icon: '📎',
+    tags: ['PDF', 'Merge', 'Combine'],
+    type: 'pdf',
+    isNew: true,
+  },
+];
 
 export { CALCULATORS, TOOLS, PDFS };
 
