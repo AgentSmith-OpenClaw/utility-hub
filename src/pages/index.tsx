@@ -1,316 +1,81 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useState, useMemo } from 'react';
+import { ALL_ITEMS, CALCULATOR_COUNT, TOOL_COUNT, type ItemType } from '../data/masterItems';
 
-interface Tool {
-  name: string;
-  description: string;
-  path: string;
-  icon: string;
-  tags: string[];
-  isNew?: boolean;
-}
+type FilterType = 'all' | ItemType;
 
-const tools: Tool[] = [
-  {
-    name: 'Income Tax Calculator',
-    description:
-      'Compare Old vs New Tax Regimes for FY 2025-26 with latest budget updates. Calculate tax liability, rebates, and standard deductions for salaried and business professionals.',
-    path: '/finance/income-tax-calculator',
-    icon: '🧾',
-    tags: ['Finance', 'Tax', 'India', 'Budget 2025'],
-    isNew: true,
-  },
-  {
-    name: 'US Paycheck Calculator',
-    description:
-      'Calculate your take-home pay with federal & state tax, FICA, and pre-tax deductions. Covers all 50 states with 2025 tax brackets.',
-    path: '/finance/us-paycheck-calculator',
-    icon: '💵',
-    tags: ['Finance', 'Tax', 'US', 'Paycheck', 'Salary'],
-    isNew: true,
-  },
-  {
-    name: 'EMI Calculator',
-    description:
-      'Advanced EMI calculator for home loan, car loan & personal loan. Compare Reduce EMI vs Reduce Tenure strategies, view 8 interactive charts, prepayment impact analysis, and export to Excel.',
-    path: '/finance/emi-calculator',
-    icon: '🏦',
-    tags: ['Finance', 'Loan', 'Home Loan', 'Prepayment'],
-    isNew: false,
-  },
-  {
-    name: 'FIRE Calculator',
-    description:
-      'Calculate your Financial Independence Retire Early number. Compare Lean, Fat, Coast & Barista FIRE strategies with interactive charts, milestone tracking, and portfolio projections.',
-    path: '/finance/fire-calculator',
-    icon: '🔥',
-    tags: ['Finance', 'Retirement', 'FIRE', 'Independence'],
-    isNew: true,
-  },
-  {
-    name: 'SIP Calculator',
-    description:
-      'Calculate returns on Systematic Investment Plans. Analyze mutual fund SIP investments with step-up options and goal planning.',
-    path: '/finance/sip-calculator',
-    icon: '📈',
-    tags: ['Finance', 'Investment', 'SIP'],
-    isNew: true,
-  },
-  {
-    name: 'Buy vs Rent Calculator',
-    description:
-      'Make smarter housing decisions. Compare buying vs renting with net worth analysis, opportunity cost calculations, and personalized recommendations.',
-    path: '/finance/buy-vs-rent-calculator',
-    icon: '🏠',
-    tags: ['Finance', 'Real Estate', 'Home'],
-    isNew: true,
-  },
-  {
-    name: 'Compound Interest Calculator',
-    description:
-      'Calculate compound interest with flexible compounding frequencies. Visualize growth over time with interactive charts, account for inflation, and see the power of compounding.',
-    path: '/finance/compound-interest-calculator',
-    icon: '💰',
-    tags: ['Finance', 'Investment', 'Interest'],
-    isNew: true,
-  },
-  {
-    name: 'Amortization Calculator',
-    description:
-      'Generate detailed amortization schedules for any loan. Compare different loan terms and see principal vs interest breakdown over time.',
-    path: '/finance/amortization-calculator',
-    icon: '📊',
-    tags: ['Finance', 'Loan', 'Amortization'],
-    isNew: false,
-  },
-  {
-    name: 'Mortgage Calculator',
-    description:
-      'Estimate your monthly house payment including principal, interest, property taxes, home insurance, and PMI. Perfect for budgeting your next home purchase.',
-    path: '/finance/mortgage-calculator',
-    icon: '🏠',
-    tags: ['Finance', 'Real Estate', 'Mortgage', 'Global'],
-    isNew: false,
-  },
-  {
-    name: 'Credit Card Payoff Calculator',
-    description:
-      'Compare debt avalanche vs snowball vs minimum-only strategies for multiple credit cards. See real interest saved, payoff date, per-card schedule, and Excel export.',
-    path: '/finance/credit-card-payoff-calculator',
-    icon: '💳',
-    tags: ['Finance', 'Debt', 'Credit Card', 'US'],
-    isNew: true,
-  },
-  {
-    name: '401(k) Calculator',
-    description:
-      'Project your retirement balance with employer match, salary growth, 2026 contribution limits, and the 4% safe withdrawal rule. The single most important number for US retirement planning.',
-    path: '/finance/401k-calculator',
-    icon: '🏦',
-    tags: ['Finance', 'Retirement', 'US'],
-    isNew: true,
-  },
-  {
-    name: 'Roth vs Traditional IRA',
-    description:
-      'After-tax comparison of Roth IRA vs Traditional IRA + side fund. Side-by-side bar chart, 2026 contribution limits, RMD vs no-RMD, and the structural differences that decide it.',
-    path: '/finance/roth-vs-traditional-ira',
-    icon: '⚖️',
-    tags: ['Finance', 'Retirement', 'US', 'Tax'],
-    isNew: true,
-  },
-  {
-    name: 'Auto Loan Calculator',
-    description:
-      'Calculate car loan payment with sales tax, trade-in, and dealer fees. Multi-currency (USD/EUR/GBP/AUD/CAD/INR). Side-by-side term comparison from 36 to 84 months.',
-    path: '/finance/auto-loan-calculator',
-    icon: '🚗',
-    tags: ['Finance', 'Loan', 'Multi-currency'],
-    isNew: true,
-  },
-  {
-    name: 'Student Loan Calculator',
-    description:
-      'Compare standard payoff, extra-payment, and refinance scenarios side-by-side. Multi-currency. Includes federal-vs-private decision guide for US borrowers.',
-    path: '/finance/student-loan-calculator',
-    icon: '🎓',
-    tags: ['Finance', 'Loan', 'Multi-currency'],
-    isNew: true,
-  },
-  {
-    name: 'Investment Calculator',
-    description:
-      'Project lump-sum + monthly contributions with inflation adjustment, annual step-up, and DCA vs lump-sum comparison. Multi-currency support.',
-    path: '/finance/investment-calculator',
-    icon: '📈',
-    tags: ['Finance', 'Investing', 'Multi-currency'],
-    isNew: true,
-  },
-  {
-    name: 'Rental Property ROI',
-    description:
-      'Cap rate, cash flow, cash-on-cash return, DSCR, 1% rule, and GRM in one view. Includes vacancy, maintenance, and management — the expenses beginners forget. Multi-currency.',
-    path: '/finance/rental-roi-calculator',
-    icon: '🏘️',
-    tags: ['Finance', 'Real Estate', 'Multi-currency'],
-    isNew: true,
-  },
-  {
-    name: 'Net Worth Calculator',
-    description:
-      'Editable assets and liabilities with allocation pie chart and US Federal Reserve benchmark comparison by age. Multi-currency. Track financial health over time.',
-    path: '/finance/net-worth-calculator',
-    icon: '📊',
-    tags: ['Finance', 'Tracking', 'Multi-currency'],
-    isNew: true,
-  },
-  {
-    name: 'US Inflation Calculator',
-    description:
-      '113 years of US Consumer Price Index data (1913–2026). See how the dollar\'s purchasing power has changed between any two years.',
-    path: '/finance/inflation-calculator',
-    icon: '💵',
-    tags: ['Finance', 'Inflation', 'US', 'CPI'],
-    isNew: true,
-  },
-  {
-    name: 'Sales Tax / VAT / GST',
-    description:
-      'Unified calculator for US sales tax, EU/UK VAT, Australian and Canadian GST/HST. Add to a price or back it out. Includes regional rate presets.',
-    path: '/finance/sales-tax-vat-gst-calculator',
-    icon: '🧾',
-    tags: ['Finance', 'Tax', 'EU', 'UK', 'AU', 'CA'],
-    isNew: true,
-  },
-  {
-    name: 'Tip Calculator',
-    description:
-      'Calculate tips, split bills, and learn regional tipping etiquette across the US, UK, Europe, Australia, Canada, and India. Multi-currency with round-up option.',
-    path: '/finance/tip-calculator',
-    icon: '🧮',
-    tags: ['Finance', 'Travel', 'Multi-currency'],
-    isNew: false,
-  },
-  {
-    name: 'FD Calculator',
-    description:
-      'Fixed Deposit calculator with quarterly compounding, senior citizen rates, TDS modeling, and full post-tax maturity. The Indian banking standard.',
-    path: '/finance/fd-calculator',
-    icon: '🏦',
-    tags: ['Finance', 'Savings', 'India', 'FD'],
-    isNew: true,
-  },
-  {
-    name: 'RD Calculator',
-    description:
-      'Recurring Deposit calculator with month-by-month growth chart, quarterly compounding, and senior citizen rates. Plan a monthly savings habit toward any goal.',
-    path: '/finance/rd-calculator',
-    icon: '💰',
-    tags: ['Finance', 'Savings', 'India', 'RD'],
-    isNew: true,
-  },
-  {
-    name: 'Salary Hike Calculator',
-    description:
-      'Salary increment / hike calculator. Compute new salary from a hike %, or back out the hike % from a new offer. Annual or monthly, multi-currency.',
-    path: '/finance/salary-hike-calculator',
-    icon: '📈',
-    tags: ['Finance', 'Salary', 'Career'],
-    isNew: true,
-  },
-  {
-    name: 'Discount Calculator',
-    description:
-      'Sale price calculator. Compute final price after any percentage or flat-amount discount, with optional tax. Universal shopping math, in seconds.',
-    path: '/finance/discount-calculator',
-    icon: '🏷️',
-    tags: ['Finance', 'Shopping', 'Multi-currency'],
-    isNew: true,
-  },
-  {
-    name: 'House Affordability Calculator',
-    description:
-      'How much home can you afford? Max home price from income, debts, and down payment — with PITI breakdown, front/back DTI color-flagging, and conservative vs FHA stretch scenarios.',
-    path: '/finance/house-affordability-calculator',
-    icon: '🏠',
-    tags: ['Finance', 'Real Estate', 'US', 'Mortgage'],
-    isNew: true,
-  },
-  {
-    name: 'Social Security Calculator',
-    description:
-      'When should you claim Social Security? Compare monthly benefits and lifetime totals at 62, 65, 67, and 70. Break-even analysis, cumulative chart, and spousal benefit modeling.',
-    path: '/finance/social-security-calculator',
-    icon: '🏛️',
-    tags: ['Finance', 'Retirement', 'US', 'Social Security'],
-    isNew: true,
-  },
-];
+const TOTAL = ALL_ITEMS.length;
 
 export default function Home() {
   const [search, setSearch] = useState('');
+  const [activeFilter, setActiveFilter] = useState<FilterType>('all');
 
-  const filteredTools = useMemo(() => {
-    if (!search.trim()) return tools;
+  const filteredItems = useMemo(() => {
+    let items = activeFilter === 'all' ? ALL_ITEMS : ALL_ITEMS.filter(i => i.type === activeFilter);
+    if (!search.trim()) return items;
     const q = search.toLowerCase();
-    return tools.filter(
-      (t) =>
-        t.name.toLowerCase().includes(q) ||
-        t.description.toLowerCase().includes(q) ||
-        t.tags.some((tag) => tag.toLowerCase().includes(q))
+    return items.filter(
+      i =>
+        i.name.toLowerCase().includes(q) ||
+        i.description.toLowerCase().includes(q) ||
+        i.tags.some(tag => tag.toLowerCase().includes(q))
     );
-  }, [search]);
+  }, [search, activeFilter]);
+
+  const filters: { key: FilterType; label: string; count: number }[] = [
+    { key: 'all', label: 'All', count: TOTAL },
+    { key: 'calculator', label: 'Calculators', count: CALCULATOR_COUNT },
+    { key: 'tool', label: 'Dev Tools', count: TOOL_COUNT },
+  ];
 
   return (
     <>
       <Head>
-        <title>Toolisk — 26 Free Finance Calculators &amp; 36 Developer Tools</title>
+        <title>Toolisk — {CALCULATOR_COUNT} Finance Calculators &amp; {TOOL_COUNT} Developer Tools</title>
         <meta
           name="description"
-          content="Free finance calculators (401k, Roth IRA, mortgage, EMI, SIP, FIRE) + 36 developer tools. All client-side, no sign-up. Multi-currency: US, EU, UK, AU, CA."
+          content={`Free finance calculators (401k, Roth IRA, mortgage, EMI, SIP, FIRE, capital gains, HSA, RMD) + ${TOOL_COUNT} developer tools. All client-side, no sign-up. Multi-currency: US, EU, UK, AU, CA.`}
         />
         <meta
           name="keywords"
           content="finance calculators, 401k calculator, roth ira calculator, auto loan calculator, student loan calculator, rental property roi, net worth calculator, inflation calculator, vat gst calculator, tip calculator, developer tools, multi-currency, free online tools"
         />
         <link rel="canonical" href="https://toolisk.com/" />
-        <meta property="og:title" content="Toolisk — 26 Free Finance Calculators & 36 Developer Tools" />
+        <meta property="og:title" content={`Toolisk — ${CALCULATOR_COUNT} Finance Calculators & ${TOOL_COUNT} Developer Tools`} />
         <meta
           property="og:description"
-          content="26 finance calculators + 36 developer tools. 401k, Roth IRA, mortgage, auto loan, student loan, rental ROI, net worth, VAT/GST, plus a 36-tool developer suite. Multi-currency for US, EU, UK, AU, CA."
+          content={`${CALCULATOR_COUNT} finance calculators + ${TOOL_COUNT} developer tools. 401k, Roth IRA, mortgage, capital gains, HSA, RMD, plus a full developer suite. Multi-currency for US, EU, UK, AU, CA.`}
         />
         <meta property="og:url" content="https://toolisk.com/" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="Toolisk — 26 Free Finance Calculators & 36 Developer Tools" />
+        <meta name="twitter:title" content={`Toolisk — ${CALCULATOR_COUNT} Finance Calculators & ${TOOL_COUNT} Developer Tools`} />
         <meta
           name="twitter:description"
-          content="26 finance calculators + 36 developer tools. Multi-currency for US, EU, UK, AU, CA. All client-side."
+          content={`${CALCULATOR_COUNT} finance calculators + ${TOOL_COUNT} developer tools. Multi-currency for US, EU, UK, AU, CA. All client-side.`}
         />
 
-        {/* ItemList schema — helps Google surface tools as a list */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'ItemList',
-              name: 'Toolisk Finance Calculators',
-              description: 'Free online finance calculators with interactive charts, detailed reports, and Excel export.',
-              numberOfItems: tools.length,
-              itemListElement: tools.map((tool, i) => ({
+              name: 'Toolisk — Finance Calculators & Developer Tools',
+              description: 'Free online finance calculators and developer utilities with interactive charts, detailed reports, and Excel export.',
+              numberOfItems: TOTAL,
+              itemListElement: ALL_ITEMS.map((item, i) => ({
                 '@type': 'ListItem',
                 position: i + 1,
-                name: tool.name,
-                url: `https://toolisk.com${tool.path}`,
-                description: tool.description,
+                name: item.name,
+                url: `https://toolisk.com${item.path}`,
+                description: item.description,
               })),
             }),
           }}
         />
 
-        {/* FAQ schema for homepage */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -356,7 +121,7 @@ export default function Home() {
         />
       </Head>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-        {/* Hero — compact with integrated search */}
+        {/* Hero */}
         <section className="relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500" />
           <div className="absolute inset-0 opacity-10">
@@ -384,9 +149,9 @@ export default function Home() {
                 <input
                   type="text"
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search tools… e.g. EMI, tax, SIP, mortgage"
-                  className="w-full pl-13 pr-12 py-4 rounded-2xl border-2 border-white/20 bg-white text-base text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-white/30 focus:border-white shadow-xl shadow-indigo-900/20 transition-all"
+                  onChange={e => setSearch(e.target.value)}
+                  placeholder={`Search ${TOTAL} tools… e.g. EMI, 401k, JWT, mortgage`}
+                  className="w-full pr-12 py-4 rounded-2xl border-2 border-white/20 bg-white text-base text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-white/30 focus:border-white shadow-xl shadow-indigo-900/20 transition-all"
                   style={{ paddingLeft: '3.25rem' }}
                   aria-label="Search tools"
                   autoComplete="off"
@@ -404,7 +169,7 @@ export default function Home() {
                 ) : (
                   <div className="absolute right-4 top-1/2 -translate-y-1/2">
                     <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-medium text-slate-400 bg-slate-100 rounded-md border border-slate-200">
-                      {tools.length} tools
+                      {TOTAL} items
                     </kbd>
                   </div>
                 )}
@@ -413,73 +178,109 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Tools Grid */}
-        <section id="tools" className="max-w-6xl mx-auto px-4 pt-10 pb-16">
-          {/* Result count when searching */}
-          {search.trim() && filteredTools.length > 0 && (
-            <p className="text-sm text-slate-500 mb-6 text-center">
-              {filteredTools.length} result{filteredTools.length !== 1 ? 's' : ''} for &ldquo;{search}&rdquo;
-            </p>
-          )}
+        {/* Filter + Grid */}
+        <section id="tools" className="max-w-6xl mx-auto px-4 pt-8 pb-16">
+          {/* Filter chips */}
+          <div className="flex items-center gap-2 mb-6 flex-wrap">
+            {filters.map(f => (
+              <button
+                key={f.key}
+                onClick={() => setActiveFilter(f.key)}
+                className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border transition-all ${
+                  activeFilter === f.key
+                    ? f.key === 'calculator'
+                      ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
+                      : f.key === 'tool'
+                      ? 'bg-teal-600 text-white border-teal-600 shadow-sm'
+                      : 'bg-slate-800 text-white border-slate-800 shadow-sm'
+                    : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                }`}
+              >
+                {f.label}
+                <span className={`text-[11px] px-1.5 py-0.5 rounded-full font-semibold ${
+                  activeFilter === f.key ? 'bg-white/20' : 'bg-slate-100 text-slate-500'
+                }`}>
+                  {f.count}
+                </span>
+              </button>
+            ))}
+            {search.trim() && (
+              <span className="text-sm text-slate-400 ml-2">
+                {filteredItems.length} result{filteredItems.length !== 1 ? 's' : ''} for &ldquo;{search}&rdquo;
+              </span>
+            )}
+          </div>
 
-          {filteredTools.length === 0 ? (
+          {filteredItems.length === 0 ? (
             <div className="text-center py-16">
               <div className="text-5xl mb-4">🔍</div>
-              <p className="text-slate-500 text-lg font-medium">No tools match &ldquo;{search}&rdquo;</p>
-              <button onClick={() => setSearch('')} className="mt-4 text-sm font-medium text-indigo-600 hover:text-indigo-700 hover:underline transition-colors">Clear search</button>
+              <p className="text-slate-500 text-lg font-medium">No results for &ldquo;{search}&rdquo;</p>
+              <button
+                onClick={() => { setSearch(''); setActiveFilter('all'); }}
+                className="mt-4 text-sm font-medium text-indigo-600 hover:text-indigo-700 hover:underline transition-colors"
+              >
+                Clear filters
+              </button>
             </div>
           ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {filteredTools.map((tool) => (
-              <Link
-                key={tool.name}
-                href={tool.path}
-                className="group relative bg-white rounded-2xl border border-slate-200/80 p-5 flex flex-col transition-all duration-200 hover:shadow-lg hover:shadow-indigo-100/50 hover:border-indigo-200 hover:-translate-y-0.5"
-              >
-                {/* Icon + Badge row */}
-                <div className="flex items-start justify-between mb-3">
-                  <span className="text-3xl leading-none">{tool.icon}</span>
-                  <div className="flex items-center gap-2">
-                    {tool.isNew && (
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200/60">
-                        New
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {filteredItems.map(item => (
+                <Link
+                  key={item.path}
+                  href={item.path}
+                  className="group relative bg-white rounded-2xl border border-slate-200/80 p-5 flex flex-col transition-all duration-200 hover:shadow-lg hover:shadow-indigo-100/50 hover:border-indigo-200 hover:-translate-y-0.5"
+                >
+                  {/* Icon + badges row */}
+                  <div className="flex items-start justify-between mb-3">
+                    <span className="text-3xl leading-none">{item.icon}</span>
+                    <div className="flex items-center gap-1.5">
+                      {/* Type badge */}
+                      <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
+                        item.type === 'calculator'
+                          ? 'text-indigo-600 bg-indigo-50 border-indigo-200/60'
+                          : 'text-teal-700 bg-teal-50 border-teal-200/60'
+                      }`}>
+                        {item.type === 'calculator' ? 'Calculator' : 'Tool'}
                       </span>
-                    )}
-                    <span className="text-slate-300 group-hover:text-indigo-400 transition-colors">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </span>
+                      {item.isNew && (
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200/60">
+                          New
+                        </span>
+                      )}
+                      <span className="text-slate-300 group-hover:text-indigo-400 transition-colors">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </span>
+                    </div>
                   </div>
-                </div>
 
-                {/* Title */}
-                <h3 className="text-base font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors mb-1.5">
-                  {tool.name}
-                </h3>
+                  {/* Title */}
+                  <h3 className="text-base font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors mb-1.5">
+                    {item.name}
+                  </h3>
 
-                {/* Description */}
-                <p className="text-sm text-slate-500 leading-relaxed mb-4 line-clamp-2">
-                  {tool.description}
-                </p>
+                  {/* Description */}
+                  <p className="text-sm text-slate-500 leading-relaxed mb-4 line-clamp-2">
+                    {item.description}
+                  </p>
 
-                {/* Tags */}
-                <div className="flex flex-wrap gap-1.5 mt-auto">
-                  {tool.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-[11px] font-medium text-indigo-500/80 bg-indigo-50/80 px-2 py-0.5 rounded-md"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </Link>
-            ))}
-          </div>
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-1.5 mt-auto">
+                    {item.tags.map(tag => (
+                      <span
+                        key={tag}
+                        className="text-[11px] font-medium text-indigo-500/80 bg-indigo-50/80 px-2 py-0.5 rounded-md"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </Link>
+              ))}
+            </div>
           )}
 
-          {/* Bottom tagline */}
           {!search.trim() && (
             <div className="text-center mt-12">
               <p className="text-sm text-slate-400">
@@ -489,150 +290,83 @@ export default function Home() {
           )}
         </section>
 
-        {/* Tools section banner */}
-        {!search.trim() && (
-          <section className="max-w-6xl mx-auto px-4 pb-12">
-            <Link
-              href="/tools"
-              className="group block relative overflow-hidden rounded-2xl bg-gradient-to-r from-teal-600 via-emerald-600 to-green-500 p-8 sm:p-10 text-white shadow-lg hover:shadow-xl transition-all"
-            >
-              <div className="absolute inset-0 opacity-10">
-                <div className="absolute -top-12 -right-12 w-64 h-64 bg-white rounded-full blur-3xl" />
-              </div>
-              <div className="relative flex flex-col sm:flex-row sm:items-center gap-6">
-                <div className="text-5xl sm:text-6xl drop-shadow-lg">🛠️</div>
-                <div className="flex-1">
-                  <div className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest bg-white/20 px-2 py-0.5 rounded-full mb-2">
-                    New section
-                  </div>
-                  <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-1">
-                    Toolisk Tools — Developer & Productivity Utilities
-                  </h3>
-                  <p className="text-emerald-50 text-sm sm:text-base">
-                    21 free utilities — JWT decoder, password generator, SQL formatter, JSON viewer, regex tester, cron parser, CSS unit converter, markdown preview and more.
-                  </p>
-                </div>
-                <div className="flex-shrink-0">
-                  <span className="inline-flex items-center gap-2 bg-white text-emerald-700 font-bold px-5 py-2.5 rounded-xl group-hover:translate-x-1 transition-transform shadow-md">
-                    Explore tools
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </span>
-                </div>
-              </div>
-            </Link>
-          </section>
-        )}
-
         {/* SEO Content Section */}
         <article className="max-w-4xl mx-auto px-4 pb-20">
           <div className="bg-white rounded-2xl border border-slate-200/80 p-8 sm:p-10 space-y-10">
 
-            {/* Why Toolisk */}
             <section>
-              <h2 className="text-2xl font-bold text-slate-900 mb-4">Why Toolisk Calculators?</h2>
+              <h2 className="text-2xl font-bold text-slate-900 mb-4">Why Toolisk?</h2>
               <p className="text-slate-600 leading-relaxed mb-4">
                 Most online calculators give you a single number and stop there. Toolisk is different. Every calculator includes <strong>interactive charts</strong>, <strong>detailed breakdowns</strong>, and <strong>export to Excel</strong> — the depth you expect from paid financial software, available completely free.
               </p>
               <p className="text-slate-600 leading-relaxed">
-                Whether you are planning a home loan, comparing tax regimes, or charting your path to early retirement, Toolisk gives you the full picture — not just a headline number. All calculations run in your browser, so your salary, loan amounts, and investment details never leave your device.
+                Whether you are planning a home loan, calculating capital gains tax, projecting your 529 savings, or simply formatting JSON at 11pm, Toolisk has you covered. All {TOTAL} tools run entirely in your browser — your data never leaves your device.
               </p>
             </section>
 
-            {/* What Each Tool Does */}
             <section>
-              <h2 className="text-2xl font-bold text-slate-900 mb-4">What You Can Do with Each Calculator</h2>
-              <div className="space-y-6">
+              <h2 className="text-2xl font-bold text-slate-900 mb-4">Finance Calculators</h2>
+              <div className="space-y-4">
                 <div>
-                  <h3 className="text-lg font-semibold text-slate-800 mb-1">
-                    <Link href="/finance/emi-calculator" className="text-indigo-600 hover:underline">EMI Calculator</Link> — Plan Loan Repayment with Prepayment Strategies
+                  <h3 className="text-base font-semibold text-slate-800 mb-1">
+                    <Link href="/finance/emi-calculator" className="text-indigo-600 hover:underline">EMI Calculator</Link> — Loan Repayment with Prepayment Strategies
                   </h3>
-                  <p className="text-slate-600 leading-relaxed">
-                    Go beyond simple EMI calculation. Compare <strong>Reduce EMI vs Reduce Tenure</strong> prepayment strategies side by side, view <strong>8 interactive charts</strong> including interest-vs-principal breakdown over time, and <strong>export the full amortization schedule to Excel</strong>. Supports one-time, monthly, quarterly, and yearly prepayments — see exactly how much interest you save with each approach.
+                  <p className="text-slate-600 leading-relaxed text-sm">
+                    Compare Reduce EMI vs Reduce Tenure side by side, view 8 interactive charts, and export the full amortization schedule to Excel.
                   </p>
                 </div>
-
                 <div>
-                  <h3 className="text-lg font-semibold text-slate-800 mb-1">
-                    <Link href="/finance/income-tax-calculator" className="text-indigo-600 hover:underline">Income Tax Calculator</Link> — Old vs New Regime for FY 2025-26
-                  </h3>
-                  <p className="text-slate-600 leading-relaxed">
-                    Compare your tax liability under both regimes instantly. Input Section 80C, HRA, NPS, and other deductions — the calculator shows which regime saves you more, with marginal relief and rebate calculations built in. Updated for the latest Union Budget changes.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold text-slate-800 mb-1">
+                  <h3 className="text-base font-semibold text-slate-800 mb-1">
                     <Link href="/finance/fire-calculator" className="text-indigo-600 hover:underline">FIRE Calculator</Link> — Financial Independence, Retire Early
                   </h3>
-                  <p className="text-slate-600 leading-relaxed">
-                    Calculate your FIRE number using the 4% rule (or any custom withdrawal rate). Compare <strong>Lean, Fat, Coast, and Barista FIRE</strong> strategies. Track milestones, see your net worth projection year by year, and understand how sequence-of-returns risk affects your retirement timeline.
+                  <p className="text-slate-600 leading-relaxed text-sm">
+                    Calculate your FIRE number and compare Lean, Fat, Coast, and Barista FIRE strategies with a year-by-year portfolio projection.
                   </p>
                 </div>
-
                 <div>
-                  <h3 className="text-lg font-semibold text-slate-800 mb-1">
-                    <Link href="/finance/sip-calculator" className="text-indigo-600 hover:underline">SIP Calculator</Link> — Systematic Investment Plan Returns
+                  <h3 className="text-base font-semibold text-slate-800 mb-1">
+                    <Link href="/finance/capital-gains-tax-calculator" className="text-indigo-600 hover:underline">Capital Gains Tax Calculator</Link> — Federal + State + NIIT
                   </h3>
-                  <p className="text-slate-600 leading-relaxed">
-                    Model SIP investments with <strong>annual step-up</strong> (increasing monthly contribution each year). Visualize how rupee cost averaging builds wealth over 10, 20, or 30 years. Set financial goals and see how much you need to invest monthly to reach them.
+                  <p className="text-slate-600 leading-relaxed text-sm">
+                    Compute US short-term and long-term capital gains tax on stocks, crypto, or real estate with 2026 brackets, NIIT, Section 121 exclusion, and all 50 state rates.
                   </p>
                 </div>
-
                 <div>
-                  <h3 className="text-lg font-semibold text-slate-800 mb-1">
-                    <Link href="/finance/compound-interest-calculator" className="text-indigo-600 hover:underline">Compound Interest Calculator</Link> — Visualize Investment Growth
+                  <h3 className="text-base font-semibold text-slate-800 mb-1">
+                    <Link href="/finance/rmd-calculator" className="text-indigo-600 hover:underline">RMD Calculator</Link> — Required Minimum Distributions
                   </h3>
-                  <p className="text-slate-600 leading-relaxed">
-                    See how a lump-sum investment grows with daily, monthly, quarterly, or yearly compounding. Interactive charts show exponential growth over decades, and you can toggle inflation adjustment to see real purchasing power — not just nominal returns.
+                  <p className="text-slate-600 leading-relaxed text-sm">
+                    Compute IRS Required Minimum Distributions from Traditional IRA or 401(k) using the Uniform Lifetime Table with 30-year projections.
                   </p>
                 </div>
-
                 <div>
-                  <h3 className="text-lg font-semibold text-slate-800 mb-1">
-                    <Link href="/finance/buy-vs-rent-calculator" className="text-indigo-600 hover:underline">Buy vs Rent Calculator</Link> — Data-Driven Housing Decisions
+                  <h3 className="text-base font-semibold text-slate-800 mb-1">
+                    <Link href="/finance/hsa-calculator" className="text-indigo-600 hover:underline">HSA Calculator</Link> — Triple-Tax Advantage
                   </h3>
-                  <p className="text-slate-600 leading-relaxed">
-                    Compare 20+ cost factors: down payment opportunity cost, maintenance, property tax appreciation, rental yield, and wealth accumulation over time. The calculator gives a clear recommendation based on your specific numbers — not generic rules of thumb.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold text-slate-800 mb-1">
-                    <Link href="/finance/amortization-calculator" className="text-indigo-600 hover:underline">Amortization Calculator</Link> — Month-by-Month Loan Schedules
-                  </h3>
-                  <p className="text-slate-600 leading-relaxed">
-                    Generate a complete amortization table showing principal and interest for every single payment. See cumulative interest paid, remaining balance at any point, and how extra payments shorten your loan. Export the full schedule to Excel for record-keeping.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold text-slate-800 mb-1">
-                    <Link href="/finance/mortgage-calculator" className="text-indigo-600 hover:underline">Mortgage Calculator</Link> — Full Housing Cost Breakdown
-                  </h3>
-                  <p className="text-slate-600 leading-relaxed">
-                    Calculate your actual monthly housing cost — not just principal and interest, but also property taxes, homeowners insurance, and PMI. Compare 15-year vs 30-year terms and see the total cost difference over the life of the loan.
+                  <p className="text-slate-600 leading-relaxed text-sm">
+                    Project HSA balance growth and quantify federal, state, and FICA tax savings versus a taxable account over decades.
                   </p>
                 </div>
               </div>
+              <p className="mt-4">
+                <Link href="/finance" className="text-sm text-indigo-600 font-medium hover:underline">
+                  Browse all {CALCULATOR_COUNT} finance calculators →
+                </Link>
+              </p>
             </section>
 
-            {/* Export & Reports */}
             <section>
-              <h2 className="text-2xl font-bold text-slate-900 mb-4">Detailed Reports & Excel Export</h2>
-              <p className="text-slate-600 leading-relaxed mb-4">
-                Every Toolisk calculator is designed to give you more than a quick answer. You get <strong>comprehensive reports</strong> with multiple chart types — bar charts, area charts, pie charts, and line graphs — that visualize your data from different angles. The EMI Calculator alone includes 8 distinct charts covering payment structure, prepayment impact, interest savings, and loan balance over time.
+              <h2 className="text-2xl font-bold text-slate-900 mb-4">Developer Tools</h2>
+              <p className="text-slate-600 leading-relaxed mb-4 text-sm">
+                {TOOL_COUNT} free utilities for developers and power users — JSON formatter, JWT decoder, regex tester, SQL formatter, password generator, Base64 encoder, color converter, cron parser, and more. All client-side.
               </p>
-              <p className="text-slate-600 leading-relaxed mb-4">
-                When you need to keep a record or share results with a spouse, financial advisor, or bank, use the <strong>one-click Excel export</strong>. The generated .xlsx file includes formatted tables, amortization schedules, and summary statistics — ready to open in Excel, Google Sheets, or Numbers.
-              </p>
-              <p className="text-slate-600 leading-relaxed">
-                Your calculation history is saved locally in your browser. Come back later and your previous inputs and results are still there — no account needed.
+              <p>
+                <Link href="/tools" className="text-sm text-indigo-600 font-medium hover:underline">
+                  Browse all {TOOL_COUNT} developer tools →
+                </Link>
               </p>
             </section>
 
-            {/* Privacy */}
             <section>
               <h2 className="text-2xl font-bold text-slate-900 mb-4">100% Client-Side — Your Data Stays Private</h2>
               <p className="text-slate-600 leading-relaxed">
@@ -640,66 +374,34 @@ export default function Home() {
               </p>
             </section>
 
-            {/* FAQ */}
             <section>
               <h2 className="text-2xl font-bold text-slate-900 mb-6">Frequently Asked Questions</h2>
               <div className="space-y-5">
                 <div>
-                  <h3 className="text-base font-semibold text-slate-800 mb-1">Are all Toolisk calculators really free?</h3>
-                  <p className="text-slate-600 leading-relaxed">
-                    Yes. Every calculator is completely free with no sign-ups, no paywalls, and no usage limits. You get detailed reports, interactive charts, and Excel export — all at no cost.
+                  <h3 className="text-base font-semibold text-slate-800 mb-1">Are all Toolisk tools really free?</h3>
+                  <p className="text-slate-600 leading-relaxed text-sm">
+                    Yes. Every tool is completely free with no sign-ups, no paywalls, and no usage limits. Finance calculators include detailed reports, interactive charts, and Excel export — all at no cost.
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-base font-semibold text-slate-800 mb-1">Is my financial data safe on Toolisk?</h3>
-                  <p className="text-slate-600 leading-relaxed">
+                  <h3 className="text-base font-semibold text-slate-800 mb-1">Is my data safe on Toolisk?</h3>
+                  <p className="text-slate-600 leading-relaxed text-sm">
                     Absolutely. All calculations run entirely in your browser. No data is ever sent to a server. Your salary, loan details, and investment amounts stay on your device.
                   </p>
                 </div>
                 <div>
                   <h3 className="text-base font-semibold text-slate-800 mb-1">Can I export calculator results to Excel?</h3>
-                  <p className="text-slate-600 leading-relaxed">
-                    Yes. The EMI Calculator, Amortization Calculator, and other tools include a one-click Excel export that generates a detailed .xlsx file with amortization schedules, payment breakdowns, and summary data.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-base font-semibold text-slate-800 mb-1">What makes Toolisk different from other online calculators?</h3>
-                  <p className="text-slate-600 leading-relaxed">
-                    Toolisk calculators include interactive charts, strategy comparisons (like reduce EMI vs reduce tenure), detailed breakdowns, goal planning, and export features. Most online calculators give you a number — Toolisk gives you a complete analysis you can actually act on.
+                  <p className="text-slate-600 leading-relaxed text-sm">
+                    Yes. Finance calculators include a one-click Excel export that generates a detailed .xlsx file with schedules, payment breakdowns, and summary data.
                   </p>
                 </div>
                 <div>
                   <h3 className="text-base font-semibold text-slate-800 mb-1">Do I need to create an account?</h3>
-                  <p className="text-slate-600 leading-relaxed">
-                    No. All tools work instantly without any sign-up. Your calculation history is saved in your browser&apos;s local storage, so it persists between sessions on the same device.
+                  <p className="text-slate-600 leading-relaxed text-sm">
+                    No. All tools work instantly without any sign-up. Your inputs are saved in your browser&apos;s local storage, so they persist between sessions on the same device.
                   </p>
                 </div>
               </div>
-            </section>
-
-            {/* Learn More */}
-            <section>
-              <h2 className="text-2xl font-bold text-slate-900 mb-4">Learn More About Personal Finance</h2>
-              <p className="text-slate-600 leading-relaxed mb-4">
-                Beyond the calculators, Toolisk publishes practical guides on personal finance topics. Each article is written to complement a specific calculator with deeper context and real-world examples.
-              </p>
-              <ul className="space-y-2 text-slate-600">
-                <li>
-                  <Link href="/finance/learn/understanding-emi-calculations" className="text-indigo-600 hover:underline font-medium">Understanding EMI Calculations</Link> — How EMI formulas work and what affects your monthly payment.
-                </li>
-                <li>
-                  <Link href="/finance/learn/home-loan-prepayment-strategy" className="text-indigo-600 hover:underline font-medium">Home Loan Prepayment Strategy</Link> — When to prepay, how much to prepay, and which strategy saves the most.
-                </li>
-                <li>
-                  <Link href="/finance/learn/fire-movement-explained" className="text-indigo-600 hover:underline font-medium">FIRE Movement Explained</Link> — A practical introduction to financial independence and early retirement.
-                </li>
-                <li>
-                  <Link href="/finance/learn/step-up-sip-vs-flat-sip" className="text-indigo-600 hover:underline font-medium">Step-Up SIP vs Flat SIP</Link> — Why increasing your SIP annually makes a massive difference over time.
-                </li>
-                <li>
-                  <Link href="/finance/learn/understanding-compound-interest" className="text-indigo-600 hover:underline font-medium">Understanding Compound Interest</Link> — The math behind exponential growth and how to use it.
-                </li>
-              </ul>
             </section>
           </div>
         </article>
