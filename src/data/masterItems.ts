@@ -790,6 +790,15 @@ const PDFS: MasterItem[] = [
     type: 'pdf',
     isNew: true,
   },
+  {
+    name: 'PDF to PNG',
+    description: 'Render PDF pages as lossless PNG images, optionally transparent. Pick pages, set DPI, download as zip — all in your browser.',
+    path: '/pdf/pdf-to-png',
+    icon: '🖼️',
+    tags: ['PDF', 'Convert', 'Image'],
+    type: 'pdf',
+    isNew: true,
+  },
 ];
 
 export { CALCULATORS, TOOLS, PDFS };
