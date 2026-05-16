@@ -1,6 +1,6 @@
 // Single source of truth for all Toolisk items.
-// /finance and /tools pages maintain their own copies for full SEO page control.
-// The home page imports from here to power unified search + filtering.
+// The home page, /tools, and /finance pages all import from here so the
+// item lists stay in sync — add new entries here only.
 
 export type ItemType = 'calculator' | 'tool';
 
@@ -652,7 +652,99 @@ const TOOLS: MasterItem[] = [
     type: 'tool',
     isNew: true,
   },
+  {
+    name: 'JSONPath Tester',
+    description:
+      'Run JSONPath expressions against any JSON document and see matching nodes in real time. Supports recursive descent, array slices, and filter expressions.',
+    path: '/tools/jsonpath-tester',
+    icon: '🧭',
+    tags: ['Developer', 'JSON', 'Query'],
+    type: 'tool',
+    isNew: true,
+  },
+  {
+    name: 'JSON Diff',
+    description:
+      'Compare two JSON documents semantically — see added, removed, and changed keys by dot-path, independent of property order. No line-diff noise.',
+    path: '/tools/json-diff',
+    icon: '🔍',
+    tags: ['Developer', 'JSON', 'Diff'],
+    type: 'tool',
+    isNew: true,
+  },
+  {
+    name: 'JWT Generator',
+    description:
+      'Generate signed JSON Web Tokens locally with HS256, HS384, or HS512. Edit payload, insert standard time claims, and copy the signed token — WebCrypto, no server.',
+    path: '/tools/jwt-generator',
+    icon: '🔑',
+    tags: ['Security', 'JWT', 'Auth'],
+    type: 'tool',
+    isNew: true,
+  },
+  {
+    name: 'CIDR / Subnet Calculator',
+    description:
+      'Calculate network address, broadcast, host range, subnet mask, wildcard, and binary mask from any IPv4 CIDR block. Split into child subnets instantly.',
+    path: '/tools/cidr-subnet-calculator',
+    icon: '🌐',
+    tags: ['Developer', 'Networking', 'IP'],
+    type: 'tool',
+    isNew: true,
+  },
+  {
+    name: 'QR Code Generator',
+    description:
+      'Create QR codes for URLs, text, Wi-Fi, vCard, email, and SMS. Download as PNG or SVG. Custom colors and error correction. 100% browser-based.',
+    path: '/tools/qr-code-generator',
+    icon: '📱',
+    tags: ['Web', 'QR', 'Utility'],
+    type: 'tool',
+    isNew: true,
+  },
+  {
+    name: 'CSS Box Shadow Generator',
+    description:
+      'Build CSS box-shadows visually with sliders. Stack multiple layers for Material elevations, neumorphism, or custom glows. Copy production CSS instantly.',
+    path: '/tools/box-shadow-generator',
+    icon: '🌗',
+    tags: ['Design', 'CSS', 'Generator'],
+    type: 'tool',
+    isNew: true,
+  },
+  {
+    name: 'Color Contrast Checker',
+    description:
+      'Check WCAG 2.2 contrast ratios for any foreground/background color pair. See AA/AAA pass-fail badges for normal text, large text, and UI elements.',
+    path: '/tools/color-contrast-checker',
+    icon: '♿',
+    tags: ['Design', 'Accessibility', 'WCAG'],
+    type: 'tool',
+    isNew: true,
+  },
+  {
+    name: 'cURL to Code',
+    description:
+      'Paste any cURL command and get equivalent fetch, axios, Python requests, or Node.js code. Handles headers, body, Basic auth, and multi-line curl.',
+    path: '/tools/curl-to-code',
+    icon: '🔄',
+    tags: ['Developer', 'HTTP', 'cURL'],
+    type: 'tool',
+    isNew: true,
+  },
+  {
+    name: 'User Agent Parser',
+    description:
+      'Decode any User-Agent string into browser name, version, engine, OS, device type, and bot flag. Detect your own browser UA in one click.',
+    path: '/tools/user-agent-parser',
+    icon: '🕵️',
+    tags: ['Developer', 'HTTP', 'Browser'],
+    type: 'tool',
+    isNew: true,
+  },
 ];
+
+export { CALCULATORS, TOOLS };
 
 export const ALL_ITEMS: MasterItem[] = [...CALCULATORS, ...TOOLS];
 
