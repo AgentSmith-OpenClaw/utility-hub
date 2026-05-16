@@ -772,6 +772,15 @@ const PDFS: MasterItem[] = [
     type: 'pdf',
     isNew: true,
   },
+  {
+    name: 'JPG to PDF',
+    description: 'Convert JPG, PNG, or WebP images to a single PDF with drag-to-reorder and page-size options. Runs in your browser.',
+    path: '/pdf/jpg-to-pdf',
+    icon: '🖼️',
+    tags: ['PDF', 'Convert', 'Image'],
+    type: 'pdf',
+    isNew: true,
+  },
 ];
 
 export { CALCULATORS, TOOLS, PDFS };
