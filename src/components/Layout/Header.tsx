@@ -114,14 +114,14 @@ export default function Header() {
           {navLinks.map((link) => {
             const active = isActive(link);
             const activeCls = link.activeClass || 'text-blue-600 bg-blue-50';
-            const hoverCls = link.hoverClass || 'hover:text-blue-600 hover:bg-gray-50';
+            const hoverCls = link.hoverClass || 'hover:text-blue-600 hover:bg-slate-50';
             return (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
                 className={`block px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                  active ? activeCls : `text-gray-600 ${hoverCls}`
+                  active ? activeCls : `text-slate-600 ${hoverCls}`
                 }`}
               >
                 {link.label}

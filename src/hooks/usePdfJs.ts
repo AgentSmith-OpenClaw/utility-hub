@@ -3,21 +3,28 @@ import { useState, useEffect } from 'react';
 type PdfJs = typeof import('pdfjs-dist');
 let cached: PdfJs | null = null;
 
-export function usePdfJs() {
+export function usePdfJs(): { lib: PdfJs | null; error: string | null } {
   const [lib, setLib] = useState<PdfJs | null>(cached);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (cached) { setLib(cached); return; }
-    import('pdfjs-dist').then((pdfjsLib) => {
-      // Set worker — use the bundled worker from the package
-      pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
-        'pdfjs-dist/build/pdf.worker.mjs',
-        import.meta.url,
-      ).toString();
-      cached = pdfjsLib;
-      setLib(pdfjsLib);
-    });
+    import('pdfjs-dist')
+      .then((pdfjsLib) => {
+        // Set worker — use the bundled worker from the package
+        if (typeof window !== 'undefined') {
+          pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+            'pdfjs-dist/build/pdf.worker.mjs',
+            import.meta.url,
+          ).toString();
+        }
+        cached = pdfjsLib;
+        setLib(pdfjsLib);
+      })
+      .catch(() => {
+        setError('Failed to load PDF engine. Please refresh the page.');
+      });
   }, []);
 
-  return lib;
+  return { lib, error };
 }

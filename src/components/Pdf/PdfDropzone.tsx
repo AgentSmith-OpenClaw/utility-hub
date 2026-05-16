@@ -93,7 +93,7 @@ export default function PdfDropzone({
     [processFiles],
   );
 
-  const openPicker = () => inputRef.current?.click();
+  const openPicker = useCallback(() => inputRef.current?.click(), []);
 
   if (compact) {
     return (
@@ -157,11 +157,11 @@ export default function PdfDropzone({
 
       {messages.length > 0 && (
         <div className="mt-2 space-y-1.5">
-          {messages.map((msg, i) => {
+          {messages.map((msg) => {
             if (msg.kind === 'large') {
               return (
                 <div
-                  key={i}
+                  key={`${msg.kind}-${msg.name}`}
                   className="flex items-center gap-2 px-3 py-2 rounded-lg bg-amber-50 border border-amber-200 text-xs text-amber-800"
                 >
                   <span aria-hidden="true">⚠️</span>
@@ -174,7 +174,7 @@ export default function PdfDropzone({
             if (msg.kind === 'toobig') {
               return (
                 <div
-                  key={i}
+                  key={`${msg.kind}-${msg.name}`}
                   className="flex items-center gap-2 px-3 py-2 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-800"
                 >
                   <span aria-hidden="true">🚫</span>
@@ -186,7 +186,7 @@ export default function PdfDropzone({
             }
             return (
               <div
-                key={i}
+                key={`${msg.kind}-${msg.name}`}
                 className="flex items-center gap-2 px-3 py-2 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-800"
               >
                 <span aria-hidden="true">🚫</span>

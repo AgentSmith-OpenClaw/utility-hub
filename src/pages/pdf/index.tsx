@@ -155,6 +155,7 @@ export default function PdfHome() {
                 />
                 {search ? (
                   <button
+                    type="button"
                     onClick={() => setSearch('')}
                     className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-all min-h-[44px] min-w-[44px] flex items-center justify-center"
                     aria-label="Clear search"
@@ -223,6 +224,7 @@ export default function PdfHome() {
               <div className="text-5xl mb-4" aria-hidden="true">🔍</div>
               <p className="text-slate-500 text-lg font-medium">No PDF tools match &ldquo;{search}&rdquo;</p>
               <button
+                type="button"
                 onClick={() => setSearch('')}
                 className="mt-4 text-sm font-medium text-rose-600 hover:text-rose-700 hover:underline transition-colors min-h-[44px] px-4"
               >

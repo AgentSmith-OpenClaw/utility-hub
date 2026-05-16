@@ -127,7 +127,7 @@ export default function PdfPageGrid({
     <div
       ref={containerRef}
       className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3"
-      role={mode === 'multi' ? 'group' : undefined}
+      role={mode === 'reorder' ? 'list' : mode === 'multi' ? 'group' : undefined}
       aria-label={mode === 'multi' ? 'PDF pages — click to select' : undefined}
     >
       {displayPages.map((page, tileIndex) => {
@@ -164,18 +164,35 @@ export default function PdfPageGrid({
                 ? () => onSelect?.(page.index, !isSelected)
                 : undefined
             }
-            role={mode === 'multi' ? 'checkbox' : undefined}
+            role={mode === 'reorder' ? 'listitem' : mode === 'multi' ? 'checkbox' : undefined}
+            aria-label={
+              mode === 'reorder'
+                ? `Page ${tileIndex + 1} of ${pages.length}, draggable`
+                : undefined
+            }
             aria-checked={mode === 'multi' ? isSelected : undefined}
-            tabIndex={mode === 'multi' ? 0 : undefined}
+            tabIndex={mode === 'reorder' || mode === 'multi' ? 0 : undefined}
             onKeyDown={
-              mode === 'multi'
+              mode === 'reorder'
                 ? (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
+                    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
                       e.preventDefault();
-                      onSelect?.(page.index, !isSelected);
+                      const toIndex = Math.max(0, tileIndex - 1);
+                      if (toIndex !== tileIndex) onReorder?.(tileIndex, toIndex);
+                    } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                      e.preventDefault();
+                      const toIndex = Math.min(pages.length - 1, tileIndex + 1);
+                      if (toIndex !== tileIndex) onReorder?.(tileIndex, toIndex);
                     }
                   }
-                : undefined
+                : mode === 'multi'
+                  ? (e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        onSelect?.(page.index, !isSelected);
+                      }
+                    }
+                  : undefined
             }
           >
             {/* Drop insertion line */}
