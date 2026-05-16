@@ -11,6 +11,7 @@ interface PdfFile {
   name: string;
   pageCount: number | null;
   sizeLabel: string;
+  encrypted?: boolean;
 }
 
 function formatMB(bytes: number): string {
@@ -30,7 +31,15 @@ async function mergePdfs(
   const out = await PDFDocument.create();
   for (let i = 0; i < files.length; i++) {
     const bytes = await files[i].arrayBuffer();
-    const src = await PDFDocument.load(bytes);
+    let src;
+    try {
+      src = await PDFDocument.load(bytes);
+    } catch (err: unknown) {
+      if (err instanceof Error && err.message.toLowerCase().includes('encrypt')) {
+        throw new Error(`__ENCRYPTED__:${files[i].name}`);
+      }
+      throw err;
+    }
     const indices = src.getPageIndices();
     const copied = await out.copyPages(src, indices);
     copied.forEach((p) => out.addPage(p));
@@ -78,8 +87,14 @@ export default function MergePdf() {
       setPdfFiles((prev) =>
         prev.map((pf) => (pf.id === id ? { ...pf, pageCount: doc.getPageCount() } : pf)),
       );
-    } catch {
-      // If it fails to load (e.g. encrypted), keep pageCount null
+    } catch (err: unknown) {
+      // If it fails to load because it's encrypted, mark the file row accordingly
+      if (err instanceof Error && err.message.toLowerCase().includes('encrypt')) {
+        setPdfFiles((prev) =>
+          prev.map((pf) => (pf.id === id ? { ...pf, encrypted: true } : pf)),
+        );
+      }
+      // pageCount stays null for all failure cases
     }
   }
 
@@ -153,10 +168,13 @@ export default function MergePdf() {
       setOutputSize(`${formatMB(blob.size)} MB`);
       setStatus('done');
     } catch (err: unknown) {
-      const msg =
-        err instanceof Error && err.message.toLowerCase().includes('encrypt')
-          ? `A PDF is password-protected. Unlock it first.`
-          : `Merge failed. ${err instanceof Error ? err.message : 'Unknown error.'}`;
+      let msg: string;
+      if (err instanceof Error && err.message.startsWith('__ENCRYPTED__:')) {
+        const filename = err.message.slice('__ENCRYPTED__:'.length);
+        msg = `${filename} is password-protected. Unlock it first.`;
+      } else {
+        msg = `Merge failed. ${err instanceof Error ? err.message : 'Unknown error.'}`;
+      }
       setErrorMsg(msg);
       setStatus('error');
     }
@@ -287,8 +305,15 @@ export default function MergePdf() {
                     <span className="text-sm font-medium text-slate-800 flex-1 truncate">
                       {truncateName(pf.name)}
                     </span>
-                    <span className="text-xs text-slate-500 flex-shrink-0 whitespace-nowrap">
-                      {pf.pageCount !== null ? `${pf.pageCount} page${pf.pageCount !== 1 ? 's' : ''}` : '—'} · {pf.sizeLabel}
+                    <span className="text-xs flex-shrink-0 whitespace-nowrap">
+                      {pf.encrypted ? (
+                        <span className="text-amber-600 font-medium">⚠ Encrypted</span>
+                      ) : (
+                        <span className="text-slate-500">
+                          {pf.pageCount !== null ? `${pf.pageCount} page${pf.pageCount !== 1 ? 's' : ''}` : '—'}
+                        </span>
+                      )}
+                      <span className="text-slate-500"> · {pf.sizeLabel}</span>
                     </span>
                     <button
                       type="button"
