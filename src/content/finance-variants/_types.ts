@@ -27,7 +27,16 @@ export type CalculatorId =
   | 'sales-tax-vat-gst'
   | 'tip'
   | 'house-affordability'
-  | 'social-security';
+  | 'social-security'
+  | 'mortgage-refinance-breakeven'
+  | 'heloc'
+  | 'rmd'
+  | 'hsa'
+  | 'annuity'
+  | 'roth-conversion'
+  | 'college-savings-529'
+  | 'capital-gains-tax-us'
+  | 'reverse-mortgage';
 
 export type LongformBlock =
   | { type: 'h2'; text: string }

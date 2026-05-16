@@ -39,6 +39,15 @@ const CONCRETE_FINANCE_PAGES = new Set<string>([
   'rd-calculator',
   'salary-hike-calculator',
   'discount-calculator',
+  'mortgage-refinance-breakeven-calculator',
+  'heloc-calculator',
+  'rmd-calculator',
+  'hsa-calculator',
+  'annuity-calculator',
+  'roth-conversion-calculator',
+  '529-college-savings-calculator',
+  'capital-gains-tax-calculator',
+  'reverse-mortgage-calculator',
 ]);
 
 // ---- variant imports (alphabetical by slug) ----
@@ -90,6 +99,53 @@ import socialSecurityBreakEven from './social-security-break-even-calculator';
 import socialSecurity62vs67 from './social-security-62-vs-67-calculator';
 import delayedRetirementCredit from './delayed-retirement-credit-calculator';
 import socialSecuritySpousalBenefits from './social-security-spousal-benefits-calculator';
+import shouldIRefinanceMyMortgage from './should-i-refinance-my-mortgage';
+import refinanceSavingsCalculator from './refinance-savings-calculator';
+import noClosingCostRefinanceCalculator from './no-closing-cost-refinance-calculator';
+import cashOutRefinanceCalculator from './cash-out-refinance-calculator';
+import fifteenVsThirtyYearRefinanceCalculator from './15-vs-30-year-refinance-calculator';
+// HELOC variants
+import homeEquityLineOfCreditCalculator from './home-equity-line-of-credit-calculator';
+import helocPaymentCalculator from './heloc-payment-calculator';
+import helocVsHomeEquityLoanCalculator from './heloc-vs-home-equity-loan-calculator';
+import interestOnlyHelocCalculator from './interest-only-heloc-calculator';
+// RMD variants
+import iraRmdCalculator from './ira-rmd-calculator';
+import fourOhOneKRmdCalculator from './401k-rmd-calculator';
+import inheritedIraRmdCalculator from './inherited-ira-rmd-calculator';
+import requiredMinimumDistributionTableCalculator from './required-minimum-distribution-table-calculator';
+// HSA variants
+import healthSavingsAccountCalculator from './health-savings-account-calculator';
+import hsaContributionCalculator from './hsa-contribution-calculator';
+import hsaRetirementCalculator from './hsa-retirement-calculator';
+import hsaVs401kCalculator from './hsa-vs-401k-calculator';
+// Annuity variants
+import immediateAnnuityCalculator from './immediate-annuity-calculator';
+import deferredAnnuityCalculator from './deferred-annuity-calculator';
+import annuityPayoutCalculator from './annuity-payout-calculator';
+import fixedAnnuityCalculator from './fixed-annuity-calculator';
+import retirementAnnuityCalculator from './retirement-annuity-calculator';
+// Roth Conversion variants
+import traditionalToRothIraCalculator from './traditional-to-roth-ira-calculator';
+import rothConversionTaxCalculator from './roth-conversion-tax-calculator';
+import rothConversionLadderCalculator from './roth-conversion-ladder-calculator';
+import backdoorRothIraCalculator from './backdoor-roth-ira-calculator';
+// 529 College Savings variants
+import collegeSavingsCalculator from './college-savings-calculator';
+import howMuchToSaveForCollege from './how-much-to-save-for-college';
+import fivetwentynineVsUtmaCalculator from './529-vs-utma-calculator';
+import collegeTuitionInflationCalculator from './college-tuition-inflation-calculator';
+// Capital Gains Tax variants
+import longTermCapitalGainsCalculator from './long-term-capital-gains-calculator';
+import shortTermCapitalGainsCalculator from './short-term-capital-gains-calculator';
+import cryptoCapitalGainsCalculator from './crypto-capital-gains-calculator';
+import homeSaleCapitalGainsCalculator from './home-sale-capital-gains-calculator';
+import stockSaleTaxCalculator from './stock-sale-tax-calculator';
+// Reverse Mortgage variants
+import hecmCalculator from './hecm-calculator';
+import reverseMortgagePaymentCalculator from './reverse-mortgage-payment-calculator';
+import reverseMortgageLineOfCreditCalculator from './reverse-mortgage-line-of-credit-calculator';
+import reverseMortgageVsHeloc from './reverse-mortgage-vs-heloc';
 
 export const ALL_VARIANTS: FinanceVariant[] = [
   fifteenVsThirtyYearMortgage,
@@ -140,6 +196,53 @@ export const ALL_VARIANTS: FinanceVariant[] = [
   socialSecurity62vs67,
   delayedRetirementCredit,
   socialSecuritySpousalBenefits,
+  shouldIRefinanceMyMortgage,
+  refinanceSavingsCalculator,
+  noClosingCostRefinanceCalculator,
+  cashOutRefinanceCalculator,
+  fifteenVsThirtyYearRefinanceCalculator,
+  // HELOC
+  homeEquityLineOfCreditCalculator,
+  helocPaymentCalculator,
+  helocVsHomeEquityLoanCalculator,
+  interestOnlyHelocCalculator,
+  // RMD
+  iraRmdCalculator,
+  fourOhOneKRmdCalculator,
+  inheritedIraRmdCalculator,
+  requiredMinimumDistributionTableCalculator,
+  // HSA
+  healthSavingsAccountCalculator,
+  hsaContributionCalculator,
+  hsaRetirementCalculator,
+  hsaVs401kCalculator,
+  // Annuity
+  immediateAnnuityCalculator,
+  deferredAnnuityCalculator,
+  annuityPayoutCalculator,
+  fixedAnnuityCalculator,
+  retirementAnnuityCalculator,
+  // Roth Conversion
+  traditionalToRothIraCalculator,
+  rothConversionTaxCalculator,
+  rothConversionLadderCalculator,
+  backdoorRothIraCalculator,
+  // 529 College Savings
+  collegeSavingsCalculator,
+  howMuchToSaveForCollege,
+  fivetwentynineVsUtmaCalculator,
+  collegeTuitionInflationCalculator,
+  // Capital Gains Tax
+  longTermCapitalGainsCalculator,
+  shortTermCapitalGainsCalculator,
+  cryptoCapitalGainsCalculator,
+  homeSaleCapitalGainsCalculator,
+  stockSaleTaxCalculator,
+  // Reverse Mortgage
+  hecmCalculator,
+  reverseMortgagePaymentCalculator,
+  reverseMortgageLineOfCreditCalculator,
+  reverseMortgageVsHeloc,
 ];
 
 // ---- integrity checks (run at import/build time) ----

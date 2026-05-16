@@ -243,6 +243,87 @@ const financeTools: FinanceTool[] = [
     tags: ['Retirement', 'US'],
     isNew: true,
   },
+  {
+    name: 'Mortgage Refinance Break-Even Calculator',
+    description:
+      'Find exactly when a refinance pays off. Compare monthly savings, closing-cost recovery period, and lifetime interest for any stay horizon.',
+    path: '/finance/mortgage-refinance-breakeven-calculator',
+    icon: '🔄',
+    tags: ['Mortgage', 'US', 'Real Estate'],
+    isNew: true,
+  },
+  {
+    name: 'HELOC Calculator',
+    description:
+      'Calculate your home equity line of credit limit, interest-only draw payments, and repayment-phase P&I — including the payment shock jump.',
+    path: '/finance/heloc-calculator',
+    icon: '🏠',
+    tags: ['Mortgage', 'US', 'Real Estate'],
+    isNew: true,
+  },
+  {
+    name: 'RMD Calculator',
+    description:
+      'Compute your IRS Required Minimum Distribution from Traditional IRA or 401(k) using the Uniform Lifetime Table, with year-by-year projections.',
+    path: '/finance/rmd-calculator',
+    icon: '📋',
+    tags: ['Retirement', 'US', 'Tax'],
+    isNew: true,
+  },
+  {
+    name: 'HSA Calculator',
+    description:
+      'Project HSA balance and quantify your triple-tax advantage — federal, state, and FICA savings — versus a taxable account over decades.',
+    path: '/finance/hsa-calculator',
+    icon: '🏥',
+    tags: ['Healthcare', 'US', 'Tax'],
+    isNew: true,
+  },
+  {
+    name: 'Annuity Calculator',
+    description:
+      'Calculate immediate annuity payments, deferred annuity growth, and fixed-period TVM across three modes with COLA support.',
+    path: '/finance/annuity-calculator',
+    icon: '💎',
+    tags: ['Retirement', 'US', 'Income'],
+    isNew: true,
+  },
+  {
+    name: 'Roth Conversion Calculator',
+    description:
+      'See the federal tax cost of converting to Roth IRA using 2026 brackets, and compare after-tax future value vs staying in Traditional.',
+    path: '/finance/roth-conversion-calculator',
+    icon: '🔁',
+    tags: ['Retirement', 'US', 'Tax'],
+    isNew: true,
+  },
+  {
+    name: '529 College Savings Calculator',
+    description:
+      'Project 529 balance growth, inflate future tuition costs, find the funding gap, and get a recommended monthly contribution.',
+    path: '/finance/529-college-savings-calculator',
+    icon: '🎓',
+    tags: ['Education', 'US', 'Savings'],
+    isNew: true,
+  },
+  {
+    name: 'Capital Gains Tax Calculator',
+    description:
+      'Calculate US federal short-term and long-term capital gains tax, NIIT, and state tax on stocks, crypto, or real estate sales.',
+    path: '/finance/capital-gains-tax-calculator',
+    icon: '📈',
+    tags: ['Tax', 'US', 'Investing'],
+    isNew: true,
+  },
+  {
+    name: 'Reverse Mortgage Calculator',
+    description:
+      'Estimate HECM reverse mortgage proceeds across lump sum, line of credit, term, and lifetime tenure payout options. 2026 FHA limits.',
+    path: '/finance/reverse-mortgage-calculator',
+    icon: '🏡',
+    tags: ['Mortgage', 'US', 'Retirement'],
+    isNew: true,
+  },
 ];
 
 const categories = ['All', 'Loan', 'Tax', 'Retirement', 'Investing', 'Real Estate', 'Savings'];
