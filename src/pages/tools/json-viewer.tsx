@@ -150,9 +150,10 @@ export default function JsonViewerPage() {
           </section>
         }
         relatedTools={[
+          { name: 'JSONPath Tester', href: '/tools/jsonpath-tester', icon: '🧭' },
+          { name: 'JSON Diff', href: '/tools/json-diff', icon: '🔍' },
+          { name: 'YAML / JSON Converter', href: '/tools/yaml-json-converter', icon: '🔀' },
           { name: 'URL Encoder / Decoder', href: '/tools/url-encoder', icon: '🔗' },
-          { name: 'Base64 Encoder / Decoder', href: '/tools/base64', icon: '🔐' },
-          { name: 'Regex Tester', href: '/tools/regex-tester', icon: '🧪' },
         ]}
         relatedArticles={[
           { title: 'JSON Essentials for Developers', href: '/tools/learn/json-essentials' },

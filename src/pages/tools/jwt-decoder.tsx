@@ -82,6 +82,7 @@ export default function JwtDecoderPage() {
           </section>
         }
         relatedTools={[
+          { name: 'JWT Generator', href: '/tools/jwt-generator', icon: '🔑' },
           { name: 'Base64 Encoder / Decoder', href: '/tools/base64', icon: '🔐' },
           { name: 'Hash Generator', href: '/tools/hash-generator', icon: '🔏' },
           { name: 'Timestamp Converter', href: '/tools/timestamp-converter', icon: '⏱️' },

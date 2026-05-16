@@ -153,9 +153,9 @@ export default function UrlEncoderPage() {
           </section>
         }
         relatedTools={[
+          { name: 'cURL to Code', href: '/tools/curl-to-code', icon: '🔄' },
+          { name: 'QR Code Generator', href: '/tools/qr-code-generator', icon: '📱' },
           { name: 'Base64 Encoder / Decoder', href: '/tools/base64', icon: '🔐' },
-          { name: 'JSON Viewer & Formatter', href: '/tools/json-viewer', icon: '🧩' },
-          { name: 'Hash Generator', href: '/tools/hash-generator', icon: '🔏' },
         ]}
         relatedArticles={[
           { title: 'URL Encoding Explained', href: '/tools/learn/url-encoding-explained' },

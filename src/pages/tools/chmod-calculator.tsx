@@ -71,9 +71,9 @@ export default function ChmodCalculatorPage() {
           </section>
         }
         relatedTools={[
+          { name: 'CIDR / Subnet Calculator', href: '/tools/cidr-subnet-calculator', icon: '🌐' },
           { name: 'Number Base Converter', href: '/tools/number-base-converter', icon: '🔢' },
           { name: 'Hash Generator', href: '/tools/hash-generator', icon: '🔏' },
-          { name: 'Password Generator', href: '/tools/password-generator', icon: '🔒' },
         ]}
       />
     </>

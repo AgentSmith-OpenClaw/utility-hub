@@ -77,6 +77,7 @@ export default function TextDiffPage() {
           </section>
         }
         relatedTools={[
+          { name: 'JSON Diff', href: '/tools/json-diff', icon: '🔍' },
           { name: 'JSON Viewer', href: '/tools/json-viewer', icon: '🧩' },
           { name: 'Word Counter', href: '/tools/word-counter', icon: '✍️' },
           { name: 'Markdown Preview', href: '/tools/markdown-preview', icon: '📑' },

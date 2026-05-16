@@ -124,9 +124,9 @@ export default function HashGeneratorPage() {
           </section>
         }
         relatedTools={[
+          { name: 'JWT Generator', href: '/tools/jwt-generator', icon: '🔑' },
           { name: 'Base64 Encoder / Decoder', href: '/tools/base64', icon: '🔐' },
           { name: 'UUID Generator', href: '/tools/uuid-generator', icon: '🆔' },
-          { name: 'URL Encoder / Decoder', href: '/tools/url-encoder', icon: '🔗' },
         ]}
         relatedArticles={[
           { title: 'Hashing vs Encryption', href: '/tools/learn/hashing-vs-encryption' },

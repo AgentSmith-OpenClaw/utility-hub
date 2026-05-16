@@ -61,6 +61,15 @@ const STATIC_BREADCRUMB_LABELS: Record<string, string> = {
   'pomodoro-timer': 'Pomodoro Timer',
   'json-csv': 'JSON ↔ CSV Converter',
   'chmod-calculator': 'Chmod Calculator',
+  'jsonpath-tester': 'JSONPath Tester',
+  'json-diff': 'JSON Diff',
+  'jwt-generator': 'JWT Generator',
+  'cidr-subnet-calculator': 'CIDR / Subnet Calculator',
+  'qr-code-generator': 'QR Code Generator',
+  'box-shadow-generator': 'CSS Box Shadow Generator',
+  'color-contrast-checker': 'Color Contrast Checker',
+  'curl-to-code': 'cURL to Code Converter',
+  'user-agent-parser': 'User Agent Parser',
 };
 
 // Merged label map: static labels + auto-generated labels from finance variants.
