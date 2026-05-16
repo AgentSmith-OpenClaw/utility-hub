@@ -27,6 +27,7 @@ const STATIC_BREADCRUMB_LABELS: Record<string, string> = {
   'pdf': 'PDF Tools',
   'merge-pdf': 'Merge PDF',
   'split-pdf': 'Split PDF',
+  'rotate-pdf': 'Rotate PDF',
   'tools': 'Tools',
   'url-encoder': 'URL Encoder / Decoder',
   'json-viewer': 'JSON Viewer & Formatter',

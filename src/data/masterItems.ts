@@ -763,6 +763,15 @@ const PDFS: MasterItem[] = [
     type: 'pdf',
     isNew: true,
   },
+  {
+    name: 'Rotate PDF',
+    description: 'Rotate PDF pages 90, 180, or 270 degrees — bulk or per page, with live thumbnail preview. No upload, runs in your browser.',
+    path: '/pdf/rotate-pdf',
+    icon: '🔄',
+    tags: ['PDF', 'Rotate', 'Fix'],
+    type: 'pdf',
+    isNew: true,
+  },
 ];
 
 export { CALCULATORS, TOOLS, PDFS };
