@@ -12,12 +12,9 @@ export function usePdfJs(): { lib: PdfJs | null; error: string | null } {
     import('pdfjs-dist')
       .then((pdfjsLib) => {
         // Set worker — use the bundled worker from the package
-        if (typeof window !== 'undefined') {
-          pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
-            'pdfjs-dist/build/pdf.worker.mjs',
-            import.meta.url,
-          ).toString();
-        }
+        // Worker is served from /public to avoid Terser trying to minify it.
+        // The file is copied to public/ as part of project setup.
+        pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
         cached = pdfjsLib;
         setLib(pdfjsLib);
       })
