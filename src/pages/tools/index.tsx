@@ -336,6 +336,87 @@ const tools: Tool[] = [
     tags: ['Developer', 'Linux', 'Unix'],
     isNew: true,
   },
+  {
+    name: 'JSONPath Tester',
+    description:
+      'Run JSONPath expressions against any JSON document and see matching nodes in real time. Supports recursive descent, array slices, and filter expressions.',
+    path: '/tools/jsonpath-tester',
+    icon: '🧭',
+    tags: ['Developer', 'JSON', 'Query'],
+    isNew: true,
+  },
+  {
+    name: 'JSON Diff',
+    description:
+      'Compare two JSON documents semantically — see added, removed, and changed keys by dot-path, independent of property order. No line-diff noise.',
+    path: '/tools/json-diff',
+    icon: '🔍',
+    tags: ['Developer', 'JSON', 'Diff'],
+    isNew: true,
+  },
+  {
+    name: 'JWT Generator',
+    description:
+      'Generate signed JSON Web Tokens locally with HS256, HS384, or HS512. Edit payload, insert standard time claims, and copy the signed token — WebCrypto, no server.',
+    path: '/tools/jwt-generator',
+    icon: '🔑',
+    tags: ['Security', 'JWT', 'Auth'],
+    isNew: true,
+  },
+  {
+    name: 'CIDR / Subnet Calculator',
+    description:
+      'Calculate network address, broadcast, host range, subnet mask, wildcard, and binary mask from any IPv4 CIDR block. Split into child subnets instantly.',
+    path: '/tools/cidr-subnet-calculator',
+    icon: '🌐',
+    tags: ['Developer', 'Networking', 'IP'],
+    isNew: true,
+  },
+  {
+    name: 'QR Code Generator',
+    description:
+      'Create QR codes for URLs, text, Wi-Fi, vCard, email, and SMS. Download as PNG or SVG. Custom colors and error correction. 100% browser-based.',
+    path: '/tools/qr-code-generator',
+    icon: '📱',
+    tags: ['Web', 'QR', 'Utility'],
+    isNew: true,
+  },
+  {
+    name: 'CSS Box Shadow Generator',
+    description:
+      'Build CSS box-shadows visually with sliders. Stack multiple layers for Material elevations, neumorphism, or custom glows. Copy production CSS instantly.',
+    path: '/tools/box-shadow-generator',
+    icon: '🌗',
+    tags: ['Design', 'CSS', 'Generator'],
+    isNew: true,
+  },
+  {
+    name: 'Color Contrast Checker',
+    description:
+      'Check WCAG 2.2 contrast ratios for any foreground/background color pair. See AA/AAA pass-fail badges for normal text, large text, and UI elements.',
+    path: '/tools/color-contrast-checker',
+    icon: '♿',
+    tags: ['Design', 'Accessibility', 'WCAG'],
+    isNew: true,
+  },
+  {
+    name: 'cURL to Code',
+    description:
+      'Paste any cURL command and get equivalent fetch, axios, Python requests, or Node.js code. Handles headers, body, Basic auth, and multi-line curl.',
+    path: '/tools/curl-to-code',
+    icon: '🔄',
+    tags: ['Developer', 'HTTP', 'cURL'],
+    isNew: true,
+  },
+  {
+    name: 'User Agent Parser',
+    description:
+      'Decode any User-Agent string into browser name, version, engine, OS, device type, and bot flag. Detect your own browser UA in one click.',
+    path: '/tools/user-agent-parser',
+    icon: '🕵️',
+    tags: ['Developer', 'HTTP', 'Browser'],
+    isNew: true,
+  },
 ];
 
 export default function ToolsHome() {
@@ -355,25 +436,25 @@ export default function ToolsHome() {
   return (
     <>
       <Head>
-        <title>Toolisk Tools — 36 Free Online Developer &amp; Productivity Utilities</title>
+        <title>Toolisk Tools — 46 Free Online Developer &amp; Productivity Utilities</title>
         <meta
           name="description"
-          content="36 free online utilities for developers, designers, and writers. Unit converter, percent calculator, pomodoro timer, chmod calculator, JSON to CSV, morse code, caesar cipher, XML formatter, HTTP status codes, and more — all client-side, private, no sign-ups."
+          content="46 free online utilities for developers, designers, and writers. JSON tools, subnet calculator, QR code generator, color contrast checker, cURL converter, and more — all client-side, private, no sign-ups."
         />
         <meta
           name="keywords"
           content="online utilities, developer tools, unit converter, percentage calculator, pomodoro timer, chmod calculator, json csv converter, morse code, caesar cipher, xml formatter, http status codes, number base converter, image base64, age calculator, free web tools"
         />
         <link rel="canonical" href="https://toolisk.com/tools" />
-        <meta property="og:title" content="Toolisk Tools — 36 Free Online Developer & Productivity Utilities" />
+        <meta property="og:title" content="Toolisk Tools — 46 Free Online Developer & Productivity Utilities" />
         <meta
           property="og:description"
-          content="36 free online utilities — unit converter, pomodoro timer, JSON to CSV, chmod calculator, morse code, XML formatter and more. Fast, private, no sign-ups."
+          content="46 free online utilities — subnet calculator, QR code generator, JSON diff, cURL converter, contrast checker, and more. Fast, private, no sign-ups."
         />
         <meta property="og:url" content="https://toolisk.com/tools" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="Toolisk Tools — 36 Free Online Developer & Productivity Utilities" />
+        <meta name="twitter:title" content="Toolisk Tools — 46 Free Online Developer & Productivity Utilities" />
         <meta
           name="twitter:description"
           content="36 free utilities for developers, designers, and writers. All run client-side."

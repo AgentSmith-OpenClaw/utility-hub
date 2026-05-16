@@ -110,9 +110,9 @@ export default function ColorConverterPage() {
           </section>
         }
         relatedTools={[
-          { name: 'Lorem Ipsum Generator', href: '/tools/lorem-ipsum', icon: '📝' },
-          { name: 'Case Converter', href: '/tools/case-converter', icon: '🔤' },
-          { name: 'JSON Viewer & Formatter', href: '/tools/json-viewer', icon: '🧩' },
+          { name: 'Color Contrast Checker', href: '/tools/color-contrast-checker', icon: '♿' },
+          { name: 'CSS Box Shadow Generator', href: '/tools/box-shadow-generator', icon: '🌗' },
+          { name: 'Color Palette Generator', href: '/tools/color-palette', icon: '🖌️' },
         ]}
       />
     </>
