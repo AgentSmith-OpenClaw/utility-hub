@@ -27,7 +27,7 @@ export default function ToolsHome() {
         />
         <meta
           name="keywords"
-          content="online utilities, developer tools, unit converter, percentage calculator, pomodoro timer, chmod calculator, json csv converter, morse code, caesar cipher, xml formatter, http status codes, number base converter, image base64, age calculator, free web tools"
+          content="developer tools, online utilities, chmod calculator, json csv converter, morse code, caesar cipher, xml formatter, http status codes, number base converter, image base64, regex tester, json formatter, jwt decoder, sql formatter, hash generator, free developer tools"
         />
         <link rel="canonical" href="https://toolisk.com/tools" />
         <meta property="og:title" content={`Toolisk Tools — ${tools.length} Free Online Developer & Productivity Utilities`} />
@@ -112,7 +112,7 @@ export default function ToolsHome() {
               </h1>
             </div>
             <p className="text-emerald-50 text-base sm:text-lg max-w-xl mx-auto mb-8">
-              Developer & productivity utilities — fast, private, no sign-ups.
+              Developer utilities — JSON, regex, encoders, formatters, and more. Fast, private, no sign-ups.
             </p>
 
             <div className="max-w-2xl mx-auto">

@@ -2,7 +2,7 @@
 // The home page, /tools, and /finance pages all import from here so the
 // item lists stay in sync — add new entries here only.
 
-export type ItemType = 'calculator' | 'tool';
+export type ItemType = 'calculator' | 'tool' | 'pdf' | 'utility' | 'health';
 
 export interface MasterItem {
   name: string;
@@ -536,33 +536,6 @@ const TOOLS: MasterItem[] = [
     isNew: true,
   },
   {
-    name: 'Percentage Calculator',
-    description: 'Calculate X% of Y, find what percent X is of Y, compute percent change, and add or subtract percentages. Four calculators in one.',
-    path: '/tools/percentage-calculator',
-    icon: '%',
-    tags: ['Math', 'Finance', 'Utility'],
-    type: 'tool',
-    isNew: true,
-  },
-  {
-    name: 'Age & Date Calculator',
-    description: 'Calculate exact age from a birthday, find the number of days between two dates, and add or subtract days for deadline math.',
-    path: '/tools/age-calculator',
-    icon: '📅',
-    tags: ['Utility', 'Date', 'Calendar'],
-    type: 'tool',
-    isNew: true,
-  },
-  {
-    name: 'Unit Converter',
-    description: 'Convert between 50+ units across length, weight, temperature, volume, area, and speed. Metric and imperial, all in one place.',
-    path: '/tools/unit-converter',
-    icon: '⚖️',
-    tags: ['Utility', 'Math', 'Conversion'],
-    type: 'tool',
-    isNew: true,
-  },
-  {
     name: 'Color Palette Generator',
     description: 'Generate tints, shades, complementary, analogous, and triadic color palettes from any base color. Includes a full 100–900 color scale.',
     path: '/tools/color-palette',
@@ -626,15 +599,6 @@ const TOOLS: MasterItem[] = [
     isNew: true,
   },
   {
-    name: 'Pomodoro Timer',
-    description: 'Stay focused with 25-minute work sessions, 5-minute short breaks, and 15-minute long breaks. Customizable, with browser notifications.',
-    path: '/tools/pomodoro-timer',
-    icon: '🍅',
-    tags: ['Productivity', 'Timer', 'Focus'],
-    type: 'tool',
-    isNew: true,
-  },
-  {
     name: 'JSON ↔ CSV Converter',
     description: 'Convert JSON arrays to CSV or CSV back to JSON. Choose comma, semicolon, tab, or pipe delimiter. Download result or copy to clipboard.',
     path: '/tools/json-csv',
@@ -693,16 +657,6 @@ const TOOLS: MasterItem[] = [
     isNew: true,
   },
   {
-    name: 'QR Code Generator',
-    description:
-      'Create QR codes for URLs, text, Wi-Fi, vCard, email, and SMS. Download as PNG or SVG. Custom colors and error correction. 100% browser-based.',
-    path: '/tools/qr-code-generator',
-    icon: '📱',
-    tags: ['Web', 'QR', 'Utility'],
-    type: 'tool',
-    isNew: true,
-  },
-  {
     name: 'CSS Box Shadow Generator',
     description:
       'Build CSS box-shadows visually with sliders. Stack multiple layers for Material elevations, neumorphism, or custom glows. Copy production CSS instantly.',
@@ -744,9 +698,165 @@ const TOOLS: MasterItem[] = [
   },
 ];
 
-export { CALCULATORS, TOOLS };
+const PDFS: MasterItem[] = [
+  {
+    name: 'Merge PDF',
+    description: 'Combine multiple PDFs into one file with drag-to-reorder. Runs entirely in your browser — files are never uploaded.',
+    path: '/pdf/merge-pdf',
+    icon: '📎',
+    tags: ['PDF', 'Merge', 'Combine'],
+    type: 'pdf',
+    isNew: true,
+  },
+  {
+    name: 'Split PDF',
+    description: 'Split a PDF by page ranges, every page, or fixed chunks. Runs entirely in your browser — no upload, no sign-up.',
+    path: '/pdf/split-pdf',
+    icon: '✂️',
+    tags: ['PDF', 'Split', 'Extract'],
+    type: 'pdf',
+    isNew: true,
+  },
+  {
+    name: 'Rotate PDF',
+    description: 'Rotate PDF pages 90, 180, or 270 degrees — bulk or per page, with live thumbnail preview. No upload, runs in your browser.',
+    path: '/pdf/rotate-pdf',
+    icon: '🔄',
+    tags: ['PDF', 'Rotate', 'Fix'],
+    type: 'pdf',
+    isNew: true,
+  },
+  {
+    name: 'JPG to PDF',
+    description: 'Convert JPG, PNG, or WebP images to a single PDF with drag-to-reorder and page-size options. Runs in your browser.',
+    path: '/pdf/jpg-to-pdf',
+    icon: '🖼️',
+    tags: ['PDF', 'Convert', 'Image'],
+    type: 'pdf',
+    isNew: true,
+  },
+  {
+    name: 'PDF to JPG',
+    description: 'Render PDF pages as JPG images at 72/150/300 DPI. Pick pages, set quality, download as zip — all in your browser.',
+    path: '/pdf/pdf-to-jpg',
+    icon: '🖼️',
+    tags: ['PDF', 'Convert', 'Image'],
+    type: 'pdf',
+    isNew: true,
+  },
+  {
+    name: 'PDF to PNG',
+    description: 'Render PDF pages as lossless PNG images, optionally transparent. Pick pages, set DPI, download as zip — all in your browser.',
+    path: '/pdf/pdf-to-png',
+    icon: '🖼️',
+    tags: ['PDF', 'Convert', 'Image'],
+    type: 'pdf',
+    isNew: true,
+  },
+  {
+    name: 'PDF to Text',
+    description: 'Extract every word from a PDF, copy or save as .txt / .md. Page-range and paragraph-join options. Runs in your browser.',
+    path: '/pdf/pdf-to-text',
+    icon: '📝',
+    tags: ['PDF', 'Convert', 'Text'],
+    type: 'pdf',
+    isNew: true,
+  },
+  {
+    name: 'Delete Pages from PDF',
+    description: 'Remove unwanted pages from a PDF with a visual page picker. Runs entirely in your browser — original quality preserved.',
+    path: '/pdf/delete-pdf-pages',
+    icon: '🗑️',
+    tags: ['PDF', 'Edit', 'Delete'],
+    type: 'pdf',
+    isNew: true,
+  },
+  {
+    name: 'Reorder PDF Pages',
+    description: 'Drag PDF pages into any order with a visual grid. Quality preserved exactly. Runs entirely in your browser — no upload.',
+    path: '/pdf/reorder-pdf-pages',
+    icon: '🔀',
+    tags: ['PDF', 'Edit', 'Reorder'],
+    type: 'pdf',
+    isNew: true,
+  },
+  {
+    name: 'Compress PDF',
+    description: 'Shrink PDF file size with three quality levels and a live before/after preview. Runs entirely in your browser — no upload.',
+    path: '/pdf/compress-pdf',
+    icon: '🗜️',
+    tags: ['PDF', 'Compress', 'Optimize'],
+    type: 'pdf',
+    isNew: true,
+  },
+];
 
-export const ALL_ITEMS: MasterItem[] = [...CALCULATORS, ...TOOLS];
+const UTILITIES: MasterItem[] = [
+  {
+    name: 'Percentage Calculator',
+    description: 'Calculate X% of Y, find what percent X is of Y, compute percent change, and add or subtract percentages. Four calculators in one.',
+    path: '/utilities/percentage-calculator',
+    icon: '%',
+    tags: ['Math', 'Everyday', 'Utility'],
+    type: 'utility',
+    isNew: true,
+  },
+  {
+    name: 'Age & Date Calculator',
+    description: 'Calculate exact age from a birthday, find the number of days between two dates, and add or subtract days for deadline math.',
+    path: '/utilities/age-calculator',
+    icon: '📅',
+    tags: ['Date', 'Calendar', 'Everyday'],
+    type: 'utility',
+    isNew: true,
+  },
+  {
+    name: 'Unit Converter',
+    description: 'Convert between 50+ units across length, weight, temperature, volume, area, and speed. Metric and imperial, all in one place.',
+    path: '/utilities/unit-converter',
+    icon: '⚖️',
+    tags: ['Conversion', 'Math', 'Everyday'],
+    type: 'utility',
+    isNew: true,
+  },
+  {
+    name: 'Pomodoro Timer',
+    description: 'Stay focused with 25-minute work sessions, 5-minute short breaks, and 15-minute long breaks. Customizable, with browser notifications.',
+    path: '/utilities/pomodoro-timer',
+    icon: '🍅',
+    tags: ['Productivity', 'Timer', 'Focus'],
+    type: 'utility',
+    isNew: true,
+  },
+  {
+    name: 'QR Code Generator',
+    description: 'Create QR codes for URLs, text, Wi-Fi, vCard, email, and SMS. Download as PNG or SVG. Custom colors and error correction. 100% browser-based.',
+    path: '/utilities/qr-code-generator',
+    icon: '📱',
+    tags: ['QR Code', 'Everyday', 'Web'],
+    type: 'utility',
+    isNew: true,
+  },
+];
+
+const HEALTH: MasterItem[] = [
+  {
+    name: 'BMI Calculator',
+    description: 'Calculate your Body Mass Index with metric or imperial units. Get your BMI category, healthy weight range, and BMR estimate using the Mifflin-St Jeor equation.',
+    path: '/health/bmi-calculator',
+    icon: '⚖️',
+    tags: ['BMI', 'Health', 'Fitness'],
+    type: 'health',
+    isNew: true,
+  },
+];
+
+export { CALCULATORS, TOOLS, PDFS, UTILITIES, HEALTH };
+
+export const ALL_ITEMS: MasterItem[] = [...CALCULATORS, ...TOOLS, ...PDFS, ...UTILITIES, ...HEALTH];
 
 export const CALCULATOR_COUNT = CALCULATORS.length;
 export const TOOL_COUNT = TOOLS.length;
+export const PDF_COUNT = PDFS.length;
+export const UTILITY_COUNT = UTILITIES.length;
+export const HEALTH_COUNT = HEALTH.length;

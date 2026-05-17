@@ -26,6 +26,17 @@ const footerSections = [
     ],
   },
   {
+    title: 'PDF Tools',
+    links: [
+      { label: 'Merge PDF', href: '/pdf/merge-pdf' },
+      { label: 'Split PDF', href: '/pdf/split-pdf' },
+      { label: 'Rotate PDF', href: '/pdf/rotate-pdf' },
+      { label: 'Compress PDF', href: '/pdf/compress-pdf' },
+      { label: 'JPG to PDF', href: '/pdf/jpg-to-pdf' },
+      { label: 'All PDF tools', href: '/pdf' },
+    ],
+  },
+  {
     title: 'Learn',
     links: [
       { label: 'Finance guides', href: '/finance/learn' },
@@ -50,7 +61,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-slate-200 bg-white">
       <div className="max-w-6xl mx-auto px-4 py-10">
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-8 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-6 gap-8 mb-8">
           {/* Brand Column */}
           <div className="col-span-2 sm:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-3">
