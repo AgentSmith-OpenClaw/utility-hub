@@ -4,7 +4,7 @@ Next calculators to build, ranked by **AdSense RPM × search demand × build eff
 
 ## Tier 1 — High RPM, large global volume (build first)
 
-### US-focused (highest finance CPCs in the world)
+### US-focused (highest finance CPCs in the world) - Done all implemented
 - **Mortgage Refinance Break-Even Calculator** — Refi savings vs closing costs; "should I refinance" intent. *(extends existing refinance variant into a hero page)*
 - **HELOC Calculator** — Home-equity line of credit payments, draw vs repayment phase. Very high CPC.
 - **Annuity Calculator** — Immediate / deferred annuity payout. Underserved, $20+ CPC keyword set.

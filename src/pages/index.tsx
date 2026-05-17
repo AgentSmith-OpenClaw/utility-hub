@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useState, useMemo } from 'react';
-import { ALL_ITEMS, CALCULATOR_COUNT, TOOL_COUNT, type ItemType } from '../data/masterItems';
+import { ALL_ITEMS, CALCULATOR_COUNT, TOOL_COUNT, PDF_COUNT, UTILITY_COUNT, HEALTH_COUNT, type ItemType } from '../data/masterItems';
 
 type FilterType = 'all' | ItemType;
 
@@ -27,33 +27,36 @@ export default function Home() {
     { key: 'all', label: 'All', count: TOTAL },
     { key: 'calculator', label: 'Calculators', count: CALCULATOR_COUNT },
     { key: 'tool', label: 'Dev Tools', count: TOOL_COUNT },
+    { key: 'pdf', label: 'PDF Tools', count: PDF_COUNT },
+    { key: 'utility', label: 'Utilities', count: UTILITY_COUNT },
+    { key: 'health', label: 'Health', count: HEALTH_COUNT },
   ];
 
   return (
     <>
       <Head>
-        <title>Toolisk — Free Finance Calculators &amp; Developer Tools</title>
+        <title>Toolisk — Free Finance Calculators, Developer Tools, PDF Utilities &amp; Everyday Tools</title>
         <meta
           name="description"
-          content="Free finance calculators for 401k, mortgage, capital gains tax, HSA, RMD, FIRE, SIP, and more — plus developer tools like JSON formatter, JWT decoder, and regex tester. All client-side, no sign-up."
+          content="Free finance calculators, developer tools, PDF utilities, and everyday utilities — 401k, mortgage, JSON formatter, merge PDF, percentage calculator, unit converter, and more. All client-side, no sign-up."
         />
         <meta
           name="keywords"
-          content="finance calculators, 401k calculator, roth ira calculator, capital gains tax calculator, mortgage calculator, hsa calculator, rmd calculator, fire calculator, developer tools, json formatter, jwt decoder, free online tools"
+          content="finance calculators, 401k calculator, capital gains tax calculator, mortgage calculator, developer tools, json formatter, jwt decoder, pdf tools, merge pdf, compress pdf, percentage calculator, unit converter, age calculator, qr code generator, free online tools"
         />
         <link rel="canonical" href="https://toolisk.com/" />
-        <meta property="og:title" content="Toolisk — Free Finance Calculators & Developer Tools" />
+        <meta property="og:title" content="Toolisk — Free Finance Calculators, Developer Tools & PDF Utilities" />
         <meta
           property="og:description"
-          content="Finance calculators for 401k, mortgage, capital gains, HSA, RMD, FIRE and more — plus a full suite of developer utilities. All client-side, multi-currency, no sign-up."
+          content="Finance calculators for 401k, mortgage, capital gains, HSA, RMD, FIRE and more — plus developer utilities and PDF tools (merge, split, compress, convert). All client-side, no sign-up."
         />
         <meta property="og:url" content="https://toolisk.com/" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="Toolisk — Free Finance Calculators & Developer Tools" />
+        <meta name="twitter:title" content="Toolisk — Free Finance Calculators, Developer Tools & PDF Utilities" />
         <meta
           name="twitter:description"
-          content="Finance calculators for 401k, mortgage, capital gains, HSA, RMD, FIRE and more — plus developer tools. All client-side, no sign-up."
+          content="Finance calculators for 401k, mortgage, capital gains, HSA, RMD, FIRE and more — plus developer tools and PDF utilities. All client-side, no sign-up."
         />
 
         <script
@@ -192,6 +195,12 @@ export default function Home() {
                       ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
                       : f.key === 'tool'
                       ? 'bg-teal-600 text-white border-teal-600 shadow-sm'
+                      : f.key === 'pdf'
+                      ? 'bg-rose-600 text-white border-rose-600 shadow-sm'
+                      : f.key === 'utility'
+                      ? 'bg-amber-600 text-white border-amber-600 shadow-sm'
+                      : f.key === 'health'
+                      ? 'bg-violet-600 text-white border-violet-600 shadow-sm'
                       : 'bg-slate-800 text-white border-slate-800 shadow-sm'
                     : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
                 }`}
@@ -228,7 +237,17 @@ export default function Home() {
                 <Link
                   key={item.path}
                   href={item.path}
-                  className="group relative bg-white rounded-2xl border border-slate-200/80 p-5 flex flex-col transition-all duration-200 hover:shadow-lg hover:shadow-indigo-100/50 hover:border-indigo-200 hover:-translate-y-0.5"
+                  className={`group relative bg-white rounded-2xl border border-slate-200/80 p-5 flex flex-col transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 ${
+                    item.type === 'pdf'
+                      ? 'hover:shadow-rose-100/50 hover:border-rose-200'
+                      : item.type === 'utility'
+                      ? 'hover:shadow-amber-100/50 hover:border-amber-200'
+                      : item.type === 'health'
+                      ? 'hover:shadow-violet-100/50 hover:border-violet-200'
+                      : item.type === 'tool'
+                      ? 'hover:shadow-teal-100/50 hover:border-teal-200'
+                      : 'hover:shadow-indigo-100/50 hover:border-indigo-200'
+                  }`}
                 >
                   {/* Icon + badges row */}
                   <div className="flex items-start justify-between mb-3">
@@ -238,9 +257,15 @@ export default function Home() {
                       <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
                         item.type === 'calculator'
                           ? 'text-indigo-600 bg-indigo-50 border-indigo-200/60'
+                          : item.type === 'pdf'
+                          ? 'text-rose-600 bg-rose-50 border-rose-200/60'
+                          : item.type === 'utility'
+                          ? 'text-amber-700 bg-amber-50 border-amber-200/60'
+                          : item.type === 'health'
+                          ? 'text-violet-700 bg-violet-50 border-violet-200/60'
                           : 'text-teal-700 bg-teal-50 border-teal-200/60'
                       }`}>
-                        {item.type === 'calculator' ? 'Calculator' : 'Tool'}
+                        {item.type === 'calculator' ? 'Calculator' : item.type === 'pdf' ? 'PDF' : item.type === 'utility' ? 'Utility' : item.type === 'health' ? 'Health' : 'Tool'}
                       </span>
                       {item.isNew && (
                         <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200/60">
@@ -256,7 +281,17 @@ export default function Home() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-base font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors mb-1.5">
+                  <h3 className={`text-base font-semibold text-slate-900 transition-colors mb-1.5 ${
+                    item.type === 'pdf'
+                      ? 'group-hover:text-rose-600'
+                      : item.type === 'utility'
+                      ? 'group-hover:text-amber-600'
+                      : item.type === 'health'
+                      ? 'group-hover:text-violet-600'
+                      : item.type === 'tool'
+                      ? 'group-hover:text-teal-600'
+                      : 'group-hover:text-indigo-600'
+                  }`}>
                     {item.name}
                   </h3>
 
@@ -270,7 +305,17 @@ export default function Home() {
                     {item.tags.map(tag => (
                       <span
                         key={tag}
-                        className="text-[11px] font-medium text-indigo-500/80 bg-indigo-50/80 px-2 py-0.5 rounded-md"
+                        className={`text-[11px] font-medium px-2 py-0.5 rounded-md ${
+                          item.type === 'pdf'
+                            ? 'text-rose-500/80 bg-rose-50/80'
+                            : item.type === 'utility'
+                            ? 'text-amber-600/80 bg-amber-50/80'
+                            : item.type === 'health'
+                            ? 'text-violet-600/80 bg-violet-50/80'
+                            : item.type === 'tool'
+                            ? 'text-teal-600/80 bg-teal-50/80'
+                            : 'text-indigo-500/80 bg-indigo-50/80'
+                        }`}
                       >
                         {tag}
                       </span>
@@ -300,7 +345,7 @@ export default function Home() {
                 Most online calculators give you a single number and stop there. Toolisk is different. Every calculator includes <strong>interactive charts</strong>, <strong>detailed breakdowns</strong>, and <strong>export to Excel</strong> — the depth you expect from paid financial software, available completely free.
               </p>
               <p className="text-slate-600 leading-relaxed">
-                Whether you are planning a home loan, calculating capital gains tax, projecting your 529 savings, or simply formatting JSON at 11pm, Toolisk has you covered. All {TOTAL} tools run entirely in your browser — your data never leaves your device.
+                Whether you are planning a home loan, calculating capital gains tax, projecting your 529 savings, formatting JSON at 11pm, or editing a PDF without uploading it to a stranger's server — Toolisk has you covered. All {TOTAL} tools run entirely in your browser — your data never leaves your device.
               </p>
             </section>
 
@@ -363,6 +408,42 @@ export default function Home() {
               <p>
                 <Link href="/tools" className="text-sm text-indigo-600 font-medium hover:underline">
                   Browse all {TOOL_COUNT} developer tools →
+                </Link>
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-bold text-slate-900 mb-4">Everyday Utilities — Quick Answers for Common Tasks</h2>
+              <p className="text-slate-600 leading-relaxed mb-4 text-sm">
+                {UTILITY_COUNT} free everyday utilities for the tasks that keep coming up — percentage calculations, unit conversions, age and date math, QR code generation, and focus timers. All instant, all browser-based.
+              </p>
+              <p>
+                <Link href="/utilities" className="text-sm text-amber-600 font-medium hover:underline">
+                  Browse all {UTILITY_COUNT} everyday utilities →
+                </Link>
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-bold text-slate-900 mb-4">Health Tools — Private, Browser-Based</h2>
+              <p className="text-slate-600 leading-relaxed mb-4 text-sm">
+                {HEALTH_COUNT} free health calculators built with privacy first — your weight, height, and age never leave your browser. Start with the BMI calculator to find your Body Mass Index, WHO category, healthy weight range, and an optional BMR estimate using the Mifflin-St Jeor equation.
+              </p>
+              <p>
+                <Link href="/health" className="text-sm text-violet-600 font-medium hover:underline">
+                  Browse all {HEALTH_COUNT} health tool{HEALTH_COUNT !== 1 ? 's' : ''} →
+                </Link>
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-bold text-slate-900 mb-4">PDF Tools — No Upload, No Account</h2>
+              <p className="text-slate-600 leading-relaxed mb-4 text-sm">
+                {PDF_COUNT} free PDF utilities that run entirely in your browser. Merge, split, compress, reorder pages, rotate, delete pages, and convert PDF to JPG or PNG — all without uploading your file to any server. Your documents stay on your device.
+              </p>
+              <p>
+                <Link href="/pdf" className="text-sm text-rose-600 font-medium hover:underline">
+                  Browse all {PDF_COUNT} PDF tools →
                 </Link>
               </p>
             </section>

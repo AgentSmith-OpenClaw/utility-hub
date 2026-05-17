@@ -4,6 +4,7 @@ import PdfTrustBadge from './PdfTrustBadge';
 import { ToolCard } from '../Tools/ToolShell';
 import { usePdfJs } from '../../hooks/usePdfJs';
 import PdfPageGrid, { PageThumb } from './PdfPageGrid';
+import SelectionBar from './SelectionBar';
 
 type Status = 'idle' | 'loading' | 'processing' | 'done' | 'error';
 type DpiOption = 72 | 150 | 300;
@@ -237,6 +238,15 @@ export default function PdfToPng() {
     setOutputs([]);
   };
 
+  const handleDownloadFile = (out: OutputFile) => {
+    const a = document.createElement('a');
+    a.href = out.url;
+    a.download = out.name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
   const handleDownloadZip = async () => {
     if (outputs.length === 0) return;
     setIsZipping(true);
@@ -316,26 +326,12 @@ export default function PdfToPng() {
             )}
 
             {/* Selection bar */}
-            <div className="flex items-center gap-3 text-sm">
-              <button
-                type="button"
-                onClick={handleSelectAll}
-                className="text-rose-600 hover:text-rose-700 font-medium transition-colors"
-              >
-                Select all
-              </button>
-              <span className="text-slate-300" aria-hidden="true">|</span>
-              <button
-                type="button"
-                onClick={handleSelectNone}
-                className="text-rose-600 hover:text-rose-700 font-medium transition-colors"
-              >
-                Select none
-              </button>
-              <span className="text-slate-500 ml-auto">
-                {selectedPages.size} of {pageCount} page{pageCount !== 1 ? 's' : ''} selected
-              </span>
-            </div>
+            <SelectionBar
+              selected={selectedPages.size}
+              total={pageCount}
+              onSelectAll={handleSelectAll}
+              onSelectNone={handleSelectNone}
+            />
 
             {/* Page grid */}
             <PdfPageGrid
@@ -435,42 +431,41 @@ export default function PdfToPng() {
         <div className="space-y-4">
           <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-xs text-emerald-800">
             <span aria-hidden="true">✓</span>
-            <span>{outputs.length} PNG{outputs.length !== 1 ? 's' : ''} ready — click a filename below to download individually, or grab them all as a zip.</span>
+            <span>{outputs.length} PNG{outputs.length !== 1 ? 's' : ''} ready</span>
           </div>
 
-          {/* Result grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+          {/* Output file list */}
+          <div className="space-y-2">
             {outputs.map((out) => (
-              <div key={out.name} className="flex flex-col items-center gap-1.5">
-                <div className="relative overflow-hidden rounded-md border border-slate-200 w-20 h-[110px]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={out.url}
-                    alt={out.name}
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-                <a
-                  href={out.url}
-                  download={out.name}
-                  className="text-[10px] text-rose-600 hover:text-rose-700 font-medium text-center truncate max-w-[80px] transition-colors"
-                  title={out.name}
+              <div
+                key={out.name}
+                className="flex items-center gap-3 bg-white rounded-lg border border-slate-200 px-3 py-2"
+              >
+                <span className="text-base flex-shrink-0" aria-hidden="true">🖼️</span>
+                <span className="text-sm font-medium text-slate-800 flex-1 truncate">{out.name}</span>
+                <span className="text-xs text-slate-500 flex-shrink-0 whitespace-nowrap">
+                  {formatBytes(out.blob.size)}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => handleDownloadFile(out)}
+                  className="flex-shrink-0 px-3 py-1.5 rounded-md bg-slate-100 hover:bg-rose-50 hover:text-rose-700 text-slate-700 text-xs font-medium transition-colors"
                 >
-                  {out.name.replace(/^.*-page-(\d+)\.png$/i, 'Page $1')}
-                </a>
+                  Download
+                </button>
               </div>
             ))}
           </div>
 
-          {/* Zip download (only when > 1 output) */}
+          {/* Download all as zip */}
           {outputs.length > 1 && (
             <button
               type="button"
               onClick={handleDownloadZip}
               disabled={isZipping}
-              className="flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-rose-600 text-white font-semibold hover:bg-rose-700 disabled:opacity-60 transition-all"
+              className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-rose-600 text-white font-semibold hover:bg-rose-700 disabled:opacity-60 transition-all"
             >
-              {isZipping ? 'Packing zip…' : `Download all as .zip (${outputs.length} files)`}
+              {isZipping ? 'Packing zip…' : 'Download all as .zip'}
             </button>
           )}
 

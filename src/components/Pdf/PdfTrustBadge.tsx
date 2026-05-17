@@ -1,23 +1,48 @@
 export default function PdfTrustBadge() {
   return (
-    <div className="flex items-center gap-2 text-xs text-slate-500 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 mb-4">
-      <svg
-        className="w-4 h-4 text-rose-500 flex-shrink-0"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-        />
-      </svg>
-      <span>
-        <strong className="text-slate-700">Runs in your browser</strong> — your files never leave your device. Nothing is uploaded to a server.
-      </span>
+    <div className="rounded-xl border border-slate-200 bg-white px-4 py-3 mb-4">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-0 sm:divide-x sm:divide-slate-100">
+
+        <div className="flex items-center gap-3 sm:flex-1 sm:pr-5">
+          <div
+            className="flex-shrink-0 w-9 h-9 rounded-lg bg-emerald-50 flex items-center justify-center text-lg"
+            aria-hidden="true"
+          >
+            🔒
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-slate-800 leading-snug">Files stay on your device - 100% security</p>
+            <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">Nothing is uploaded — ever. We never see your files</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3 sm:flex-1 sm:px-5">
+          <div
+            className="flex-shrink-0 w-9 h-9 rounded-lg bg-amber-50 flex items-center justify-center text-lg"
+            aria-hidden="true"
+          >
+            ⚡
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-slate-800 leading-snug">Lightning Fast — all on local all quick</p>
+            <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">Starts the moment you drop the file.</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3 sm:flex-1 sm:pl-5">
+          <div
+            className="flex-shrink-0 w-9 h-9 rounded-lg bg-rose-50 flex items-center justify-center text-lg"
+            aria-hidden="true"
+          >
+            🆓
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-slate-800 leading-snug">No sign-up, no watermarks</p>
+            <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">Open, use, download. That's it.</p>
+          </div>
+        </div>
+
+      </div>
     </div>
   );
 }

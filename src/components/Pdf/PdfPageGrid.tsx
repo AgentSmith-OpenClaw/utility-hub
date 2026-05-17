@@ -18,8 +18,8 @@ interface PdfPageGridProps {
   rotation?: Record<number, 0 | 90 | 180 | 270>;
 }
 
-const TILE_WIDTH = 80;
-const TILE_HEIGHT = 110;
+const TILE_WIDTH = 120;
+const TILE_HEIGHT = 165;
 const VIEWPORT_BUFFER = 20;
 
 function useVisibleRange(
@@ -126,9 +126,9 @@ export default function PdfPageGrid({
   return (
     <div
       ref={containerRef}
-      className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3"
+      className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
       role={mode === 'reorder' ? 'list' : mode === 'multi' ? 'group' : undefined}
-      aria-label={mode === 'multi' ? 'PDF pages — click to select' : undefined}
+      aria-label={mode === 'multi' ? 'PDF pages — click to select or deselect' : undefined}
     >
       {displayPages.map((page, tileIndex) => {
         // Virtualization: skip rendering tiles far from viewport when >= 50 pages
@@ -168,7 +168,9 @@ export default function PdfPageGrid({
             aria-label={
               mode === 'reorder'
                 ? `Page ${tileIndex + 1} of ${pages.length}, draggable`
-                : undefined
+                : mode === 'multi'
+                  ? `Page ${tileIndex + 1}`
+                  : undefined
             }
             aria-checked={mode === 'multi' ? isSelected : undefined}
             tabIndex={mode === 'reorder' || mode === 'multi' ? 0 : undefined}
@@ -202,9 +204,11 @@ export default function PdfPageGrid({
 
             {/* Thumbnail wrapper */}
             <div
-              className={`relative overflow-hidden rounded-md border transition-all ${
-                isSelected
-                  ? 'ring-2 ring-rose-500 border-rose-300'
+              className={`group/tile relative overflow-hidden rounded-lg border-2 transition-all ${
+                mode === 'multi'
+                  ? isSelected
+                    ? 'border-rose-500 shadow-sm'
+                    : 'border-slate-200 hover:border-slate-300 cursor-pointer'
                   : 'border-slate-200 hover:border-slate-300'
               }`}
               style={{ width: TILE_WIDTH, height: TILE_HEIGHT }}
@@ -220,30 +224,23 @@ export default function PdfPageGrid({
                 draggable={false}
               />
 
-              {/* Multi-select overlay */}
+              {/* Multi-select checkbox indicator */}
               {mode === 'multi' && (
-                <>
-                  {isSelected && (
-                    <div className="absolute inset-0 bg-rose-500/20 flex items-center justify-center">
-                      <span className="text-xs font-bold text-rose-700 bg-white/90 px-1.5 py-0.5 rounded">
-                        Remove
-                      </span>
-                    </div>
-                  )}
-                  <div className="absolute top-1 right-1">
-                    <div
-                      className={`w-4 h-4 rounded border-2 flex items-center justify-center ${
-                        isSelected ? 'bg-rose-500 border-rose-500' : 'bg-white/80 border-slate-400'
-                      }`}
-                    >
-                      {isSelected && (
-                        <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                        </svg>
-                      )}
-                    </div>
+                <div className="absolute top-1.5 right-1.5">
+                  <div
+                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shadow-sm transition-all ${
+                      isSelected
+                        ? 'bg-rose-500 border-rose-500 opacity-100'
+                        : 'bg-white/70 border-slate-400 opacity-30 group-hover/tile:opacity-100'
+                    }`}
+                  >
+                    {isSelected && (
+                      <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      </svg>
+                    )}
                   </div>
-                </>
+                </div>
               )}
 
               {/* Rotate button */}

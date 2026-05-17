@@ -1,14 +1,23 @@
 import React from 'react';
 import Link from 'next/link';
 
+const THEME_GRADIENTS: Record<string, string> = {
+  emerald: 'from-teal-600 via-emerald-600 to-green-500',
+  amber: 'from-amber-500 via-orange-500 to-yellow-400',
+  rose: 'from-rose-600 via-red-600 to-orange-500',
+  violet: 'from-violet-600 via-purple-600 to-fuchsia-500',
+};
+
 interface ToolShellProps {
   icon: string;
   title: string;
   tagline: string;
   /** Tailwind gradient classes, e.g. 'from-teal-600 via-emerald-600 to-green-500' */
   gradient?: string;
-  /** Top-level section: 'tools' (default), 'finance', or 'pdf' */
-  parent?: 'tools' | 'finance' | 'pdf';
+  /** Top-level section: 'tools' (default), 'finance', 'pdf', 'utilities', or 'health' */
+  parent?: 'tools' | 'finance' | 'pdf' | 'utilities' | 'health';
+  /** Color theme — controls the hero gradient. Default: 'emerald'. Pass 'amber' for utilities, 'rose' for PDF, 'violet' for health. */
+  theme?: 'emerald' | 'amber' | 'rose' | 'violet';
   /** Optional extra header content (e.g. currency selector) */
   headerActions?: React.ReactNode;
   children: React.ReactNode;
@@ -18,17 +27,29 @@ export default function ToolShell({
   icon,
   title,
   tagline,
-  gradient = 'from-teal-600 via-emerald-600 to-green-500',
+  gradient,
   parent = 'tools',
+  theme,
   headerActions,
   children,
 }: ToolShellProps) {
-  const parentLabel = parent === 'finance' ? 'Finance' : parent === 'pdf' ? 'PDF Tools' : 'Tools';
-  const parentHref = parent === 'finance' ? '/finance' : parent === 'pdf' ? '/pdf' : '/tools';
+  const resolvedGradient = gradient ?? (theme ? THEME_GRADIENTS[theme] : THEME_GRADIENTS.emerald);
+  const parentLabel =
+    parent === 'finance' ? 'Finance' :
+    parent === 'pdf' ? 'PDF Tools' :
+    parent === 'utilities' ? 'Everyday Tools' :
+    parent === 'health' ? 'Health Tools' :
+    'Tools';
+  const parentHref =
+    parent === 'finance' ? '/finance' :
+    parent === 'pdf' ? '/pdf' :
+    parent === 'utilities' ? '/utilities' :
+    parent === 'health' ? '/health' :
+    '/tools';
   return (
     <div className="tool-page min-h-screen bg-slate-50">
       <section className="relative overflow-hidden">
-        <div className={`absolute inset-0 bg-gradient-to-r ${gradient}`} />
+        <div className={`absolute inset-0 bg-gradient-to-r ${resolvedGradient}`} />
         <div className="absolute inset-x-0 bottom-0 h-px bg-white/10" />
         <div className="relative max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 pt-7 pb-9 sm:pt-9 sm:pb-11">
           <nav className="text-xs text-white/80 mb-4 flex items-center gap-2">
