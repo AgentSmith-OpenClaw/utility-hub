@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useState, useMemo } from 'react';
-import { ALL_ITEMS, CALCULATOR_COUNT, TOOL_COUNT, PDF_COUNT, UTILITY_COUNT, HEALTH_COUNT, type ItemType } from '../data/masterItems';
+import { ALL_ITEMS, CALCULATOR_COUNT, TOOL_COUNT, PDF_COUNT, UTILITY_COUNT, HEALTH_COUNT, IMAGE_COUNT, type ItemType } from '../data/masterItems';
 
 type FilterType = 'all' | ItemType;
 
@@ -30,33 +30,34 @@ export default function Home() {
     { key: 'pdf', label: 'PDF Tools', count: PDF_COUNT },
     { key: 'utility', label: 'Utilities', count: UTILITY_COUNT },
     { key: 'health', label: 'Health', count: HEALTH_COUNT },
+    { key: 'image', label: 'Image', count: IMAGE_COUNT },
   ];
 
   return (
     <>
       <Head>
-        <title>Toolisk — Free Finance Calculators, Developer Tools, PDF Utilities &amp; Everyday Tools</title>
+        <title>Toolisk — Free Finance Calculators, Developer Tools, PDF & Image Utilities & Everyday Tools</title>
         <meta
           name="description"
-          content="Free finance calculators, developer tools, PDF utilities, and everyday utilities — 401k, mortgage, JSON formatter, merge PDF, percentage calculator, unit converter, and more. All client-side, no sign-up."
+          content="Free finance calculators, developer tools, PDF utilities, image tools, and everyday utilities — 401k, mortgage, JSON formatter, merge PDF, compress images, percentage calculator, and more. All client-side, no sign-up."
         />
         <meta
           name="keywords"
-          content="finance calculators, 401k calculator, capital gains tax calculator, mortgage calculator, developer tools, json formatter, jwt decoder, pdf tools, merge pdf, compress pdf, percentage calculator, unit converter, age calculator, qr code generator, free online tools"
+          content="finance calculators, 401k calculator, capital gains tax calculator, mortgage calculator, developer tools, json formatter, jwt decoder, pdf tools, merge pdf, compress pdf, image tools, compress image, resize image, percentage calculator, unit converter, age calculator, qr code generator, free online tools"
         />
         <link rel="canonical" href="https://toolisk.com/" />
-        <meta property="og:title" content="Toolisk — Free Finance Calculators, Developer Tools & PDF Utilities" />
+<meta property="og:title" content="Toolisk — Free Finance Calculators, Developer Tools & PDF & Image Utilities" />
         <meta
           property="og:description"
-          content="Finance calculators for 401k, mortgage, capital gains, HSA, RMD, FIRE and more — plus developer utilities and PDF tools (merge, split, compress, convert). All client-side, no sign-up."
+          content="Finance calculators for 401k, mortgage, capital gains, HSA, RMD, FIRE and more — plus developer tools, PDF utilities, and image tools (compress, resize, convert). All client-side, no sign-up."
         />
         <meta property="og:url" content="https://toolisk.com/" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="Toolisk — Free Finance Calculators, Developer Tools & PDF Utilities" />
+        <meta name="twitter:title" content="Toolisk — Free Finance Calculators, Developer Tools & PDF & Image Utilities" />
         <meta
           name="twitter:description"
-          content="Finance calculators for 401k, mortgage, capital gains, HSA, RMD, FIRE and more — plus developer tools and PDF utilities. All client-side, no sign-up."
+          content="Finance calculators for 401k, mortgage, capital gains, HSA, RMD, FIRE and more — plus developer tools, PDF utilities, and image tools. All client-side, no sign-up."
         />
 
         <script
@@ -201,6 +202,8 @@ export default function Home() {
                       ? 'bg-amber-600 text-white border-amber-600 shadow-sm'
                       : f.key === 'health'
                       ? 'bg-violet-600 text-white border-violet-600 shadow-sm'
+                      : f.key === 'image'
+                      ? 'bg-sky-600 text-white border-sky-600 shadow-sm'
                       : 'bg-slate-800 text-white border-slate-800 shadow-sm'
                     : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
                 }`}
@@ -246,6 +249,8 @@ export default function Home() {
                       ? 'hover:shadow-violet-100/50 hover:border-violet-200'
                       : item.type === 'tool'
                       ? 'hover:shadow-teal-100/50 hover:border-teal-200'
+                      : item.type === 'image'
+                      ? 'hover:shadow-sky-100/50 hover:border-sky-200'
                       : 'hover:shadow-indigo-100/50 hover:border-indigo-200'
                   }`}
                 >
@@ -261,11 +266,13 @@ export default function Home() {
                           ? 'text-rose-600 bg-rose-50 border-rose-200/60'
                           : item.type === 'utility'
                           ? 'text-amber-700 bg-amber-50 border-amber-200/60'
-                          : item.type === 'health'
-                          ? 'text-violet-700 bg-violet-50 border-violet-200/60'
+: item.type === 'health'
+                           ? 'text-violet-700 bg-violet-50 border-violet-200/60'
+                           : item.type === 'image'
+                           ? 'text-sky-600 bg-sky-50 border-sky-200/60'
                           : 'text-teal-700 bg-teal-50 border-teal-200/60'
                       }`}>
-                        {item.type === 'calculator' ? 'Calculator' : item.type === 'pdf' ? 'PDF' : item.type === 'utility' ? 'Utility' : item.type === 'health' ? 'Health' : 'Tool'}
+                        {item.type === 'calculator' ? 'Calculator' : item.type === 'pdf' ? 'PDF' : item.type === 'utility' ? 'Utility' : item.type === 'health' ? 'Health' : item.type === 'image' ? 'Image' : 'Tool'}
                       </span>
                       {item.isNew && (
                         <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200/60">
@@ -286,8 +293,10 @@ export default function Home() {
                       ? 'group-hover:text-rose-600'
                       : item.type === 'utility'
                       ? 'group-hover:text-amber-600'
-                      : item.type === 'health'
-                      ? 'group-hover:text-violet-600'
+: item.type === 'health'
+                       ? 'group-hover:text-violet-600'
+                       : item.type === 'image'
+                       ? 'group-hover:text-sky-600'
                       : item.type === 'tool'
                       ? 'group-hover:text-teal-600'
                       : 'group-hover:text-indigo-600'
@@ -310,8 +319,10 @@ export default function Home() {
                             ? 'text-rose-500/80 bg-rose-50/80'
                             : item.type === 'utility'
                             ? 'text-amber-600/80 bg-amber-50/80'
-                            : item.type === 'health'
-                            ? 'text-violet-600/80 bg-violet-50/80'
+: item.type === 'health'
+                             ? 'text-violet-600/80 bg-violet-50/80'
+                             : item.type === 'image'
+                             ? 'text-sky-600/80 bg-sky-50/80'
                             : item.type === 'tool'
                             ? 'text-teal-600/80 bg-teal-50/80'
                             : 'text-indigo-500/80 bg-indigo-50/80'
@@ -444,6 +455,18 @@ export default function Home() {
               <p>
                 <Link href="/pdf" className="text-sm text-rose-600 font-medium hover:underline">
                   Browse all {PDF_COUNT} PDF tools →
+                </Link>
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-bold text-slate-900 mb-4">Image Tools — Private, Browser-Based</h2>
+              <p className="text-slate-600 leading-relaxed mb-4 text-sm">
+                {IMAGE_COUNT} free image tools that run entirely in your browser. Compress, resize, convert, crop, rotate, and more — your photos never leave your device. No upload, no sign-up, no watermarks.
+              </p>
+              <p>
+                <Link href="/image" className="text-sm text-sky-600 font-medium hover:underline">
+                  Browse all {IMAGE_COUNT} image tool{IMAGE_COUNT !== 1 ? 's' : ''} →
                 </Link>
               </p>
             </section>

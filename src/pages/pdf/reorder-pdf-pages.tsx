@@ -154,7 +154,7 @@ export default function ReorderPdfPagesPage() {
         relatedTools={[
           { name: 'Delete Pages from PDF', href: '/pdf/delete-pdf-pages', icon: '🗑️' },
           { name: 'Merge PDF', href: '/pdf/merge-pdf', icon: '📎' },
-          { name: 'Split PDF', href: '/pdf/split-pdf', icon: '✂️' },
+          { name: 'Add Page Numbers', href: '/pdf/add-page-numbers', icon: '🔢' },
         ]}
       />
     </>

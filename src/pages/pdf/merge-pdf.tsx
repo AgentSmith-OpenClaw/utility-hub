@@ -97,7 +97,7 @@ export default function MergePdfPage() {
         relatedTools={[
           { name: 'Split PDF', href: '/pdf/split-pdf', icon: '✂️' },
           { name: 'Reorder PDF Pages', href: '/pdf/reorder-pdf-pages', icon: '🔀' },
-          { name: 'Delete Pages from PDF', href: '/pdf/delete-pdf-pages', icon: '🗑️' },
+          { name: 'Unlock PDF', href: '/pdf/unlock-pdf', icon: '🔓' },
         ]}
       />
     </>

@@ -37,6 +37,16 @@ const footerSections = [
     ],
   },
   {
+    title: 'Image Tools',
+    links: [
+      { label: 'Compress Image', href: '/image/compress-image' },
+      { label: 'Resize Image', href: '/image/resize-image' },
+      { label: 'Convert to JPG', href: '/image/convert-to-jpg' },
+      { label: 'Remove Background', href: '/image/remove-background' },
+      { label: 'All image tools', href: '/image' },
+    ],
+  },
+  {
     title: 'Learn',
     links: [
       { label: 'Finance guides', href: '/finance/learn' },

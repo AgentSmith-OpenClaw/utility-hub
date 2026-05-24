@@ -154,8 +154,8 @@ export default function CompressPdfPage() {
         }
         relatedTools={[
           { name: 'Merge PDF', href: '/pdf/merge-pdf', icon: '📎' },
-          { name: 'Split PDF', href: '/pdf/split-pdf', icon: '✂️' },
-          { name: 'PDF to JPG', href: '/pdf/pdf-to-jpg', icon: '🖼️' },
+          { name: 'PDF Page Counter', href: '/pdf/pdf-page-counter', icon: '🔢' },
+          { name: 'Unlock PDF', href: '/pdf/unlock-pdf', icon: '🔓' },
         ]}
       />
     </>

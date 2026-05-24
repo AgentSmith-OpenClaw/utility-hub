@@ -153,7 +153,7 @@ export default function DeletePdfPagesPage() {
         }
         relatedTools={[
           { name: 'Reorder PDF Pages', href: '/pdf/reorder-pdf-pages', icon: '🔀' },
-          { name: 'Split PDF', href: '/pdf/split-pdf', icon: '✂️' },
+          { name: 'Extract Pages from PDF', href: '/pdf/extract-pdf-pages', icon: '📋' },
           { name: 'Merge PDF', href: '/pdf/merge-pdf', icon: '📎' },
         ]}
       />
