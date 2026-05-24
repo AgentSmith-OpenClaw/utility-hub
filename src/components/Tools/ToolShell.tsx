@@ -6,6 +6,7 @@ const THEME_GRADIENTS: Record<string, string> = {
   amber: 'from-amber-500 via-orange-500 to-yellow-400',
   rose: 'from-rose-600 via-red-600 to-orange-500',
   violet: 'from-violet-600 via-purple-600 to-fuchsia-500',
+  sky: 'from-sky-600 via-blue-600 to-cyan-500',
 };
 
 interface ToolShellProps {
@@ -14,10 +15,10 @@ interface ToolShellProps {
   tagline: string;
   /** Tailwind gradient classes, e.g. 'from-teal-600 via-emerald-600 to-green-500' */
   gradient?: string;
-  /** Top-level section: 'tools' (default), 'finance', 'pdf', 'utilities', or 'health' */
-  parent?: 'tools' | 'finance' | 'pdf' | 'utilities' | 'health';
-  /** Color theme — controls the hero gradient. Default: 'emerald'. Pass 'amber' for utilities, 'rose' for PDF, 'violet' for health. */
-  theme?: 'emerald' | 'amber' | 'rose' | 'violet';
+  /** Top-level section: 'tools' (default), 'finance', 'pdf', 'utilities', 'health', or 'image' */
+  parent?: 'tools' | 'finance' | 'pdf' | 'utilities' | 'health' | 'image';
+  /** Color theme — controls the hero gradient. Default: 'emerald'. Pass 'amber' for utilities, 'rose' for PDF, 'violet' for health, 'sky' for image. */
+  theme?: 'emerald' | 'amber' | 'rose' | 'violet' | 'sky';
   /** Optional extra header content (e.g. currency selector) */
   headerActions?: React.ReactNode;
   children: React.ReactNode;
@@ -39,12 +40,14 @@ export default function ToolShell({
     parent === 'pdf' ? 'PDF Tools' :
     parent === 'utilities' ? 'Everyday Tools' :
     parent === 'health' ? 'Health Tools' :
+    parent === 'image' ? 'Image Tools' :
     'Tools';
   const parentHref =
     parent === 'finance' ? '/finance' :
     parent === 'pdf' ? '/pdf' :
     parent === 'utilities' ? '/utilities' :
     parent === 'health' ? '/health' :
+    parent === 'image' ? '/image' :
     '/tools';
   return (
     <div className="tool-page min-h-screen bg-slate-50">
