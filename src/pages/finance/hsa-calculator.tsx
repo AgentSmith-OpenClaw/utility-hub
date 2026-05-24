@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
+import ToolShell from '../../components/Tools/ToolShell';
+import ToolSEOContent from '../../components/Tools/ToolSEOContent';
 import { generateBreadcrumbs, generateSoftwareAppSchema, generateFaqSchema, SITE_URL } from '../../utils/siteConfig';
 
 const HSACalculator = dynamic(
@@ -60,60 +61,48 @@ export default function HSACalculatorPage() {
         />
       </Head>
 
-      <HSACalculator />
+      <ToolShell parent="finance" icon="🏥" title="HSA Calculator" tagline="Project HSA balance growth and quantify the triple-tax advantage vs a taxable account." gradient="from-emerald-600 via-teal-600 to-cyan-600">
+        <HSACalculator />
+      </ToolShell>
 
-      <div className="max-w-4xl mx-auto px-4 py-12 space-y-10">
-        <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">The HSA Triple Tax Advantage — Explained</h2>
-          <p className="text-slate-600 mb-3">A Health Savings Account (HSA) is the only savings vehicle that offers three distinct tax benefits simultaneously. To qualify, you must be enrolled in an HSA-eligible High-Deductible Health Plan (HDHP) and not be enrolled in Medicare or claimed as a dependent on someone else's tax return.</p>
-          <p className="text-slate-600 mb-3"><strong>Tax break #1 — Contributions are pre-tax.</strong> Money you contribute to an HSA reduces your federal taxable income dollar-for-dollar. Better still, contributions made through payroll also avoid FICA taxes (6.2% Social Security + 1.45% Medicare = 7.65%) — a savings that IRAs and 401(k)s don't provide on payroll contributions.</p>
-          <p className="text-slate-600 mb-3"><strong>Tax break #2 — Growth is tax-free.</strong> Invested HSA funds — stocks, bonds, mutual funds — grow completely tax-free. No capital gains tax, no dividend tax, no annual tax drag. This compounding advantage compounds for decades if you leave the money invested.</p>
-          <p className="text-slate-600"><strong>Tax break #3 — Qualified withdrawals are tax-free.</strong> When you pay for eligible medical expenses with HSA funds, the withdrawal is completely tax-free — no income tax, no penalties. Compare this to a traditional IRA where every withdrawal is ordinary income. For 2026, the IRS contribution limit is $4,400 for self-only coverage and $8,750 for family coverage, plus a $1,000 catch-up for those 55 and older.</p>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">How This Calculator Models HSA Growth</h2>
-          <p className="text-slate-600 mb-3">The calculator runs a year-by-year accumulation loop. Each year, employee and employer contributions are added to the balance, any medical withdrawals are deducted, and the remaining balance grows at your expected investment return. Separately, it runs the same loop for a taxable account — but with after-tax contributions (reduced by your marginal rate) and tax-dragged returns (growth reduced by your effective tax rate annually).</p>
-          <p className="text-slate-600 mb-3">The FICA savings calculation is a meaningful differentiator: if you contribute through payroll, the $4,400 self-only contribution avoids 7.65% in FICA taxes — that's $337 in year-one savings that a direct (non-payroll) IRA contribution doesn't capture. Over a 30-year horizon, this compounding FICA savings becomes substantial.</p>
-          <p className="text-slate-600">The taxable comparison uses a simplified tax-drag model (applying the effective tax rate annually to investment returns). Real taxable accounts have more nuanced treatment of capital gains, qualified dividends, and tax-loss harvesting — the comparison is directionally accurate but intentionally simplified to highlight the HSA's structural advantage.</p>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">Worked Example</h2>
-          <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
-            <p className="text-slate-700 mb-2"><strong>Scenario:</strong> Age 35, self-only coverage, current balance $2,500, $4,400 annual employee contribution via payroll, $500 employer contribution, 7% return, 22% federal rate, 5% state rate, 30 years.</p>
-            <ul className="list-disc list-inside text-slate-600 space-y-2">
-              <li>Annual tax savings (22% federal + 5% state + 7.65% FICA) = 34.65% × $4,400 = <strong>$1,525/year</strong></li>
-              <li>Effective cost of $4,400 contribution = $4,400 − $1,525 = <strong>$2,875 after-tax</strong></li>
-              <li>Total annual contributions = $4,400 + $500 employer = <strong>$4,900/year</strong></li>
-              <li>After 30 years at 7% return, HSA balance ≈ <strong>$520,000</strong></li>
-              <li>Taxable account (after-tax contrib + dragged returns) ≈ <strong>$285,000</strong></li>
-              <li>HSA advantage over 30 years ≈ <strong>$235,000</strong></li>
-            </ul>
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">Frequently Asked Questions</h2>
-          <div className="space-y-6">
-            {FAQS.map(f => (
-              <div key={f.q}>
-                <h3 className="font-semibold text-slate-800 mb-2">{f.q}</h3>
-                <p className="text-slate-600">{f.a}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">Related Calculators</h2>
-          <ul className="space-y-2 text-slate-600">
-            <li><Link href="/finance/roth-conversion-calculator" className="text-indigo-600 hover:underline">Roth Conversion Calculator</Link> — Another triple-tax strategy for retirement.</li>
-            <li><Link href="/finance/rmd-calculator" className="text-indigo-600 hover:underline">RMD Calculator</Link> — Plan required withdrawals from pre-tax accounts.</li>
-            <li><Link href="/finance/529-college-savings-calculator" className="text-indigo-600 hover:underline">529 College Savings Calculator</Link> — Tax-advantaged savings for education costs.</li>
-          </ul>
-        </section>
-      </div>
+      <ToolSEOContent
+        description="Project your Health Savings Account balance and quantify the triple-tax advantage vs a taxable account. 2026 IRS limits included."
+        features={[
+          '🏥 2026 HSA contribution limits',
+          '💰 Triple-tax advantage calculation',
+          '📊 Federal/FICA/state savings breakdown',
+          '📈 HSA vs taxable account comparison',
+          '📉 Balance projection chart',
+          '💾 PDF and Excel export',
+        ]}
+        steps={[
+          { title: 'Enter your basics', desc: 'Input age, current HSA balance, coverage type (self-only or family).' },
+          { title: 'Set contributions', desc: 'Enter employee and employer annual contributions.' },
+          { title: 'Configure assumptions', desc: 'Set expected return, federal/state tax rates, and investment horizon.' },
+          { title: 'Review the advantage', desc: 'See HSA balance vs taxable account, total tax savings, and FICA savings.' },
+        ]}
+        faqs={FAQS}
+        body={
+          <section className="space-y-4">
+            <h2 className="text-2xl font-bold text-slate-900">The HSA Triple Tax Advantage — Explained</h2>
+            <p className="text-slate-600 leading-relaxed">A Health Savings Account (HSA) is the only savings vehicle that offers three distinct tax benefits simultaneously. To qualify, you must be enrolled in an HSA-eligible High-Deductible Health Plan (HDHP) and not be enrolled in Medicare or claimed as a dependent.</p>
+            <p className="text-slate-600 leading-relaxed"><strong>Tax break #1 — Contributions are pre-tax.</strong> Money you contribute reduces your federal taxable income dollar-for-dollar. Contributions through payroll also avoid FICA taxes (7.65%) — a savings that IRAs and 401(k)s don't provide.</p>
+            <p className="text-slate-600 leading-relaxed"><strong>Tax break #2 — Growth is tax-free.</strong> Invested HSA funds grow completely tax-free. No capital gains tax, no dividend tax, no annual tax drag.</p>
+            <p className="text-slate-600 leading-relaxed"><strong>Tax break #3 — Qualified withdrawals are tax-free.</strong> When you pay for eligible medical expenses with HSA funds, the withdrawal is completely tax-free. For 2026, the IRS contribution limit is $4,400 for self-only and $8,750 for family coverage, plus a $1,000 catch-up for those 55+.</p>
+            <h3 className="text-xl font-bold text-slate-900 mt-6">How This Calculator Models HSA Growth</h3>
+            <p className="text-slate-600 leading-relaxed">The calculator runs a year-by-year accumulation loop. Each year, contributions are added, medical withdrawals deducted, and the balance grows at your expected return. Separately, it runs the same loop for a taxable account with after-tax contributions and tax-dragged returns to show the HSA's structural advantage.</p>
+          </section>
+        }
+        relatedTools={[
+          { name: '401(k) Calculator', href: '/finance/401k-calculator', icon: '🏦' },
+          { name: 'Roth vs Traditional IRA', href: '/finance/roth-vs-traditional-ira', icon: '⚖️' },
+          { name: 'Roth Conversion Calculator', href: '/finance/roth-conversion-calculator', icon: '🔄' },
+        ]}
+        relatedArticles={[
+          { title: 'HSA Triple Tax Advantage', href: '/finance/learn/hsa-triple-tax-advantage' },
+          { title: 'HDHP vs PPO Comparison', href: '/finance/learn/hdhp-vs-ppo-comparison' },
+        ]}
+      />
     </>
   );
 }

@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
+import ToolShell from '../../components/Tools/ToolShell';
+import ToolSEOContent from '../../components/Tools/ToolSEOContent';
 import { generateBreadcrumbs, generateSoftwareAppSchema, generateFaqSchema, SITE_URL } from '../../utils/siteConfig';
 
 const ReverseMortgageCalculator = dynamic(
@@ -60,61 +61,46 @@ export default function ReverseMortgageCalculatorPage() {
         />
       </Head>
 
-      <ReverseMortgageCalculator />
+      <ToolShell parent="finance" icon="🏠" title="Reverse Mortgage Calculator" tagline="Estimate HECM reverse mortgage proceeds across lump sum, line of credit, term, and lifetime tenure." gradient="from-emerald-600 via-teal-600 to-cyan-600">
+        <ReverseMortgageCalculator />
+      </ToolShell>
 
-      <div className="max-w-4xl mx-auto px-4 py-12 space-y-10">
-        <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">What Is a HECM Reverse Mortgage and Who Qualifies?</h2>
-          <p className="text-slate-600 mb-3">A Home Equity Conversion Mortgage (HECM) is the federally insured reverse mortgage program administered by HUD (the Department of Housing and Urban Development). It allows homeowners aged 62 or older to convert a portion of their home equity into cash — without selling the home or making monthly mortgage payments. This calculator models only HECMs, not proprietary "jumbo" reverse mortgages offered by private lenders for higher-value homes.</p>
-          <p className="text-slate-600 mb-3">Eligibility requirements: (1) You or your co-borrower must be at least 62. (2) The home must be your primary residence — vacation homes and investment properties don't qualify. (3) You must have sufficient equity (most lenders require 50%+, though the exact amount depends on your age and interest rate). (4) Any existing mortgage must be paid off at closing, typically using HECM proceeds. (5) You must complete a session with a HUD-approved HECM counselor — this is required by federal law, not just recommended.</p>
-          <p className="text-slate-600">A HECM differs fundamentally from a HELOC or home equity loan: there are no monthly payments required. The loan balance grows over time (interest accrues) and is repaid when the last borrower leaves the home. Because it's non-recourse, the lender can never pursue you or your heirs for more than the home's value — even if the loan balance grows to exceed the home's worth.</p>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">How Proceeds Are Calculated</h2>
-          <p className="text-slate-600 mb-3">The HECM amount starts with the <strong>Maximum Claim Amount (MCA)</strong> = the lesser of your home's appraised value or the FHA HECM lending limit ($1,209,750 in 2026). The MCA is then multiplied by a <strong>Principal Limit Factor (PLF)</strong> — a percentage from HUD's published table, determined by the youngest borrower's age and the "expected interest rate." At age 70 with a 6% expected rate, the PLF is approximately 0.474, so a $525,000 home yields an initial principal limit of ~$248,850.</p>
-          <p className="text-slate-600 mb-3">From that principal limit, upfront costs are deducted: the Initial Mortgage Insurance Premium (IMIP) at 2% of the MCA, an origination fee capped at $6,000 (and floored at $2,500), and any other closing costs. The existing mortgage payoff is also deducted. What remains is the net amount available to you.</p>
-          <p className="text-slate-600">This calculator uses an illustrative PLF table calibrated at a 6% expected rate. The actual PLF from your lender will be based on current market rates and may differ. Always get a formal quote from a HUD-approved HECM counselor or lender before making any financial decision. The four payout options — lump sum, line of credit, term monthly payments, and tenure (lifetime) monthly payments — all start from the same net available amount but structure the distribution very differently.</p>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">Worked Example</h2>
-          <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
-            <p className="text-slate-700 mb-2"><strong>Scenario:</strong> 70-year-old single borrower, $525,000 home, $60,000 existing mortgage, $2,500 other closing costs, 6% expected rate.</p>
-            <ul className="list-disc list-inside text-slate-600 space-y-2">
-              <li>Max Claim = min($525,000, $1,209,750) = <strong>$525,000</strong></li>
-              <li>PLF at age 70, 6% ≈ 0.474 → Initial Principal Limit = <strong>$248,850</strong></li>
-              <li>IMIP = $525,000 × 2% = $10,500</li>
-              <li>Origination = capped at <strong>$6,000</strong></li>
-              <li>Net available: $248,850 − $10,500 − $6,000 − $2,500 − $60,000 = <strong>$169,850</strong></li>
-              <li>Tenure (lifetime, to age 100 = 360 months): ≈ <strong>$1,090/month for life</strong></li>
-              <li>10-year term: ≈ <strong>$1,890/month for 120 months</strong></li>
-              <li>Lump sum or LOC: <strong>$169,850 today</strong></li>
-            </ul>
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">Frequently Asked Questions</h2>
-          <div className="space-y-6">
-            {FAQS.map(f => (
-              <div key={f.q}>
-                <h3 className="font-semibold text-slate-800 mb-2">{f.q}</h3>
-                <p className="text-slate-600">{f.a}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">Related Calculators</h2>
-          <ul className="space-y-2 text-slate-600">
-            <li><Link href="/finance/heloc-calculator" className="text-indigo-600 hover:underline">HELOC Calculator</Link> — Compare HECM vs a traditional home equity line of credit.</li>
-            <li><Link href="/finance/rmd-calculator" className="text-indigo-600 hover:underline">RMD Calculator</Link> — Coordinate HECM income with Required Minimum Distributions.</li>
-            <li><Link href="/finance/annuity-calculator" className="text-indigo-600 hover:underline">Annuity Calculator</Link> — Another source of guaranteed lifetime income for retirement.</li>
-          </ul>
-        </section>
-      </div>
+      <ToolSEOContent
+        description="Estimate HECM reverse mortgage proceeds across lump sum, line of credit, term, and lifetime tenure. 2026 limits, PLF lookup, and fee breakdown."
+        features={[
+          '🏠 HECM principal limit calculation',
+          '📊 Principal Limit Factor (PLF) lookup',
+          '💰 All four payout options compared',
+          '📋 Upfront fee breakdown',
+          '📈 25-year equity projection',
+          '💾 PDF and Excel export',
+        ]}
+        steps={[
+          { title: 'Enter home details', desc: 'Input home value, existing mortgage, and youngest borrower age.' },
+          { title: 'Set rate assumptions', desc: 'Enter expected interest rate for PLF lookup and projection.' },
+          { title: 'Choose payout option', desc: 'Compare lump sum, line of credit, term, and tenure payouts.' },
+          { title: 'Review results', desc: 'See principal limit, net available, fee breakdown, and equity projection.' },
+        ]}
+        faqs={FAQS}
+        body={
+          <section className="space-y-4">
+            <h2 className="text-2xl font-bold text-slate-900">What Is a HECM Reverse Mortgage and Who Qualifies?</h2>
+            <p className="text-slate-600 leading-relaxed">A Home Equity Conversion Mortgage (HECM) is the federally insured reverse mortgage program administered by HUD. It allows homeowners aged 62 or older to convert a portion of their home equity into cash — without selling the home or making monthly mortgage payments.</p>
+            <p className="text-slate-600 leading-relaxed">Eligibility requirements: (1) You or your co-borrower must be at least 62. (2) The home must be your primary residence. (3) You must have sufficient equity (most lenders require 50%+). (4) Any existing mortgage must be paid off at closing. (5) You must complete a session with a HUD-approved HECM counselor.</p>
+            <p className="text-slate-600 leading-relaxed">A HECM differs fundamentally from a HELOC or home equity loan: there are no monthly payments required. The loan balance grows over time (interest accrues) and is repaid when the last borrower leaves the home. Because it's non-recourse, the lender can never pursue you or your heirs for more than the home's value.</p>
+            <h3 className="text-xl font-bold text-slate-900 mt-6">How Proceeds Are Calculated</h3>
+            <p className="text-slate-600 leading-relaxed">The HECM amount starts with the <strong>Maximum Claim Amount (MCA)</strong> = the lesser of your home's appraised value or the FHA HECM lending limit ($1,209,750 in 2026). The MCA is then multiplied by a <strong>Principal Limit Factor (PLF)</strong> — a percentage from HUD's published table, determined by the youngest borrower's age and the expected interest rate.</p>
+          </section>
+        }
+        relatedTools={[
+          { name: 'Mortgage Calculator', href: '/finance/mortgage-calculator', icon: '🏠' },
+          { name: 'HELOC Calculator', href: '/finance/heloc-calculator', icon: '💳' },
+          { name: 'Social Security Calculator', href: '/finance/social-security-calculator', icon: '🏦' },
+        ]}
+        relatedArticles={[
+          { title: 'Retirement Savings Age Milestones', href: '/finance/learn/retirement-savings-age-milestones' },
+        ]}
+      />
     </>
   );
 }

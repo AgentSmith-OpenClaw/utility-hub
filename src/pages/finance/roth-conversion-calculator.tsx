@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
+import ToolShell from '../../components/Tools/ToolShell';
+import ToolSEOContent from '../../components/Tools/ToolSEOContent';
 import { generateBreadcrumbs, generateSoftwareAppSchema, generateFaqSchema, SITE_URL } from '../../utils/siteConfig';
 
 const RothConversionCalculator = dynamic(
@@ -61,60 +62,47 @@ export default function RothConversionCalculatorPage() {
       </Head>
 
       <p className="text-center text-xs text-slate-500 py-2 bg-amber-50 border-b border-amber-100">Estimates only — not tax advice. Consult a CPA or tax advisor for your specific situation.</p>
-      <RothConversionCalculator />
+      <ToolShell parent="finance" icon="🔄" title="Roth Conversion Calculator" tagline="Calculate the federal + state tax cost of a Roth conversion and compare after-tax future value." gradient="from-emerald-600 via-teal-600 to-cyan-600">
+        <RothConversionCalculator />
+      </ToolShell>
 
-      <div className="max-w-4xl mx-auto px-4 py-12 space-y-10">
-        <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">What Is a Roth Conversion and Why Does It Matter?</h2>
-          <p className="text-slate-600 mb-3">A Roth conversion moves money from a pre-tax retirement account (Traditional IRA, 401(k), 403(b)) to a Roth IRA. The converted amount is added to your taxable income in the conversion year — you pay ordinary income tax now — but from that point forward, the money grows tax-free and qualified withdrawals are completely tax-free in retirement.</p>
-          <p className="text-slate-600 mb-3">The core financial decision is a tax-rate bet: you're comparing your <em>current</em> marginal rate against your <em>expected</em> rate at withdrawal. If you expect to be in a higher bracket in retirement (due to Social Security, RMDs, other income), converting now — at today's lower rate — can save substantial money over time. If you expect to be in a lower bracket later, conversion is harder to justify.</p>
-          <p className="text-slate-600">This calculator makes that comparison explicit. It computes the exact dollar tax cost of converting at today's 2026 federal brackets, shows which brackets the conversion fills, and then projects both the Roth and Traditional paths forward — using your expected return and retirement tax rate — to show which strategy produces more after-tax wealth.</p>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">How the Conversion Tax Is Calculated</h2>
-          <p className="text-slate-600 mb-3">The conversion amount stacks on top of your other ordinary income. This calculator uses the <strong>stacked-bracket method</strong>: it computes federal tax on your other income alone, then computes federal tax on (other income + conversion amount), and takes the difference. This gives the exact incremental tax attributable to the conversion — without overstating it by applying a flat marginal rate to the whole amount.</p>
-          <p className="text-slate-600 mb-3">For example, if you have $95,000 of other income (single filer) and convert $100,000, the conversion spans the 22% bracket ($103,350 ceiling for single) and crosses into the 24% bracket. The calculator breaks down exactly how much falls in each bracket, so you can see whether converting $80,000 instead of $100,000 keeps you inside a lower bracket.</p>
-          <p className="text-slate-600">State tax is added as a flat rate on the full conversion amount (simplified approximation). Several states — Florida, Texas, Nevada, and others — have no state income tax. California and New York have high progressive rates that significantly affect the conversion math.</p>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">Worked Example</h2>
-          <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
-            <p className="text-slate-700 mb-2"><strong>Scenario:</strong> Single filer, $95,000 other income, $100,000 conversion, pay from outside cash, 5% state rate, 15-year horizon, 7% return, 22% retirement tax rate.</p>
-            <ul className="list-disc list-inside text-slate-600 space-y-2">
-              <li>Federal tax on $195,000 − Federal tax on $95,000 = incremental federal conversion tax (spans 22% and 24% brackets)</li>
-              <li>State tax = $100,000 × 5% = $5,000</li>
-              <li>Total conversion tax ≈ $26,800</li>
-              <li>Full $100,000 lands in Roth (paid from outside cash)</li>
-              <li>Roth at year 15: $100,000 × (1.07)^15 ≈ <strong>$275,900</strong> (fully tax-free)</li>
-              <li>Traditional at year 15: $100,000 × (1.07)^15 × (1 − 22%) = <strong>$215,200</strong> after retirement tax</li>
-              <li>Net benefit of converting: $275,900 − $215,200 = <strong>$60,700</strong></li>
-            </ul>
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">Frequently Asked Questions</h2>
-          <div className="space-y-6">
-            {FAQS.map(f => (
-              <div key={f.q}>
-                <h3 className="font-semibold text-slate-800 mb-2">{f.q}</h3>
-                <p className="text-slate-600">{f.a}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">Related Calculators</h2>
-          <ul className="space-y-2 text-slate-600">
-            <li><Link href="/finance/rmd-calculator" className="text-indigo-600 hover:underline">RMD Calculator</Link> — Project future Required Minimum Distributions from pre-tax accounts.</li>
-            <li><Link href="/finance/hsa-calculator" className="text-indigo-600 hover:underline">HSA Calculator</Link> — Another triple-tax-advantaged retirement strategy.</li>
-            <li><Link href="/finance/capital-gains-tax-calculator" className="text-indigo-600 hover:underline">Capital Gains Tax Calculator</Link> — Plan investment sales alongside Roth conversions.</li>
-          </ul>
-        </section>
-      </div>
+      <ToolSEOContent
+        description="Calculate the federal and state tax cost of a Roth conversion and compare the after-tax future value vs staying in a Traditional IRA. Uses 2026 tax brackets."
+        features={[
+          '📊 2026 federal tax brackets',
+          '💰 Incremental conversion tax calculation',
+          '📈 Roth vs Traditional future value comparison',
+          '📊 Bracket fill visualization',
+          '💵 Pay-from-outside vs withhold comparison',
+          '💾 PDF and Excel export',
+        ]}
+        steps={[
+          { title: 'Enter your income', desc: 'Input your other ordinary income for the year and filing status.' },
+          { title: 'Set conversion amount', desc: 'Enter how much you want to convert from Traditional to Roth.' },
+          { title: 'Choose tax payment method', desc: 'Select pay from outside cash (recommended) or withhold from conversion.' },
+          { title: 'Compare outcomes', desc: 'See the exact tax cost, bracket breakdown, and Roth vs Traditional future value.' },
+        ]}
+        faqs={FAQS}
+        body={
+          <section className="space-y-4">
+            <h2 className="text-2xl font-bold text-slate-900">What Is a Roth Conversion and Why Does It Matter?</h2>
+            <p className="text-slate-600 leading-relaxed">A Roth conversion moves money from a pre-tax retirement account (Traditional IRA, 401(k), 403(b)) to a Roth IRA. The converted amount is added to your taxable income in the conversion year — you pay ordinary income tax now — but from that point forward, the money grows tax-free and qualified withdrawals are completely tax-free in retirement.</p>
+            <p className="text-slate-600 leading-relaxed">The core financial decision is a tax-rate bet: you're comparing your <em>current</em> marginal rate against your <em>expected</em> rate at withdrawal. If you expect to be in a higher bracket in retirement (due to Social Security, RMDs, other income), converting now — at today's lower rate — can save substantial money over time.</p>
+            <h3 className="text-xl font-bold text-slate-900 mt-6">How the Conversion Tax Is Calculated</h3>
+            <p className="text-slate-600 leading-relaxed">The conversion amount stacks on top of your other ordinary income. This calculator uses the <strong>stacked-bracket method</strong>: it computes federal tax on your other income alone, then computes federal tax on (other income + conversion amount), and takes the difference. This gives the exact incremental tax attributable to the conversion.</p>
+            <p className="text-slate-600 leading-relaxed">For example, if you have $95,000 of other income (single filer) and convert $100,000, the conversion spans the 22% bracket and crosses into the 24% bracket. The calculator breaks down exactly how much falls in each bracket.</p>
+          </section>
+        }
+        relatedTools={[
+          { name: 'Roth vs Traditional IRA', href: '/finance/roth-vs-traditional-ira', icon: '⚖️' },
+          { name: '401(k) Calculator', href: '/finance/401k-calculator', icon: '🏦' },
+          { name: 'RMD Calculator', href: '/finance/rmd-calculator', icon: '📋' },
+        ]}
+        relatedArticles={[
+          { title: 'Backdoor Roth Strategy', href: '/finance/learn/backdoor-roth-strategy' },
+          { title: 'Roth vs Traditional IRA', href: '/finance/learn/roth-vs-traditional-ira' },
+        ]}
+      />
     </>
   );
 }

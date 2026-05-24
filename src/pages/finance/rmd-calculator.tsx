@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
+import ToolShell from '../../components/Tools/ToolShell';
+import ToolSEOContent from '../../components/Tools/ToolSEOContent';
 import { generateBreadcrumbs, generateSoftwareAppSchema, generateFaqSchema, SITE_URL } from '../../utils/siteConfig';
 
 const RMDCalculator = dynamic(
@@ -60,60 +61,46 @@ export default function RMDCalculatorPage() {
         />
       </Head>
 
-      <RMDCalculator />
+      <ToolShell parent="finance" icon="📋" title="RMD Calculator" tagline="Calculate your Required Minimum Distribution from a Traditional IRA, 401(k), or other pre-tax account." gradient="from-emerald-600 via-teal-600 to-cyan-600">
+        <RMDCalculator />
+      </ToolShell>
 
-      <div className="max-w-4xl mx-auto px-4 py-12 space-y-10">
-        <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">What Is an RMD and Who Must Take One?</h2>
-          <p className="text-slate-600 mb-3">A Required Minimum Distribution (RMD) is the minimum amount the IRS requires you to withdraw each year from tax-deferred retirement accounts — Traditional IRAs, SEP IRAs, SIMPLE IRAs, 401(k)s, 403(b)s, 457(b)s, and similar plans. Because contributions to these accounts were made pre-tax, the IRS eventually mandates withdrawals so the funds get taxed as ordinary income.</p>
-          <p className="text-slate-600 mb-3">The SECURE 2.0 Act of 2022 raised the RMD starting age to <strong>73</strong> for anyone who hadn't yet turned 72 by the end of 2022, with a further increase to <strong>75</strong> scheduled for those born in 1960 or later. Roth IRAs are a notable exception — they are <em>not</em> subject to RMDs during the original owner's lifetime, making Roth conversions a popular strategy to reduce future mandatory withdrawals.</p>
-          <p className="text-slate-600">Each year's RMD is calculated using the account balance as of December 31 of the <em>prior</em> year divided by a life-expectancy factor from an IRS table. This calculator uses the <strong>Uniform Lifetime Table</strong> (IRS Publication 590-B, Table III), which applies to the vast majority of account owners. A separate Joint Life and Last Survivor Table applies only when the sole beneficiary is a spouse more than 10 years younger.</p>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">How This Calculator Projects Future RMDs</h2>
-          <p className="text-slate-600 mb-3">The formula for each year's RMD is straightforward: <code className="bg-slate-100 px-1 rounded">RMD = Prior-Year-End Balance ÷ Distribution Period</code>, where the distribution period comes from the IRS table for your age. What makes projection complex is that the balance itself changes each year — it's reduced by the RMD withdrawal, then grown by investment returns before the next year's calculation.</p>
-          <p className="text-slate-600 mb-3">This calculator runs a year-by-year loop: withdraw the RMD, apply your expected return to the remainder, then compute next year's RMD with the new balance and age. The result is a projection you can trace from age 73 to any target age (default 100), showing both the growing RMD amounts (as the distribution period shrinks with age) and the declining account balance.</p>
-          <p className="text-slate-600">An important nuance: your first RMD can technically be deferred to April 1 of the year <em>after</em> you turn 73. Most advisors recommend against deferral because taking two RMDs in one calendar year compounds tax impact. This calculator uses the simpler assumption that you take each RMD in the year it's due.</p>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">Worked Example</h2>
-          <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
-            <p className="text-slate-700 mb-2"><strong>Scenario:</strong> $425,000 IRA balance as of Dec 31, account owner age 73, 22% marginal rate, 5.5% expected return.</p>
-            <ul className="list-disc list-inside text-slate-600 space-y-2">
-              <li>Distribution period at age 73 (Uniform Lifetime Table) = <strong>26.5</strong></li>
-              <li>Year-1 RMD = $425,000 ÷ 26.5 = <strong>$16,038</strong></li>
-              <li>Estimated federal tax (22%) = <strong>$3,528</strong></li>
-              <li>Net after-tax distribution = <strong>$12,509</strong></li>
-              <li>Remaining balance grows: ($425,000 − $16,038) × 1.055 = <strong>$432,137</strong> enters next year</li>
-              <li>Year-2 RMD (age 74, divisor 25.5) = $432,137 ÷ 25.5 = <strong>$16,946</strong></li>
-            </ul>
-            <p className="text-slate-500 text-sm mt-3">RMD amounts grow each year as the distribution period shrinks — even if the balance stays flat. At higher return rates, the balance grows faster than withdrawals, so RMDs can increase substantially in dollar terms.</p>
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">Frequently Asked Questions</h2>
-          <div className="space-y-6">
-            {FAQS.map(f => (
-              <div key={f.q}>
-                <h3 className="font-semibold text-slate-800 mb-2">{f.q}</h3>
-                <p className="text-slate-600">{f.a}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">Related Calculators</h2>
-          <ul className="space-y-2 text-slate-600">
-            <li><Link href="/finance/roth-conversion-calculator" className="text-indigo-600 hover:underline">Roth Conversion Calculator</Link> — Convert pre-tax balances to reduce future RMDs.</li>
-            <li><Link href="/finance/annuity-calculator" className="text-indigo-600 hover:underline">Annuity Calculator</Link> — Turn IRA withdrawals into a guaranteed income stream.</li>
-            <li><Link href="/finance/reverse-mortgage-calculator" className="text-indigo-600 hover:underline">Reverse Mortgage Calculator</Link> — Other options for retirement income.</li>
-          </ul>
-        </section>
-      </div>
+      <ToolSEOContent
+        description="Calculate your Required Minimum Distribution using the IRS Uniform Lifetime Table. Project RMDs from your IRA or 401(k) to age 100."
+        features={[
+          '📋 IRS Uniform Lifetime Table lookup',
+          '📊 Current-year RMD calculation',
+          '📈 Future-year RMD projection',
+          '💰 Federal tax estimate',
+          '📉 Balance projection chart',
+          '💾 PDF and Excel export',
+        ]}
+        steps={[
+          { title: 'Enter account details', desc: 'Input your IRA or 401(k) balance as of December 31 of last year.' },
+          { title: 'Set your age', desc: 'Enter your current age (must be 73+ for RMDs under SECURE 2.0).' },
+          { title: 'Configure assumptions', desc: 'Set expected investment return and marginal tax rate.' },
+          { title: 'Review projections', desc: 'See current-year RMD, future RMDs to age 100, and estimated federal tax.' },
+        ]}
+        faqs={FAQS}
+        body={
+          <section className="space-y-4">
+            <h2 className="text-2xl font-bold text-slate-900">What Is an RMD and Who Must Take One?</h2>
+            <p className="text-slate-600 leading-relaxed">A Required Minimum Distribution (RMD) is the minimum amount the IRS requires you to withdraw each year from tax-deferred retirement accounts — Traditional IRAs, SEP IRAs, SIMPLE IRAs, 401(k)s, 403(b)s, 457(b)s, and similar plans. The SECURE 2.0 Act of 2022 raised the RMD starting age to <strong>73</strong> for anyone who hadn't yet turned 72 by the end of 2022, with a further increase to <strong>75</strong> scheduled for those born in 1960 or later.</p>
+            <p className="text-slate-600 leading-relaxed">Roth IRAs are a notable exception — they are <em>not</em> subject to RMDs during the original owner's lifetime, making Roth conversions a popular strategy to reduce future mandatory withdrawals.</p>
+            <h3 className="text-xl font-bold text-slate-900 mt-6">How This Calculator Projects Future RMDs</h3>
+            <p className="text-slate-600 leading-relaxed">Each year's RMD is calculated using the account balance as of December 31 of the <em>prior</em> year divided by a life-expectancy factor from the IRS Uniform Lifetime Table. The calculator runs a year-by-year loop: withdraw the RMD, apply your expected return to the remainder, then compute next year's RMD with the new balance and age.</p>
+          </section>
+        }
+        relatedTools={[
+          { name: '401(k) Calculator', href: '/finance/401k-calculator', icon: '🏦' },
+          { name: 'Roth Conversion Calculator', href: '/finance/roth-conversion-calculator', icon: '🔄' },
+          { name: 'Social Security Calculator', href: '/finance/social-security-calculator', icon: '🏦' },
+          { name: 'Roth vs Traditional IRA', href: '/finance/roth-vs-traditional-ira', icon: '⚖️' },
+        ]}
+        relatedArticles={[
+          { title: 'Retirement Savings Age Milestones', href: '/finance/learn/retirement-savings-age-milestones' },
+        ]}
+      />
     </>
   );
 }

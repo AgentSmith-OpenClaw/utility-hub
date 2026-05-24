@@ -488,6 +488,21 @@ export default function IncomeTaxCalculatorPage() {
           </div>
         </section>
 
+        {/* Related reading */}
+        <section>
+          <h2 className="text-xl font-bold text-slate-900 mb-4">Related Reading</h2>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              { href: '/finance/learn/us-tax-brackets-deductions-take-home-pay', title: 'US Tax Brackets, Deductions & Take-Home Pay', desc: 'A complete guide to understanding how your income is taxed.' },
+            ].map(t => (
+              <Link key={t.href} href={t.href} className="block p-5 bg-white border border-slate-200 rounded-2xl hover:border-indigo-400 hover:shadow-md transition-all">
+                <div className="font-semibold text-slate-900 mb-1">{t.title}</div>
+                <p className="text-sm text-slate-500">{t.desc}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
       </div>
     </>
   );

@@ -1,6 +1,7 @@
 import Head from 'next/head';
-import Link from 'next/link';
 import CreditCardPayoffCalculator from '../../components/CreditCardPayoffCalculator/CreditCardPayoffCalculator';
+import ToolShell from '../../components/Tools/ToolShell';
+import ToolSEOContent from '../../components/Tools/ToolSEOContent';
 import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
 
 export default function CreditCardPayoffCalculatorPage() {
@@ -141,120 +142,53 @@ export default function CreditCardPayoffCalculatorPage() {
         />
       </Head>
 
-      <CreditCardPayoffCalculator />
+      <ToolShell parent="finance" icon="💳" title="Credit Card Payoff Calculator" tagline="Compare debt avalanche vs snowball vs minimum-only strategies for multiple cards." gradient="from-rose-600 via-pink-600 to-fuchsia-600">
+        <CreditCardPayoffCalculator />
+      </ToolShell>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-12">
-        <section className="bg-rose-50 rounded-2xl p-8 sm:p-10">
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">About this calculator</h2>
-          <p className="text-slate-600 mb-6 leading-relaxed">
-            A free, no-signup credit card payoff calculator that simulates exactly what happens to each of your
-            cards month by month. It models monthly interest compounding, minimum payments, and any extra you put
-            toward the highest-priority card based on the strategy you pick.
-          </p>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {[
-              '🧮 Multi-card simulation — model your full wallet',
-              '🏔️ Avalanche method (highest APR first)',
-              '❄️ Snowball method (smallest balance first)',
-              '🪙 Minimum-only baseline for comparison',
-              '📈 Stacked balance chart per card',
-              '📊 Per-card payoff order with interest paid',
-              '💾 Full month-by-month Excel export',
-              '🔒 100% client-side — your data never leaves your browser',
-            ].map((f) => (
-              <div key={f} className="flex gap-3 items-start">
-                <span className="mt-0.5">{f.split(' ')[0]}</span>
-                <span className="text-slate-700 text-sm">{f.substring(f.indexOf(' ') + 1)}</span>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">Avalanche vs snowball — pick the right one for you</h2>
-          <p className="text-slate-500 mb-6">Both strategies pay off the same total debt. They differ in <em>which</em> card gets the spare cash first.</p>
-          <div className="grid sm:grid-cols-2 gap-5">
-            <div className="bg-white border border-slate-200 rounded-2xl p-6">
-              <div className="text-xs font-bold uppercase tracking-widest text-rose-600 mb-2">Avalanche</div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2">Highest APR first</h3>
-              <p className="text-sm text-slate-600 mb-3">
-                Mathematically optimal. Always pays the least total interest, usually the shortest time to debt-free.
-                Best when you’re analytical and the per-card APR spread is wide.
-              </p>
-              <div className="text-xs text-slate-500">
-                Example: a 28.99% store card and an 18.99% Visa? Avalanche kills the store card first.
-              </div>
-            </div>
-            <div className="bg-white border border-slate-200 rounded-2xl p-6">
-              <div className="text-xs font-bold uppercase tracking-widest text-amber-600 mb-2">Snowball</div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2">Smallest balance first</h3>
-              <p className="text-sm text-slate-600 mb-3">
-                Costs slightly more interest but generates fast wins — a card hits $0 quickly, which keeps you
-                motivated. Best when you’ve abandoned payoff plans before.
-              </p>
-              <div className="text-xs text-slate-500">
-                Example: a $400 store card and a $4,000 Visa? Snowball kills the $400 card first.
-              </div>
-            </div>
-          </div>
-          <div className="mt-4 bg-emerald-50 border border-emerald-200 rounded-2xl p-5 text-sm text-emerald-900">
-            <strong>Pro tip:</strong> when APRs are within ~2 percentage points of each other, snowball is essentially
-            free — the interest difference over the full payoff is usually small enough that the motivation boost
-            wins. When APRs differ by 5%+ (e.g. 29% store cards vs 16% premium cards), avalanche pays meaningfully more.
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">How credit card interest actually works</h2>
-          <p className="text-slate-600 leading-relaxed mb-3">
-            Credit cards compound daily using the average daily balance. The APR is divided by 365 to get a daily
-            periodic rate, then applied each day. If you pay your statement balance in full by the due date,
-            most cards waive interest entirely on purchases (the “grace period”). Once you carry any balance into
-            the next cycle, the grace period collapses and new purchases start accruing interest from day one.
-          </p>
-          <p className="text-slate-600 leading-relaxed">
-            That mechanic is why minimum payments are so dangerous: you’re always paying interest on yesterday’s
-            interest. On a $5,000 balance at 22.99% APR with the typical 2% minimum, you’ll pay roughly{' '}
-            <strong>$13,000 in interest over 30+ years</strong> if you only ever make minimums and never charge another
-            cent. That’s not a typo.
-          </p>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-bold text-slate-900 mb-6">Frequently asked questions</h2>
-          <div className="space-y-4">
-            {faqSchema.mainEntity.map((faq, i) => (
-              <div key={i} className="bg-slate-50 rounded-2xl border border-slate-200 p-6">
-                <h3 className="font-semibold text-slate-900 mb-2">{faq.name}</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">{faq.acceptedAnswer.text}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-xl font-bold text-slate-900 mb-4">Related finance tools &amp; reading</h2>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {[
-              { href: '/finance/student-loan-calculator', title: 'Student Loan Calculator', desc: 'Tackle student debt alongside credit cards with the right payoff order.' },
-              { href: '/finance/auto-loan-calculator', title: 'Auto Loan Calculator', desc: 'See total interest cost so you can prioritise which debt to eliminate first.' },
-              { href: '/finance/buy-vs-rent-calculator', title: 'Buy vs Rent Calculator', desc: 'Find out when your debt payoff puts you in a position to buy a home.' },
-              { href: '/finance/us-paycheck-calculator', title: 'US Paycheck Calculator', desc: 'Find out exactly how much budget you can free up each month for debt payoff.' },
-              { href: '/finance/amortization-calculator', title: 'Amortization Calculator', desc: 'See how interest-vs-principal split changes over the life of any loan.' },
-              { href: '/finance/learn/debt-snowball-vs-avalanche', title: 'Debt Snowball vs Avalanche — Article', desc: 'A deep dive into when each strategy genuinely wins.' },
-            ].map((t) => (
-              <Link
-                key={t.href}
-                href={t.href}
-                className="block p-5 bg-white border border-slate-200 rounded-2xl hover:border-rose-300 hover:shadow-md transition-all"
-              >
-                <div className="font-semibold text-slate-900 mb-1">{t.title}</div>
-                <p className="text-sm text-slate-500">{t.desc}</p>
-              </Link>
-            ))}
-          </div>
-        </section>
-      </div>
+      <ToolSEOContent
+        description="A free credit card payoff calculator that simulates exactly what happens to each of your cards month by month. Models monthly interest compounding, minimum payments, and any extra you put toward the highest-priority card."
+        features={[
+          '🧮 Multi-card simulation — model your full wallet',
+          '🏔️ Avalanche method (highest APR first)',
+          '❄️ Snowball method (smallest balance first)',
+          '🪙 Minimum-only baseline for comparison',
+          '📈 Stacked balance chart per card',
+          '📊 Per-card payoff order with interest paid',
+          '💾 Full month-by-month Excel export',
+        ]}
+        steps={[
+          { title: 'Enter every card', desc: 'List each card with its current balance, APR, and minimum payment.' },
+          { title: 'Set your monthly budget', desc: 'This must be at least the sum of minimums. Anything above goes to the priority card.' },
+          { title: 'Pick avalanche or snowball', desc: 'Avalanche pays highest-APR first (least interest). Snowball pays smallest-balance first (fastest wins).' },
+          { title: 'Review the projection', desc: 'See debt-free date, total interest, savings vs minimum-only, and per-card payoff order.' },
+        ]}
+        faqs={[
+          { q: 'Is the avalanche or snowball method faster?', a: 'The avalanche method (highest APR first) is mathematically optimal — it always pays the least total interest and often the shortest time to debt-free. The snowball method (smallest balance first) costs more in interest but generates faster psychological wins. For most multi-card scenarios with similar APRs the dollar gap is small, so the best strategy is the one you\'ll actually finish.' },
+          { q: 'How much extra should I pay above the minimum?', a: 'Even a small bump above the minimum saves a disproportionate amount of interest. On a $5,000 balance at 22% APR, paying $200/month instead of the minimum can cut payoff time from 30+ years to under 3 years.' },
+          { q: 'Should I consolidate or use a balance transfer card first?', a: 'A 0% APR balance transfer card or fixed-rate consolidation loan can be excellent if you can pay off the balance during the promo period. Watch out for 3–5% transfer fees and the post-promo APR.' },
+          { q: 'How is credit card interest calculated?', a: 'Most issuers use the average daily balance method with daily compounding. The simulation in this tool uses monthly compounding at APR/12, which closely matches real-world results.' },
+          { q: 'Will paying off cards hurt my credit score?', a: 'Paying down balances almost always helps. Lower utilization (the ratio of balance to credit limit) is roughly 30% of your FICO score. Don\'t close the cards once paid — keeping the limit open while carrying a $0 balance reduces utilization.' },
+        ]}
+        body={
+          <section className="space-y-4">
+            <h2 className="text-2xl font-bold text-slate-900">Avalanche vs snowball — pick the right one for you</h2>
+            <p className="text-slate-600 leading-relaxed">Both strategies pay off the same total debt. They differ in <em>which</em> card gets the spare cash first. Avalanche (highest APR first) is mathematically optimal — always pays the least total interest. Snowball (smallest balance first) costs slightly more interest but generates fast wins that keep you motivated.</p>
+            <h3 className="text-xl font-bold text-slate-900 mt-6">How credit card interest actually works</h3>
+            <p className="text-slate-600 leading-relaxed">Credit cards compound daily using the average daily balance. The APR is divided by 365 to get a daily periodic rate, then applied each day. If you pay your statement balance in full by the due date, most cards waive interest entirely on purchases (the "grace period"). Once you carry any balance into the next cycle, the grace period collapses and new purchases start accruing interest from day one.</p>
+            <p className="text-slate-600 leading-relaxed">That mechanic is why minimum payments are so dangerous: you're always paying interest on yesterday's interest. On a $5,000 balance at 22.99% APR with the typical 2% minimum, you'll pay roughly <strong>$13,000 in interest over 30+ years</strong> if you only ever make minimums.</p>
+          </section>
+        }
+        relatedTools={[
+          { name: 'EMI Calculator', href: '/finance/emi-calculator', icon: '💳' },
+          { name: 'Compound Interest Calculator', href: '/finance/compound-interest-calculator', icon: '📈' },
+          { name: 'Net Worth Calculator', href: '/finance/net-worth-calculator', icon: '💰' },
+        ]}
+        relatedArticles={[
+          { title: 'Credit Card Snowball vs Avalanche', href: '/finance/learn/credit-card-snowball-vs-avalanche' },
+          { title: 'Debt Snowball vs Avalanche', href: '/finance/learn/debt-snowball-vs-avalanche' },
+        ]}
+      />
     </>
   );
 }

@@ -297,6 +297,22 @@ export default function FIRECalculatorPage() {
           </div>
         </section>
 
+        {/* Related reading */}
+        <section>
+          <h2 className="text-xl font-bold text-slate-900 mb-4">Related Reading</h2>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              { href: '/finance/learn/fire-movement-explained', title: 'FIRE Movement Explained', desc: 'The philosophy, math, and practical steps behind financial independence.' },
+              { href: '/finance/learn/how-to-calculate-fire-number', title: 'How to Calculate Your FIRE Number', desc: 'A step-by-step guide to determining your financial independence target.' },
+            ].map(t => (
+              <Link key={t.href} href={t.href} className="block p-5 bg-white border border-slate-200 rounded-2xl hover:border-orange-400 hover:shadow-md transition-all">
+                <div className="font-semibold text-slate-900 mb-1">{t.title}</div>
+                <p className="text-sm text-slate-500">{t.desc}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
       </div>
     </>
   );
