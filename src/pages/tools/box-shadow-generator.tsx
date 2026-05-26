@@ -96,6 +96,7 @@ export default function BoxShadowGeneratorPage() {
           { name: 'Color Converter', href: '/tools/color-converter', icon: '🎨' },
           { name: 'Color Palette Generator', href: '/tools/color-palette', icon: '🖌️' },
           { name: 'CSS Unit Converter', href: '/tools/css-unit-converter', icon: '📏' },
+          { name: 'CSS Gradient Generator', href: '/tools/gradient-generator', icon: '🌈' },
         ]}
       />
     </>

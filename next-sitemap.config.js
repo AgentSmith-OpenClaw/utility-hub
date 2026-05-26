@@ -50,6 +50,15 @@ function gitLastMod(loc) {
   }
 }
 
+// These pages are noindex redirect stubs; they must not appear in the sitemap.
+const EXCLUDED_PATHS = new Set([
+  '/tools/age-calculator',
+  '/tools/percentage-calculator',
+  '/tools/pomodoro-timer',
+  '/tools/qr-code-generator',
+  '/tools/unit-converter',
+]);
+
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
   siteUrl: 'https://toolisk.com',
@@ -61,6 +70,7 @@ module.exports = {
   //   Tier 2 (0.7 / 0.6) — /finance/learn and /tools/learn indexes & articles
   //   Tier 3 (0.3)        — about, contact, legal
   transform: async (_config, loc) => {
+    if (EXCLUDED_PATHS.has(loc)) return null;
     const lastmod = gitLastMod(loc);
     if (loc === '/') return { loc, priority: 1.0, changefreq: 'daily', lastmod };
     if (loc === '/finance') return { loc, priority: 0.9, changefreq: 'weekly', lastmod };

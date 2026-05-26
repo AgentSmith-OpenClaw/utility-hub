@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import MortgageCalculator from '../../components/MortgageCalculator/MortgageCalculator';
 import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
+import DisclaimerBanner from '../../components/Tools/DisclaimerBanner';
 
 export default function MortgageCalculatorPage() {
   const breadcrumbSchema = generateBreadcrumbs('/finance/mortgage-calculator');
@@ -322,6 +323,7 @@ export default function MortgageCalculatorPage() {
           </div>
         </section>
 
+      <DisclaimerBanner type="finance" />
       </div>
     </>
   );

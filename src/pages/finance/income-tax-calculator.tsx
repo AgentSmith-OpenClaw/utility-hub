@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import IncomeTaxCalculator from '../../components/IncomeTaxCalculator/IncomeTaxCalculator';
 import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
+import DisclaimerBanner from '../../components/Tools/DisclaimerBanner';
 
 export default function IncomeTaxCalculatorPage() {
   const breadcrumbSchema = generateBreadcrumbs('/finance/income-tax-calculator');
@@ -488,6 +489,7 @@ export default function IncomeTaxCalculatorPage() {
           </div>
         </section>
 
+      <DisclaimerBanner type="finance" />
       </div>
     </>
   );

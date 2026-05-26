@@ -2,6 +2,7 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { generateBreadcrumbs, generateSoftwareAppSchema, generateFaqSchema, SITE_URL } from '../../utils/siteConfig';
+import DisclaimerBanner from '../../components/Tools/DisclaimerBanner';
 
 const ReverseMortgageCalculator = dynamic(
   () => import('../../components/ReverseMortgage/ReverseMortgageCalculator'),
@@ -114,6 +115,7 @@ export default function ReverseMortgageCalculatorPage() {
             <li><Link href="/finance/annuity-calculator" className="text-indigo-600 hover:underline">Annuity Calculator</Link> — Another source of guaranteed lifetime income for retirement.</li>
           </ul>
         </section>
+      <DisclaimerBanner type="finance" />
       </div>
     </>
   );

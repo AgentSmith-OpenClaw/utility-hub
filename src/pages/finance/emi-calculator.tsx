@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import EMICalculator from '../../components/EMICalculator/EMICalculator';
 import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
+import DisclaimerBanner from '../../components/Tools/DisclaimerBanner';
 
 export default function EMICalculatorPage() {
   const breadcrumbSchema = generateBreadcrumbs('/finance/emi-calculator');
@@ -309,6 +310,7 @@ export default function EMICalculatorPage() {
               { href: '/finance/mortgage-calculator', title: 'Mortgage Calculator', desc: 'Full housing cost with taxes, insurance, and PMI.' },
               { href: '/finance/amortization-calculator', title: 'Amortization Schedule', desc: 'Month-by-month principal vs interest breakdown.' },
               { href: '/finance/compound-interest-calculator', title: 'Compound Interest Calculator', desc: 'Model how investing your surplus grows over time.' },
+              { href: '/finance/loan-comparison-calculator', title: 'Loan Comparison Calculator', desc: 'Compare up to 3 loans side by side — EMI, interest, and total cost.' },
             ].map(t => (
               <Link key={t.href} href={t.href} className="block p-5 bg-white border border-slate-200 rounded-2xl hover:border-blue-400 hover:shadow-md transition-all">
                 <div className="font-semibold text-slate-900 mb-1">{t.title}</div>
@@ -318,6 +320,7 @@ export default function EMICalculatorPage() {
           </div>
         </section>
 
+      <DisclaimerBanner type="finance" />
       </div>
     </>
   );

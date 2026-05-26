@@ -85,6 +85,91 @@ export default function UserAgentParserPage() {
               <code className="text-xs bg-slate-100 px-1.5 py-0.5 rounded font-mono">@supports</code>. UA sniffing is useful for
               analytics, server-side optimisations (like serving different image formats), and blocking specific bots.
             </p>
+
+            <h3 className="text-xl font-bold text-slate-900 mt-10">Common User-Agent strings decoded</h3>
+            <p className="text-slate-600 leading-relaxed mb-4">
+              Here is how this parser interprets the most common UA strings you will see in server logs and analytics dashboards.
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border border-slate-200 rounded-lg">
+                <thead className="bg-slate-50 text-slate-700 font-semibold">
+                  <tr>
+                    <th className="px-3 py-2 text-left border-b border-slate-200">Source</th>
+                    <th className="px-3 py-2 text-left border-b border-slate-200">Browser</th>
+                    <th className="px-3 py-2 text-left border-b border-slate-200">Engine</th>
+                    <th className="px-3 py-2 text-left border-b border-slate-200">OS</th>
+                    <th className="px-3 py-2 text-left border-b border-slate-200">Device</th>
+                    <th className="px-3 py-2 text-left border-b border-slate-200">Bot?</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  <tr>
+                    <td className="px-3 py-2 font-medium text-slate-900">Chrome 124 Mac</td>
+                    <td className="px-3 py-2 text-slate-600">Chrome 124</td>
+                    <td className="px-3 py-2 text-slate-600">Blink/WebKit 537</td>
+                    <td className="px-3 py-2 text-slate-600">macOS 10.15</td>
+                    <td className="px-3 py-2 text-slate-600">Desktop</td>
+                    <td className="px-3 py-2 text-slate-600">No</td>
+                  </tr>
+                  <tr>
+                    <td className="px-3 py-2 font-medium text-slate-900">Safari iOS 17</td>
+                    <td className="px-3 py-2 text-slate-600">Safari 17.4</td>
+                    <td className="px-3 py-2 text-slate-600">Blink/WebKit 605</td>
+                    <td className="px-3 py-2 text-slate-600">iOS 17.4</td>
+                    <td className="px-3 py-2 text-slate-600">Mobile</td>
+                    <td className="px-3 py-2 text-slate-600">No</td>
+                  </tr>
+                  <tr>
+                    <td className="px-3 py-2 font-medium text-slate-900">Firefox 125 Win</td>
+                    <td className="px-3 py-2 text-slate-600">Firefox 125</td>
+                    <td className="px-3 py-2 text-slate-600">Gecko 125</td>
+                    <td className="px-3 py-2 text-slate-600">Windows 10/11</td>
+                    <td className="px-3 py-2 text-slate-600">Desktop</td>
+                    <td className="px-3 py-2 text-slate-600">No</td>
+                  </tr>
+                  <tr>
+                    <td className="px-3 py-2 font-medium text-slate-900">Edge 124 Win</td>
+                    <td className="px-3 py-2 text-slate-600">Edge 124</td>
+                    <td className="px-3 py-2 text-slate-600">Blink/WebKit 537</td>
+                    <td className="px-3 py-2 text-slate-600">Windows 10/11</td>
+                    <td className="px-3 py-2 text-slate-600">Desktop</td>
+                    <td className="px-3 py-2 text-slate-600">No</td>
+                  </tr>
+                  <tr>
+                    <td className="px-3 py-2 font-medium text-slate-900">Googlebot</td>
+                    <td className="px-3 py-2 text-slate-600">Googlebot 2.1</td>
+                    <td className="px-3 py-2 text-slate-600">Unknown</td>
+                    <td className="px-3 py-2 text-slate-600">Unknown</td>
+                    <td className="px-3 py-2 text-slate-600">Bot / Crawler</td>
+                    <td className="px-3 py-2 text-slate-600"><span className="text-amber-700 font-semibold">Yes</span></td>
+                  </tr>
+                  <tr>
+                    <td className="px-3 py-2 font-medium text-slate-900">curl 8.6</td>
+                    <td className="px-3 py-2 text-slate-600">curl 8.6</td>
+                    <td className="px-3 py-2 text-slate-600">Unknown</td>
+                    <td className="px-3 py-2 text-slate-600">Unknown</td>
+                    <td className="px-3 py-2 text-slate-600">Bot / Crawler</td>
+                    <td className="px-3 py-2 text-slate-600"><span className="text-amber-700 font-semibold">Yes</span></td>
+                  </tr>
+                  <tr>
+                    <td className="px-3 py-2 font-medium text-slate-900">Android Chrome</td>
+                    <td className="px-3 py-2 text-slate-600">Chrome 124</td>
+                    <td className="px-3 py-2 text-slate-600">Blink/WebKit 537</td>
+                    <td className="px-3 py-2 text-slate-600">Android 14</td>
+                    <td className="px-3 py-2 text-slate-600">Mobile</td>
+                    <td className="px-3 py-2 text-slate-600">No</td>
+                  </tr>
+                  <tr>
+                    <td className="px-3 py-2 font-medium text-slate-900">Samsung Internet</td>
+                    <td className="px-3 py-2 text-slate-600">Samsung Internet 25</td>
+                    <td className="px-3 py-2 text-slate-600">Blink/WebKit 537</td>
+                    <td className="px-3 py-2 text-slate-600">Android 14</td>
+                    <td className="px-3 py-2 text-slate-600">Mobile</td>
+                    <td className="px-3 py-2 text-slate-600">No</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </section>
         }
         relatedTools={[

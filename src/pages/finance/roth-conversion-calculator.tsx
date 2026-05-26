@@ -2,6 +2,7 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { generateBreadcrumbs, generateSoftwareAppSchema, generateFaqSchema, SITE_URL } from '../../utils/siteConfig';
+import DisclaimerBanner from '../../components/Tools/DisclaimerBanner';
 
 const RothConversionCalculator = dynamic(
   () => import('../../components/RothConversion/RothConversionCalculator'),
@@ -114,6 +115,7 @@ export default function RothConversionCalculatorPage() {
             <li><Link href="/finance/capital-gains-tax-calculator" className="text-indigo-600 hover:underline">Capital Gains Tax Calculator</Link> — Plan investment sales alongside Roth conversions.</li>
           </ul>
         </section>
+      <DisclaimerBanner type="finance" />
       </div>
     </>
   );

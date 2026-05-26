@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import USPaycheckCalculator from '../../components/USPaycheckCalculator/USPaycheckCalculator';
 import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
+import DisclaimerBanner from '../../components/Tools/DisclaimerBanner';
 
 export default function USPaycheckCalculatorPage() {
   const breadcrumbSchema = generateBreadcrumbs('/finance/us-paycheck-calculator');
@@ -370,6 +371,7 @@ export default function USPaycheckCalculatorPage() {
           bracket typically has an effective federal rate around 10-13%, depending on their exact income.
         </p>
 
+        <DisclaimerBanner type="finance" />
       </article>
     </>
   );

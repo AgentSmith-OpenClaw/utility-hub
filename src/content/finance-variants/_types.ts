@@ -36,7 +36,8 @@ export type CalculatorId =
   | 'roth-conversion'
   | 'college-savings-529'
   | 'capital-gains-tax-us'
-  | 'reverse-mortgage';
+  | 'reverse-mortgage'
+  | 'loan-comparison';
 
 export type LongformBlock =
   | { type: 'h2'; text: string }

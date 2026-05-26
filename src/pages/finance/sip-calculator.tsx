@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import SIPWealthPlanner from '../../components/SIPWealthPlanner/SIPWealthPlanner';
 import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
+import DisclaimerBanner from '../../components/Tools/DisclaimerBanner';
 
 export default function SIPCalculatorPage() {
   const breadcrumbSchema = generateBreadcrumbs('/finance/sip-calculator');
@@ -403,6 +404,7 @@ export default function SIPCalculatorPage() {
           </div>
         </section>
 
+      <DisclaimerBanner type="finance" />
       </div>
     </>
   );

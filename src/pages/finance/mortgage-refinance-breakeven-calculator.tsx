@@ -2,6 +2,7 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { generateBreadcrumbs, generateSoftwareAppSchema, generateFaqSchema, SITE_URL } from '../../utils/siteConfig';
+import DisclaimerBanner from '../../components/Tools/DisclaimerBanner';
 
 const MortgageRefinanceBreakeven = dynamic(
   () => import('../../components/MortgageRefinanceBreakeven/MortgageRefinanceBreakeven'),
@@ -123,6 +124,7 @@ export default function MortgageRefinanceBreakevenPage() {
             ))}
           </div>
         </section>
+      <DisclaimerBanner type="finance" />
       </div>
     </>
   );

@@ -45,6 +45,7 @@ export const CALCULATORS: Record<CalculatorId, ComponentType<any>> = {
   'college-savings-529': dyn(() => import('../../components/CollegeSavings529/CollegeSavings529Calculator')),
   'capital-gains-tax-us': dyn(() => import('../../components/CapitalGainsTax/CapitalGainsTaxCalculator')),
   'reverse-mortgage': dyn(() => import('../../components/ReverseMortgage/ReverseMortgageCalculator')),
+  'loan-comparison': dyn(() => import('../../components/Finance/LoanComparisonCalculator')),
 };
 
 /** Canonical (primary) finance page path for each calculatorId. Used for
@@ -82,4 +83,5 @@ export const CANONICAL_PATHS: Record<CalculatorId, string> = {
   'college-savings-529': '/finance/529-college-savings-calculator',
   'capital-gains-tax-us': '/finance/capital-gains-tax-calculator',
   'reverse-mortgage': '/finance/reverse-mortgage-calculator',
+  'loan-comparison': '/finance/loan-comparison-calculator',
 };

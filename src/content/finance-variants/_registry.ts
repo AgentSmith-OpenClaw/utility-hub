@@ -48,6 +48,7 @@ const CONCRETE_FINANCE_PAGES = new Set<string>([
   '529-college-savings-calculator',
   'capital-gains-tax-calculator',
   'reverse-mortgage-calculator',
+  'loan-comparison-calculator',
 ]);
 
 // ---- variant imports (alphabetical by slug) ----
@@ -146,6 +147,9 @@ import hecmCalculator from './hecm-calculator';
 import reverseMortgagePaymentCalculator from './reverse-mortgage-payment-calculator';
 import reverseMortgageLineOfCreditCalculator from './reverse-mortgage-line-of-credit-calculator';
 import reverseMortgageVsHeloc from './reverse-mortgage-vs-heloc';
+import compareLoanRates from './compare-loan-rates';
+import personalLoanComparison from './personal-loan-comparison';
+import homeLoanInterestComparison from './home-loan-interest-comparison';
 
 export const ALL_VARIANTS: FinanceVariant[] = [
   fifteenVsThirtyYearMortgage,
@@ -243,6 +247,10 @@ export const ALL_VARIANTS: FinanceVariant[] = [
   reverseMortgagePaymentCalculator,
   reverseMortgageLineOfCreditCalculator,
   reverseMortgageVsHeloc,
+  // Loan Comparison
+  compareLoanRates,
+  personalLoanComparison,
+  homeLoanInterestComparison,
 ];
 
 // ---- integrity checks (run at import/build time) ----

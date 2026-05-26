@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import AmortizationCalculator from '../../components/AmortizationCalculator/AmortizationCalculator';
+import DisclaimerBanner from '../../components/Tools/DisclaimerBanner';
 import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
 
 export default function AmortizationCalculatorPage() {
@@ -365,6 +366,7 @@ export default function AmortizationCalculatorPage() {
           </div>
         </div>
 
+      <DisclaimerBanner type="finance" />
       </div>
 
 

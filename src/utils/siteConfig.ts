@@ -141,6 +141,8 @@ const STATIC_BREADCRUMB_LABELS: Record<string, string> = {
   'svg-to-png': 'SVG to PNG',
   'cholesterol-calculator': 'Cholesterol Calculator',
   'glycemic-index-calculator': 'Glycemic Index Calculator',
+  'loan-comparison-calculator': 'Loan Comparison Calculator',
+  'gradient-generator': 'CSS Gradient Generator',
 };
 
 // Merged label map: static labels + auto-generated labels from finance variants.

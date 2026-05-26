@@ -113,6 +113,7 @@ export default function ColorConverterPage() {
           { name: 'Color Contrast Checker', href: '/tools/color-contrast-checker', icon: '♿' },
           { name: 'CSS Box Shadow Generator', href: '/tools/box-shadow-generator', icon: '🌗' },
           { name: 'Color Palette Generator', href: '/tools/color-palette', icon: '🖌️' },
+          { name: 'CSS Gradient Generator', href: '/tools/gradient-generator', icon: '🌈' },
         ]}
       />
     </>

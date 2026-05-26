@@ -25,7 +25,7 @@ export default function TermsOfService() {
               📜
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold text-slate-900">Terms of Service</h1>
-            <p className="mt-2 text-slate-500 text-sm">Effective Date: February 12, 2026 · Last Updated: February 12, 2026</p>
+            <p className="mt-2 text-slate-500 text-sm">Effective Date: February 12, 2026 · Last Updated: May 2026</p>
           </div>
 
           {/* Content Card */}
@@ -60,8 +60,33 @@ export default function TermsOfService() {
               <li>Not input any sensitive, confidential, or personally identifiable information (such as API keys, passwords, or private keys) into tools unless you fully understand and accept the risks.</li>
               <li>Not attempt to interfere with, disrupt, or compromise the integrity or security of the website.</li>
               <li>Not use our tools to generate misleading, fraudulent, or harmful content.</li>
-              <li>Verify all outputs from our tools before relying on them for professional, financial, or critical decisions.</li>
+              <li>Verify all outputs from our tools before relying on them for professional, financial, medical, or critical decisions.</li>
             </ul>
+
+            <h2 className="text-2xl font-bold">3b. Tool Accuracy &amp; Disclaimers</h2>
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 my-4">
+              <p className="text-amber-800 font-medium mb-2">⚠️ Important Notice</p>
+              <div className="text-amber-700 text-sm">
+                <p className="mb-2">
+                  Toolisk is a <strong>free calculator and tool platform</strong>. All financial calculators provide estimates
+                  based on the inputs you provide — <strong>kindly review results before making financial decisions</strong>.
+                  Always consult a qualified financial advisor for professional advice.
+                </p>
+                <p className="mb-2">
+                  Health tools use <strong>generally available calculation formulas</strong> and are for informational and
+                  screening purposes only. <strong>Kindly consult a physician or cross-verify health information</strong> with
+                  a qualified healthcare provider before making medical decisions.
+                </p>
+                <p className="mb-0">
+                  PDF, image, developer, and utility tools process data client-side and are provided as-is. Verify all outputs
+                  before using them for official or production purposes.
+                </p>
+              </div>
+            </div>
+            <p>
+              Every tool on Toolisk displays a category-specific disclaimer. These disclaimers form an integral part of these
+              Terms of Service. For full details, see our <Link href="/disclaimer">Disclaimer</Link> page.
+            </p>
 
             <h2 className="text-2xl font-bold">4. Fair Use &amp; Anti-Scraping Policy</h2>
             <div className="bg-blue-50 border border-indigo-200 rounded-xl p-4 my-4">

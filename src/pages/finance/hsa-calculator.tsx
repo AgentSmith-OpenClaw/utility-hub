@@ -2,6 +2,7 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { generateBreadcrumbs, generateSoftwareAppSchema, generateFaqSchema, SITE_URL } from '../../utils/siteConfig';
+import DisclaimerBanner from '../../components/Tools/DisclaimerBanner';
 
 const HSACalculator = dynamic(
   () => import('../../components/HSACalculator/HSACalculator'),
@@ -113,6 +114,7 @@ export default function HSACalculatorPage() {
             <li><Link href="/finance/529-college-savings-calculator" className="text-indigo-600 hover:underline">529 College Savings Calculator</Link> — Tax-advantaged savings for education costs.</li>
           </ul>
         </section>
+      <DisclaimerBanner type="finance" />
       </div>
     </>
   );

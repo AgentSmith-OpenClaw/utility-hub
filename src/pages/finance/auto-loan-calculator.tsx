@@ -77,6 +77,7 @@ export default function AutoLoanCalculatorPage() {
           { name: 'Mortgage Calculator', href: '/finance/mortgage-calculator', icon: '🏠' },
           { name: 'Amortization Calculator', href: '/finance/amortization-calculator', icon: '📊' },
           { name: 'Credit Card Payoff', href: '/finance/credit-card-payoff-calculator', icon: '💳' },
+          { name: 'Loan Comparison', href: '/finance/loan-comparison-calculator', icon: '⚖️' },
         ]}
       />
     </>

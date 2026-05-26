@@ -2,6 +2,7 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { generateBreadcrumbs, generateSoftwareAppSchema, generateFaqSchema, SITE_URL } from '../../utils/siteConfig';
+import DisclaimerBanner from '../../components/Tools/DisclaimerBanner';
 
 const CapitalGainsTaxCalculator = dynamic(
   () => import('../../components/CapitalGainsTax/CapitalGainsTaxCalculator'),
@@ -122,6 +123,7 @@ export default function CapitalGainsTaxCalculatorPage() {
             <li><Link href="/finance/rmd-calculator" className="text-indigo-600 hover:underline">RMD Calculator</Link> — Required distributions that add to MAGI and can trigger NIIT.</li>
           </ul>
         </section>
+      <DisclaimerBanner type="finance" />
       </div>
     </>
   );

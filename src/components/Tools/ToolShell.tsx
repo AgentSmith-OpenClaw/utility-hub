@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import DisclaimerBanner, { DisclaimerType } from './DisclaimerBanner';
 
 const THEME_GRADIENTS: Record<string, string> = {
   emerald: 'from-teal-600 via-emerald-600 to-green-500',
@@ -79,6 +80,7 @@ export default function ToolShell({
 
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         <main className="tool-workspace">{children}</main>
+        <DisclaimerBanner type={parent as DisclaimerType} />
       </div>
     </div>
   );

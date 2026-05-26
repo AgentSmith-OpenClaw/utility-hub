@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import CompoundInterestCalculator from '../../components/CompoundInterestCalculator/CompoundInterestCalculator';
 import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
+import DisclaimerBanner from '../../components/Tools/DisclaimerBanner';
 
 export default function CompoundInterestCalculatorPage() {
   const breadcrumbSchema = generateBreadcrumbs('/finance/compound-interest-calculator');
@@ -326,6 +327,7 @@ export default function CompoundInterestCalculatorPage() {
           </div>
         </section>
 
+      <DisclaimerBanner type="finance" />
       </div>
     </>
   );

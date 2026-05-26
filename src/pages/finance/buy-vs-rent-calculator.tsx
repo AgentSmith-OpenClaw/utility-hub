@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import BuyVsRentRedesigned from '../../components/BuyVsRent/BuyVsRentRedesigned';
 import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
+import DisclaimerBanner from '../../components/Tools/DisclaimerBanner';
 
 export default function BuyVsRentCalculatorPage() {
   const breadcrumbSchema = generateBreadcrumbs('/finance/buy-vs-rent-calculator');
@@ -334,6 +335,7 @@ export default function BuyVsRentCalculatorPage() {
           </div>
         </section>
 
+      <DisclaimerBanner type="finance" />
       </div>
     </>
   );

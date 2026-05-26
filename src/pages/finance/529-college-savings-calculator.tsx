@@ -2,6 +2,7 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { generateBreadcrumbs, generateSoftwareAppSchema, generateFaqSchema, SITE_URL } from '../../utils/siteConfig';
+import DisclaimerBanner from '../../components/Tools/DisclaimerBanner';
 
 const CollegeSavings529Calculator = dynamic(
   () => import('../../components/CollegeSavings529/CollegeSavings529Calculator'),
@@ -113,6 +114,7 @@ export default function CollegeSavings529Page() {
             <li><Link href="/finance/capital-gains-tax-calculator" className="text-indigo-600 hover:underline">Capital Gains Tax Calculator</Link> — Tax implications of selling investments to fund education.</li>
           </ul>
         </section>
+      <DisclaimerBanner type="finance" />
       </div>
     </>
   );

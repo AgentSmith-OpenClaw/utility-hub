@@ -2,6 +2,7 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { generateBreadcrumbs, generateSoftwareAppSchema, generateFaqSchema, SITE_URL } from '../../utils/siteConfig';
+import DisclaimerBanner from '../../components/Tools/DisclaimerBanner';
 
 const HELOCCalculator = dynamic(
   () => import('../../components/HELOC/HELOCCalculator'),
@@ -116,6 +117,7 @@ export default function HELOCCalculatorPage() {
             <li><Link href="/finance/mortgage-calculator" className="text-indigo-600 hover:underline">Mortgage Calculator</Link> — See how a larger first mortgage compares to adding a HELOC.</li>
           </ul>
         </section>
+      <DisclaimerBanner type="finance" />
       </div>
     </>
   );

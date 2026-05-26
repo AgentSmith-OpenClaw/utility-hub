@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import FIRECalculator from '../../components/FIRECalculator/FIRECalculator';
 import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
+import DisclaimerBanner from '../../components/Tools/DisclaimerBanner';
 
 export default function FIRECalculatorPage() {
   const breadcrumbSchema = generateBreadcrumbs('/finance/fire-calculator');
@@ -297,6 +298,7 @@ export default function FIRECalculatorPage() {
           </div>
         </section>
 
+      <DisclaimerBanner type="finance" />
       </div>
     </>
   );

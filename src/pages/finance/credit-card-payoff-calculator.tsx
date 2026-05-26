@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import CreditCardPayoffCalculator from '../../components/CreditCardPayoffCalculator/CreditCardPayoffCalculator';
 import { generateBreadcrumbs, SITE_URL } from '../../utils/siteConfig';
+import DisclaimerBanner from '../../components/Tools/DisclaimerBanner';
 
 export default function CreditCardPayoffCalculatorPage() {
   const breadcrumbSchema = generateBreadcrumbs('/finance/credit-card-payoff-calculator');
@@ -254,6 +255,7 @@ export default function CreditCardPayoffCalculatorPage() {
             ))}
           </div>
         </section>
+      <DisclaimerBanner type="finance" />
       </div>
     </>
   );

@@ -2,6 +2,7 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { generateBreadcrumbs, generateSoftwareAppSchema, generateFaqSchema, SITE_URL } from '../../utils/siteConfig';
+import DisclaimerBanner from '../../components/Tools/DisclaimerBanner';
 
 const RMDCalculator = dynamic(
   () => import('../../components/RMDCalculator/RMDCalculator'),
@@ -113,6 +114,7 @@ export default function RMDCalculatorPage() {
             <li><Link href="/finance/reverse-mortgage-calculator" className="text-indigo-600 hover:underline">Reverse Mortgage Calculator</Link> — Other options for retirement income.</li>
           </ul>
         </section>
+      <DisclaimerBanner type="finance" />
       </div>
     </>
   );

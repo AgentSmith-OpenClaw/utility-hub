@@ -8,7 +8,7 @@ export default function Disclaimer() {
         <title>Disclaimer — Toolisk</title>
         <meta
           name="description"
-          content="Toolisk Disclaimer — Financial and technical disclaimers for all tools and calculators. Tools are provided as-is for informational purposes only."
+          content="Toolisk Disclaimer — Disclaimers for financial calculators, health tools, PDF tools, developer utilities, and image tools. All tools are provided as-is for informational purposes only."
         />
         <link rel="canonical" href="https://toolisk.com/disclaimer" />
         <meta property="og:title" content="Disclaimer — Toolisk" />
@@ -25,7 +25,7 @@ export default function Disclaimer() {
               ⚠️
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold text-slate-900">Disclaimer</h1>
-            <p className="mt-2 text-slate-500 text-sm">Last Updated: February 12, 2026</p>
+            <p className="mt-2 text-slate-500 text-sm">Last Updated: May 2026</p>
           </div>
 
           {/* Content Card */}
@@ -105,7 +105,103 @@ export default function Disclaimer() {
 
             <hr className="my-8 border-slate-200" />
 
-            <h2 className="text-2xl font-bold">4. &ldquo;As-Is&rdquo; Clause</h2>
+            <h2 className="text-2xl font-bold">4. Health &amp; Medical Tools Disclaimer</h2>
+            <div className="bg-violet-50 border border-violet-200 rounded-xl p-4 my-4">
+              <p className="text-violet-800 font-medium mb-2">🩺 Not Medical Advice</p>
+              <p className="text-violet-700 text-sm mb-0">
+                Health calculators on Toolisk (BMI, BMR, calorie, blood pressure, heart rate, and all other health tools) use
+                <strong> generally available calculation formulas</strong> and are for <strong>informational and screening
+                purposes only</strong>. They do not constitute medical advice, diagnosis, or treatment.
+              </p>
+            </div>
+            <p>Specifically:</p>
+            <ul>
+              <li>
+                <strong>Not a diagnosis:</strong> Results are estimates based on population-level formulas (e.g., Mifflin-St Jeor,
+                Karvonen, WHO BMI categories) and may not reflect your individual health status, body composition, or medical
+                conditions.
+              </li>
+              <li>
+                <strong>Consult a physician:</strong> Always consult a qualified healthcare provider or registered dietitian
+                before making health, nutrition, or exercise decisions based on tool outputs.
+              </li>
+              <li>
+                <strong>Cross-verify information:</strong> Health data and guidelines change frequently. Verify any health
+                information from our tools against authoritative sources such as the WHO, CDC, or your healthcare provider.
+              </li>
+              <li>
+                <strong>No doctor-patient relationship:</strong> Using Toolisk health tools does not create a doctor-patient
+                or healthcare provider relationship.
+              </li>
+            </ul>
+
+            <hr className="my-8 border-slate-200" />
+
+            <h2 className="text-2xl font-bold">5. PDF &amp; Document Tools Disclaimer</h2>
+            <div className="bg-rose-50 border border-rose-200 rounded-xl p-4 my-4">
+              <p className="text-rose-800 font-medium mb-2">📄 Verify Before Official Use</p>
+              <p className="text-rose-700 text-sm mb-0">
+                PDF tools process files <strong>entirely in your browser</strong> — no files are uploaded to any server.
+                However, output documents may not be suitable for all official or legal purposes without verification.
+              </p>
+            </div>
+            <p>Specifically:</p>
+            <ul>
+              <li>
+                <strong>Not a cryptographic signature:</strong> The PDF Signature tool places a visual signature graphic on
+                your document. It is <strong>not a cryptographic digital signature</strong> and does not carry legal e-signature
+                weight. For legally binding e-signatures, use dedicated platforms such as DocuSign or Adobe Sign.
+              </li>
+              <li>
+                <strong>Output accuracy:</strong> Merged, compressed, or otherwise processed PDFs may experience minor
+                formatting changes. Always verify the output document before submitting or distributing it.
+              </li>
+              <li>
+                <strong>Client-side processing:</strong> All operations happen locally in your browser. No files, passwords,
+                or document contents are transmitted to Toolisk servers.
+              </li>
+            </ul>
+
+            <hr className="my-8 border-slate-200" />
+
+            <h2 className="text-2xl font-bold">6. Image Tools Disclaimer</h2>
+            <div className="bg-sky-50 border border-sky-200 rounded-xl p-4 my-4">
+              <p className="text-sky-800 font-medium mb-2">🖼️ Client-Side Processing</p>
+              <p className="text-sky-700 text-sm mb-0">
+                Image tools run <strong>entirely in your browser</strong>. No images are uploaded to any server. Output quality
+                depends on input resolution, format, and the limitations of browser-based processing.
+              </p>
+            </div>
+            <ul>
+              <li>
+                <strong>Quality may vary:</strong> Compression, conversion, and resizing results depend on the source image.
+                Lossy operations may reduce quality. Always inspect output images before using them in production.
+              </li>
+              <li>
+                <strong>Color accuracy:</strong> Colors may render differently depending on your monitor, browser, and color
+                profile settings. Do not rely on browser-based color pickers for print-accurate color matching.
+              </li>
+              <li>
+                <strong>Background removal:</strong> Automatic background removal is approximate and may not produce
+                pixel-perfect results for all images, especially those with complex edges or transparency.
+              </li>
+            </ul>
+
+            <hr className="my-8 border-slate-200" />
+
+            <h2 className="text-2xl font-bold">7. Everyday Utilities Disclaimer</h2>
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 my-4">
+              <p className="text-amber-800 font-medium mb-2">⚡ For General Reference</p>
+              <p className="text-amber-700 text-sm mb-0">
+                Everyday utilities (percentage calculators, age calculators, unit converters, etc.) are provided for
+                <strong> general informational purposes</strong>. Results should be independently verified before relying on
+                them for important decisions.
+              </p>
+            </div>
+
+            <hr className="my-8 border-slate-200" />
+
+            <h2 className="text-2xl font-bold">8. &ldquo;As-Is&rdquo; Clause</h2>
             <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 my-4">
               <p className="text-slate-700 text-sm mb-0">
                 All tools, content, and services on Toolisk are provided <strong>&ldquo;as is&rdquo;</strong> and
@@ -123,7 +219,7 @@ export default function Disclaimer() {
 
             <hr className="my-8 border-slate-200" />
 
-            <h2 className="text-2xl font-bold">5. External Links</h2>
+            <h2 className="text-2xl font-bold">9. External Links</h2>
             <p>
               Toolisk may contain links to external websites or resources. We have no control over the content, privacy
               policies, or practices of any third-party sites and accept no responsibility or liability for them. The inclusion
@@ -132,14 +228,14 @@ export default function Disclaimer() {
 
             <hr className="my-8 border-slate-200" />
 
-            <h2 className="text-2xl font-bold">6. Changes to This Disclaimer</h2>
+            <h2 className="text-2xl font-bold">10. Changes to This Disclaimer</h2>
             <p>
               We reserve the right to update or modify this Disclaimer at any time without prior notice. Changes will be
               posted on this page with a revised date. Your continued use of Toolisk constitutes acceptance of any
               modifications.
             </p>
 
-            <h2 className="text-2xl font-bold">7. Contact</h2>
+            <h2 className="text-2xl font-bold">11. Contact</h2>
             <p>
               If you have questions about this Disclaimer, please contact us at{' '}
               <a href="mailto:admin@toolisk.com">admin@toolisk.com</a> or visit our{' '}
