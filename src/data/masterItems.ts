@@ -976,6 +976,33 @@ const UTILITIES: MasterItem[] = [
 
 const HEALTH: MasterItem[] = [
   {
+    name: 'Sleep Calculator',
+    description: 'Calculate the best time to go to bed or wake up based on 90-minute sleep cycles. Avoid grogginess by waking between cycles.',
+    path: '/health/sleep-calculator',
+    icon: '😴',
+    tags: ['Sleep', 'Wellness', 'Cycles'],
+    type: 'health',
+    isNew: true,
+  },
+  {
+    name: 'One Rep Max Calculator',
+    description: 'Estimate your one-rep max from any submaximal set. Uses Epley, Brzycki, Lombardi, and O\'Conner formulas with a percentage breakdown.',
+    path: '/health/one-rep-max-calculator',
+    icon: '🏋️',
+    tags: ['Strength', 'Fitness', 'Weightlifting'],
+    type: 'health',
+    isNew: true,
+  },
+  {
+    name: 'Running Pace Calculator',
+    description: 'Calculate your running pace per km and mile from any distance and time. Get speed, splits for 5K, 10K, half marathon, and marathon.',
+    path: '/health/pace-calculator',
+    icon: '🏃',
+    tags: ['Running', 'Fitness', 'Marathon'],
+    type: 'health',
+    isNew: true,
+  },
+  {
     name: 'Pregnancy Weight Gain Calculator',
     description: 'Find out how much weight you should gain during pregnancy based on your pre-pregnancy BMI and gestational week, using IOM guidelines.',
     path: '/health/pregnancy-weight-gain-calculator',
