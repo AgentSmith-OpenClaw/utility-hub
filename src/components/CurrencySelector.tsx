@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CurrencyCode, CURRENCY_LIST, getStoredCurrency, setStoredCurrency } from '../utils/currency';
+import { CurrencyCode, CURRENCIES, CURRENCY_LIST, getStoredCurrency, setStoredCurrency } from '../utils/currency';
 
 interface Props {
   value?: CurrencyCode;
@@ -9,7 +9,12 @@ interface Props {
 }
 
 export function useCurrency(): [CurrencyCode, (code: CurrencyCode) => void] {
-  const [currency, setCurrencyState] = useState<CurrencyCode>('USD');
+  const [currency, setCurrencyState] = useState<CurrencyCode>(() => {
+    if (typeof window === 'undefined') return 'USD';
+    const stored = window.localStorage.getItem('toolisk_currency');
+    if (stored && stored in CURRENCIES) return stored as CurrencyCode;
+    return getStoredCurrency();
+  });
 
   useEffect(() => {
     setCurrencyState(getStoredCurrency());
@@ -31,10 +36,12 @@ export default function CurrencySelector({ value, onChange, className = '', comp
   const currentCurrency = CURRENCY_LIST.find(c => c.code === current);
 
   if (!hydrated) {
+    const detected = typeof navigator !== 'undefined' ? getStoredCurrency() : 'USD';
+    const detectedCurrency = CURRENCIES[detected];
     return (
       <div className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 text-sm bg-slate-50 border border-slate-200 rounded-lg ${className}`}>
-        <span>🇺🇸</span>
-        <span className="font-medium">USD</span>
+        <span>{detectedCurrency?.flag ?? '🇺🇸'}</span>
+        <span className="font-medium">{detected}</span>
       </div>
     );
   }

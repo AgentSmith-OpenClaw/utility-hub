@@ -47,11 +47,28 @@ export function formatCurrencyCompact(value: number, code: CurrencyCode = 'USD')
 
 const STORAGE_KEY = 'toolisk_currency';
 
+const LOCALE_CURRENCY_MAP: Record<string, CurrencyCode> = {
+  'en-IN': 'INR', 'hi': 'INR', 'hi-IN': 'INR', 'bn': 'INR', 'ta': 'INR',
+  'te': 'INR', 'mr': 'INR', 'gu': 'INR', 'kn': 'INR', 'ml': 'INR',
+  'pa': 'INR', 'or': 'INR', 'as': 'INR',
+  'en-US': 'USD', 'en-CA': 'CAD', 'en-AU': 'AUD', 'en-GB': 'GBP',
+  'de': 'EUR', 'fr': 'EUR', 'es': 'EUR', 'it': 'EUR', 'pt': 'EUR', 'nl': 'EUR',
+};
+
+function detectCurrencyFromLocale(): CurrencyCode {
+  if (typeof navigator === 'undefined') return 'USD';
+  const lang = navigator.language;
+  if (lang in LOCALE_CURRENCY_MAP) return LOCALE_CURRENCY_MAP[lang];
+  const base = lang.split('-')[0];
+  if (base in LOCALE_CURRENCY_MAP) return LOCALE_CURRENCY_MAP[base];
+  return 'USD';
+}
+
 export function getStoredCurrency(): CurrencyCode {
   if (typeof window === 'undefined') return 'USD';
   const stored = window.localStorage.getItem(STORAGE_KEY);
   if (stored && stored in CURRENCIES) return stored as CurrencyCode;
-  return 'USD';
+  return detectCurrencyFromLocale();
 }
 
 export function setStoredCurrency(code: CurrencyCode): void {

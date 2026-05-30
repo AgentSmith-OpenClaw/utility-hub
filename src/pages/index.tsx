@@ -36,28 +36,28 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Toolisk — Free Finance Calculators, Developer Tools, PDF & Image Utilities & Everyday Tools</title>
+        <title>Free Online Calculators — EMI, SIP, Tax, Mortgage &amp; More | Toolisk</title>
         <meta
           name="description"
-          content="Free finance calculators, developer tools, PDF utilities, image tools, and everyday utilities — 401k, mortgage, JSON formatter, merge PDF, compress images, percentage calculator, and more. All client-side, no sign-up."
+          content="Free online calculators for EMI, SIP, tax, mortgage &amp; more. Developer tools, PDF utilities, and image editors. 149+ tools, all client-side, no sign-up."
         />
         <meta
           name="keywords"
           content="finance calculators, 401k calculator, capital gains tax calculator, mortgage calculator, developer tools, json formatter, jwt decoder, pdf tools, merge pdf, compress pdf, image tools, compress image, resize image, percentage calculator, unit converter, age calculator, qr code generator, free online tools"
         />
         <link rel="canonical" href="https://toolisk.com/" />
-<meta property="og:title" content="Toolisk — Free Finance Calculators, Developer Tools & PDF & Image Utilities" />
+<meta property="og:title" content="Free Online Calculators — EMI, SIP, Tax, Mortgage & More | Toolisk" />
         <meta
           property="og:description"
-          content="Finance calculators for 401k, mortgage, capital gains, HSA, RMD, FIRE and more — plus developer tools, PDF utilities, and image tools (compress, resize, convert). All client-side, no sign-up."
+          content="Free online calculators for EMI, SIP, tax, mortgage & more. Developer tools, PDF utilities, and image editors. 149+ tools, all client-side, no sign-up."
         />
         <meta property="og:url" content="https://toolisk.com/" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="Toolisk — Free Finance Calculators, Developer Tools & PDF & Image Utilities" />
+        <meta name="twitter:title" content="Free Online Calculators — EMI, SIP, Tax, Mortgage & More | Toolisk" />
         <meta
           name="twitter:description"
-          content="Finance calculators for 401k, mortgage, capital gains, HSA, RMD, FIRE and more — plus developer tools, PDF utilities, and image tools. All client-side, no sign-up."
+          content="Free online calculators for EMI, SIP, tax, mortgage & more. Developer tools, PDF utilities, and image editors. 149+ tools, all client-side, no sign-up."
         />
 
         <script

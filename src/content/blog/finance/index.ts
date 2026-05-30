@@ -57,8 +57,12 @@ import { fireNumberByAge } from './fire-number-by-age';
 import { fourPercentRuleExplained } from './four-percent-rule-explained';
 import { howMuchEmiIsSafe } from './how-much-emi-is-safe';
 import { mortgageRefinanceBreakEven } from './mortgage-refinance-break-even';
+import { fiftyTwoNinePlanHowMuchToSave } from './529-plan-how-much-to-save';
+import { annuityPayoutHowMuchMonthlyIncome } from './annuity-payout-how-much-monthly-income';
 
 export const articles: BlogArticle[] = [
+  fiftyTwoNinePlanHowMuchToSave,
+  annuityPayoutHowMuchMonthlyIncome,
   howToCalculateFireNumber,
   reduceEmiVsReduceTenure,
   homeLoanPrepaymentStrategy,
